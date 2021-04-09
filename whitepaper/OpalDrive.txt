@@ -1,0 +1,63 @@
+Opal Drive: Modernizing Digital File
+Transfers for the Decentralized Frontier
+Whit Jack
+Lead Developer Opal Opacity Security Suite
+Los Angeles, CA
+whit@whitjack.me
+21 November 2014
+
+Introduction
+File storage and transfer has repeatedly shown its vulnerabilities in both security and privacy and this
+problem is amplified when storing one’s files and information in the cloud. In an effort to find a final
+solution to this problem, decentralized cloud storage was created. Highly skilled individuals and
+organizations are researching different solutions to harness this new technology. Opal is developing an
+experimental system that will allow individuals the ability to: upload, transfer, and decrypt files using
+the Opal Core wallet through the Storj MetaDisk1 api.
+
+Trends
+Current file storage systems leave users with an inadequate system protections. Consumers must trust
+major sites like Box, Google Drive, and Dropbox to resist appropriating user information for their own
+uses or forfeiting that information to third parties for profiy or even divulging said information to
+government entities. In light of recent revelations of security breaches, government leaks, and outright
+corporate theft; business’ and individual trust in centralized cloud security has reached an all time low.2
+
+Problem
+The issue is a lack of a reliable distribution solution to store and transmit files in a trustless system. No
+system currently exists that is effective in reaching mass adoption and protect users at the same time.
+Companies have now moved towards the installation of local systems to store data which are both
+expensive and time consuming to maintain, because they simply can no longer trust in centralized cloud
+storage to fulfill and support their needs.
+
+1
+2
+
+http://metadisk.org/metadisk.pdf
+http://www.ca.com/kr/~/media/Files/IndustryAnalystReports/2012­security­of­cloud­computer­users­final1.pdf
+
+Solution
+a) Overview
+
+Opal’s solution is to build a transmission layer on top of Storj’s existing MetaDisk infrastructure. This
+system will allow a user to encrypt a file using the encryption system used with Opacity to allow a user
+to encrypt a file with another user’s private key, while only possessing their public key. This resembles
+PGP’s public key encryption, except Opacity’s file transfers allow for encryption with the EDCSA.
+Once the file is encrypted with the receiver's private key, the file is uploaded to Storj (a distributed file
+sharing network that serves as our off­chain secure method of file storage). The link to download the
+file is then sent to the receiver via OpacityEM, at which point the user can then download and decrypt
+the file with their private key.
+b) Encryption
+
+To achieve encryption using public and private keys, the sender takes the Opacity public key K from
+the pre­existing database of public keys OpacityEM stores. After that, 16 random bytes (IV) are
+generated. Next, generate a new random EC key pair with private key called r and public key called R.
+Then you generate a shared secret (P) using Keys K and r, which you use to generate hash H. The first
+32 bytes of H are key_e and the last 32 are key_m. Lastly, Encrypt the payload data with
+AES­256­CBC, using IV as initialization vector, key_e as encryption key. Conclusion
+Opacity File Transfers, once uploaded are: instant, decentralized, and effortless. Utilising the
+Storj network, the blockchain bloat (that other proposals entail) is avoided completely, and by
+using Opacity’s existing encryption mechanism, no one except for the user can know a files
+source or destination. Opal is constantly striving to improve on existing systems while
+providing a direct benefit to all those using the Opacity Security Suite.
+NOTE: White paper to be expanded upon with future developments.
+
+

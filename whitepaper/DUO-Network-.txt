@@ -1,0 +1,937 @@
+DUO Network Ecosystem Whitepaper
+DUO Network Limited
+29 Aug 2019
+Version 1.02.02
+Abstract
+The rapid growth of crypto market is fueled by a combination of speculation and innovation;
+however, persistently elevated price volatility has become a major obstacle for the real-world adoption
+of blockchain technology. To help market participants navigate such volatile market conditions, we
+present a decentralized platform named DUO Network, which enables issuance, trading, and settlement
+of tokenized crypto derivatives. It mainly consists of Collateralized Autonomous Tokens (CAT), Price
+Oracle, CAT Exchange, and DUO Network Token. The platform aims to reduce risks and barriers in
+traditional derivative transactions, through collateralized smart contracts and distributed price feeds,
+thereby creating a transparent and autonomous derivative marketplace.
+
+Keywords: Volatility, Trustless, Collateralized, Autonomous, Tokenized, Derivatives, Exchanges
+
+1
+
+Contents
+1. Introduction
+
+3
+
+2. Collateralized Autonomous Token
+2.1 Mechanism and Lifecycle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+4
+4
+
+3. Products
+3.1 Dual-Class Tokens . . . . . . .
+3.2 Options . . . . . . . . . . . . .
+3.2.1 Mechanism . . . . . . .
+3.2.2 Collateral Recycling . .
+3.2.3 Use Cases . . . . . . . .
+3.2.4 Dynamic Margin . . . .
+3.2.5 Underlying Replication .
+3.2.6 Collateral Compression
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+
+5
+. 5
+. 6
+. 6
+. 7
+. 8
+. 10
+. 10
+. 11
+
+4. Supporting Systems
+11
+4.1 Price Oracle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+4.2 CAT Exchange . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+5. DUO Network Token
+12
+5.1 Utilities . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+5.2 Token Allocation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 13
+6. Road Map
+
+13
+
+7. Team
+
+13
+
+2
+
+1. Introduction
+The majority of blockchain economies in their nascent years can be characterized by a deterministic market
+supply, unrestricted growth in users and transactions, and a lack of consistent fundamentals to help anchor
+their intrinsic value. The result is elevated price volatility. This lack of price stability in cryptocurrencies
+inevitably detracts value from their real-world applications and may ultimately raise the hurdle for their
+mass adoption as a medium of transaction or store of value.
+Intrigued by this conundrum and inspired by a similar topic in international economics, we hereby propose
+the impossible trinity of cryptocurrencies: a blockchain economy cannot achieve all three goals below at the
+same time. In pursuing any two of these goals, the community must forgo the third.
+• A deterministic currency supply
+• Free growth in ecosystem activities
+• Price-stability of the underlying currency
+We have seen various attempts to achieve price stability through mechanisms either backed by fiat or
+involving altering the supply and liquidity of the currency. However, the fundamental spirits of blockchain
+economy in terms of autonomy and decentralism are often compromised in the process. There has to be a
+viable solution for managing price volatilities without severely sacrificing the core design principles of the
+blockchain economy.
+Volatility Puzzle
+Crypto market has displayed persistently elevated levels of volatility unseen in any other asset classes.
+The disturbing aspect of such volatility is its rather spurious nature, where market could gap up or down
+with almost no significant change in the tangible economic value. The advent of blockchain technology is
+celebrated because of the power it holds to disintermediate and democratize finance. But an extremely
+right-skewed distribution in the wealth creation of cryptocurrencies has become an inconvenient paradox
+that we can no longer ignore. Such inequalities can be attributed to the excess volatility, compounded by
+information asymmetry and lack of market instruments to manage such volatilities. As the market matures,
+we will likely see greater demand for instruments to hedge against price risks.
+Lack of Trust
+Despite the trustless and democratizing nature of cryptocurrencies, the majority of the trading volumes
+are paradoxically concentrated on centralized exchanges known to be vulnerable to attacks and frauds.
+By trading over centralized platforms, the public is placing confidence on institutions with a short and
+unregulated track record. Trading decentralized assets on centralized exchanges has set the stage for repeated
+security breaches and mishandling of funds, private keys, and user data. As decentralized exchanges continue
+to overcome their design and implementation bottlenecks, it is natural to expect community preference for
+security and autonomy outweigh performance concerns, thereby driving a redistribution of liquidity.
+Decentralized Volatility Solutions - Trustless and Autonomous
+As witnessed in traditional markets, successful development of a derivative market is often a testament to
+the depth and maturity of the underlying asset class. To address the problems of high volatility, inadequate
+liquidity, and lack of risk management tools, we propose a new framework for crypto derivative contracts Collateralized Autonomous Token (CAT). Our tokenized smart contract design means that each derivative
+contract trades as an immutable token with payoff terms fully captured in the smart contract and enforced
+through the Price Oracle.
+A Price Oracle is developed in-house to administer distributed price feeds to ensure relevant, timely, and
+unfettered market inputs. To facilitate quoting and trading of derivatives, we also need a marketplace where
+traders, investors, and other users can access the CAT contracts. A decentralized platform, subject to certain
+performance limitations being addressed, is the most natural platform due to its advantages of being trustless,
+private, and secure compared to their centralized counterparts. Given the innovative features of CATs, we
+have not found any existing DEX exchange which can accommodate CATs with desired performance and
+functionality. Therefore, as part of the supporting infrastructure, we plan on developing a new decentralized
+exchange based on 0x protocol, in order to provide a complete trading experience for CATs.
+
+3
+
+2. Collateralized Autonomous Token
+Collateralized Autonomous Token defines a set of standards for the issuance, redemption and settlement of
+crypto derivatives. More specifically, CATs possess below key features:
+• Collateralized - CAT’s value is backed by digital assets held in its custodian smart contract.
+• Splittable - A custodian may create two or more payoff classes of CATs, each representing a partial
+claim of the underlying collateral. The split can be based on seniority, levels of risk or other option
+payoff structures.
+• Fungible - CATs are two-way convertible with corresponding collaterals. They can be created from
+depositing collaterals into the custodian smart contract, or redeemed back into collaterals anytime
+during its lifecycle. The mechanism enforces the net asset value (NAV) parity between CATs and their
+underlying collaterals, and allows market to self-correct any price dislocations.
+• Autonomous - Streamlined issuance and settlement procedures mean reduced adminstrative costs
+and lower entry barriers. Distributed price oracles help to create a fair and objective reflection of
+the underlying asset value and safeguard against price manipulations. The result is high degrees of
+transparency and market autonomy.
+• Tokenized - All CATs are ERC-20 compatible. By allowing storage and trading across most existing
+wallets and exchanges, we make it possible for derivative positions to be freely transferred and not
+bound to any centralized venue. We believe cross-platform trading of tokenized derivatives holds the
+key to an efficient market by improving decentralized liquidity and price discovery.
+All derivative products offered by DUO Network are CAT compliant.
+
+2.1 Mechanism and Lifecycle
+All of our CAT products have the following mechanism and lifecyle:
+
+Figure 1: CAT Mechanism & Lifecycle
+
+1. Creation - The process of underwriting that a market maker collateralizes crypto assets to the
+custodian smart contract and receives CATs issued by the contarct.
+2. Market making - Market makers can sell all or part of the issued CATs in open market to respective
+investors.
+3. Redemption - At anytime before settlement,the CATs can be merged to redeem the collateralized
+assets through the custodian smart contract.
+4. Settlement - Under predetermined settlement conditions (maturity, upward/downward reset etc.),
+the custodian smart contract will calculate and distribute the payoff to CAT holders.
+
+4
+
+3. Products
+DUO Network offers numerous types of CAT products. Leveraging on our innovative Split and Collateral
+Recycling framework, we hereby present our dual-class tokens, options, and structured products, tailored to
+investors with various objectives and risk appetites. More details on implementation will be outlined in the
+upcoming technical yellowpapers.
+
+3.1 Dual-Class Tokens
+The consumption and transaction utilities of many crypto assets, for instance as network fuel and medium of
+exchange, can clearly benefit from short term price stability. However, the issue of extreme volatility for
+many crypto assets is ultimately a market property driven by a myriad of technological as well as speculative
+factors, and can only be addressed by introducing market instruments that create an effective mechasim for
+transfering risk among market participants.
+We took inspiration from the dual-class fund structures that gained popularity in the stock market, and
+engineered a mechanism where we could convert a basic crypto asset (e.g. ether) into a dual-class structure,
+i.e. two classes of CATs, with each class representing a different risk-return profile on the underlying.
+Beethoven
+In our pioneer product, Beethoven smart contract, we split the underlying crypto asset into A) an Income
+CAT which provides a stable stream of fixed income, and B) an Leverage CAT which provides leveraged
+capital gains linked to the underlying asset, with funds borrowed from A. The entire creation and redemption
+lifecycle of Beethoven as well as its associated price reset mechanisms have been throughly tested in our
+public testnet event in 2018Q3, with the production release projected for 2018Q4.
+
+Figure 2: Beethoven Mechanism
+
+Income CAT accumulates and pays interests based on its original net value in fiat currency (e.g. USD) as
+of previous settlement. It is possible to split Income CAT into another tier of Income CAT and Leverage
+CAT to further reduce volatility, based on extensions in the Academic Whitepaper.
+Leverage CAT gains leveraged return of the underlying digital assets. Think as Leverage CAT holders
+borrow capital from Income CAT holders to invest in the underlying crypto.
+Mozart
+To provide more diversified payoffs under dual-class structure, we also have plans to implement an additional
+smart contract named Mozart as a way for market to short the underlying.
+While Income CAT and Leverage CAT only allow the holder to be either flat or long, Short CAT enables
+investor to express a bearish view on the underlying crypto asset. Utilizing the two-way fungible property
+and dual-class structure, the Mozart Smart Contract is designed to effectly bind speculators with opposing
+market views under the Dual Class Token structure.
+
+5
+
+Figure 3: Mozart Mechanism
+
+Short CAT short-sells the crypto asset (-1x) and stands to benefits from downward price movement of the
+underlying.
+Long CAT has a 3x leverage where the additional 2x leverage obtained from the short CAT class.
+
+3.2 Options
+An option gives contract holder the right to buy (call option) or sell (put option) the underlying asset at a
+specific price (strike price) on a future date. An European option can only be exercised on maturity date,
+while an American option is exercisable at any time during the life of the option. The third type, named
+Bermudan option, could be early exercised within a predetermined period of time before maturity.
+Options introduce an element of asymmetry to any linear risk exposure. Combining calls and puts across
+different strikes and expiries gives an investor a strategic payoff he wishes to customize - risk reversals,
+strangles, digitals, calendar spreads, and so on. Options and stable coins are both trying to address the same
+problem in the crypto market - excess volatility. However, options provide greater payoff customizability and
+possibility of trading volatility as an asset class.
+Currently, investors are only able to trade options on limited centralized exchanges and have to deal with
+counterparty risk and potential single source of failure. Moreover, as the option chains are predefined, an
+investor might still struggle to find his or her desired trading pair and level. To tackle this problem, we
+propose to implement tokenized options through smart contracts, allowing autonomous, customization, and
+trustless position transfers.
+Convention and Scope
+Let us take the crypto pair DAI/ETH as an example, a call on DAI/ETH is equivalent to a put on ETH/DAI,
+with exchange rate inverted. Note that in both cases, DAI is the call currency, and ETH is the put currency.
+DUO Network platform will support trading any ERC-20 token pairs as long as there are reliable and
+tradable quotes. Future extensions are also achievable with cross-ledger solutions.
+3.2.1 Mechanism
+Vanilla call option gives investor unlimited upside if price of the underlying asset increases, whereas vanilla
+put options protected investors from the downside up to the strike level. By simultaneously longing a
+European Call and shorting a European Put, an investor creates a synthetic long forward position, expressing
+a bullish view without explicitly holding the underlying asset. The parity is famously known as Put Call
+Parity, and the strategy of combining long call short put is called Risk Reversal.
+Parity : C − P = S − Ke−rt
+A call writer faces unlimited potential loss. In addition, investors of the call option faces counterparty risk
+as option writer might not be able to honor the obliged settlement. To limit the risk, covered call is an
+frequently used strategy where one writes a call while holding the underlying asset. As observed from the
+Put Call Parity, a covered call position will derive a similar payoff as shorting a put.
+Tokening options makes it much easy for even an ordinary investor to exploit opportunities across the
+volatility surfaces through long/short combinations of calls and puts. Below we propose our split mechanism
+that we can create a call option CAT and a covered call option CAT by depositing call currency to custodian
+smart contract.
+
+6
+
+Two way fungible : Depositing the call currency as collateral into the governing smart contract, a market
+maker can create a call CAT (C) and a covered call CAT (S − C) . To redeem the collateral simply requires
+combining a call and covered call position, as the combined CATs always equals to the collateral. Note that
+market makers who consider put option on a pair could still use the covered call structure by inverting the
+base/quote token and strike price.
+
+Figure 4: Split Mechanism
+
+3.2.2 Collateral Recycling
+As demonstrated in the vanilla call/covered call splitting mechanism, fully collateralizing the underlying
+digital asset effectively minimizes counterparty and settlement risk in derivative transactions. In most
+derivative markets, however, margins are calculated as a function of mark-to-market valuation. Therefore,
+even under a decentralized approach, the idea of posting 100% collateral regardless of an option’s payoff
+and moneyness not shows a lack of economic sensitivity but also incurs unneccesary costs. One solution is
+recycling: corporates receiving collaterals in a reverse repo transaction could use the same collateral to fulfill
+a derivative transaction requirement.
+The concept of "Recycling Repo" inspires us to effectively address the issue of overcollateralization on our
+platform through a key mechanism, named collateral recycling. What this means is that the vanilla call CAT
+created under first split can also be used as a collateral for further splitting based on Net Asset Value (NAV
+in short) parity. In the most basic case, a buyer of a call option token with strike K1 , can recollateralize his
+long call position to underwrite another call with strike K2 (K2 > K1 ), a further Out of the Money Call.
+The advantage of collateral recycling is that it substantially reduces the funding requirement. A high cost of
+acquiring and maintaining the collateral could disincentivize option sellers from selling low delta options,
+thereby stifling price discovery across strikes.
+From a practitioner’s standpoint, the introduction of collateral recycling not only optimizes costs of
+underwriting but also provides a range of essential catalysts in option supply dynamics. It is worth
+highlighting that collaterals can be recycled recursively where the buyer of K2 strike call above can in turn
+choose to underwrite a new call CAT with K3 > K2 . The intuition behind this is consistent with market
+practice in many other asset classes, where further out-of-the-money strike supply typically comes from
+option buyers of near-the-money strikes. Except for a niche group of traders who trade volatility as an asset
+class, most are expressing a view on the underlying via options in which case the long option holders may
+need to fund his position by selling out-of-the-money calls subject to the right risk-reward. For instance,
+knock-out features in FX options are often included in payoffs only when the seller has an existing long vol
+exposure. Therefore, we see it as a natural extension of the vanilla call/covered call split mechanism because
+collateral is instrument agnostic whether it is an underlying asset or an option thereon. In other words, the
+platform universally allows selling any optionality that is a subset of the option seller’s existing claim to the
+underlying asset. More details of the applications will be discussed in the next section.
+
+Figure 5: CAT Collateral Recycling Mechanism
+
+7
+
+3.2.3 Use Cases
+We have below uses cases to elaborate our split and collateral recycling framework. All the options hereby
+are European style, which means that they can only be exercised on maturity date.
+Case 1: Call Spread
+A call spread strategy involves buying and selling two call options at different strike levels. Bull / Bear call
+spread are often used to express views on the asset price movement with little premium cost. To construct a
+call spread, an investor might attempt to purchase a call and a covered call CAT at the same time; however,
+a more economical solution is for an market maker to split a call option struke at K1 into a call spread trade
+and another long call struck at K2 .
+Parity : C(K1 ) = (C(K1 ) − C(K2 )) + C(K2 )
+Other strategies such as strangle, collar, etc. could be split in similar fashions.
+
+Figure 6: CAT Collateral Recycling : Call & Call Spread
+
+Case 2: Barrier Options
+Knock in option only becomes valid when hitting the barrier level, whereas a knock out option becomes
+invalid upon hitting. Given the additional constraints, barrier options should be intuitively cheaper than an
+otherwise equivalent vanilla option. In fact, the combination of knock-in and Knock-out options equals to a
+vanilla option at the same strike level and maturity.
+Parity : Knock In + Knock Out = Vanilla
+Collateral recycling enables a market maker to reuse the created vanilla call position as collateral and create
+variations of barrier options, vice versa.
+
+8
+
+Figure 7: CAT Collateral Recycling : Knock In & Knock Out
+
+9
+
+Case 3: Tail Call
+As most of liquidity and demand is more concentrated near the At-The-Money (ATM) strikes with implied
+vol that is easy to model, market making a deep Out-of-The-Money call (OTM) by pledging the full collateral
+is often not economically viable due to the complication of funding cost, even if the option premium by itself
+is justifiable. However, collateral recycling provides a simple solution. One way is to leverage on a bear call
+spread, where a market maker can deposit one ATM call that creates a call spread with a deeper OTM call
+at higher strike. Another interesting example is as follows:
+Consider longing an European up-and-in call option that pays (S − K) at maturity if S > B, and shorting a
+digital call option that pays a (B − K) if S > B, then the terminal payoff will be either S − B or zero. In
+other words, a vanilla call struck at B.
+Parity : Knock In Option (K, B) =Vanilla Call (B)+Digital Call (B)
+Through depositing an up-and-in ATM call at selected barrier levels, a market maker can easily making
+market for OTM vanilla and digital calls. The mechanism not only greatly reduces the barrier to enter the
+trade but also provides a much cheaper funding solution.
+Case 4: Structured Products
+In order to sustain a deep and liquid market for options and other derivatives, healthy demand for structured
+products is often needed. Such products suit passive investors who wish to express a certain medium to long
+term view, which if realized would provide a higher payout, hence the term yield enhancement products.
+These structured payoffs provide the option supply vital to the developement of the option market and
+subsequent need for delta trading of the underlyings. However, many such products in traditional markets
+feature high entry barriers and fees due to illiquidity and institutional stronghold. With the development of
+a decentralized derivative market, disruptions in structured payoffs may soon ensue. For instance, a client
+looking to overlay certain conditionality on his payoff simply needs to post the maximum downside payout
+he’s expected to pay - a seamless extension from our vanilla examples.
+Take Accumulators for example, an accumulator could be viewed as series of future positions. As discussed
+earlier on, a synthetic future postion could be created from longing a call and shorting a put at the same
+strike. A market maker could therefore, leverage series of risk reversal trade to construct an accumulator
+contract.
+Take Basket Options as another example, investors with exposure to a few currency pairs can consider
+trading them together in a basket with a strike on the basket value. The merit of tokenization is that
+underlying asset could be fractioned into any amount. By applying CAT to a basket of underlyings, investors
+can benefit from diversification effect and cheaper cost of hedging.
+3.2.4 Dynamic Margin
+The two way fungible property, splitting, and collateral recycling mechanism has provided an effective
+solution to manage the collateral of a token derivatives transaction at any point of time. To tie-up the
+margin requirement with traditional OTC instruments, it would be beneficial and more cost effective to
+calculate dynamic margin based on current mark to market value and future expected exposure. However,
+the performance and scalability on Ethereum blockchain bottlenecked dynamic margin implementation. A
+forceful implementation is possible but both observation frequency and calculation speed would be limited.
+With the mainstream blockchain technology tackling scalability issue through sharding, plasma and etc, we
+put dynamic margin trading in our future pipeline to perform on plasma or other high performance side
+chain.
+3.2.5 Underlying Replication
+It should be noted that a liquid and well-functioning futures market is an important precondition for the
+development of options market on a given crypto underlying. This is because hedging of options requires
+delta-trading the forward or futures contract in order to achieve exact replication, and forward rates are key
+inputs for accurate mark-to-market valuation and margin calculation. In traditional exchange traded options
+markets, the underlyings are typically futures traded within the same exchange, for instance treasury or
+e-mini futures. Crypto market delta-one derivatives are very much in their infancy where liquidity in futures
+is congregated in front end tenors and OTC forwards negotiated further out on the curve are impractical for
+dynamic hedging. In addition, current futures liquidity is found primarily in centralized exchanges and it
+
+10
+
+will take time for decentralized solutions to materially disrupt this space. Therefore, a complete derivatives
+marketplace under DUO Network for the trading and hedging of options at this moment will need to be
+supported by a liquid but centralization-agnostic futures market, by seeking potential collaboration with
+existing exchanges.
+3.2.6 Collateral Compression
+For market participants holding portfolios of call/covered call positions, the implicit collaterals pledged for
+holding the covered call position could be quite costly. Notice that any combination of a call/covered call
+position could be viewed as a call spread, which has limited upside and downside, plus the underlying asset.
+It then follows that by compressing two legs of options together, the underlying used as collateral could
+be released from the combined structure. Hence, we can imagine a super dealer who is willing to collect
+separate legs from individual traders, and return to them a compressed structure token plus collateral rebate
+less a fee. The Collateral Compression mechanism will enable traders to claw back some of the collateral
+posted, while the super dealer is essentially provide funding for traders to earn a fee.
+
+4. Supporting Systems
+4.1 Price Oracle
+Deriviatives are priced based on no-arbitrage principle against the replicating portfolio. Thus, the core
+of derivative pricing and trading is the ability to hedge derivative with the underlying. In current crypto
+markets, centralized exchanges provide the best liquidity for our underlying assets and consequently to
+execute hedges for derivatives.
+The price fix of the underlying should possess a set of desirable characteristics - relevance, timeliness
+and manipulation resistance. To ensure those properties, recent exchange trades over a short period are
+aggregated into a price fix weighted by trading volume across exchanges. Order books are not taken into
+consideration as it is not resistant to manipulation.
+We aim to evetually decentralize the oracle price fixing scheme. As we require tradable or traded price for
+pricing fix, predictions based on perceived values are irrelevant. Therefore, Schelling scheme is not an option.
+Connecting external price sources to smart contracts is also not acceptable as the data source is vulnerable
+to manipulation and third-party risk. We plan to move the oracle system on to Proof of Stake scheme as
+part of the DUO Token Ecosystem.
+
+4.2 CAT Exchange
+Building a new decentralized exchange (DEX) is not an isolated objective but a way of creating a marketplace
+for CATs. Having reviewed all current DEX platforms, we identified the need to build our own exchange in
+order to provide a desired combination of performance, functionality, and user experience. A full comparison
+of exchanges can be found in the table below.
+Exchange
+
+No Deposit
+
+Price Discovery
+
+Centralized Exchanges
+Dex.top
+Etherdelta
+IDEX
+Bancor
+Airswap
+Kyber
+0x Protocol
+
+7
+7
+7
+7
+
+Market
+Market
+Market
+Market
+Magic equation
+Dealer
+Dealer
+Market
+
+!
+!
+!
+!
+
+Order Book
+
+! off-chain
+! off-chain
+! off-chain
+! off-chain
+!
+
+7
+7
+7
+off-chain
+
+Trustless
+7
+
+!
+!!
+!
+!!
+!!
+!!
+!
+
+Maker Free Entry
+
+!
+!
+!
+!
+7
+7
+7
+
+!
+
+Compatibility
+
+!
+!
+!
+!
+7
+!!
+!!
+!!!
+
+Table 1: CAT Exchange Candidates
+
+As inherently required in the design of CAT, the custodian must be able to access user’s wallet address and
+adjust balance directly based on the payoff or trigger condition of the contract. Therefore, if an exchange
+requires asset deposit from users, it must mirror the contractual adjustments made by the custodian for CATs
+to work properly in that exchange. Currently, all centralized exchanges and some decentralized exchanges
+
+11
+
+such as EtherDelta, IDEX, and Dex.top come under this asset deposit category. CATs can potentially trade
+on these exchanges though not all desired features of CAT are currently supported.
+Another option is Bancor on which prices are dictated by a predefined equation resembling a planned economy
+rather than market forces. This is rather undesirable because under a decentralized approach, we expect
+price discovery for all derivatives to be market-driven whereas models should only serve as price guidance.
+Other exchanges such as Airswap and Kyber are technically compatible with CATs in most aspects.
+However, the lack of order book depth beyond authorized dealer’s bid/offer risks causes inefficient price
+discovery in the market without enabling all participants to make and take prices with equal market
+access. An order-book-based liquidity platform is therefore much more appealing for CAT than the dealer
+quoted model.
+All factors considered, we conclude that at the moment, 0x protocol is the only viable choice that meets most
+of our requirement for the listing and trading of CATs and we are free to build our own relayer. The reason
+we cannot use an existing relayer such as RadaRelay or DDEX is the need for certain logical implementation
+in addition to a standard 0x relayer. For example, the order book for Dual Class Tokens must be purged after
+every reset event. Option tokens require a user interface optimized for volatility trading. Furthermore, third
+party relayers cannot guarantee timely listing and delisting of CATs especially as the issuance volume of
+CATs picks up. Therefore, building our own relayer ensures the undisrupted user access to the marketplace.
+We are closely monitoring viable blockchain technology to improve trading speed and support cross-chain
+asset swaps. Plasma, similar to the idea of bitcoin lightening network, is a blockchain-of-blockchain design
+with Ethereum as the main chain for securing assets. When plasma advances to a more mature stage, a
+high performance DEX with a fully trustless, on-chain order book can then be implemented. Cross-chain
+trading can make DEXes more powerful and easier to use. Currently, there are several blockchain solutions
+attempting to achieve cross-chain trading, such as notary schemes, sidechains/relays, and hash locking. We
+aim to make our CAT exchange support cross-chain trading in the near future.
+
+5. DUO Network Token
+The DUO Network Token is an ERC-20 token with limited supply. The design of DUO Network requires a
+token which value is implicitly linked to the growth and adoption of the Network. DUO Network Token
+functions as a medium of exchange among network participants, smart contracts, and the DUO community
+as a whole.
+
+5.1 Utilities
+The precise scope of the DUO Network will be developed further and will be announced once finalised. The
+following features are planned for DUO Network Token.
+
+Price Oracle Node
+Network participants can stake their DUO Tokens to become a node in our Price Oracle. Penalties and
+rewards are distributed in DUO Tokens based on difference between each node’s price feed and the
+accepted price.
+DUO Protocol Node
+Network participants can also stake their DUO Tokens to become a super node and be able to propose
+new custodian specifications.
+Governance
+We aim to create a community-based governance model. Any DUO Token holders can vote proportionally
+on protocol decisions and development based on DUO Token balance.
+Conversion Fee
+All custodian contracts in DUO Network charge a small percent of fees on CAT conversions. Users can
+choose to pay fees in ETH or DUO. Early stage payments in DUO will be discounted to encourage token
+adoption.
+
+Price Service Fee
+External users can use our Price Oracle as a pricing service, charged in form of DUO Token.
+Community Rewards
+The Network provides its participants with an incentive scheme similar to mining on blockchains. Instead of
+recording transactions on blockchain, the Network recognizes conversion arbitraging, which helps stabilizing
+the token prices, as the mining operation. In addition to arbitrage profits, the Network rewards participating
+users with DUO Tokens. The detailed reward scheme will be released at a later stage.
+
+5.2 Token Allocation
+Total supply of DUO Network Tokens = 100,000,000 DUO
+For Sale
+Community & Ecosystem Incentive
+Long-term Operation Reserve
+Team Incentive
+Advisors & Compliance
+
+22,000,000
+28,000,000
+25,000,000
+20,000,000
+5,000,000
+
+22%
+28%
+25%
+20%
+5%
+
+Table 2: DUO Network Token Allocation
+
+6. Road Map
+The DUO development team works on a collaborative and agile pace. We are looking to launch products on
+main net by Q2 2019. We will publish more detailed road map through community channels.
+
+7. Team
+Crypto Products & Markets Team
+Crypto Markets team is headed by Jerry Li. Jerry graduated from National University of Singapore
+(NUS) with Highest Distinction in Quantitative Finance. He worked at Citigroup and SS&C on
+hedge fund valuation, where he built the regional quantitative team, and advised multiple billiondollar hedge funds in valuation policy and derivatives strategies. Before joining Citigroup, Jerry was
+a sales & trading analyst at UBS Investment Bank. The team has over 10 years of cumulative trading
+and financial engineering experiences in global financial institutions, including Citigroup, IHS Markit and
+HSBC.
+
+13
+
+Tech Engineering Team
+Tech Engineering team is directly led by CTO, Yizhou Cao. Yizhou worked at Nomura Securities for forex
+proprietary trading and at Credit Suisse for fixed income t echnology. He is experienced in trading and
+large-scale system development. Yizhou graduated from NUS with Highest Distinction in Quantitative
+Finance and Statistics. His thesis formulated a comprehensive model in stochastic control framework for
+strategic transmission of costly information problem in a continuous time setting. The team is comprised of
+experienced developers proficient in cloud solution architect, information security, machine learning, smart
+contract developments, and website design. Their backgrounds include Accenture, Deloitte, Fuji Xerox,
+Huawei and PIMCO.
+
+Advisors
+Steven KOU - Questrom Professor in Management at Boston University
+Professor Kou is the Director of Risk Management Institute and the Class of 62 Chair Professor at the
+National University of Singapore (NUS). Before joining NUS, Professor Kou worked at Columbia University,
+University of Michigan, and Rutgers University. He is a world-renowned expert in Financial Engineering and
+Applied Probability. He has published in numerous journals including Management Science, Operations
+Research, Mathematical Finance, and received the Erlang Prize by the Applied Probability Society of
+INFORMS. In terms of financial engineering, Professor Kou is well-known for his research on the double
+exponential jump diffusion model and models for growth stocks, which have been widely used on Wall Street.
+He is currently the Co-Area Editor in Financial Engineering Area of Operations Research and Associate
+Editor of MatBUhematical Finance, Mathematics of Operations Research, Journal of Business and Economic
+Statistics, Statistica Sinica, etc.
+Min DAI - Professor at National University of Singapore & Director of Center of Quantitative
+Finance
+Professor Dai is the Director of Center of Quantitative Finance and Deputy Director of Risk Management
+Institute at the National University of Singapore (NUS). Before joining NUS, Professor Dai taught at
+Peking University. He has in-depth research in portfolio selection, trading strategies and derivatives pricing.
+He has published in numerous journals including Journal of Economic Dynamics & Control, Journal of
+Economic Theory, Management Science, Mathematical Finance, Mathematics of Operations Research,
+Review of Financial Studies, SIAM Journals. He is currently Associate Editor of SIAM Journal on Financial
+Mathematics, Journal of Economic Dynamics & Control, Mathematics and Financial Economics etc.
+Xi LI - Head of LD Capital Singapore
+Li Xi holds a master degree from National University of Singapore in Computer Engineering. Prior to LD
+Capital, Mr. Li worked as a senior software engineer at Visa. He is highly experienced in value-driven
+blockchain investment.
+
+14
+
+

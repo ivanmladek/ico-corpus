@@ -1,0 +1,109 @@
+X16S
+Sixteen shuﬄed algorithms
+Designed for small miners
+Luke Pighetti
+March 22, 2018
+
+History
+Previous to our eﬀorts, the X16R (random) algorithm was launched on the Ravencoin
+network in late 2018. This new algorithm provided an innovative method of ASIC
+resistance. Since our new algorithm is building on the Ravencoin team's work, it's
+important to first understand how it works.
+X16R used algorithms from X15, added SHA512, and then randomized the order by
+referencing the last sixteen digits of the previous block hash.
+
+0
+1
+2
+3
+4
+5
+
+blake
+bmw
+groestl
+jh
+keccak
+skein
+
+6
+7
+8
+9
+a
+b
+
+luffa
+cubehash
+shavite
+simd
+echo
+hamsi
+
+c
+d
+e
+f
+
+fugue
+shabal
+whirlpool
+sha512
+
+Given the last sixteen digits of a previous block hash:
+
+4f0da52072c99492
+X16R would complete a single hash cycle in the order below.
+
+4 keccak, f sha512, 0 blake, d shabal,
+a echo, 5 skein, 2 groestl, 0 blake,
+7 cubehash, 2 groestl, c fugue, 9 simd,
+9 simd, 4 keccak, 9 simd, 2 groestle
+We notice that groestl and simd both repeat three times, weighting the hashrate
+and power consumption during this block 37% towards the characteristics of these
+two algorithms.
+In practice, a GPU miner on the X16R algorithm that normally demands 600W will
+fluctuate between ~450W and ~800W, changing every block. The hashrate will similarly
+fluctuate, making it diﬃcult to tune a mining rig for eﬃciency or productivity.
+These power spikes reduce power-supply eﬃciency and lifespan. Our new algorithm,
+X16S, aims to solve these problems.
+
+Introducing X16S (shuﬄe)
+The X16S (shuﬄe) algorithm uses the last sixteen digits of the previous block hash to
+reorder a list containing all sixteen algorithms. It employs the same individual
+algorithms found in X16R.
+Given the last sixteen digits of a previous block hash:
+
+4f0da52072c99492
+X16S shuﬄes a list by using the value of each digit found within the last sixteen digits
+of the previous block hash to reference an index within a list containing all algorithms.
+
+4
+f
+0
+9
+2
+
+0123456789abcdef
+4012356789abcdef
+f4012356789abcde
+f4012356789abcde
+. . .
+0325a1c8f4679bde
+2035a1c8f4679bde
+
+The final order would then be:
+
+2 groestl, 0 blake, 3 jh, 5 skein,
+a echo, 1 bmw, c fugue, 8 shavite,
+f sha512, 4 keccak, 6 luffa, 7 cubehash,
+9 simd, b hamsi, d shabal, e whirlpool
+X16S randomizes the order based on the previous block hash, but no algorithms are
+repeated or omitted. This provides all the benefits of X16R while vastly improving the
+hashrate and power consistency. This makes it much better for small miners, further
+promoting decentralization.
+Pigeoncoin is the proof-of-concept network for the X16S algorithm. We thank the
+Ravencoin team for their hard work and hope that our eﬀorts are useful to them.
+Source code is open-source under the MIT license at https://github.com/pigeoncoin
+
+

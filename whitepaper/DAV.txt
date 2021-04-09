@@ -1,0 +1,881 @@
+DAV White Paper
+
+Noam Copel​1​, Tal Ater​2
+June 2017
+
+DAV Foundation
+c/o Treforma AG, Grabenstrasse 25
+6340 Baar, Zug, Switzerland
+
+1​
+
+noam@dav.network
+
+2​
+
+tal@dav.network
+
+Abstract— Decentralized Autonomous Vehicles (DAV). DAV is a computer network that will ultimately connect
+self-driving vehicles (such as cars, trucks, rovers, and drones) to everyone on that network, enabling them to discover,
+communicate, and transact. The token shall provide access to the network. Users are admitted to the network for a
+charge in tokens per transaction depending on supply and demand. Except for providing access to the DAV Platform
+for the relevant transactions, DAV Tokens will not have any functionality or utility. People who own vehicles or the
+charging stations on the network are paid a consideration or fee for the services they provide on a peer-to-peer basis
+with the relevant users. Through the network, users can have an entire network of self-driving vehicles at their
+fingertips to bring them anything, or to take them anywhere. Even in today’s transportation market, and during the
+transitional period before autonomous transportation reaches mass adoption, the decentralized transportation
+network and its underlying technology can create a variety of economic opportunities such as decentralized, on
+demand, manned, rides and deliveries.
+
+Disclaimer / Important notice
+No assurance / exclusion of liability
+NO INFORMATION IN THIS WHITE PAPER SHOULD BE CONSIDERED TO BE LEGAL, FINANCIAL,
+BUSINESS OR TAX ADVICE AND YOU SHOULD CONSULT YOUR OWN LEGAL, FINANCIAL, TAX
+OR OTHER PROFESSIONAL ADVISER BEFORE ENGAGING IN ANY ACTIVITY.
+TO THE EXTENT LEGALLY PERMISSIBLE, DAV FOUNDATION, EMPLOYEES OF DAV
+FOUNDATION, OR ANY THIRD PARTY SERVICE PROVIDER EXCLUDE THEIR LIABILITY FOR
+ANY DIRECT OR INDIRECT DAMAGES OR LOSSES WHICH YOU MAY SUFFER OR INCUR IN
+CONNECTION WITH THIS WHITE PAPER AND THE RELIANCE ON ANY INFORMATION PROVIDED
+HEREIN.
+Certain statements contained in this white paper contain forward-looking statements. Such forward-looking
+statements involve known and unknown risks, uncertainties and other factors that may cause that the actual
+future results or situations are different from the statements described herein and should therefore not unduly be
+relied upon. The forward-looking statements are made at the date of this white paper and DAV Foundation is
+not responsible to revise this white paper in order to take into account events after such date.
+This white paper contains information obtained from third parties. DAV Foundation has not independently
+verified the accuracy or completeness of such information and DAV Foundation does not represent or warrant
+any assurance as to the accuracy or completeness of such information.
+DAV Foundation reserves the right to update and change this white paper and the positions and plans outlined in
+this white paper at any time without further notice
+No solicitation for investments
+This white paper contains information on DAV Foundation, the DAV network and planned environment and on
+the DAV token and is intended for general informational purposes only. This white paper does not and is not
+intended to constitute a prospectus or offer document of any sort and is not intended to constitute an offer of
+securities or a solicitation for investment in securities in any jurisdictions. In particular, this white paper has not
+been registered or approved by any authority under any applicable laws and regulations.
+The DAV tokens to be issued by DAV Foundation are not intended to constitute securities and/or collective
+investment units in any jurisdiction. The sale of the DAV tokens shall be governed exclusively by the terms and
+conditions of the DAV token sale defined in a separate document and any information in relation to the DAV
+token in this white paper is merely of descriptive nature.
+Key risks and restrictions relating to DAV tokens and the DAV network in general
+DAV tokens are utility tokens ​and do not confer ​directly or indirectly any rights or claims against DAV
+Foundation or any third party. By accessing this white paper, you acknowledge, understand and agree that:
+- While DAV tokens may be traded on exchanges and through brokers, note that DAV tokens may only
+be used in the DAV network to access the DAV network.
+- DAV tokens may have no value and any investment in DAV tokens may be entirely lost.
+- There is no guarantee or representation of value or liquidity for the DAV tokens and the value of DAV
+tokens may be significantly influenced by digital currency market trends unrelated to DAV tokens or
+DAV Foundation.
+- DAV Foundation and any of its affiliates have no obligations or are liable for
+
+(i)
+the value of DAV tokens,
+(ii)
+the transferability of the DAV tokens,
+(iii)
+the liquidity of DAV tokens, and/or
+(iv)
+the availability of any market for DAV tokens through DAV Foundation or any third parties.
+- The information provided in this white paper in relation to DAV token shall not be construed as any
+opinion, statement or indication regarding the merits of the DAV tokens.
+- It is the sole responsibility of holders and prospective holders of DAV tokens to comply with all laws
+(including any national or international tax treaties), regulatory requirements and restrictions applicable
+at any point in time.
+- International or local laws and regulations may render the projects and plans of DAV Foundation
+impossible in all or certain jurisdictions.
+Due to regulatory uncertainties or restrictions, selling restrictions apply relating to the sale of DAV tokens to
+any citizen or resident of the United States of America or any green card holders and the People's Republic of
+China or any citizen or resident of any other jurisdiction where the acquisition of utility tokens or
+cryptocurrencies is prohibited or restricted.
+Possible changes to DAV network
+In order to meet the requirements of the Swiss regulator regarding anti-money laundering regulations, the DAV
+Foundation may be required to make modifications to the DAV network, including, without limitation, the DAV
+network's functions, and to postpone the availability of all or part of the functions of the DAV network. Further,
+while awaiting the determination whether modifications to the DAV network are needed for these purposes, the
+DAV Foundation will delay the settlement of the ETH transferred to DAV Foundation during the token sale by
+using an escrow smart contract. The escrow smart contract will provide for the settlement of the ETH transfer to
+DAV Foundation only upon full compliance with the Swiss anti-money laundering regulations.
+
+CONTENT
+
+I.
+II.
+
+Executive Summary​…………………………………………………………………………………….5
+Converging Trends​…………………………………………………………………………………
+
+5
+
+III.
+
+Problem/Solution​……………………………………………………………………………………....11
+
+IV.
+
+The Internet of Transportation​………………………………………………………………………​12
+IV.​1. Internet of Transportation Participants​………….……………………….……………..​13
+
+V.
+
+Technical Functionality​………………………………………………………………………………. 13
+
+VI.
+
+DAV Technology Stack​……………………………………………………………………………......14
+
+VI.​1. Decentralized Identity​…………………………………………………………………..
+
+15
+
+VI.​2. Decentralized Discovery​………………………………………………………………..
+
+17
+
+VI.​3. Decentralized Communication​…………………………………………………….........
+
+18
+
+VI.​4. Decentralized Mission Flow​……………………………………………………………​.
+
+18
+
+VI.​4.1. Need​………………………………………………………………………...
+
+19
+
+VI.​4.2. Bid​…………………………………………………………………………...
+
+19
+
+VI.​4.3. Contract Signing​…………………………………………………………......
+
+20
+
+VI.​4.4. Intra-Mission Communication​……………………………………………....
+
+20
+
+VI.​4.5. Contract Resolution​………………………………………………………….
+
+21
+
+VI.​5. Decentralized Payments​………………………………………………………………...
+
+21
+
+VI.​5.1. Payments Using Incentive Tokens​…………………………………………..
+
+21
+
+VII.
+
+Fueling a New Ecosystem​…………………………………………………………………………….. 22
+
+VIII.
+
+Future Work/Roadmap​………………………………………………………....……………………. 23
+
+IX.
+
+Conclusion​……………………………………………………………………………………………...23
+
+Acknowledgment​……………………………………………………………………………………………….. 24
+References​……………………………………………………………………………………...​24
+
+I. EXECUTIVE SUMMARY
+
+The Internet is a network of computers, but it wasn’t the first one; there were many
+computer networks prior to the Internet (for example, AOL, CompuServe, and Prodigy).
+What enabled the Internet to emerge and overtake the isolated silos that preceded it was
+decentralization. The Internet introduced a set of protocols specifying how data should be
+packetized, addressed, transmitted, routed, and confirmed as received, and, in doing so, it
+eliminated the need for a central authority that controls the network. This model provides rich
+opportunities for developers to build useful applications, for businesses to create value, and
+for people to participate in a vast and ever-growing network that is not owned or controlled
+by a central monopoly.
+The automotive and transportation industries are currently undergoing their biggest
+revolution since the invention of Henry Ford's assembly line in 1908. The booming “sharing
+economy” is shaking up industries from office space and music to transportation. In addition
+to an emerging sharing economy, technology advances will soon make autonomous vehicles
+an integral part of our daily lives. As these trends converge, the movement of goods and
+people will take a completely new shape. Vehicles will be akin to packets of data,
+programmatically sent from origin to destination.
+As with computer networks of the past, current transportation networks are being formed as
+isolated silos. Google, Lyft, and Uber are only a handful of the companies working on
+autonomous transportation, but they are all building their solutions using the same closed
+platform model AOL was using back in the 1990s. Autonomous drone and robotics
+companies have also begun to emerge and, similarly, their networks are proprietary, closed
+and non-inclusive.
+In this paper we are laying the foundations for a decentralized transportation infrastructure
+that will have built-in incentives for all the different participants: consumers, businesses,
+software developers, hardware makers, maintenance providers, insurers, and arbitrators. A
+transportation infrastructure that is open-source and free to evolve, based on open and unified
+protocols, is highly scalable and has no single point of failure.
+II. CONVERGING TRENDS
+A. On Demand / Passenger Economy
+
+A report published by London-based RethinkX, an “independent think tank,” estimates that
+as “driverless cars” become more common, people will continue the increasing trend of
+moving from car ownership to opting for “on demand” autonomous electric vehicle services.
+This could save a family more than $5,600 per year, equivalent to a wage raise of 10% for the
+median American household, resulting in an additional $1 trillion dollars per year in
+Americans’ pockets by 2030, according to the report.
+With the elimination of the need for a driver, hundreds of millions of hours will be unleashed
+annually as drivers become passengers in vehicles that provide improved safety and a better
+transportation economy.
+
+Research by Strategy Analytics finds that autonomous vehicle driving technology will enable
+a new “Passenger Economy” worth US$7 trillion in 2050.
+The “Passenger Economy” will increasingly drive change across a variety of industries,
+disrupting vehicle ownership with “Mobility-as-a-Service.” This will accelerate emerging use
+cases, which also extend to transportation and delivery businesses.
+● Consumer use of a range of “Mobility-as-a-Service” offerings will account for
+US$3.7 trillion, nearly 55% of all revenues.
+● Business use of “Mobility-as-a-Service” will generate US$3 trillion in revenues,
+roughly 43% of total revenues.
+● Emerging applications and services will account for US$203 billion in revenues.
+As these commercial activities increase, we see a huge opportunity for large-scale adoption
+and growth of the sector through the enabling of drones, autonomous vehicles, robots, and
+charging stations to communicate and trade with each other.
+B. Cost Reduction
+
+Fierce competition has resulted in cheaper, more reliable, and more capable vehicles than
+those that existed just a few years ago.
+One type of autonomous vehicle that has seen accelerated growth in the mainstream is the
+commercial drone. The best consumer drones are now being deployed for commercial use,
+often with few or no modifications. “Just as with smartphones, people who enjoyed playing
+with consumer drones realized it made sense to take them to work too,” says Jonathan
+Downey of Airware.
+Cost reduction doesn’t stop with drones; self-driving cars need to be able to see the world
+around them. One way they do this is by using Lidar, a sensor attached to the top of a car that
+spins and shoots out lasers to create high-resolution maps of the car’s surroundings. Just a
+few years ago, a top-of-the-line Lidar system cost over $75,000. Alphabet-owned company
+Waymo has slashed the price of Lidar by 90%, according to their CEO, John Krafcik.
+C. Emerging Use Cases
+
+Whether we look at companies like Starship Technologies in Estonia and Dispatch in
+California, who have developed wheeled-cooler-sized drones that are making deliveries on
+footpaths, or Unsupervised.ai, the French startup that uses a drone that has legs and resembles
+a dog for “last 50 meter” deliveries, it is clear that the innovation being undertaken is broad in
+scope and global in scale.
+
+Fig. 1 - Aida, last mile autonomous delivery by Unsupervised.ai
+
+Last-mile delivery represents 55% of the cost of a delivery today, due to manually taking a
+single parcel into the delivery destination, as opposed to driving a vehicle laden with a large
+volume of packages to near the destination. Companies are already developing hybrid
+systems for “integrated last mile” delivery, such as trucks that can arrive in a neighborhood
+and deploy both flying and wheeled drones.
+
+We already see companies like Flytrex executing deliveries with autonomous drones in
+Iceland for an Icelandic online marketplace called Aha.
+
+Fig. 3 - FlyTrex, autonomous drone delivering for Aha in Iceland
+
+Companies like EHang in China have already tested drones that carry people in the air
+through Dubai. These flying passenger drones are expected to be commercially deployed in
+the coming years. Other companies, such as Airbus, Uber, and Kitty Hawk, have proposed
+similar flying-car drones.
+
+Fig. 4 Passenger drone prototype
+
+In Geneva, an urban area, AirMap (which manages drone traffic) and Skyguide (which
+manages manned aircraft) worked together with other companies to successfully demonstrate
+the first-ever live demonstration of drone airspace services in Europe.
+Autonomous vehicles allow us to reimagine a whole range of transportation, personal
+vehicles, ride-hailing, public transportation, and logistics.
+With a focus on shared mobility and access to fleets of vehicles, rather than a personal
+ownership model, people will be able to experience these technologies sooner.
+Waymo has “self-driven” over 3.5 million miles on the road, across 20 US cities. In Phoenix,
+Arizona they are already inviting people to take part in their early passenger program.
+A fully self-driving fleet now offers accessibility, safety, and flexibility and frees up time and
+space in the vehicle to do what you want.
+
+Fig. 6 - Waymo, self driving vehicle
+
+D. Legal Commercial Use
+
+The flood of consumer drones and autonomous vehicles have forced regulators to push
+through legislation to allow commercial development and use.
+The Federal Aviation Administration (FAA) has a blanket federal restriction on commercial
+drone operators. All commercial drone operators must apply for a “333 exemption” from the
+FAA before doing business, register their aircraft online with the FAA for $5, and receive a
+certificate of authorization (COA) or other FAA authorization.
+The following heat map from AirMap, the airspace management company, shows that
+461,120 recreational drones and 8,416 commercial-use drones had been registered with the
+FAA by the end of May 2017.
+
+Fig. 7 - Heatmap of recreational and commercial drone registrations, FAA 2017
+
+Many other countries have followed the FAA’s regulatory lead, which is clearing
+commercial drones for takeoff worldwide.
+With technology for autonomous vehicles continually developing, state and municipal
+governments are addressing the potential impacts of autonomous vehicles on the road.
+Each year, the number of states considering legislation related to autonomous vehicles has
+gradually increased. In 2017, 33 states have introduced legislation, while that number stood at
+20 states in 2016.
+The National Conference of State Legislatures (NCSL) has a new autonomous vehicles
+legislative database, providing up-to-date, real-time information about state autonomous
+vehicle legislation that has been introduced in the 50 states and the District of Columbia.
+
+Fig. 8 - States with enacted autonomous vehicle legislation
+
+Switzerland, Iceland, and Tanzania already allow autonomous drone delivery operations,
+and from 2018 Japan will permit them as well.
+E. Open Source Vehicle Technology
+
+A large number of autonomous vehicles are being developed as open-source projects by
+developer communities, as well as by commercial companies. These projects introduce new
+ways to design and build autonomous cars, drones, robots, and even underwater vessels.
+In the autonomous car space: Open Source Car Control (OSCC​1​) provides developers with a
+collection of firmware and hardware designs for computer control of their autonomous
+development vehicles. Apollo​2 ​provides an open, reliable, and secure software platform for its
+partners to develop their own autonomous driving systems through on-vehicle and hardware
+platforms.
+
+In drones and other UAVs: DroneCode​3​ is an open-source platform for Unmanned Aerial
+Vehicles (UAVS), and Paparazzi UAV​4​ is an open-source drone hardware and software
+project encompassing autopilot systems and ground station software for
+multicopters/multirotors, fixed-wing, helicopters, and hybrid aircraft.
+In other robotics spaces: ROS​5​ is a collection of libraries that aim to simplify the task of
+creating complex and robust robot behavior across a wide variety of robotic platforms, and
+OpenROV​6​ is a low-cost submarine/underwater drone hardware.
+F. Token Economy
+
+Blockchain technology has opened new possibilities for the recognition and exchange of
+value. We are now entering a time when applications may be built on top of blockchain
+technology and in doing so also create industry-specific economies and ecosystems.
+This white paper proposes a way to leverage this significant economic paradigm shift by
+building a blockchain-based, global, and completely open-source technology stack that
+enables cooperation between members of the new transportation economy and the financial
+tools to incentivize network growth. The network becomes more useful as more users join
+and the demand for the tokens increases; this helps create incentives for early adopters who
+are vital for the creation of an active and growing ecosystem.
+III. PROBLEM/SOLUTION
+A. Problem
+
+Today, large corporations have already begun experimenting with fleets of autonomous
+vehicles: Domino’s pizza delivery robots, Amazon’s Prime Air drones, Waymo’s
+autonomous taxis, and Baidu’s open-source self-driving cars are all leading the way towards
+fully autonomous transportation systems.
+
+As these organizations employ armies of software developers in their attempts to create the
+first fully autonomous vehicles, they need to resolve issues revolving around perception,
+localization, decision making, and more. Additionally, autonomous vehicles require charging,
+maintenance, and docking infrastructure.
+Centralization and narrow economic interests restrict the pace at which transformative
+technologies can be released and adopted by the market, as the key players are focused on
+dominating their own isolated networks, and not on creating a collaborative infrastructure
+that is more efficient and has higher potential for more diverse use cases in the long run.
+A lack of incentives to collaborate across various value chains stifles the pace of progress in
+the sector. An open-source platform that is inclusive and permissionless provides economic
+incentives for multiple participants to join the network and enjoy its future growth in a way
+that allows for much more rapid scaling.
+B. Solution
+
+By open-sourcing the DAV technology stack and decentralizing protocols around identity,
+discovery and mission flow, provided through a modular UI, DAV enables cooperation. New
+players can enter the market, creating distributed value and growing participation in the
+transportation economy. A decentralized open source network means that players can
+independently take action in response to unfilled or poorly filled market needs.
+C. Creativity at the edges
+
+What’s efficient about open-sourcing network technology is that it pushes innovation to the
+edge, giving more participants control over the pace and direction of innovation, and fueling
+creativity. Simplicity at the center allows for complexity at the edge.
+Innovative applications and services will emerge as autonomous vehicle services scale and
+evolve, just as the Internet brought new businesses and business models into existence.
+DAV’s open-source technology stack, protocols, and UI solve problems through enabling
+cooperation, positioning the DAV network as a platform for independent innovation at the
+edge.
+IV. THE INTERNET OF TRANSPORTATION
+A. Statement
+
+Drones, cars, trucks, and even shipping boats are only some of the autonomous vehicles
+that will soon enter the mainstream. The DAV technology stack was created to make this
+ecosystem a reality by enabling true cooperation between autonomous vehicles, service
+providers, and users.
+
+B. Challenge Creating A Network
+
+For an efficient, fast-scaling shift from the existing transportation sector into the
+autonomous vehicle transportation sector, a huge support network must be put in place.
+This autonomous vehicle network must include a large number of AVs, spread out all over
+the target area. Many parking spots must be designated for all of these AVs to park when they
+are not flying or driving around. Charging stations must be placed over a large geographical
+area. And finally, a network of supporting services, such as repairs, rescue, cleaning, and
+more must be put in place.
+C. Purpose
+
+The purpose of the DAV utility token is to provide access to a community-built
+autonomous vehicle infrastructure and build an autonomous vehicle platform that is
+commercially viable and essential for cooperation. The DAV network enables the distribution
+of tokens across all groups of network participants as consideration for services provided
+between network participants, and the growth of the network benefits all network members.
+IV. 1. INTERNET OF TRANSPORTATION PARTICIPANTS
+A. Consumers
+
+Pay a consideration in exchange for on-demand transportation of people and goods, and
+other services provided by other participants of the DAV network.
+B. Providers
+
+1) Vehicle Providers: Receive a consideration by making their vehicles available for on-demand missions
+of transport and delivery.
+
+2) Infrastructure Providers: Receive a consideration by providing docking, charging, battery replacement
+equipment.
+
+3) Service Providers: Receive a consideration by providing maintenance services for vehicles and
+locating and retrieving lost or damaged DAVs, according to recent GPS coordinates.
+Receive a consideration by assembling and selling open-source DAVs using
+prefabricated parts, open-source plans, and open-source software.
+Insurance Providers: Receive a premium by offering data-driven insurance policies on demand for
+people, DAVs, and parcels on selected routes and types of missions.
+Arbitrators: Independent dispute resolution providers are paid a fee by settling disputes directly
+through smart contracts on issues involving damaged goods and proof of delivery.
+Software / Hardware Developers: Participate in the development of the open-source platform in
+exchange for bounties, as well as build their own custom services for accessing the DAV network.
+
+4) Manufacturers:
+5)
+6)
+7)
+
+V. TECHNICAL FUNCTIONALITY
+
+The DAV network, as a developer-centric platform, creates SDKs for popular development
+platforms and APIs. It actively encourages developers to take part, making it easy for any
+developer to participate and contribute within their domain of expertise. The technology
+behind the DAV network is a stack of open-source software with a developed UI for simple
+
+interaction, which enables a truly autonomous, fast-scaling transportation system.
+A. Identity
+
+The identity stack enables users and devices to authenticate themselves to other network
+participants. Each DAV entity has its own identity. These entities might be a person looking
+to purchase transportation services, a rooftop charging station for drones, a driverless car, an
+insurance service, or even a group of several cargo drones controlled by a single system.
+B. Discovery
+
+Decentralized discovery provides the tools for different DAV identities to discover each
+other in a decentralized way. It represents the difference between a world where introducing a
+vehicle to a new environment requires building a support structure around it (e.g., charging
+and service stations, parking, etc.) and a truly connected world where any autonomous
+vehicle can operate in any environment, consuming services around it as the need arises.
+C. Communication
+
+DAV’s decentralized communication allows direct communications between two or more
+DAV participants using a common communication protocol. It is the key to facilitating most
+types of operations within the DAV network and enabling different entities from different
+manufacturers to communicate with each other, for example vehicles and charging stations.
+D. Mission Flow
+
+To enable an exchange of services between two or more parties, DAV offers a
+communication protocol designed to ease each step of the mission flow – from the initial
+statement of need through bidding, service fulfillment, and eventually payment.
+E. Access and decentralized settlement
+
+DAV token is a core component of the DAV stack and was created to fuel the DAV
+ecosystem. DAV tokens are required to access the DAV network, i.e. the onboarding of
+network participants and the use of the identity, discovery, communication and mission flow
+functions.
+Further, the DAV network enables the decentralized peer-to-peer payment for the services
+rendered between involved participants of the DAV network with virtual currency payment
+tokens (not access tokens) available on the Ethereum blockchain which enables secure and
+trustless payments for such services. For the avoidance of doubt, the DAV token only serves
+as an access token.
+
+VI. DAV TECHNOLOGY STACK
+
+The DAV stack is composed of five main components, each providing one piece of the
+puzzle needed to enable a decentralized autonomous vehicle ecosystem.
+
+The five decentralized components are:
+● Identity
+● Discovery
+● Communication
+● Mission Flow
+● Access and settlement
+VI. 1. DECENTRALIZED IDENTITY
+
+Each entity using the DAV network has its own pseudonymous identity, known as a DAV
+Identity. These entities might be a person looking to purchase transportation services, a
+rooftop charging station for drones, a driverless car, an insurance service, or even a group of
+several cargo drones controlled by a single system. These pseudonymous identities are
+uniquely identifiable and non-ephemeral, while still providing a degree of anonymity.
+DAV Identities are stored and tracked in a decentralized way on the blockchain and can only
+be manipulated through a predetermined interface. This interface ensures strict access control
+over who (or what) can manipulate and use each identity. For example, only a user
+possessing the private cryptographic key that matches a given Identity’s wallet can assign a
+human-readable name to that Identity or sign a smart contract on its behalf. On the other
+hand, the history of past transactions, which is stored within each Identity, can only be added
+to by authorized mission contracts and cannot be manipulated in any way by the user.
+Unlike many other blockchain solutions, which can be completely trustless, transacting in the
+physical world presents additional elements that cannot be wholly encapsulated within a
+digital contract. In other words, while it is possible for a smart contract to know when a
+financial transaction has completed, knowing whether a physical package was delivered with
+a scratch is trickier.
+DAV offers three tools for dealing with counterparty risks: a public transaction history,
+third-party arbitrators, and third-party insurers.
+As a network of pseudonymous identities, DAV exposes the history of each Identity’s
+performance, while also offering anonymity for it. (In other words, you can know how many
+successful missions a drone completed, but not who that drone is or who owns it.)
+Each Identity holds within it a ledger detailing the complete history of transactions conducted
+by that Identity, along with their outcome. This essentially creates a permission-based access
+control, allowing anyone to access the full history of each Identity’s transactions, while
+strictly limiting write permissions.
+By evaluating the outcomes of an Identity's transactions over time, we can construct a clear
+image of its trustworthiness and the level of risk each party assumes in the transaction.
+By combining both decentralized identities and a decentralized transaction history, we can
+achieve a decentralized system that not only exposes the full history of successful
+transactions, but one that does not allow an Identity to disavow or hide negative ones. DAV
+
+offers a system of full transparency and strict access control.
+The nature of pseudonymous identities means that, by design, they are not tied to a real-world
+identity. A single legal entity or person can create multiple pseudonymous identities to
+represent themselves. This makes the system potentially prone to so-called sock puppets –
+identities created with the sole purpose of hiding past negative behavior. This issue affects all
+online communities where the cost of generating new pseudonymous identities is low. The
+user behavior that emerges in such communities, and what we expect to see among our users,
+is that users tend to trust and value vendors with a long history of successful transactions
+while considering transactions with new vendors riskier. For example, in online freelancing
+sites such as Upwork and Elance, veteran users with many positive ratings are able to charge
+a premium over new unknown users. Similarly, when evaluating bids for services over the
+DAV network, a potential buyer might look at a seller's history as an important criteria, and
+not just go for the lowest bid.
+The need for a third party to decide on the outcome of some transactions opens the gate for
+introducing arbitrators (serving either as oracles or as additional signatures in a
+multisignature contract) into the system. These parties can provide their services and help
+facilitate transactions, resolve disputes, and increase user trust in the system. For example,
+when a dispute arises between a buyer and a seller, a third-party arbitrator might require a
+physical Proof of Delivery before signing off on a delivery. DAV's initial proof of concept
+demonstrates a third-party arbitrator service like this provided by the mission planning
+service.
+Support for arbitration does not need to be built into the system (other than support for
+multisignature contracts supporting a refundable arbitrator fee). It represents an emergent
+behavior that is supported by the DAV stack.
+Arbitrators are DAV Identities like any other, with their own transaction histories. They
+provide this service just like any other service provided on the network (i.e., an arbitration
+service is no different from a charging service from a technical standpoint). Some of these
+services can be automated (and often provided free of charge), such as being an additional
+key-holder in a multisignature contract, or providing a third-party verifiable Proof of
+Delivery, such as requiring the receiver of a package to enter a code to unlock a delivery box.
+Others might require human intervention (and payment of a fee). The fee can take the form of
+either a refundable deposit from either or both parties, or be deducted from the value of the
+transaction.
+Not all transactions necessarily require the inclusion of a third-party arbitrator in the contract.
+An Identity’s transaction history can be used to determine a transaction's counterparty risk
+and act as a signal for both parties when deciding whether to include a third-party arbitrator
+or not.
+The element of risk from unforeseen events and bad actors opens the gate for third-party
+insurance providers to offer a valuable service to the DAV network. Much like arbitrators,
+insurance providers implement the logic and tools for providing the insurance service and
+
+offer their services using the same DAV tools as any other service providers (i.e., a request
+for an insurance goes through the same channels as a request for a charging service). Thanks
+to DAV’s decentralized nature, insurance providers have access to the full history of
+transactions completed by all the parties involved in a transaction (as well as their own
+history they may have saved in their own proprietary systems, such as their history with each
+party) and can use that data to estimate the level of risk and adjust the insurance premium.
+While each DAV Identity is uniquely identified by a cryptographically generated hash, which
+is instantly recognizable to computers, this hash does not present a very human-friendly
+interface. By attaching a unique avatar to each Identity, generated using its cryptographic
+hash as the seed, DAV Identities gain an additional degree of recognizability and
+user-friendliness. This identifiability is enhanced by allowing an optional, unique,
+human-readable name to be assigned to an Identity using the DAV Naming Service, a service
+inspired by the Ethereum Domain Name Service​7​.
+Note that the concept of a DAV Identity is separate from a wallet. A certain identity can be
+connected to one wallet one day and a different one the next. This disassociation enables
+different emergent behaviors within the DAV network. For example, the owner of an
+autonomous charging station may sell that station to another person, without the buyer losing
+that Identity's transaction history, by changing the wallet it is attached to (and most likely
+generating new cryptographic keys required to control that station). Another example is a
+timeshare-like ownership of a drone by a group of people controlled by a multisignature
+contract that changes the wallet based on days of the week.
+VI. 2. DECENTRALIZED DISCOVERY
+
+One of the most transformative aspects of DAV is the ability for autonomous vehicles to
+discover each other, as well as service providers and clients around them.
+Decentralized discovery represents the difference between a world where introducing a
+vehicle to a new environment requires building a support structure around it (e.g., charging
+and service stations, parking, etc.), and a truly connected world where any autonomous
+vehicle can operate in any environment, consuming services around it as the need arises.
+DAV implements this decentralized node discovery using a peer-to-peer protocol that is
+based on Kademlia​8​ DHT (the same algorithm used by Ethereum's node discovery, as well as
+popular peer-to-peer protocols such as BitTorrent).
+In Kademlia, each node is assigned a 160-bit opaque ID. Kademlia’s lookup algorithm
+locates a node through a series of hops, with each successive hop converging closer in XOR
+distance to the lookup target. This enables node lookups with logarithmic difficulty and has
+been proven to scale remarkably well.
+In DAV, each node in this peer-to-peer network represents a single DAV Identity and is
+identified by a unique ECDSA public/private key pair. This is separate from the key pair used
+to identify wallets on the blockchain (in fact, a DAV Identity may switch between different
+wallets without changing its public/private key). Unlike in Kademlia, node IDs within DAV’s
+
+network carry with them extra function, as they take the form of a cryptographic hash of an
+ECDSA public key (​kpublic), and all outgoing messages are signed using the matching
+private key (​kprivate). The authenticity of any message received can be verified using that
+signature and public key. This ensures that malicious actors cannot pose as other nodes and
+forge messages (an attack known as a Spartacus attack) and creates a common identifier
+between the on-blockchain and off-blockchain representations of each identity.
+This protocol enables general-purpose data transport and an interface for applications to
+communicate via a peer-to-peer network. This sits at the heart of DAV's decentralized
+discovery, as well as enabling its decentralized communication.
+An interesting aspect of DAV is that its building blocks allow one to build discovery as a
+service on top of the DAV stack, as shown by our proof of concept Mission Control server.
+This allows for some interesting possibilities, such as allowing existing ride-hailing
+companies to operate their own network of autonomous vehicles, within their own app, while
+still enjoying DAV's other benefits, such as access to a network of token holders, service
+discovery, and more. Another example might be a discovery service listing only charging
+stations that have been verified by a third party to exclusively use renewable energy sources.
+This flexibility is integral to DAV's philosophy and is supported by its modular nature.
+VI. 3. DECENTRALIZED COMMUNICATION
+
+Decentralized communication is key to facilitating most types of operations within the
+DAV network. This communication can be divided into two groups: on-blockchain
+communications and off-blockchain communications (peer-to-peer communications).
+On-blockchain communications take the form of messages that are communicated through
+events emitted by smart contracts (e.g., a transfer event when cryptocurrencies are transferred
+between parties), as well as messages communicated by the entities using the network to the
+smart contracts (e.g., a state update sent by a drone to the mission contract as part of the
+intra-mission communication). These two types of communications should be quite familiar
+to anyone experienced with DApps.
+Off-blockchain communications occur directly between two nodes, as well as following the
+publish/subscribe pattern wherein an entity publishes a message to ​n-subscribers that have
+shown an interest in messages that match certain attributes (also known as content-based
+message filtering). An example of the latter type of message would be an electric vehicle
+broadcasting (i.e., publishing) a need for a battery changing station that matches certain
+attributes (e.g., geographical location, plug type). This message would reach all the matching
+stations (i.e., subscribers). In response, charging stations may respond directly with a bid (as
+described under Decentralized Mission Planning and Coordination), an example of direct
+communication between two nodes.
+DAV's peer-to-peer publish/subscribe system is based on an extension to Kademlia that is
+based on the Quasar​9​ algorithm. We are working to improve on a few of the issues identified
+in Quasar, namely latency, advantages to peers in close XOR distance rather than
+
+geographical distance, and the ability for nodes to refuse to relay messages when it is
+advantageous to them to do so.
+VI. 4. DECENTRALIZED MISSION FLOW
+
+Allowing autonomous vehicles and services to discover each other and communicate with
+each other are only the first steps in creating an autonomous ecosystem.
+To enable a successful exchange of services between two or more parties, DAV offers a
+communication protocol designed to ease each step of the mission flow – from the initial
+statement of need through bidding, service fulfillment, and eventually payment.
+These steps are executed off-blockchain using peer-to-peer communication and are governed
+and enforced by a number of smart contracts on the blockchain.
+VI. 4.1. NEED
+
+The story of each mission begins with a DAV Identity (a buyer) that requires a service
+broadcasting a request for that service. At its core, that buyer is defining a need. This Need is
+then broadcast to all DAV entities that are able to provide that service. As an example, let's
+take a person looking to ship a package to a friend who lives in the city. That user broadcasts
+a Need to deliver a package of a certain size from coordinate α to coordinate β at a certain
+time. In turn, a drone looking to deliver that package might broadcast its own Needs, such as
+a charging station within 500 m of coordinate β and a robot able to do the "last mile" of the
+delivery from a rooftop landing station to the second floor of the building at coordinate β.
+The message containing the Need includes a number of fields, which are mandatory to all
+Need messages, as well as a payload with additional details specific to the type of service
+requested (e.g., package weight, number of passengers, etc.)
+VI. 4.2. BID
+
+The second part of the mission flow is the Bidding process. Any Identity (a seller in this
+case) listening to incoming Needs can respond with a Bid to fulfill that Need. The Bid is sent
+directly to the buyer and, like the Need, includes a few mandatory fields common to all Bids,
+as well as a payload containing additional details relating to the specific type of service. For
+example, a drone responding to a request for a ride might include the price for completing the
+mission, an expiration time for the Bid, the drone's current location, estimated time of pickup,
+estimated time of delivery, and additional details like whether it requires a third-party
+arbitrator to sign the contract.
+Note that the entire flow is asynchronous. The drone from the previous example might
+receive the Need and, before sending its Bid, broadcast its own Need asking for Bids from
+insurers to insure the delivery. Once the drone receives a Bid from insurers, it can calculate
+the total cost of the delivery and make its Bid for the delivery job. Only once it is awarded the
+delivery job will it sign the insurance contract. Note that in this example, the drone is both a
+buyer and a seller of services.
+
+VI. 4.3. CONTRACT SIGNING
+
+Once the buyer has received a few Bids and has made a decision based on the Bids’ details,
+as well as on the Identities and transaction histories of the sellers, a smart contract can be
+signed between the relevant parties.
+DAV smart contracts support transfer of the consideration to be paid peer-to-peer on the
+Ethereum blockchain in virtual currency payment tokens (not access tokens) once a mission
+concludes successfully (verified by signatures from both parties, external oracles, or
+multisignature contracts involving third-party arbitrators), refunds, staking amounts for
+insurance, and more.
+As part of the DAV’s developer-centric platform, DAV will develop tools to enable
+third-party developers to create domain-specific multi-step contracts to be used on the DAV
+network.
+
+VI. 4.4. INTRA-MISSION COMMUNICATION
+
+While not a mandatory step of all mission flows, intra-mission communication using
+DAV's Decentralized Communication protocol allows a transfer of data and state messages.
+This can be extremely useful on-blockchain, such as in multi-step mission contracts, as well
+as off-blockchain, allowing direct communication between buyers, sellers, and oracles.
+For example, a multi-step smart contract between a drone and a client looking to ship a
+package can be updated as the mission progresses through various steps (travel to pickup
+location, pickup, travel to destination, etc.) This on-blockchain data can later be used by
+another contract that was created to insure the transaction.
+Another example might be intra-mission communication between vehicles establishing
+collaborations to decrease the number of empty trips 10​
+​ .
+
+Fig. 10 - Example: Collaboration between vehicles decreases the number of empty return trips from four to one
+
+VI. 4.5. CONTRACT RESOLUTION
+
+Smart contracts may contain a number of conditions, which can lead to one of several
+resolutions. This differs from contract to contract, but the most common scenario occurs once
+a mission has been completed successfully: the two parties both send a message to the
+contract indicating their satisfaction, which is immediately followed by a release of funds
+from the contract to the seller.
+VI. 5. ACCESS AND DECENTRALIZED SETTLEMENT
+
+In order to fuel the DAV network, DAV Foundation created the DAV token that is required
+for accessing the DAV network and using of the DAV stack. The DAV token is fully ERC-20
+Token Standard​11​-compliant. It implements the ERC-20 token interface, with a few additions
+that extend its functionality for the unique needs of the DAV network, as well as addressing a
+few of the known security issues of ERC-20 tokens.
+DAV tokens are required for accessing the DAV network for each transaction, i.e.
+onboarding onto the DAV network by creating a DAV Identity. The amount of DAV tokens
+required for accessing the DAV network depends on the type of user, e.g. providers such as
+drone providers or a charging station providers or consumers, as well as supply and demand,
+i.e. the quantity and type of infrastructure provided. In order to establish an optimum balance
+between different participants, anyone in the community, including DAV, can incentivize the
+onboarding of certain types of ecosystem members whose services are highly demanded and
+may increase the price of access for network participants that are "too frequent". For instance,
+in an environment where there are not enough drones to serve the demand, those in the
+community who feel that more drones are needed may incentivize the onboarding of
+additional drones by transferring DAV Tokens for the access of drones to the network. The
+community member essentially whitelists that service (in this case more drones) and transfers
+the DAV Tokens for the access of the whitelisted drones to the DAV network.
+
+The proceeds from the sale of the DAV tokens are used for the further development of the
+DAV network and financing the incentive function (see below). Further, DAV tokens also
+help to confirm identity and track the population that is onboarded, which is something that
+would then be fully transparent on the blockchain.
+As regards the services provided between participants of the DAV network, the DAV stack
+provides also for a decentralized peer to peer settlement between the relevant participants by
+using DAV’s Decentralized Payments contracts which enable secure, trustless transactions
+directly between participants in the DAV network. The relevant participants may agree to
+settle the provided services in virtual currency payment tokens (not access tokens) available
+on the Ethereum blockchain.
+While the settlement directly takes place between the participants, mission contracts use a
+specialized contract to gain additional functionality when making payments between DAV
+Identities. This contract serves as the glue between a DAV Identity and a service provided or
+received within the DAV network, providing additional features, such as paying for missions
+using an account's own tokens balance. In addition to the specialized functionality it enables,
+the payment contract also keeps track of which Identities are whitelisted as a result of DAV
+Tokens for the access to the network having been transferred by other community members.
+VI. 5.1. INCENTIVE FUNCTION
+
+In order to foster the use of certain services provided on the DAV network, DAV offers an
+incentive function allowing to whitelist ecosystem members in order to incentivize the
+provision of certain services.
+When an ecosystem members decides to incentivize another ecosystem member (e.g. a
+seller running a charging station) it may transfer DAV Tokens on behalf of the relevant
+ecosystem member to be whitelisted. When creating an incentive, a limit is also placed on the
+maximum number of DAV Tokens that may be transferred on behalf of an ecosystem
+member to be whitelisted.
+An example of this structure would be a charging station manufacturer incentivizing
+homeowners to buy and place charging equipment in their driveways. If the cost of accessing
+the DAV network of each station is some X amount of DAV Tokens, the manufacturer may
+transfer such amount of DAV Tokens on behalf of the homeowner and whitelist each of these
+new charging stations to receive access to the DAV network.
+VII.
+FUELING A NEW ECOSYSTEM
+
+DAV is committed to the success of its platform and to the success of the economy and its
+participants who are building and deploying the next generation of autonomous vehicle
+transportation and infrastructure.
+To help grow the Internet of Transportation and jumpstart the network effect, the foundation
+will actively incentivize early adopters in select cities, establishing favorable market
+
+conditions and lowering barriers to entry. DAV cities will be designated by the foundation
+based on the following criteria:
+● Autonomous-vehicle-friendly regulation
+● Financial incentives from local EDOs (i.e., economic development offices)
+● Viable use cases and populations of early adopters
+● Deployment of UTM​12 for integrated airspace management through e-registration,
+e-identification, flight planning, geofencing, airspace authorization, flight tracking,
+and live telemetry services
+The DAV incentives function enables ecosystem members including DAV to incentivize
+certain services of the DAV network by providing bounties directly to consumers and
+enthusiasts in DAV cities, to autonomous transportation services, and/or to autonomous
+vehicle companies for purchasing services from within the transport economy, such as
+charging or maintenance.
+By deploying a predefined portion of its capital this way, the foundation aims to seed
+sustainable transport economies of participants and help jumpstart city-wide network effects.
+VIII.
+
+FUTURE WORK/ROADMAP
+
+The core team behind DAV will work with the community to continuously document,
+publish, and open source proof-of-concept releases, in which each iteration will be more
+daring than the previous in terms of adding new autonomous vehicles and participants, as
+well as smarter functionalities, across longer distances and in more countries.
+Our major milestones for development and go-to market are:
+● MVP #1 - World’s first autonomous vehicle to autonomously bid for delivery
+services, complete them, and get paid using tokens directly to its own wallet.
+● MVP #2 - World’s first autonomous vehicle to pay for its own battery replacement
+using tokens and take off to complete its delivery mission.
+● MVP #3 - World’s first autonomous vehicle to pay another autonomous vehicle
+(robot) using tokens for completing the last mile of a delivery mission.
+● MVP #4 - Longest drone delivery flight ever, flying cross-country using the support
+of multiple DAV battery-changing stations along the way.
+● Additional Development - Add support for robotic vehicles, cars, and marine vessels.
+IX. CONCLUSION
+
+At the critical convergence of autonomous transportation technology and blockchain
+technology, DAV’s open-source decentralized identity, discovery, mission coordination, and
+payments enable users, service providers, maintenance providers, third-party developers, and
+investors to become part of a new economy and monetize the transportation system of
+tomorrow.
+Change is coming, and the opportunities are numerous. Just as the Internet enables P2P
+transfer of information, and as blockchain enables P2P transfer of value, the DAV network
+
+enables P2P transfer of physical objects.
+
+ACKNOWLEDGMENT
+
+We would like to express our gratitude to the people who supported us as we wrote this
+paper. A special thanks to Andrew Grunstein, John Frazer, Rachel Linnewiel, Joseph
+Lopardo, Eyal Hertzog, and Elizabeth Horstman. Your support and feedback were truly
+important to us in improving this document. Thank you.
+
+REFERENCES
+
+[1]
+[2]
+[3]
+[4]
+[5]
+[6]
+[7]
+[8]
+
+OSCC - http://oscc.io/
+
+[9]
+
+B. Wong, S. Guha. Quasar: A Probabilistic Publish-Subscribe System for Social Networks. Dept. of Computer Science, Cornell
+University, Ithaca, NY, February 2008.
+
+Apollo - http://apollo.auto
+DroneCode - https://www.dronecode.org/
+Paparazzi UAV - http://www.paparazziuav.org
+ROS - http://www.ros.org/
+OpenROV - https://www.openrov.com/
+N. Johnson. EIP-137 Ethereum Domain Name Service - Specification. April 2016.
+P. Maymounkov and D. Mazières. Kademlia: A Peer-to-Peer Information System Based on the XOR Metric. New York University,
+March 2002.
+
+[10] Example for non-collaborative and collaborative vehicle routes of two carriers. Dotted arcs are empty return trips (Adenso-D´ıaz et
+al., 2014a)
+
+[11] F. Vogelsteller, V. Buterin. ERC-20 Token Standard. Ethereum Foundation (Stiftung Ethereum), Zug, Switzerland, November 2015.
+[12] Unmanned Aircraft System (UAS) Traffic Management (UTM) https://utm.arc.nasa.gov/index.shtml.
+
+

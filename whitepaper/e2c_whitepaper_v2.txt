@@ -1,0 +1,1278 @@
+WHITEPAPER
+
+Contents
+1. Project properties
+
+3
+
+2. Stages of creation
+
+4
+
+2.1 Creation of the node
+
+4
+
+2.1.1 Creation of required models
+2.1.2 Creation of transactions mechanism
+2.1.3 Creation of data storing model
+2.1.4 Storage of transactions sequence
+2.1.5 Creation of a system for block receiving and verification
+2.1.6 Creation of a system for PoS tickets storage
+2.1.7 Creation of PoS raffle
+2.1.8 Creation of event for choosing a winner for dependent nodes
+2.1.9 Registration of dependent nodes from public Р (read-only)
+2.1.10 Automatic validation of dependent nodes
+2. 2 API creation
+
+12
+
+2.2.1 Creation of API to receive the general information from
+blockchain
+2.2.2 Creation of API for transaction sending
+2.2.3 Creation of API for receiving of balance of an address
+3. Market Analysis
+
+1
+
+15
+
+3.1 Analysis of competitors
+3.2 Analysis of potential users
+3.3 Calculation of the price of the token based on global statistics
+3.4 Prospects of the industry
+3.4 Analysis of risks
+4. Allocation of collected funds
+
+25
+
+5. Usage of the token
+
+28
+
+6. Brief description of the panels
+
+31
+
+7. The example of the energy exchange system operation principle
+
+32
+
+8. Our products
+
+34
+
+8.1 Wallet
+8.2 Block explorer
+8.3 Telegram bot
+8.4 Wiki
+
+2
+
+15
+20
+20
+22
+23
+
+34
+37
+38
+39
+
+9. Roadmap
+
+40
+
+10. GitHub
+
+41
+
+11. Team
+
+42
+
+1. Project properties
+Are you an owner of a solar battery and you’re forced to sell your energy
+to a power plant at a low price? Or are you a business owner and forced to
+buy at a higher price? Our platform is designed to solve this problem with the
+help of revolutionary technology Proof-of-stake.
+Two hundred years after the invention of electricity humanity still continues to
+confront the global problems related to it: in many countries, electricity is
+excessively expensive but what is worse is that millions of people around the
+world still don't have access to this vital resource.
+Our platform can solve both of these problems. First of all, we will be able to
+provide an opportunity to trade electricity between people around the world,
+overcoming millions of miles while creating a price, which will be fair and
+same for all the world's inhabitants.
+Where there is no electricity, we will introduce our patented new generation
+solar panel technology which takes up much less space and is cheaper to
+purchase.
+Based on Proof-of-stake technology, our platform is much more efficient in
+terms of energy consumption, unlike Bitcoin and Ethereum, which require
+huge power costs to maintain efficiency.
+Hundreds of billions of dollars are invested annually in electricity but they are
+not able to solve the tasks set. It's time to introduce the latest technology in
+this field. The investment in our project is the investment in the future of
+mankind.
+
+3
+
+2. E2C blockchain creation
+2.1 Creation of the node
+2.1.1 Creation of required models
+To create blockchain you need to describe models of all objects that the
+blockchain will deal with. The following objects belong to this group: block,
+transaction, address, ticket, event.
+New models, not described in TA, can be added if needed. But all of the ones
+stated above must be present.
+
+Block must contain the list of transactions, a hash of previous block and a
+verification signature.
+Transaction must contain information about funds transfer: a transaction
+hash, where from, where to, total, a list of used addresses and a verification
+signature.
+Address must contain information about all changes so that it is possible to
+receive a correct balance and check the ability to conduct transfer.
+
+4
+
+Information about transfers will be stored in a list and will have such fields: id,
+address of the recipient, total, id of a parent transaction.
+Ticket must contain information about participant: amount of coins, address
+of the participant.
+Event is a technical model required to correct communication between
+nodes. It must contain information about the type of notification, message,
+source (who sends it), code and list of technical details needed to process
+the message.
+Output transaction is a model that allows quick calculation of address
+balance and conduct payments in the network without the need to go through
+all transactions of the address every time.
+
+public class Transaction {
+private final String hash;
+private final byte[] from;
+private final byte[] to;
+private final double amount;
+private byte[] signature;
+private final long timestamp;
+private final List<String> inputs;
+private final List<TransactionOutput>
+outputs;
+
+5
+
+2.1.2 Creation of transactions mechanism
+Transactions are objects that form blocks, they are the main term of
+blockchain. Thanks to transaction it is possible to conduct funds transfer from
+one address to another.
+Transaction can be created using public of dependent node. To create a
+transaction the node needs to check whether there are enough funds in all
+UTXO that belong to the current address to send a transaction and pay
+commission fee. If there is enough, a new object of transaction is created (to
+make the calculations simpler all the previous TransactionOutput objects are
+deleted and instead 2 new objects are created: delivery of funds by the
+recipient and returning of the change to the sender. Right after they are
+created signature is generated using a private key of the node (address).
+Generated and signed transaction can be broadcasted across the network.
+
+2.1.3 Creation of data storing model
+An important question when creating blockchain is the effectiveness of
+data storage to have access to the history and ability to quickly verify the
+needed information. Lots of data (for example actual UTXO of addresses) will
+be copied to the hard drive and RAM as they need to be accessed quickly.
+
+6
+
+For other kinds of data, it is important to find a way to store them efficiently
+and for a cheap price so that it is possible to access the information that is
+needed.
+To solve this problem clustering is used. It allows quick access to any
+information within the cluster no matter how compactly it is stored. To
+maximize efficiency the following model of clustering is offered: a cluster of
+address which contains all the information about the address transactions.
+For a faster search, this information can be separated into smaller clusters –
+by blocks.
+Within a block cluster, compressed information about the participation of the
+address in the block will be stored. Besides this, there will be a general block
+cluster that will contain information in a compressed form about the block.
+This item is needed for active change and addition during traffic testing, so
+the interface of data storage can be easily changed.
+
+public static Path getFirstFileByRegexp(String
+directoryPath, String regexp){
+try {
+Iterator<Path> iterator =
+Files.newDirectoryStream(Path.of(directoryPath),
+regexp).iterator();
+return iterator.hasNext()?iterator.next():null;
+}catch (Exception e){
+return null;
+}
+}
+
+7
+
+2.1.4 Storage of transactions sequence
+The sequence of transactions is stored in a block and is verified when the
+block is created. If there is an error in the sequence of transactions, the
+transaction gets automatically removed from the block and deleted as invalid.
+Authors of invalid transactions can be penalised if needed which can be as
+much as withdrawing their node from participation in the blockchain.
+Block hash is created based on all transactions that are involved in the
+creation of the block.
+Example of contents of the block:
+818a3cfb570623059559497ea7c845ba165fa486440e3e05982b98b97bcb11c
+4
+a4c4e0a940ca996851c98836bdc14d09d2f92fd6f3ab96bc5eba3a12ef61055d,
+478efba5cb699500b6f805c4c8b1dda3c579ee8d9d6b31e300ff1bec76e4979f,
+7424e3fff925e2f58a6e2589b82d21267c0cc65c55c40bda5b0c2417001fc4c6,
+where first item is a hash of the previous block, second item – transactions
+that were added to the current block.
+
+2.1.5 Creation of a system for block receiving and
+verification
+Receiving (storing) of block happens right after the verification. To do
+this, a node that receives the block generates its signature for this block
+including the last block that it knows about, and, in this way, it verifies if it
+belongs to the current blockchain and if it is correct. It can be done thanks to
+the presence of signature generation for the block of previous block hash in
+the algorithm. As a result, only blocks with correct data will be added to the
+blockchain. After the block is received, transactions that were added to the
+block will be deleted from the pool of pending transactions.
+
+8
+
+2.1.6 Creation of a system for PoS tickets storage
+In PoS system the complicity of block creation is significantly easier than
+in PoW and a mechanism is needed to prohibit the creation of the blocks
+right after the first transaction is received and monopolising block creation by
+improving bandwidth for a faster broadcast. To solve this problem, there will
+be strict time limits as to when the block is formed and the node that can
+create it and receive a reward will be chosen randomly.
+To synchronise the participants and to eliminate the possibility of choosing
+different winners in every node there is a stable algorithm, that is based on
+the parameters that are calculated within the blockchain. New nodes will be
+able to participate in block generation only after one iteration after the
+broadcast is over to make sure all nodes have received a new participant to
+choose a winner.
+
+2.1.7 Creation of PoS raffle
+The raffle happens every once in a chosen period of time if at least one
+transaction is pending in the pool. If there are no transactions in the pool, the
+current iteration is skipped, and the block is not formed.
+Only nodes that were registered before the raffle starts can take part in it.
+After this, the list of participants is generated by adding all existing nodes to
+a new list in amounts that depend on the weight coefficients of the node.
+Weight coefficients can be the number of coins, time of coins holding etc.
+
+9
+
+After the list is formed, it is sorted in ascending order. A winner is chosen
+randomly from the sorted list. The seed of the random number generated is
+the height of the current block and some other constant parameters.
+
+2.1.8 Creation of event for choosing a winner for
+dependent nodes
+Right after the raffle, the winner must generate a new block and broadcast
+it. After that, a new session starts. This is done by using a system of events
+that shares a block among all nodes and if the author of the block is a winner
+of the last raffle, the node accepts its block. If by the start of the next winner
+raffle the node has not received a new block, it tries to receive it from a
+different node. If no nodes have a new block, the block is created
+independently for each node. If there is no winner, the reward will not be sent
+to any of the nodes.
+
+10
+
+2.1.9 Registration of dependent nodes from public Р
+(read-only)
+To have an opportunity to participate in raffles, receiving additional events
+and block generation (private functions), a node has to send a request for
+registration as a participant and a fully functioning node. To do this, a request
+is sent to any other node to start a full synchronisation and work and
+information about this is broadcasted to the rest of the network. After that, a
+new node waits for the end of the current raffle session and can participate
+starting from the next one raffle.
+
+public class Event {
+private long timestamp;
+private int type;
+private String message;
+private String sender;
+private Object additionalData;
+
+2.1.10 Automatic validation of dependent nodes
+To avoid situations of dead nodes when a registered node is turned off
+and never participates in the raffle/event receiving, once in n minute the main
+node conducts a “poll” on the activity (ping) of the dependent nodes. If the
+node does not respond correctly, it is removed from the list of dependent
+nodes.
+
+11
+
+After this, all the other nodes receive an event about the removal of a
+dead node.
+
+2.2 API creation
+2.2.1 Creation of API to receive general information
+from blockchain
+Each node will have its own API to receive information about the
+blockchain state, blocks, transactions and account balance. Main methods
+are accessible on the public node:
+!
+!
+!
+
+Receive block by height/hash
+Receive transaction by hash
+Receive account balance
+
+All these features will be implemented through a request to a full
+(synchronised) node if the current node is in the mode of minimum
+configurations. In this case the node cannot create its own transactions,
+wallets (addresses), or take part in raffle. If the node is registered in the
+network and synchronised, all of these requests will send data received from
+the information that is stored on the current node.
+
+12
+
+{
+"amount": 10,
+"signature":
+"304502200D934AB07B667ECD6176B504CBC0C2127A41F7D
+CE662933B16FB658DE1B254E3022100DB127A45EB53C18E0
+D0ADE76147CBCA453C5F671DDF91992B911B0B34FA6A757"
+,
+"pending": false,
+"from": "33D89780025196A35282A1823488546CC1FFB30E",
+"to": "DE1E16E4A1405ED4E0AFBD2A73BFDA88097252A7",
+"hash":
+"a4c4e0a940ca996851c98836bdc14d09d2f92fd6f3ab96bc5eba3
+a12ef61055d",
+"timestamp": 1548775640383
+}
+Example of fetching transaction request.
+
+2.2.2 Creation of API for transaction sending
+Sending of transaction can be conducted only on a fully synchronised
+node. This is because this operation requires a pool of pending transactions
+and connections with other nodes. The request must include the address of
+the recipient and of the sender, which the node has access to. The third
+parameter, which is the last one, is the amount that needs to be transferred.
+In case when there is no access to the sender`s address, a response with
+message about error will be sent.
+The system will behave the same when there are not enough funds on the
+balance of the sender`s account. But if the request is successful, transaction
+is added to the pool of sent transactions, all UTXO of the user are updated
+and the hash of the newly created transaction is sent as a response.
+
+13
+
+When the next block is generated, this transaction will be included in it and
+distributed across the network.
+
+REQUEST:
+{
+"from":"33D89780025196A35282A1823488546CC1FFB30E",
+"to":"DE1E16E4A1405ED4E0AFBD2A73BFDA88097252A7",
+"amount": 10
+}
+RESPONSE:
+{
+"txHash":
+"a4c4e0a940ca996851c98836bdc14d09d2f92fd6f3ab96bc5eba3
+a12ef61055d"
+}
+
+2.2.3 Creation of API for receiving of balance of an address
+To receive balance of the address it is only needed to enter account
+address as a parameter. After that all UTXO connected to this address will be
+calculated including validation whether the corresponding transactions were
+added to the block. After that, the user receives information about the
+balance and how many of them are confirmed/unconfirmed.
+
+NODE_ADDRESS/balance?address=DE1E16E4A1405ED4E0A
+FBD2A73BFDA88097252A7
+Fetching balance request example
+
+14
+
+3. Market Analysis
+3.1 Analysis of competitors
+Our platform uses similar but fundamentally different means for achieving
+this goal. Here is a comparative description of our platform with several
+others.
+
+15
+
+Criteria
+
+E2C
+
+WePower
+
+PowerLedger
+
+RestartEnerg
+
+Licensed
+energy provider
+
+yes
+
+no
+
+no
+
+yes
+
+The ability to raise
+funds for an energy
+producer
+
+yes
+
+yes
+
+no
+
+yes
+
+Blockchain-based
+smart-contract
+token
+
+yes
+
+yes
+
+yes
+
+yes
+
+The possibility to
+use token to pay
+for electricity
+
+yes
+
+yes
+
+yes
+
+yes
+
+A business
+ecosystem that
+provides jobs
+
+yes
+
+no
+
+no
+
+yes
+
+P2P trading
+
+yes
+
+yes
+
+yes
+
+yes
+
+16
+
+Criteria
+
+E2C
+
+WePower
+
+PowerLedger
+
+RestartEnerg
+
+The possibility
+to freeze
+purchased
+energy
+
+yes
+
+no
+
+no
+
+no
+
+Energy
+statistics
+
+yes
+
+no
+
+no
+
+no
+
+Solutions to the
+problem of total
+lack of energy
+
+yes
+
+no
+
+no
+
+no
+
+Failure protection
+mechanism
+
+yes
+
+no
+
+no
+
+no
+
+The ability to
+receive free tokens
+
+yes
+
+no
+
+no
+
+no
+
+Price
+notification
+
+yes
+
+no
+
+no
+
+no
+
+Constant contact
+with our users
+
+yes
+
+no
+
+no
+
+no
+
+Convenient
+telegram-bot
+
+yes
+
+no
+
+no
+
+no
+
+None of the competitors can solve the problem of a total lack of energy
+in any part of the world. But we are able to provide a solution with the help of
+our patented new generation solar panel technology.
+Moreover, our goal is the world market. It will not be enough for us to settle in
+several countries. We are committed to our goal and will do everything
+possible to realize it.
+
+More details about some of
+our advantages:
+
+17
+
+Proof-of-stake technology.
+
+Energy statistics.
+
+Due to a significant reduction in
+the amount of electricity
+consumed, fee for transfers will
+be significantly lower than in
+Bitcoin or Ethereum
+blockchain.
+
+We will be able to provide
+anonymous statistics on all
+transactions for any time as
+well as forecasted supply /
+demand, which will allow you to
+independently analyze the
+market and make a decision on
+investing in our tokens.
+
+The possibility to freeze
+purchased energy.
+
+Failure protection
+mechanism.
+
+A unique opportunity that is
+available only in our service.
+When you want to buy a certain
+amount of energy now and use
+it later. We offer to keep your
+energy for a low fee in tokens
+until you need it.
+
+After the successful purchase
+of the order, we freeze seller’s
+energy and buyer's tokens
+exactly until a full confirmation
+of the fact that the energy was
+received by the buyer, which
+guarantees 100% security of
+the transactions.
+
+The ability to trade in automatic mode.
+In just a few minutes you will be able to set up your personal bot which
+will search for orders on the given parameters and by the specified
+quantity. Built-in automatic trades relieves the service load by
+eliminating the need for third-party programs that carry a negative load
+on the platform.
+
+18
+
+The ability to receive free
+tokens.
+
+Telegram bot.
+
+This feature of our system is
+related to Proof-of-stake
+technology. To confirm the
+block, the system selects the
+holder's token in a random
+order, giving preference to the
+one who has more of them and
+awards him with a certain
+number of tokens specified in
+the smart contract.
+
+We will provide you with a
+telegram bot which will have
+the complete functionality to
+work with our platform. If you
+already use this popular
+messenger, then you don’t
+need to install anything else.
+You can communicate on the
+network and trade or use other
+features at the same time.
+
+Price notification.
+To save time, we give the option to set up notifications if the price for
+energy has reached the level you specified. There will be notifications
+via email, web, and telegram.
+
+Current price = Desired price- Delta
+
+19
+
+3.2 Analysis of potential users
+Our potential users are people who already consume or produce energy.
+For example, owners of private enterprises which consume electricity or
+owners of solar panels. These people usually don’t have much choice when
+buying electricity and are forced to accept the terms and prices of power
+plants. They cannot disagree even with clearly excessive prices since they
+don’t have an alternative choice.
+With the help of our platform, these people will be able to sell and buy
+electricity on more favorable terms which will allow them to significantly
+increase profit from selling their own energy and save money when buying it.
+This all will be possible due to E2C token which can be freely traded and
+exchanged for energy using our platform. Our token can overcome
+geographical and temporal barriers which positively affects the efficiency and
+profitability of its use.
+Also, various ways to manage the token (convenient site, mobile, desktop
+application) will make it easier to simplify this process and save time. And
+blockchain peer-to-peer technology ensures the decentralization, security,
+and anonymity of using our token.
+
+3.3 Calculation of the price of the token based on global
+statistics
+On the basis of global energy statistics, we expect electricity to cost 0.08
+$ for 1kW.
+The estimated initial number of users of our platform is 7 million people.
+On average, one solar panel produces about 10 kW of energy per day.
+
+20
+
+The average volume from one seller per day is also equal to 10kW, with their
+number of 30% of all users, the daily turnover of tokens from the sale is:
+
+DV = UA * PP * AT * TP
+Where DV is the daily turnover,
+UA is the average number of users of the system,
+PP is the percentage of energy producers,
+AT is the average tariff per kW of energy on the market,
+TP is the price of the token
+
+At the same time, it is expected that 20% of all tokens
+will be on cold storage.
+
+The planned initial cost of the token is equal to average price for 1 kW in the
+world -> 0.08 $; to calculate the real value of the token, the impact of a lower
+daily income at the start of the platform, an increased number of tokens at
+the start, etc should be taken into account. Therefore to calculate the token
+price, we use the following formula:
+
+21
+
+TP = (EP - 5%) * DD* TH
+Where TP is the expected price of the token at the start,
+EP is the expected price of the token, 5% is the impact of the
+dump when entering the market,
+DD is the difference between starting price and expected price,
+TH is the impact of the increased number of token holders.
+
+On the basis of all above-mentioned factors, we get a price
+of 0.02 $ per token.
+In view of the above, total emission is 971,550,999 Е2С.
+This is the optimal amount based on the project transition to the POS
+algorithm because it provides a full covering of market needs and energetic
+sphere.
+
+3.4 Prospects of the industry
+Modern society constantly depends on the energy and contribute
+impressive funds to this field annually. Amount of investments increases
+every year as well. Prospects of this industry are almost infinite since
+humanity will always aim at new and more efficient electricity solutions.
+The maximum growth is expected in the wind power field where annual
+investments will be $140 billion in 2020 and %206 billion in 2030 as
+compared to $82 billion in last year. On the second place, there is the solar
+energy sphere where a significant decrease in expenses will cause a 20-time
+increase of established power within 20 years – in comparison with 51 GW in
+2010, there will be 1,137 GW in 2030.
+According to the experts, such increase will need $130 billion of investments
+per year.
+
+22
+
+In the bioenergy field, there will also be a burst of activity as far as secondgeneration technologies commerce. Annual investments in biofuel and getting
+energy from biomass and waste will increase from $14 billion in 2010 to $80
+billion in 2020 and then will be stable during the next decade.
+Of course, we can provide you with even more proofs but we are sure that
+potential of the industry is obvious. As far as the energy industry is
+developed, our platform is developed, too, which ensures huge prospects of
+growth for it.
+That’s why we think that the implementation of our own energy token will be
+in a huge demand since the project community has enough time to
+implement all system and take the market share.
+
+3.5 Analysis of risks
+The first and the main risk will occur if people don't need energy anymore,
+which is very hard to imagine. After many years of technical progress,
+nobody will abandon the current amenities. That’s why this hypothetical risk
+can be ruled out.
+Problems connected with blockchain. Even if we imagine that such a reliable,
+time- proven system will fail, our platform will save its functionality in any
+case. We will be able to buy outdated tokens for alternative currency and
+introduce another payment system in the platform without real efforts.
+Absence of necessity to use our platform. This is possible only if the price for
+energy will be roughly the same in all countries. For that to happen, it is
+necessary to invent a cheap way of energy transferring at big distances,
+which is impossible at the moment.
+
+23
+
+Risks of centralization
+
+Regulatory risks
+
+To avoid the situation where
+the project fully depends on the
+team, we project and develop
+all systems in such way that
+they can save maximum
+separateness. And API of the
+project will allow external
+developers to make
+applications and extensions
+regardless of the team.
+
+Since the cryptocurrency field
+is not fully formed and in most
+countries, there are no rules for
+its regulation, we make many
+efforts so our modules meet
+rules of international law.
+That’s why before using our
+platform in different regions, we
+begin cooperation with regional
+lawyers to study the regulatory
+structure of the specific region.
+
+There were main risks which could call the existence of our platform into
+question. However, as you can see, some of them are just impossible now
+and some of them can be overcome by us.
+
+24
+
+4. Allocation of collected funds
+
+We present an incomplete list of expenses that need to be covered for the
+platform performance.
+Staff salary
+First of all, people who personally create our platform, applications
+which will interact with it and configure the blockchain technology:
+-
+
+25
+
+Managers of modular projects
+Web developers
+Blockchain developers
+Mobile application developers
+Desktop application developers
+Database architecture designer
+System administrator
+System architect
+Systems analyst
+Designers
+Frontend developers
+Testers
+Web security professionals
+
+Those, thanks to whom the whole world will know about us:
+- SEO specialists
+- PR manager
+
+Our representatives at various thematic events:
+-Merchandiser
+-Bloggers on social networks
+-Video bloggers
+-Advertisers
+-Promoters of Instagram, FaceBook, Twitter.
+
+Those who determine our development path:
+- Company managers
+- Specialists in strategic promotion
+- Content managers
+- Analysts
+- Energy specialists
+- Traders
+- Consultants
+- Diplomats for negotiations with companies
+
+General Staff:
+-
+
+26
+
+Interpreters
+Rewriters, copywriters
+Support
+Secretaries
+Press manager
+
+Other expenses:
+-
+
+27
+
+Domains
+Servers
+Hosting
+Web protection
+SSL connection
+Software
+Global analysis and statistics
+External API
+External backup services
+Office and staff
+Office equipment
+Google Adwords, Facebook Ads
+Google Play, App Store
+
+5. Usage of the token
+
+Our token was created with the help of Proof-of-stake based smart contract.
+This means that confirming a transaction block does not require huge
+electricity costs (as, for example, Ethereum or Bitcoin blockchain). Each
+token-holder will have a certain small number of tokens, which can’t be
+spent. If it is necessary to confirm the block, the system will randomly select
+a token-holder for validation. The more tokens on the balance, the better the
+chances to get block rewards.
+The direct purpose of the token is, of course, selling and buying energy from
+other platform participants around the world. On our platform, you can set the
+amount of energy (kW) you want to buy / sell and the price in tokens. In this
+case, a fee of 1% in tokens of the amount of deal will be charged for using
+the platform.
+In addition, the token provides a number of other important functions for the
+operation of our platform, namely:
+
+28
+
+! When placing an order to buy / sell energy, a certain number of
+tokens will be frozen until it is executed. This ensures automatic fee
+charging by the system.
+
+order
+
+platform
+
+user
+tokens
+
+frozen tokens
+
+! To provide quality support, each ticket (except the first one) to the
+support will freeze a small number of tokens until the ticket is closed. This
+provides protection from abuse when contacting support service and ensures
+fast support for each user.
+! In case of an abusive number of orders set per day, the system will
+take frozen tokens for the canceled order as a way to counteract the
+intentional platform load.
+! With enough number of tokens, the buyer will be able to conclude a
+contract with the seller with a fixed price for tokens to 1 kW. After the contract
+is concluded, the specified number of tokens will be frozen for the period
+mentioned in the contract. The seller's energy will be frozen similarly. This is
+necessary if the buyer wants to receive a certain amount of electricity not
+immediately but after a while.
+
+29
+
+! Tokens of participants are stored on personal wallets to which they
+can access through the system only. To transfer funds to another wallet, the
+user must pay a fee, which will be charged from the balance of the user's
+tokens, to the blockchain. With a high load on the block, it will be possible to
+withdraw funds faster with a higher commission.
+withdrawal
+of funds
+
+system
+
+user
+
+user's
+personal
+wallet
+
+wallet
+
+commissio
+n
+
+token
+holder
+
+The token will be available for purchase / sale on various crypto exchanges
+for many other monetary units, such as Bitcoin, Ethereum, USD. Anyone can
+buy our token, exchanged it for another currency.
+As our platform expands to the world market, we expect that government
+agencies will use our token to improve efficiency, which will make the token
+more widespread and will positively affect the competitiveness of energy
+prices.
+
+30
+
+6. Brief description of the panels
+Unfortunately, even such progressive technology as the solar panel has
+its problems. However, our patented technology is aimed to solve them!
+Large area of occupied space. To produce a large amount of energy, much
+space is needed. Our technology will allow making panel size smaller, not
+losing efficiency coefficient of work due to improved solar cell technology,
+which will be described below.
+The efficiency of usual solar panels significantly decreases in cloudy weather.
+However, this problem can be partially solved with the help of polycrystalline
+solar panels. We use this approach to improve the efficiency of solar panels.
+One more problem we solved is a gradual settling of dust on solar cells,
+which decreases the efficiency coefficient. The system of automatic cleaning,
+which we are going to patent, will allow us to avoid cyclical loss of solar
+efficiency and decrease the frequency of maintenance service of energy
+system elements.
+Our technology is aimed to improve solar cells, thus ensuring the efficiency
+of our panel in both sunny and cloudy weather.
+
+31
+
+7. The example of the energy
+exchange system operation
+principle
+The operation principle of our system is quite simple. Let’s assume in
+country A, the owner of the solar panel has put up a certain amount of
+electricity for sale. In country B, the owner of an enterprise wanted to buy this
+amount of electricity for the cost in tokens. It would be irrational to directly
+transport energy from country A to B. The buyer from country B will actually
+receive energy that was previously sold by another platform user located in
+his region.
+
+What will happen to the energy of user A? It will not leave a certain region (it
+depends on the installed power grids) and will wait for a buyer in the same
+region. Thus, users can buy / sell energy to each other, being in different
+parts of the world. And there is no need to transport energy through huge
+distances.
+We store information about the current amount of energy on each region in
+the database.
+
+32
+
+Can the supply greatly exceed demand? This situation is possible only at
+the initial stages of the platform and will eventually be eliminated. Since the
+electricity of the producers is used by a certain consumer in this region now,
+the demand / supply will be saved when they both begin to use our platform.
+A similar situation will happen with a high demand regarding supply.
+
+33
+
+8.Our products
+8.1 Wallet
+Web wallet allows users to maintain their balance using user-friendly and
+fast interface. You will not need any additional software or hardware, just
+create or import an address and then access it using specified credentials.
+If you want to erase your private key from web wallet due to specific reason,
+you always can simply delete an account and then nobody but you will have
+access to your address.
+Wallet components
+Main Page:
+Statistic data (number of registered users, number of tokens in
+the system, number of transaction in/out of the wallets etc.)
+Promotional material on wallet usage
+List of links of last transactions
+Authorisation page:
+Authorisation form (address, password, “Remember me”
+checkbox, “Sign in” button)
+Registration link
+“Access recovery” link
+
+34
+
+Registration page:
+Registration form (email, password, confirm password,
+subscribe to news, “Register” button)
+Authorisation page link
+Password recovery link
+Password recovery page:
+Password recovery form (Contact email, crypto address, text
+field “Prove your ownership”, “Send request” button)
+Error message in the case of discrepancy between email
+address and crypto address
+Text information about the format of access recovery
+Reset password page:
+New password field (new password, confirmation, “Change”
+button)
+Personal cabinet page:
+Current balance, personal address with ability to copy, last
+transactions from.to personal wallet.
+The following modules need to be present on the page (modal
+window, frames, fragments) to have such functionality: funds
+sending, full history of transactions, settings
+
+35
+
+“Funds sending” module contains the following fields: text field
+for the address, number field for the amount. Information field
+displays the service fee and the average time for confirmation.
+“Send” button. After the successful transaction a notification
+about successful operation appears with a button that takes the
+user to the “full history” page.
+
+“Full history” module contains a list of the wallet transactions
+(10 last transactions are displayed, when the scroll reaches the
+end – “Load 10 more” button). Each item of the list has a time
+stamp and the amount, colored according to the type of
+transaction (in or out). When a user chooses transaction,
+additional information appear that contains the recipient,
+sender, transaction hash, number of confirmations.
+
+“Settings” module contains a log of last authorisations (device,
+IP address, time), list of active sessions(device, IP address,
+time of session start, session expiration time), email change
+form.
+
+Support page:
+Form for contacting the support service (email address field,
+issue description, field for screenshot, “Send” button)
+Text description of support service with email address for
+contacting
+
+36
+
+8.5 Blockchain explorer
+Our block-explorer interface allows users to get information about any
+block or transaction in real time. It also can show different statistic data, i.e.
+amount of mined blocks, last block timestamp etc. Block-explorer also has an
+API, which allows using data in various self-created applications.
+Blockchain explorer components
+Main page:
+Statistic data (last block, current height, average amount of
+transactions in a block etc.)
+Field for transaction search by hash
+Field for block search by hash/height
+Field for address search
+List of last blocks and transactions
+Promo information about token (optional)
+Transaction page:
+Transaction hash
+Link to the web version
+Sender
+Recipient
+
+37
+
+Service fee size
+Number of confirmations
+Transaction size
+Block page:
+Block hash
+Time stamp
+Depth
+List of hash-links included in the transaction block
+Address page:
+Address
+Current balance
+List of links of last transactions
+
+8.3 Telegram bot
+Telegram bot is a useful feature that requires minimal set up and allows
+getting notifications and managing your account even faster. By following the
+instruction in a web wallet, you can link account with telegram and choose
+preferred properties. After that, notifications will start being delivered to your
+telegram account and simple commands (like fetching history) will become
+available.
+
+38
+
+8.4 Wikipedia
+We also have a wiki for developers to simplify the development process. It
+contains all needed information about exposed API and configuration process
+of the new node. By creating a wiki-style documentation we are trying to keep
+it as simple as possible but at the same time as informative as it could be.
+
+39
+
+9.Roadmap
+
+2018
+
+Concept. Teambuilding.
+
+Launch of the website.
+
+Landing, WhitePaper,
+preparation of a set of
+documents.
+
+Development of marketing
+strategy
+and marketing campaign.
+
+Development and deploy of
+E2C token
+on the basis of Proof-ofstake platform.
+
+Private Sale
+
+End of work on blockchain
+
+Explorer block launch
+
+Wallet launch
+
+Mobile wallet launch
+
+Telegram bot launch
+
+Creation of the video
+presentation of the project
+
+40
+
+10. GitHub
+The development of the project is closely connected with the
+development of its own smart contract, web version of the trading platform,
+mobile and desktop applications. All these decisions require the collective
+work of a group of programmers. To create a comfortable working
+environment, the version control system is used. It allows simultaneous joint
+development of application source code, automatically combining different
+versions of projects and saving all changes in the cloud.
+One of the most popular implementations of version control systems is
+GitHub. It provides a convenient interface for a variety of functions, including
+external development, a broad community, commenting projects, rating,
+requests for new functionality, bug reporting, documentation and more.
+Thus, this tool is one of the most attractive to use.
+GitHub has 2 types of repositories - open and closed. The first is available
+for any user on the Internet. Their code is allowed to read, use (under the
+terms of the corresponding license), modifications, etc. Closed repositories
+are not available from outside and are used if the project has data
+necessary to hide from users, or whose source code is prohibited for
+dissemination.
+
+41
+
+During the creation of the project, the public GitHub repository will be
+used, as it will allow monitoring the development of the project to all comers,
+offering new functionality and much more. To hide unwanted data (such as
+passwords, unique identifiers, etc.), appropriate exceptions to the rules for
+saving and synchronizing projects in the cloud will be used. Such exceptions
+are described in a file called .gitignore. It consists of a list of strings - regular
+expressions which point to files ignored by the version control system. Thus,
+a compromise is achieved between the publicity of the project for tracking
+and the privacy of the project data sections. The example of the .gitignore
+file is shown below.
+
+42
+
+11. Team
+
+Mohammed Jamil
+Chief executive officer
+
+Andrey Mosyagin
+Senior Software engineer
+
+Victoria Shevchuk
+Strategic Partnerships Manager
+
+Mohammed Dezayi
+Chief financial officer
+
+43
+
+Karina Apukhina
+Community & Marketing manager
+
+Arsenii Iefymenko
+Energy systems specialist
+
+Anastasia Maschenko
+Sales Manager
+
+Alexandr Nadvirnyak
+Blockchain Expert
+
+Tatiana Sakach
+PR Manager
+
+44
+
+Dmytro Komchuk
+Business development
+
+Аdvisor
+
+Vasyl Budko
+Energy systems specialist
+
+45
+
+

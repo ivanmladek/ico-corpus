@@ -1,0 +1,618 @@
+The Blockchain Game Platform for Emerging Markets
+
+alax.io
+Whitepaper v1.2 - February 2018
+
+Abstract
+
+ALAX is a Mobile Game Distribution Platform based on blockchain technology with the intention
+of bringing fresh air to the gaming industry around the world. DECENT and Dragonfly join forces
+to bring games to everyone including people that are unbanked (over 2 billion according to
+Findex1) but have access to cash and 3G/LTE smartphones. Their aim is to provide a platform for
+content creators and gamers alike.
+Customers will be able to access the ALAX Store using an application built using DECENT’s
+library that will provide blockchain functionality. While content providers will have access to the
+ALAX Android SDK allowing them to include a range of features such as in-app purchases,
+rewards and more. Hence, consistency is secured across all the applications utilizing ALAX.
+
+During the TGE ALAX will generate ALX tokens. These tokens can be then exchanged for ALA
+tokens, which can be used in the ALAX store. They will be offered to end users via internal
+exchange or using an existing reseller network of brick and mortar stores and mobile operators.
+ALAX’s four architectural layers manage all of these tasks. The transaction layer is responsible
+for managing all blockchain transactions between clients, publishers and the ALAX Store. The
+data layer stores all the content securely and reliably, while the ALAX Store itself provides the
+basic business logic on top of the data and transaction layers managing entities available in ALAX.
+The final layer, the application layer, is an interface for gamers and game developers.
+
+1
+
+http://www.worldbank.org/en/programs/globalfindex
+
+2
+
+Table of Contents
+
+Abstract ............................................................................................................................... 2
+Introduction ......................................................................................................................... 4
+Market and Industry ............................................................................................................ 5
+ALAX Blockchain Game Platform for Emerging Markets .............................................. 11
+Utility Tokens ................................................................................................................... 12
+Use Cases .......................................................................................................................... 13
+Architecture....................................................................................................................... 15
+Token Structure ................................................................................................................. 19
+Token Generation Event ................................................................................................... 20
+Roadmap ........................................................................................................................... 22
+Team ................................................................................................................................. 23
+Glossary ............................................................................................................................ 28
+References ......................................................................................................................... 29
+
+3
+
+Introduction
+
+Emerging Markets have a substantial amount of unbanked people. According to the World Bank’s
+Global Findex 2014 2, 2 billion adults were unbanked. Hence, most of them do not have access to
+credit and debit cards. However, they have an easy access to cash and 3G/LTE smartphones.
+
+Thus, the market constituted of mobile game developers and emerging markets residents faces the
+following challenges:
+As some people do not have access to credit cards or other means of payment via banks, but resort
+to paying only by cash, their access to some services can be severely limited. This creates a set of
+problems that although they are solvable tend to be exploited. If an unbanked end-user wants to
+purchase a game from a developer, a payment intermediary can set a high processing fee. Since
+there is no alternative for both sides, they have to accept the terms which can amount to up to 70%
+of the price of the game. This means that developer will make a lower profit and hence raises the
+price and the end user has to pay more for the app. Similarly, the provider has a longer time to
+settle the payments to the developer which can take up to 6 months and the developer has no choice
+but wait.
+
+2
+
+http://www.worldbank.org/en/programs/globalfindex
+
+4
+
+Market and Industry
+
+2016 – 2020 Global games market - forecast per segment toward 2020
+
+Source:  Newzoo | Q2 2017 Update | Global Market Report
+newzoo.com/globalgamesreport
+
+The global mobile games market is going to reach $64.9 billion by 2020. This represents almost
+a double compared to 2016.
+
+5
+
+2017 Global games market – per device & segment with year-on-year growth rates
+
+Source:  Newzoo | Q2 2017 Update | Global Market Report
+newzoo.com/globalgamesreport
+
+In 2017, mobile games generated $46.1B, which constitutes 42% of the global market.
+
+6
+
+Mobile games revenue in Southeast Asia from 2015 to 2021 (in million U.S. dollars)
+
+Source:  Statista 2018 | Media & Advertising | Video Games & Gaming | Southeast Asia mobile games revenue 2015-2021
+https://www.statista.com/statistics/631514/southeast-asia-mobile-games-revenue
+
+Mobile games revenue in South East Asia was $586.9 millions in 2015 and is expected to grow to
+$2.4 billion in 2021. Emerging markets consist of countries such as Thailand, Indonesia, India,
+Vietnam, the Philippines and some African, Latin American and Eastern European states.
+
+7
+
+Top 10 Android app stores in China – November 2017
+
+Source:  Newzoo | Insights | Rankings | Top 10 Android App Stores in China
+https://newzoo.com/insights/rankings/top-10-android-app-stores-china
+
+Google Play is not available in most of the Android phones bought in China. This includes mobile
+phones from non-Chinese brands, such as Samsung, Sony or HTC. The 4 main players in the
+mobile game and app store ecosystem cover 65.6% of the market. The total cost for the game
+developer can easily get over 70% of the fee charged when publishing mobile games in China and
+emerging markets3. This is well over the 30% charged by Google Play4.
+
+3
+4
+
+http://wnmag.com/2016/06/15/publish-mobile-game-china
+https://support.google.com/googleplay/android-developer/answer/112622?hl=en
+
+8
+
+Vendors' market share of smartphone shipments in China in 1Q'14 to 3Q'17
+
+Source:  Statista 2018 | Technology & Telecommunications |China smartphone vendor market share shipments
+https://www.statista.com/statistics/430749/china-smartphone-shipments-vendor-market-share
+
+79% of the China smartphone market is dominated by 5 companies: Huawei, Xiaomi, Apple, Vivo
+and Oppo5. In Q1 of 2017, Vivo had a global market share of 5.2% in the smartphone market 6.
+Oppo had an 8.2% global market share in Q3 of 20177.
+
+5
+
+https://www.theverge.com/2017/12/6/16741142/china-smartphone-market-stats-android-oem-2017
+https://www.statista.com/statistics/628558/global-market-share-held-by-vivo-smartphones/
+7
+https://www.statista.com/statistics/628545/global-market-share-held-by-oppo-smartphones/
+6
+
+9
+
+Chinese smartphone brand OPPO's shipments worldwide from 2014 to 2016 (in millions)
+
+Source:  Statista 2018 | Technology & Telecommunications | OPPO shipments worldwide 2014 – 2016
+https://www.statista.com/statistics/729562/china-oppo-smartphone-shipment-volume/
+
+Vivo had 77.3M smartphones shipments in 20168, which constitutes almost a 2-fold increase
+compared to 2015 and almost a 3-fold increase compared to 2014. Oppo had 99.8M smartphones
+shipments in 2016 9 and a cumulative number of shipments equalling to 84.1M in Q1-Q3 of
+201710. If one uses arithmetic mean, this will constitute to 112.1M smartphones shipments in
+2017.
+
+8
+
+https://www.statista.com/statistics/541618/vivo-smartphone-shipments-worldwide
+https://www.statista.com/statistics/729562/china-oppo-smartphone-shipment-volume/
+10
+https://www.statista.com/statistics/541609/oppo-smartphone-shipments-worldwide/
+9
+
+10
+
+The ALAX Blockchain Game Platform for Emerging Markets
+
+ALAX is a project with an intention to bring fresh air to the Gaming Industry around the world.
+The purpose is to develop and support Mobile Game Distribution Platform in emerging markets.
+ALAX is a Joint Venture (JV)11 of DECENT12 and Dragonfly13.
+
+About Dragonfly
+Dragonfly is a distribution platform for apps and games, committed to serving the global
+community with a special focus in emerging markets (2.5 billion and growing). It was established
+in 2006 launching a Push news platform for mobile users, later on advancing into mobile gaming
+development and operations. In 2012 Dragonfly sets up offices in Shanghai, Beijing, Shenzhen
+and Taipei to keep up with the demand for its products. From 2014 up to 2016 it launched PayPal
+payment in more than 70 countries and expanded to other parts of Asia, as well as South America
+and Africa. They've pioneered an integrated mobile gaming application marketplace which now
+reaches more than 100 Million Active Users worldwide. Today it maintains consumer reach and
+steady growth with conveniently pre-installed mobile marketplaces on their channel partners’
+devices. (Vivo, Oppo, Huawei, Gionee, True, Jio, MMX, Advan, Mito and more.)
+
+About DECENT
+DECENT has created an innovative and customizable adaptation of blockchain technology, called
+DCore. Their blockchain takes advantage of the Delegated Proof of Stake algorithm for fast,
+energy efficient transactions with native protocols for file sharing and decentralized storage
+rewards. This functionality, plus the strong cryptography and trustless transactions native to
+blockchains, will allow DCore to revolutionize the way digital items are exchanged worldwide.
+DCore is an open source solution for companies looking to fast-track their own blockchain-based
+ideas.
+
+11
+
+https://decent.ch/en/decent-and-dragonfly-to-bring-blockchain-to-100-million-gamers/
+https://decent.ch/
+13
+https://dmobi.cn/
+12
+
+11
+
+Utility Tokens
+
+ALAX is going to issue two tokens – ALX and ALA. While the ALA token will be used directly
+in platform (app-store) to pay for content (games and in-app purchases), ALX will be used to
+acquire ALA tokens on the one-way ALAX exchange.
+ALA’s value will be pegged to FIAT and therefore only ALX can be accessible on public
+exchanges.
+
+ALA/ALX value will be set according to ALX/FIAT value on major public exchanges. To ensure
+market demand for ALX, there will be a 20% discount on ALA purchases using ALX tokens.
+
+12
+
+Use Cases
+
+ALA tokens are going to be offered to end users via internal exchange, or an existing reseller
+network (brick and mortar store or mobile operators). End users can purchase games or use ALA
+for in-app purchases. Game developers can request payouts from ALAX, or use received ALA
+tokens as a reward for end users.
+
+This is illustrated in the following use cases:
+
+End user
+The End user can obtain ALA tokens in a number of ways. A QR code card can be obtained in
+exchange for cash, the QR code from the card is then paired with the ALAX app, the tokens are
+then charged to the end user’s account and can be exchanged for games or in-app content. The
+other way tokens can be obtained is through the app itself, either by using ALX tokens and
+obtaining a bonus or using a local payment method.
+
+13
+
+Game developer
+After integrating the ALAX SDK into their app, the developers have a number of advantages.
+ALAX will take care of distributing their game through the existing pre-installed channels.
+After each transaction ALA tokens are transferred to the developer’s account. The obtained ALA
+tokens can be used by the developer in a variety of ways: As a reward for the players to motivate
+them, for marketing purposes or it can be transferred to FIAT and paid out.
+
+Reseller
+There will be two types of resellers, brick and mortar stores or mobile operators and the app itself.
+Brick and mortar stores will receive ALA tokens from ALAX for a fixed price to which they can
+add an additional fee and then distribute them to the end users. On the other hand, if the reseller is
+the App itself there is no additional fee but a bonus if you use ALX tokens to obtain ALA tokens,
+there is also the possibility to use a local payment method, but in that case there is no bonus.
+
+ALAX
+ALAX will issue ALA tokens that will not be limited in number and their value is pegged to FIAT.
+If a game developer requests the pay-out of their ALA tokens then ALAX pays out the
+corresponding amount in FIAT, a certain fixed amount will be deducted as a processing fee.
+
+14
+
+Architecture
+
+Underlying blockchain technology
+Game developers would like to have a precise overview of the sales of their games and be able to
+ensure they are getting a fair deal for every purchase. In order to ensure the transparency between
+all parties in the process of purchasing digital content, blockchain is a good choice.
+
+DCore blockchain developed by DECENT is a digital content oriented blockchain with
+fundamental support of purchase and distribution of digital assets such as mobile games.
+Moreover, DCore blockchain architecture is designed to have high transaction speed and the ability
+to process a high volume of transactions that is expected in marketplace applications such as
+ALAX. For content distribution, it is very important to be able to split revenue in a fair way
+between multiple parties involved in the development and production of digital content. DCore
+blockchain already has a unique build-in feature that supports automatic revenue splitting based
+on predefined rules. The combination of these features makes DCore able to provide the underlying
+layer on which the ALAX infrastructure can be built on.
+
+DCore blockchain uses a Delegated Proof of Stake (DPoS) mechanism in order to achieve the
+consensus of various nodes in the network. Delegated Proof of Stake (DPoS) is one of the fastest,
+most efficient, and most flexible consensus model available. DPoS leverages the power of
+stakeholder approval voting to resolve consensus issues in a fair and democratic way.
+Deterministic selection of block producers allows DCore to decrease the block production time to
+5 seconds. The principal miners’ delegation is covered by a community of voters.
+
+15
+
+Application Layers
+In order to provide all features described in the use cases, ALAX consists of four basic layers:
+Transaction Layer, Data Layer, ALAX Store and Application Layer.
+
+Transaction layer
+The transaction layer is responsible for managing all blockchain transactions between clients,
+publishers and the ALAX Store.
+
+Data layer
+The data layer is responsible for storing all content published by game developer partners in a
+secure and reliable way.
+
+ALAX Store
+The ALAX Store provides basic business logic on top of the data and transaction layers and
+provides management of entities available in the ALAX service.
+
+16
+
+Application layer
+The application layer is an interface for consumers and publishing partners (game developers).
+Consumers can access the ALAX service using web and mobile access. Publishing partners are
+able to access the ALAX Store infrastructure using web access where they manage their accounts
+and publish new mobile content (games).
+
+Components
+In order to secure maximum modularity and scalability, ALAX is a composition of standalone
+components. Each component encapsulates part of the application layers described in the previous
+chapter.
+
+Transaction
+ALAX uses a custom ALAX blockchain as a transaction component that is based on top of the
+existing DCore blockchain technology and can leverage all features and operations currently
+available in the DECENT network.
+
+Storage
+All published content is securely stored on IPFS infrastructure that will provide decentralised
+storage. Content stored on IPFS is encrypted in order to ensure that only clients with authorisation
+have access to it.
+
+ALAX Store
+The ALAX Store is a Node.js application that provides an interface for client’s applications and
+handling management of entities in the application store. The ALAX Store communicates with the
+transaction service using DECENT’s JavaScript library and providing content from the IPFS
+infrastructure.
+
+17
+
+Customer
+Customers access the ALAX Store using web browsers or mobile applications. The web
+application is built on the React JavaScript library and uses the DECENT library that will provide
+blockchain functionality directly.
+
+Mobile App
+As part of ALAX, content providers have access to the ALAX Android SDK. Depending on the
+needs of a particular project, developers can use some or all of the features of our library of the
+ALAX blockchain. This will enable developers to include features such as in-app purchases,
+rewards, etc.
+
+API structure
+In order to secure consistency across all the applications utilizing ALAX, all applications will
+communicate with the ALAX protocol via API.
+
+18
+
+Token Structure
+
+The total number of tokens is 1’000’000’000 ALX (one billion ALX).
+ALX token structure is the following:
+
+50% of the ALX tokens not dedicated to the TGEs are going to be locked in for 12 months
+following the TGE.
+
+19
+
+Token Generation Event
+
+ALX are going to be generated during the ALAX Token Generation Event (TGE). The TGE hard
+cap is set to 30’000 ETH. 30% of the total number of ALX are going to be available during the
+ALAX TGE. This corresponds to 300’000’000 ALX. The initial ALX value is: 1 ETH = 10’000
+ALX.
+
+The following coins and tokens are accepted during the ALAX TGE for contributions:
+
+and more...
+
+Solely ETH value is determinant.
+Start of the TGE is planned for Tuesday 17 April 2018, 10:30AM UTC.
+
+The duration of the ALAX TGE is 6 days. This means that the TGE ends on Monday, 23 April
+2018 at 10:30AM UTC. No ALAX TGE contributions are going to be accepted after this date. The
+ALAX TGE is made up of 2 rounds. First round is going to last from the beginning of the ALAX
+TGE until 165’000’000 ALX are distributed. There is a 10% bonus for the first 150’000’000 ALX
+in this round.
+Second round starts after the first 165’000’000 ALX are distributed. There are 135’000’000 ALX
+dedicated to this round.
+
+In case not all ALX tokens are generated during the ALAX TGE, they are going to be distributed
+to the existing TGE participants according to their stakes. No tokens will be burned.
+
+20
+
+The TGE proceedings are going to be used in the following way:
+
+ALX tokens are going to be initially ERC-20 tokens. At the Mainnet launch, they are going to be
+replaced by DCore based assets.
+
+If you are interested in the private round of the TGE please visit our website (alax.io) for more
+information.
+
+21
+
+Roadmap
+
+In the beginning of 2018 we had a working proof of concept. In February we released the
+whitepaper which you are currently reading. In March we will update our working PoC to a MVP
+after conducting thorough research and revision of the PoC.
+The ALAX TGE will take place in April with a hard cap of 30’000 ETH, there will be no soft cap
+and the project will go ahead regardless of the amount raised.
+
+In July we will be testing out the app in the final version before releasing it. After the successful
+tests are concluded the Mainnet is launched and the store is available in beta to the wider public.
+
+In the first quarter of 2019 the ALAX Store will be fully operational and launched in Emerging
+markets.
+
+22
+
+Team
+
+Matej Michalko - Co-founder
+Blockchain pioneer with 7+ years of Bitcoin, Blockchain and Cryptocurrency
+experience. He founded and is the CEO of DECENT. Matej organized China’s
+first international Bitcoin Conference and also founded and led many Bitcoin,
+Blockchain and Cryptocurrency conferences such as BitcoinExpo, Central
+European Bitcoin Expo and BTC2B Congress. Matej founded the world’s first
+Bitcoin Marketing agency in the world. He also founded the first
+Cryptocurrency e-Gaming Consulting Firm and served as a consultant on the
+Isle of Man.
+
+Kalvin Feng - Co-founder
+After gaining vast experience by working for global foreign companies,
+Kalvin founded Kason Technology, Inc., where he gained extensive
+knowledge in R&D, marketing and marketing of notebook computers,
+electronic components and mobile phones. He currently serves as the CEO of
+Dragonfly, a company dedicated to software, advertising and content
+development and big data analysis.
+Tomas Koprusak – Project lead
+With over a decade of experience in web development, marketing and product
+management at Sygic, Smart Media Star, IBM, and freelancing as well, Tomas
+is the perfect team leader to oversee the smooth operation of any project.
+
+David Martinec - Operations manager
+While at Aalborg University, David already began to delve into the world of
+Blockchain and after graduating he was ready to get hands on experience. He
+efficiently used this experience as the project manager of SophiaTX.
+
+23
+
+Zuzana Gonova - PR manager
+Zuzana started out as a PR rep at a healthcare company and then was whisked
+away by DECENT impressing them by her formidable skills and forwardthinking while bringing SophiaTX to public awareness. This makes her an
+ideal fit to be the PR lead on ALAX.
+
+Matej Nemcek - Blockchain and backend engineer
+With Matej’s background as a brilliant backend engineer and his enthusiasm
+for blockchain technologies, his know-how will be perfectly suited for
+developing the ICO platform. He founded the first Slovak hackerspace
+Progressbar which he runs in his spare time.
+Peter Student – Solution Architect
+Head of software development at a Digital agency, leading IoT initiatives,
+those are just a few roles that Peter has held over his 11 year illustrious career
+in various IT fields.
+
+Marian Vanderka - Android developer
+As one of the Android developers in DECENT he is an expert in developing
+applications in a number of languages such as Kotlin/Java/Scala/C++/Python
+and backend frameworks. His developer CV includes positions at companies
+such as Sygic, eGLU and Shizaru.
+Michal Grman – Software developer
+Michal started his career as a web developer. Later on when Apple announced
+the iPhone 3g, he switched to mobile development, which he solely focused
+on until he started working for Electrolux Global Connectivity. While there he
+switched to the field of IoT switching from pure mobile to full-stack and then
+to cloud development and architecture.
+
+24
+
+Gabriel Malicky - QA analyst
+With a degree in radio-electronics and wireless tech, Gabriel decided to
+expand his knowledge to include IT. With an interest in cryptography and
+security he currently works as a QA Analyst at DECENT.
+
+Ronald Filo - Technical Evangelist
+With over 15 years of experience in various areas of IT, Ronald uses his
+extensive knowledge in providing the best possible solutions to software
+problems.
+
+Patrik Csokas - IT Manager
+Patrik holds multiple internationally recognized certifications, such as Project
+Management Professional and Professional Scrum Master. Thanks to his
+knowledge of SW development life-cycles he holds the position of IT manager
+at DECENT.
+
+Juraj Jurik - Graphic Designer
+Juraj has over 6 years of experience in UX, UI and Graphics design and cites
+Dieter Rams, Massimo Vignelli and Jonathan Ives among his inspirations.
+
+Amer Owaida - Copywriter
+Speaking four languages and living in five different countries Amer ’s
+overview of different cultures and their nuances makes him uniquely equipped
+to handle any writing task you throw at him. He also holds a degree in
+translation and interpretation studies.
+
+Martin Hassler - Community manager
+Martin has worked in different startups and currently is one of our community
+managers. His knowledge of marketing and business provides him with unique
+insight when responding to our community.
+
+25
+
+Veronika Pilzova - Community manager
+As the beloved community manager of SophiaTX, Veronika has ample
+experience in handling a vast influx of messages, while expertly dishing out
+just the right amount of information to her audience.
+
+Dong Seob Choi - Community manager
+Before ALAX Choi was working for CO Dep. of Samsung Electronic
+Slovakia. He graduated from the University in South Korea with a degree in
+Civil engineering and studied computer design in Tokyo, Japan. Choi has been
+an active volunteer for Korean Society of Slovakia for 5 years and he
+published 4 magazines and a story book in Korea.
+
+Karen Ohara - Community manager
+Karen joined ALAX as a Japanese speaking support team member. She has
+studied psychology at the Waseda University in Tokyo and now she doing a
+postgraduate in Europe. Karen is fluent in Japanese or English.
+
+Marian Podmajersky - Blockchain Consultant/Engineer
+With a doctorate and a vast experience in software design and development,
+and concept proofing of applications for Blockchain, Marian proves to be an
+extraordinary technical lead for the project.
+
+26
+
+Advisors
+
+Xiaomin Wang - Advisor
+Xiaomin is an experienced lawyer, engineer and Blockchain expert, with 5+
+years of experience in the industry. She was part of the organization team of
+BitcoinExpo Shanghai 2014, BTC2B Congress Brussels and BitcoinExpo
+London 2015.
+
+Tomas Varga - Advisor
+Tomas is an experienced business professional with a strong track record of
+projects including four years in Management Consulting at KPMG. His
+responsibilities include business intelligence, development and partnership
+initiatives.
+
+Peter Pongracz - Advisor
+Peter is a seasoned business developer with a proven track record in Big
+Pharma, Venture Capital and Online advertising. He is a passionate blockchain
+evangelist who strongly believes that blockchain can truly disrupt traditional
+industries and reinvent the meaning of innovation as we know it today.
+
+27
+
+Glossary
+
+3G - third generation wireless network
+ALA -Non-volatile in-store token
+ALX - TGE token
+API - Application Programming Interface
+DApp - Decentralized application
+DCore - Proprietary blockchain
+DPoS - Delegated Proof of Stake
+FIAT - Currencies such as USD, EUR, GBP, etc.
+IPFS - InterPlanetary File System
+LTE - Long-term Evolution wireless network
+Node.js - JavaScript runtime environment
+QR code - Quick Response code
+TGE - Token Generation Event
+
+28
+
+References
+
+1-2
+
+http://www.worldbank.org/en/programs/globalfindex
+
+3
+
+http://wnmag.com/2016/06/15/publish-mobile-game-china
+
+4
+
+https://support.google.com/googleplay/android-developer/answer/112622?hl=en
+
+5
+
+https://www.theverge.com/2017/12/6/16741142/china-smartphone-market-stats-android-oem-
+
+2017
+6
+
+https://www.statista.com/statistics/628558/global-market-share-held-by-vivo-smartphones/
+
+7
+
+https://www.statista.com/statistics/628545/global-market-share-held-by-oppo-smartphones/
+
+8
+
+https://www.statista.com/statistics/541618/vivo-smartphone-shipments-worldwide
+
+9
+
+https://www.statista.com/statistics/729562/china-oppo-smartphone-shipment-volume/
+
+10
+
+https://www.statista.com/statistics/541609/oppo-smartphone-shipments-worldwide/
+
+11
+
+https://decent.ch/en/decent-and-dragonfly-to-bring-blockchain-to-100-million-gamers/
+
+12
+
+https://decent.ch/
+
+13
+
+https://dmobi.cn/
+
+29
+
+

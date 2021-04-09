@@ -1,0 +1,1557 @@
+Aidos Kuneen
+
+— A Blockless and Anonymous Cryptocurrency for the Post-Quantum Era —
+Aidos Developer
+
+Aidos Foundation
+
+January, 2018
+Version 0.04 (DRAFT)
+
+Abstract
+In this white paper we introduce a new cryptocurrency, Aidos Kuneen. Aidos Kuneen has been developed to deliver a fast,
+anonymous, blockless, decentralized and scalable solution for post-quantum era transfers with zero fees.
+Aidos Kuneen employs a mechanism known as iMesh, within iMesh all transactions are directly referenced by one another
+in order to form a Directed Acyclic Graph (DAG) structure.
+The inclusion of ‘SPECTRE’ allows full-nodes to determine which transactions are legitimate within the DAG structure
+and to reject those that are not. In addition, SPECTRE provides resilience against any attackers who may happen to gain
+control of up to 50% of the network’s computational power.
+To ensure continued security in the post-quantum era, Aidos Kuneen utilises the hash-based signature ‘XMSS’. XMSS
+provides for both a small signature and a small public key size which in turn reduces network load.
+In order to provide anonymity within the network, Aidos Kuneen employs AKShuffle. AKShuffle incorporates the postquantum, zero-knowledge proof ‘ZKBoo (ZKB++)’, this allows for truly anonymous transfers throughout the entire
+network.
+To allow Aidos Kuneen to service the expected future growth of the ‘IoT’ sector we introduce an innovative new cooperative Proof of Work mechanism known as coPoW. coPoW allows a number of senders within the network to cooperatively perform the necessary Proof of Work in order to confirm transactions on the network, thus reducing the
+physical processing requirements of any one sender.
+Finally, we provide a simulation of the number of leaves in iMesh and we further determine the minimum number of
+reference transactions required in order to converge the DAG and deliver fast confirmation times, whilst still having
+minimal effect on the transaction size.
+
+Copyright c 2017–2018 by Aidos Developer and Aidos Foundation.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE HELD LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+THIS DOCUMENT, OR THE USE OF OR OTHER DEALINGS WITH THIS DOCUMENT.
+This work is licensed under a Creative Commons Attribution 4.0 International License.
+http://creativecommons.org/licenses/by/4.0/
+
+1
+
+Contents
+1
+
+Introduction
+
+3
+
+2
+
+Related Works
+
+4
+
+3
+
+Signature Scheme
+3.1 WOTS+ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3.2 XMSS . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+4
+4
+5
+
+4
+
+iMesh
+4.1 SPECTRE . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+4.2 AKConsensus . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+6
+6
+8
+
+5
+
+Proof of Work
+
+9
+
+6
+
+Co-operative Proof of Work
+
+9
+
+7
+
+AKShuffle
+
+10
+
+8
+
+Network
+
+11
+
+9
+
+Leaves within iMesh
+
+11
+
+10 Future Plans
+
+13
+
+11 Conclusion
+
+13
+
+Appendix A Results of Simulation — Number of Leaves Nl eaves
+
+15
+
+Appendix B Results of Simulation — Growth of Ndescendant
+
+16
+
+List of Figures
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+
+Generation of the WOTS+ public key . . . . . . . . . . . . . . . . . .
+Signing with the WOTS+ private key . . . . . . . . . . . . . . . . . . .
+WOTS+ Verification . . . . . . . . . . . . . . . . . . . . . . . . . . .
+Key generation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+The auth path for XMSS . . . . . . . . . . . . . . . . . . . . . . . . .
+iMesh . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+An example of the voting procedure within a simplified DAG structure.
+Statements and finalisation of transactions . . . . . . . . . . . . . . . .
+Cuckoo Graph . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+An example of how AKShuffle operates . . . . . . . . . . . . . . . . .
+Aidos Kuneen network topology . . . . . . . . . . . . . . . . . . . . .
+Leaves within iMesh . . . . . . . . . . . . . . . . . . . . . . . . . . .
+λ in = 1 transaction per minute, Nr e f = 2 . . . . . . . . . . . . . . . .
+λ in = 1 transaction per minute, Nr e f = 4 . . . . . . . . . . . . . . . .
+λ in = 1 TPS . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+λ in = 5 TPS . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+λ in = 10 TPS . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+λ in = 1 transaction per minute . . . . . . . . . . . . . . . . . . . . . .
+λ in = 1 TPS . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+λ in = 5 TPS . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+λ in = 10 TPS . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+2
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+4
+5
+5
+5
+6
+6
+7
+8
+9
+10
+11
+11
+15
+15
+15
+15
+15
+16
+16
+16
+16
+
+1
+
+Introduction
+
+back to the founding transactions that came before it,
+these founding transactions are open to the public. As
+such, anyone is free to track the flow of BTC from address to address.
+
+Bitcoin, the once obscure cryptocurrency introduced by
+Satoshi Nakamoto [1] in 2008, has now begun to draw
+much wider attention from both the general public and
+governments alike. Within the Bitcoin network, transactions are written into ‘blocks’, these blocks are then
+cryptographically validated by powerful computers known
+as ‘miners’ using a Proof of Work (PoW) system. Once
+a block has been validated it is then appended to the end
+of a continually growing chain of blocks aptly named
+‘the block-chain’. Miners are subsequently rewarded for
+successfully validating a block by means of the transaction
+fees paid by senders who transact on the Bitcoin network.
+
+In order to address these issues, we introduce a new cryptocurrency, Aidos Kuneen. The Aidos Kuneen network,
+known as iMesh, is based on Directed Acyclic Graph (DAG)
+technology. In iMesh, transactions are directly referred to
+by other transactions and as such there are no blocks, and
+by extension, no block-chain. The confirmation of a transaction is determined by the number of other transactions
+which vote for the transaction. In iMesh, we are able to
+achieve the benefits of scalability while completely removing the requirement for miners, which subsequently removes the need for the associated transaction fees that were
+Currently, blocks are added to the blockchain at a rate
+once required in order to incentivise mining.
+of approximately one every 10 minutes. The transactions
+contained within the blocks consist of both input and output Adios Kuneen has been specifically designed to provide:
+• Increased Scalability
+addresses, with the inputs themselves being the outputs of
+In iMesh, one performs relatively simple PoW comprevious transactions — this provides an auditable history
+putations to confirm the transaction. After the transof all past Bitcoin transactions within the network. In order
+action is broadcast to the network, the transaction is
+to prove ownership, transactions are signed by the address
+stored into iMesh immediately. Hence, there is no need
+owner with an Elliptic Curve Digital Signature Algorithm
+to wait for one’s own transaction to be stored. Addi(ECDSA).
+tionally there is no limitation to the size or number
+of transactions that can be stored at a time. The more
+However, in recent years a number of problems have been
+iMesh grows, the greater the number of transactions
+identified with the Bitcoin implementation, including:
+that become involved. This means that the confirma• Limited Scalability
+tion time of any single transaction will reduce as the
+Within the core Bitcoin code, the maximum block size
+network matures.
+is restricted and blocks are unable to store transactions
+• Zero Fees
+once this limit is exceeded. This in turn leads to a scalAs one is no longer required to pay any transaction fees
+ability problem when many transactions are broadcast
+(owing to the fact that there are no miners), one is free
+simultaneously with many of them being unable to be
+to transact with any amount, no matter how small withincluded in the current block.
+out requiring any special knowledge or techniques.
+• High Transaction Fees
+• Post-Quantum Resistance
+In Aidos Kuneen we have specifically chosen a hashbased signature which provides strong post-quantum
+security. There have been a number of different signature architectures developed to provide resistance to
+future quantum based computer hardware, including
+Ring-LWE, Lattice and hash-based methods. However,
+the majority of these are not practical for our purposes
+due to their large key and signature sizes. For example, the key sizes of Ring-LWE and Lattice based signatures weigh in at a number of kilobytes. This means
+that if we were to employ one of these methods for example, we would be forced to use long alphanumeric
+address strings which are not conducive to usage by
+the non-technical, general public. For a cryptocurrency
+that is intended for widespread daily use this is completely unsuitable.
+
+Senders are required to pay a transaction fee in order to incentivise the miners to include their transaction in a block. If Bitcoin usage continues to grow
+and the price of Bitcoin increases, the relative value
+of the fee will also increase. It no longer makes sense
+to send small transactions via the Bitcoin network as
+the fee could easily exceed the value of the Bitcoin being transacted. This forces senders to use complicated
+schemes to send small value transactions (e.g. micropayment channels).
+• Poor Resistance Against Quantum Computers
+As of 2017, the development of quantum computers
+is still in its infancy. However, experiments have already been carried out in which quantum computational operations were executed on a small number of
+quantum bits. Furthermore, Google has reported its intent to commercialize quantum technologies within the
+next five years [11]. At the same time, according to
+Shor’s algorithm [10], all algorithms based on the discrete logarithm problem (including ECDSA as used in
+Bitcoin), can be easily solved with a sufficiently powerful quantum computer.
+
+As such, we focus our attention on the family of
+hash-based signature methods instead. Some hash
+based functions such as ‘SPHINCS’, provide us with
+the ability to reuse the same public key multiple
+times, which is a step in the right direction. However, SPHINCS also suffers from the same large public key size (around 1 kilobyte) as the other methods, again making it unsuitable for our application.
+
+• Limited Anonymity
+The auditable nature of Bitcoin means that in order
+to spend Bitcoin, the spending transaction must refer
+3
+
+Eventually, the ‘eXtended Merkle Signature Scheme’
+(XMSS) was identified as being the ideal balance of
+human usability and small key size. XMSS allows us
+to repeatedly utilise the same public key a large number of times (1000 times or more). However, unlike
+SPHINCS, XMSS has a lightweight public key of only
+32 bytes and a signature key size of approximately
+3 kilobytes. By utilising XMSS we also benefit from
+2128 bit post-quantum security [12].
+
+lieve that at least in the short to medium term, binary based
+systems will continue to remain the dominant form for consumer grade hardware.
+IOTA’s confirmation process, as outlined in IOTA’s white
+paper, counts only the number of referring transactions (descendant transactions), we notice that as the total number
+of leaves in the DAG increases (as will occur naturally),
+the percentage of these leaves to which descendant transactions refer will decrease. This means that attackers could
+potentially grow their malicious transactions faster than the
+network. To combat this we introduce a confirmation process based on SPECTRE as presented in [9]. In SPECTRE
+one does not only count the number of descendant transactions, but one also counts the number of other transactions
+which subsequently vote for the transaction. Hence, even if
+the leaves do diverge, it is difficult for an attacker to grow
+the confirmations of their malicious transactions.
+
+• Strong Anonymity
+In order to achieve anonymity, we utilize the post
+quantum, zero-knowledge, non interactive (ZKNI)
+proof ‘ZKBoo’ as presented in [7]. ZKBoo allows one
+to transact freely across iMesh, without the need to reveal one’s address to either the receiver or to the wider
+network.
+
+2
+
+Related Works
+
+Within the SPECTRE voting process, we still require faster
+DAG convergence for rapid confirmations. The white paper
+as presented by the IOTA team does not specifically clarify
+the convergence behaviour of the DAG, rather the white paper simply states that ‘One expects that the L(t) (total number of leaves) remains stable’. As such, in Section 9, we
+additionally simulate the behavior of leaves within iMesh
+in order to ensure that the DAG converges.
+
+Monero1, Bytecoin2 and Zcoin3
+To achieve anonymity, both Monero and Bytecoin use
+‘ring signature’ methods as discussed in CryptoNote [13].
+Ring signature methods rely on a signature which utilises
+a novel trapdoor function (e.g. public key encryption),
+unfortunately though, this feature is not found in any
+of the available hash-based signature methods. Zcoin
+utilises a zero-knowledge, non interactive proof called ‘zkSNARKs’, however, zk-SNARKs is not quantum secure,
+owing to the fact that it uses pairing-based cryptography4.
+
+3
+
+Signature Scheme
+
+As previously mentioned, Aidos Kuneen employs XMSS
+as described in the RFC draft of IETF [2] as its signature algorithm. XMSS itself is based on the earlier work
+of the Winternitz One Time Signature (WOTS+). WOTS+
+is a hash based signature scheme designed for single use
+only, XMSS builds upon this work and delivers a mechanism which makes it possible to sign multiple messages
+with a single key.
+
+CoinJoin5
+Another potential option for providing anonymity, would
+be to use ‘CoinJoin’ or one of its variants (e.g. ‘CoinShuffle’). However, CoinJoin requires the presence of active
+participants at the same time one intends to send coins.
+This requirement could prove to be a handicap in the early
+stages of adoption when the Aidos Kuneen userbase is still
+small.
+
+3.1
+
+WOTS+
+
+IOTA6
+IOTA is a DAG based, fee-less, IoT focussed cryptocurrency.
+IOTA is unique in that it makes use of ternary based signatures rather than standard binary. This is due to the fact that
+ternary based systems are theoretically more computationally efficient than binary based systems. In Aidos Kuneen
+we have chosen to utilise traditional binary based signatures in order to fully utilize existing CPU features (such as
+SIMD instructions and dedicated SHA extensions). This decision was made because we believe that current generation
+digital processors are already sufficiently fast and efficient
+enough to meet our requirements, with some IoT oriented
+Figure 1: Generation of the WOTS+ public key
+processors already containing dedicated circuits for SHA-2
+based hash processing, e.g. ARM processors7. We also be- Figure 1 demonstrates how a public key is generated. In
+order to generate a public key, one initially generates a
+1http://monero.org/
+series of 67 character strings consisting of 32 byte (256
+2https://bytecoin.org/
+3https://zcoin.io/
+bit) random binary data which becomes the private key
+4post-quantum Zcash (https://github.com/zcash/zcash/issues/805)
+Priv j , j = 1 . . . 67. Then, each Priv j is hashed with the
+5https://en.bitcoin.it/wiki/CoinJoin
+SHA-256 algorithm for a total of 15 passes. While hash6https://iota.org/
+7https://static.docs.arm.com/ddi0501/f/DDI0501.pdf
+ing, each Priv j is XORed with a value from a PRF (Pseudo
+4
+
+Random Function). This XOR operation is employed to re- 3.2 XMSS
+duce the signature size while maintaining the same security
+Figure 4 demonstrates how the public key for XMSS is genlevel. The output of these operations becomes the public
+erated.
+key Pub j , j = 1 . . . 67 which is also a 67 character string
+consisting of 32 byte binary data.
+
+Figure 2: Signing with the WOTS+ private key
+Figure 2 illustrates how the message is signed. When signing, one calculates a 256 bit hash H (msg) of the original message, and a corresponding 12 bit checksum from
+Figure 4: Key generation
+H (msg). Next, a series of 4 bit, 67 character binary strings
+Ni ,i = 1 . . . 67 are produced from the H (msg) and the
+checksum. Each of the Priv j values are then hashed for Ni In short, XMSS builds a tree known as a ‘Merkle Tree’, to
+times and XORed with the same values as used for Pub j , to gather all public keys into one single key. This then allows
+produce the signature Sig j , j = 1 . . . 67.
+one public key to be reused many times.
+The checksum is used to prevent attacks from malicious
+messages. For example, if there were no checksum and an
+attacker were to create a message whose hash were 000
+. . . 0, i.e. Ni = 0,i = 1 . . . 64, then the signature would be
+equal to the private key and thus the private key would be
+exposed.
+
+Initially, one must generate 2h WOTS+ private keys
+Privi j ,i = 1 . . . 2h , j = 1 . . . 67 and the corresponding
+WOTS+ public keys Pubi j ,i = 1 . . . 2h , j = 1 . . . 67
+(h is the height of Merkle Tree). Then, 2h number of
+‘ltrees’ are generated. ith (i = 1 . . . 2h ) ltree is generated from Pubi j , j = 1 . . . 67. One receives the root
+hash of the ith ltree by hashing WOTS+ public keys (i.e.
+H (Pubi1 |Pubi2 | . . . |Pubi67 )). The root hash of ith ltree becomes the ith leaf in the Merkle Tree. This operation is then
+repeated 2h times to fill all remaining leaves of the Merkle
+Tree. Finally, the root hash of the Merkle Tree is calculated
+by hashing together the leaves of the Merkle Tree (i.e. roots
+of the ltrees). This root hash becomes the XMSS public key.
+When signing, one simply selects one of the unused private
+keys and its corresponding public key. Next, one calculates
+the WOTS+ signature. The XMSS signature is the WOTS+
+signature with an ‘auth path’. The auth path is an additional
+piece of binary data used to calculate the root hash of the
+Merkle Tree (i.e. the XMSS public key).
+
+Figure 3: WOTS+ Verification
+Figure 3 illustrates how the signature is verified. In order to
+verify a signature, a verifier first calculates Ni ,i = 1 . . . 67
+using the same procedure for signing as explained above.
+Next, each Sig j is hashed (15 − Ni ) times and XORed with
+same values as were used to produce Pub j . The output of
+which yields Pub0j , j = 1 . . . 67. This is then checked to
+confirm that it equals the signer’s public key Pub j , j =
+1 . . . 67.
+
+5
+
+As Table 1 illustrates, there are 3 height levels for the
+Merkle Tree within Aidos Kuneen. Users who desire to
+change addresses for each payment or who transact less
+than 1000 times with the same address are able to use
+height=10, reducing the impact of generating public keys.
+Heavy users such as corporate entities or merchants, who
+transact more than 1000 times with one public key, would
+use either height=16 or height=20.
+Note: We have chosen not to use XMSS MT , as detailed
+in [2]. Although XMSS MT means we do not need to generate all the public keys simultaneously, the signature size
+is much larger than that of XMSS, weighing in at around 40
+kilobytes.
+
+Figure 5: The auth path for XMSS
+With reference to Figure 5, we desire to select private key
+#3 for signing. A verifier can calculate node #3 from the
+signer’s signature. However, in order to determine node #12
+the verifier will first need to determine node #4, this means
+that the auth path must include node #4. In the same manner,
+in order to determine node #31’s root hash (i.e. the XMSS
+public key), the signer also requires nodes #11 and #22 to
+be included within the auth path. Thus, in order to perform
+the verification, the verifier must posses the WOTS+ signature and the node values along the auth path (i.e. the values
+of nodes #4, #11 and #22). This will allow the verifier to
+calculate the root hash of the Merkle Tree and determine if
+the root hash is equal to the XMSS public key.
+
+4
+4.1
+
+iMesh
+SPECTRE
+
+When a sender sends a transaction, he includes some of the
+transactions previously sent by others. Figure 6 illustrates
+the DAG structure of these transactions which we refer to as
+iMesh. When sending, the sender selects some of the leaves
+in iMesh (i.e. transactions which are not currently referred
+to by any other transactions) and determines whether or not
+the parent transactions of these leaves are valid. After determining the parent transactions are valid the leaves are
+included in the senders transaction.
+
+Note that:
+• Signers must record which private keys are used. In order to accomplish this we use the Logarithmic Merkle
+Tree Traversal scheme as presented in [16] to provide
+efficient traversal with minimal storage cost.
+• The public key consists of 32 × 2 bytes (the root hash
+of the Merkle Tree and the seed of the PRF). There is
+only one PRF seed, as all pseudo random values can
+be generated from a single PRF. We include the seed
+as a part of the signature such that the public key size
+becomes 32 bytes.
+• The signature key size is approximately 3 kilobytes.
+• The SHA-256 hash provides strong preimage resistance (i.e. an attacker is unable to guess the input from
+the output of the hash), thus it is difficult to guess the
+private key from the public key, even when using quantum based hardware.
+Additionally, note that we are able to reuse the same public
+key a number of times if h (the height of the Merkle Tree) is
+increased (although this requires more time to generate the
+public keys during the initial stage).
+
+Figure 6: iMesh
+
+Unlike block-chain based networks such as Bitcoin, where
+Table 1: Merkle Tree height, estimated time for key gener- a block refers only to the preceding block, a single transaction in a DAG refers to many other transactions within
+ation per CPU core, and intended users of XMSS
+the DAG. With block-chain technology, the chain grows in
+height
+#keys key generation user
+a linear sequence (i.e. one block at a time), whereas within
+a DAG the interlinked nature of the transactions allow it to
+10
+1,024
+a few seconds one time and
+grow simultaneously in all directions, thus leading to supenormal users
+rior scalability compared to block-chain based systems.
+16
+65,536
+a few minutes companies
+20 1,048,576
+≈ 30 minutes big companies
+However, this interlinked nature is not without its draw6
+
+backs when it comes to conflicting transactions. For example, assume Alice’s address holds a total of 10 coins. She
+sends 10 coins to Bob in transaction T1, and then without
+thinking she sends 10 coins to Cathy in another transaction
+T2. Alice has inadvertently attempted to spend the same
+coins twice (this is known as a ‘double spend’) and as a
+result these two transactions are now in direct conflict. In a
+block-chain based system, once one of the conflicting transactions has been written into a block, the other will be never
+stored, (i.e. if T1 receives at least one confirmation before
+T2, then T2 will be rendered invalid). On the other hand
+when there are conflicting transactions (highlighted in red
+in Figure6) within iMesh, it is difficult to determine which
+is valid. To solve this problem, Aidos Kuneen adopts the
+voting mechanism as presented in ‘SPECTRE’ [9].
+
+This system guarantees majority amplification, as
+these transactions add votes that reinforce previous decisions.
+3. Transactions which do not have both transactions X
+and Y as parents vote for which ever has the majority
+of voters (transaction 1–5).
+This rule allows amplification of the votes of parents
+of transaction X (transaction 1–4). This is necessary
+to counter a ‘pre-mining attack’ scheme, i.e. the attacker builds blocks and withholds them from the network. Due to the fact that honest transactions tend to
+have a greater number of ancestor transactions, an honest transaction should receive more votes by means of
+rules 1 and 2.
+Note: SPECTRE is resilient against attackers with up to
+50% of the network’s total computational power, and not
+the traditional 33%, as is demonstrated in [9].
+Additionally, in iMesh receivers must also wait for their
+transaction to be confirmed by a sufficient number of other
+transactions (much like waiting for a number of ‘confirms’
+in Bitcoin) prior to spending. Reference [9] provides guidance on how long receivers should wait before trusting a
+new transaction. For comparison, let’s assume that we will
+wait for 5 confirmations before accepting a payment on
+the Bitcoin network. Let’s also assume that an attacker has
+managed to gain control of 30% of the total hash power
+in the Bitcoin network. The possibility of success of such
+an attack is 17.8%[1]. Similarly, in iMesh with the SPECTRE voting scheme employed, once a transaction (Tx A)
+has received approximately 130 referrals the probability of
+a fraudulent (intentionally conflicting) transaction (Tx B)
+being accepted as legitimate in place of Tx A has reduced
+to 17.8%. As the iMesh network grows and the frequency
+of transactions increases, the waiting time required for a
+transaction to be verified as legitimate by the network will
+decrease (i.e. the larger the network grows the faster it becomes). Conversely, when the network is small, the waiting
+times are very long, the network hash power is also likely
+to be quite small and this is an opportunity that an attacker
+may attempt to exploit. In order to prevent this potential
+attack vector, we introduce a mechanism known as ‘AKConsensus’ (as discussed in Section 4.2), to confirm transactions between trusted full-nodes while iMesh is still in its
+infancy.
+
+Figure 7: An example of the voting procedure within a simplified DAG structure.
+In SPECTRE, one counts the number of voters for each of
+the conflicting transactions. Figure 7 shows the voting procedure. As we can see, transactions X and Y are in conflict. Transaction X and transactions 6–8 vote for transaction X, as they only see X in their past, and not Y. Similarly,
+transaction Y and transactions 9–11 vote for transaction Y.
+Transaction 12 votes according to the majority of the votes
+from the other transactions (except for transactions 10, 11
+and 12). All transactions from 1–5 vote for transaction X as
+they see more X voters than Y voters. As a result, the total
+number of X voters is greater than Y voters, therefore X is
+accepted as the legitimate transaction and Y is rejected.
+The rules regarding the SPECTRE voting procedure are
+summarised as follows:
+
+In the voting scheme, senders have an incentive to refer to
+1. Transactions which only have transaction X as the paras many transactions as they can due to the confirmation
+ent can only vote for transaction X. (transactions 6–8
+speed of the sender’s transaction being directly related to
+and 9–11)
+the number of referring transactions. If a sender were to
+Honest transactions gain votes over transactions that refer to only a small number of transactions, the receiver
+have been secretly withheld by dishonest parties, as could potentially reject the payment as it would take a sighonest nodes continue to add new transactions that nificant amount of time for the transaction to be validated
+and for the receiver to receive the coins.
+subsequently vote for the honest transaction.
+2. Transactions which have both X and Y as a parent It must also be noted that if there are many leaves within
+(transaction 12) vote for which ever one has the ma- iMesh, the possibility in which any one leaf is referred to
+jority of voters.
+by a new transaction would reduce. To combat this we need
+to carefully consider how many transactions should be referred to by any one single transaction. We will explore this
+issue in greater detail within Section 9.
+7
+
+4.2
+
+AKConsensus
+
+As mentioned in the previous section, we must assume that
+during iMesh’s infancy period an attacker with access to
+sufficient resources could realistically command the majority of the total network hash power. It is for this reason that
+we are therefore unable to fully trust the SPECTRE consensus mechanism during the early stages of network growth.
+Thus we must introduce ‘AKConsensus’, a temporary system which utilises a Federated Byzantine Agreement (FBA)
+based on the ‘The Ripple Protocol Consensus Algorithm’
+along with a semi-trusted model as detailed in [18], in order to validate transactions until such time as the SPECTRE
+consensus mechanism can take over.
+Within the Ripple Protoco,l the FBA process is used in order to confirm the validity of all transactions. A similar process, referred to as ‘AKConsensus’ has been adopted for
+Aidos Kuneen, however, it should be noted that the implementation of this process within Aidos Kuneen differs
+significantly from that of Ripple. With AKConsensus in
+place, a group of trusted nodes periodically review a randomly selected transaction from within iMesh. If this group
+of trusted nodes reaches an agreement on the validity of
+this transaction, the transaction becomes known as a ‘Statement’, and now serves to act as a milestone within the network.
+
+Figure 8: Statements and finalisation of transactions
+Figure 8 illustrates how Statements act as milestones for
+other transactions. Full-nodes regard Statements as an “absolute truth” and any conflicting transactions are discarded
+locally by each full node. Subsequent transactions that are
+referred to by a Statement become known as Finalised
+Transactions.
+
+The numbered transactions in Figure 8 show how transactions are finalised by the Statements that reference them,
+The process of consensus is as follows:
+e.g. the transactions designated with #2 are finalised by
+1. Each full-node defines the addresses of trusted nodes Statement #2.
+within their trusted list.
+2. One of the full-nodes selects a transaction for review The rules employed by AKConsensus in order to determine
+and broadcasts it to the trusted nodes within their the validity of conflicting transactions are as follows:
+trusted list. This transaction is now referred to as a
+‘Candidate Statement’.
+
+• The transaction which is finalised by the youngest
+Statement is deemed to be valid, and all others are considered to be invalid.
+
+3. Each trusted node initialises T to 50%.
+4. Each trusted node reviews the legitimacy of the Candidate Statement based on its local history.
+
+• If conflicting transactions are finalised by the same
+Statement, the transaction which possesses the older
+time stamp is deemed to be valid.
+
+5. If a trusted node deems the Candidate Statement to be
+legitimate, it then broadcasts a ‘yes’ vote to the fullnodes by which it is referenced. If the Candidate Statement is deemed to be fraudulent it is subsequently discarded.
+
+• If both transactions possess the same time stamp, the
+transaction which has the smaller hash is deemed to be
+valid.
+
+6. If a full-node does not receive a minimum of T% of
+‘yes’ votes from the nodes on its trusted list within a
+AKConsensus requires a minimum of 80% agreement becertain period, the Candidate Statement is discarded.
+tween trusted nodes in order to accept a Candidate State7. Each trusted node increases T = T + 10%.
+ment, and by extension, 20% or more in order to reject an
+8. Step 5. is repeated
+invalid Candidate Statement.
+9. The final round requires a minimum of T = 80% of a
+full-node’s trusted nodes in agreement in order to accept the the Candidate Statement as being legitimate
+and elevate it to the status of Statement.
+
+While it is acknowledged that the introduction of AKConsensus does directly contradict Aidos Kuneen’s ultimate vision of a completely decentralised cryptocurrency, AKConsensus, for the reasons outlined previously, is accepted to be
+a “necessary evil” until such time as the network has maNote: In order to be accepted as a Statement, a Candidate tured to the point where it is capable of resisting attack on
+Statement must have a valid transaction structure and must its own. Additionally, Aidos Kuneen believes very strongly
+exist within iMesh.
+in providing a completely fee-less product to its user base,
+the presence of AKConsensus allows the realisation of this
+vision from day one, with no need to resort to alternative,
+‘incentivised’ mechanisms for early network protection.
+8
+
+5
+
+Proof of Work
+
+and 9 → 4 → 15 → 2 with equal roots. In this case, we can
+compute the length of the resulting cycle as 1 plus the sum
+When sending a transaction, senders must first perform of the path lengths to the node where the two paths join. In
+‘Proof of Work’ (PoW), similar to that which is performed the diagram, the paths join at node 4, and the cycle length
+by miners in the Bitcoin network. The mandatory perfor- is computed as 1 + 4 + 1 = 6.
+mance of PoW prior to sending a transaction is necessary in
+order to protect iMesh from DDoS attacks via spam transac- The Cuckoo Cycle has been chosen as the PoW function for
+tions and double spend attacks (as previously discussed). In iMesh, due to the following reasons:
+addition, PoW is used to distribute the computational work• We anticipate significantly higher daily transaction
+load of validating transactions between all participants in
+volumes compared to that of Bitcoin, this is due to the
+the network. This ensures that the network does not become
+fact that unlike Bitcoin, the fee-less nature of Aidos
+constrained by the limitations in processing capabilities of
+Kuneen means the economic disincentive against frea handful of ‘masternodes’, but instead remains completely
+quently sending small transactions is removed. Thus,
+free to scale as required. During the PoW operation each
+Aidos Kuneen requires a very fast verification method.
+transaction is assigned a length L, of 32-bit integer fields
+• Unlike other typical PoW algorithms such as Crypknown as a ‘nonce’. The value of this nonce is set such that
+tonight or Scrypt which are typically quite resource
+the hash of the block will contain a leading run of zeros and
+intensive, full-nodes are able to verify the validity of
+form a series of ‘Cuckoo Graphs’ with cycle length L (as is
+nonces much faster when utilising the Cuckoo Cycle.
+discussed in more detail below). The leading run of zeroes
+determines the time required for the PoW operation and has
+• Unlike Bitcoin, in which PoW is performed only on
+been chosen to produce an average PoW time of 5–10 minthe blocks themselves, in Aidos Kuneen PoW must be
+utes.
+performed for each individual transaction. As there are
+significantly more individual transactions than there
+For PoW operations, Aidos Kuneen implements the Cuckoo
+are blocks, Aidos Kuneen therefore requires more
+Cycle as discussed in [14]. The Cuckoo Cycle arises by the
+power to perform PoW verification. Thus, it is esseninsertion of keys into a ‘Cuckoo Hashtable’ which naturally
+tial that a highly efficient means of verification, such
+leads to the cyclic formation of random bipartite graphs.
+as the Cuckoo Cycle is employed.
+A Cuckoo Hashtable consists of two identical tables, each
+with a unique hash function which maps a key to a table
+• In order to prevent an attacker from being able to proplocation (this provides two possible locations for each key).
+agate fraudulent transactions throughout the network,
+Upon arrival of a new key, its table location is first deterspecialist hardware such as ASICs and FPGAs should
+mined. If both possible locations are currently occupied by
+not provide any advantage. As the PoW time is mainly
+existing keys, then one is extracted and inserted into its
+dominated by memory access speed, specialist proalternate location (potentially displacing yet another key).
+cessing hardware is essentially rendered ineffective.
+This process is subsequently repeated until either a vacant
+location is identified, or a predetermined number of itera- The following Cuckoo Cycle parameters will be used for
+tions is reached. This process leads to the formation of cy- PoW operations:
+cles in what is referred to as a ‘Cuckoo Graph’. The Cuckoo
+• cycle length L = 20 (To minimize the size impact on
+Graph is a bipartite graph with a node at each location, and
+transactions).
+an edge for every inserted key, connecting the two locations
+at which the key can reside.
+• number of nodes N = 225 (To provide memory usage
+of around 128MB).
+• easiness N/M = 100%, (M: number of edges) (To prevent optimizations by edge trimming).
+
+6
+
+Co-operative Proof of Work
+
+Figure 9: Cuckoo Graph
+To cater specifically for IoT devices (whose performance
+is typically quite low), we introduce a novel co-operative
+Proof of Work mechanism known as coPoW. By utilising
+coPoW, the network is able to group a number of unverified transactions together into a single, larger transaction
+known as a ‘Batch’. This allows the senders of the individual transactions within the Batch to effectively pool their
+computational power into validating the Batch as a unit,
+rather than just their own individual transactions. coPow effectively acts like a decentralised version of a Bitcoin mining pool and allows large numbers of lower powered devices to interact directly with the network as if they were a
+single, much more powerful device.
+
+The first diagram in Figure 9 illustrates the directed Cuckoo
+Graph on N = 8 + 8 nodes after edges (2, 15), (4, 9), (8, 5),
+(4, 15), (12, 11), (10, 5) and (4, 13) are added. In order to
+add the 8th edge (10, 11), we follow the paths 10 → 5 → 8
+and 11 → 12 to find the different roots 8 and 12. Since
+the latter path is shorter, we reverse the path to 12 → 11
+such that we can add the new edge as (11 → 10), resulting
+in the middle diagram. In order to add the 9th edge (10,
+13) we now find the path from 10 to be the shorter one, so
+we reverse the path and add the new edge as (10 → 13),
+resulting in the right diagram. When adding the 10th edge
+(8, 9), we find the paths 8 → 5 → 10 → 13 → 4 → 15 → 2
+9
+
+coPoW functions as follows:
+
+Bob that she really has key k without ever actually having
+1. A sender wishing to participate in coPoW broadcasts a to reveal the key itself.
+request to network via a full-node.
+Aidos Kuneen utilizes ‘ZKBoo (ZKB++)’ as presented
+2. Others who wish to participate or are already perform- in [8] as its ZKNI mechanism. ZKBoo requires only the use
+of a hash and an AES encryption function which has been
+ing coPoW respond to the request.
+shown to be quantum secure [17].
+3. The sender joins the coPoW group
+4. If the group is not yet established a process of leader
+selection is performed, if the group is already established then the new device receives the identity of the
+existing leader.
+5. The sender sends his transaction to the leader who then
+mixes it with the transactions from all the other participants to form a Batch.
+6. All senders commence PoW on the Batch.
+7. The sender periodically sends the result of their ‘PoW
+for proof’ (which meets the requirement for the ‘target
+for proof’) to the leader.
+8. The sender periodically receives the PoW results from
+other parties via the leader.
+9. If any of the parties submit incorrect results they are
+ejected from the group.
+
+Figure 10: An example of how AKShuffle operates
+
+With reference to Figure 10, the operation of AKShuffle is
+10. If any of the parties fail to submit their results within a described as follows:
+set period of time, the leader ejects that party and then
+Any user who desires to shuffle their tokens simply sends
+delivers a restart command to all remaining parties.
+them to an AKShuffle address. The shuffle address is an
+11. The process continues until one of the parties successoutput of the encryption f k m y (x my ) with key k my , where
+fully solves for the ‘final hash’, after which PoW is
+k my is the secret key and x my is the public input. If at
+completed and the group is disbanded.
+any point the user desires to withdraw their shuffled toParties participating in a coPoW group must periodically kens they simply create a transaction which sends the tosend some of their PoW results to the leader to prove that kens to their normal address PK my2 (i.e. their XMSS public
+they are actively participating in the group. This prevents key). The transaction contains the user’s AKShuffle address
+free-loading by parties who join the group but do not intend f k m y (x my ) along with other user’s AKShuffle addresses
+to actively contribute. The target for proof threshold is set f k1 (x 1 ), f k2 (x 2 ) . . . f k n (x n ) as input addresses. This means
+such that the hash is less complex than the final hash, this is that nobody knows which address has actually been used for
+important to ensure that devices with limited computational the withdrawal. In order to prove ownership the user comcapacity are able to successfully meet the target for proof pletes the ZKNI proof by proving they know k my such that
+within the required time period. The target for proof itself one of the AKShuffle addresses listed as an input equals
+can be variable. For example, target for proof = final tar- f k m y (x my ). The transaction also includes the user’s pubget ×2−5 could be adopted for groups of low capacity IoT lic input x my in order to prevent to the reuse of the shufdevices, and the target for proof = final target ×2−2 could fle address. It is also important to point out that the user
+is required to withdraw the full amount that they originally
+adopted for normal desktop PCs.
+deposited, the system will not allow partial withdrawals of
+For added anonymity, participants in a coPoW group have the user’s balance as reuse of a shuffle address is strictly
+the option to utilise the Tor network for all communications forbidden in order to maintain anonymity.
+between themselves and the group.
+Note: Transactions used for AKShuffle and transactions
+user for normal payments are completely different. AKShuffle (ZKBoo) is used only for shuffling one’s tokens. As
+7 AKShuffle
+such, one cannot use AKShuffle to send tokens directly to
+For increased anonymity we employ AKShuffle. Within another user. This is due to the fact that the signature size of
+AKShuffle we utilize a zero-knowledge, non-interactive ZKBoo is quite large, weighing in at around 500 kilobytes
+(ZKNI) proof for anonymous transactions. By utilising for 5 inputs.
+ZKNI, one can prove that their value satisfies a set of functions without the need to reveal their secret key. For example: Alice has input x and key k for an encryption function
+f k (x), and shares y = f k (x) with Bob. Bob wants to know
+if Alice really has key k, but Alice doesn’t want to reveal her
+secret key to Bob. By employing ZKNI, Alice can prove to
+10
+
+8
+
+Network
+command
+
+Table 2: Basic Packet Commands
+description
+
+ping
+pong
+find_node
+resp_node
+req_transactions
+resp_transactions
+req_leaves
+resp_leaves
+invent
+
+Figure 11: Aidos Kuneen network topology
+As illustrated in Figure 11, the Aidos Kuneen network is
+comprised of a series of full-nodes who communicate in
+a P2P fashion. Clients can either connect directly to these
+full-nodes or to their own full-node via API. Clients are able
+to send API requests in order to broadcast their transactions
+to the network (this is usually performed automatically by
+the wallet application). Between full-nodes, transactions are
+sent and received using an efficient serialization (e.g. msgpack8) in order to reduce packet sizes.
+
+ack_invent
+invent_copow
+
+ack_copow
+find_value
+store_value
+
+ping to another node
+response of ping
+request node info
+response node infers
+request transactions contents
+respond transactions contents
+request leaves’ hashes
+respond leaves’ hashes
+invent new transaction
+hash
+ack of invent
+invent that a node is
+searching for coPoW
+group
+ack of invent_coPoW
+reserved for future use.
+reserved for future use.
+
+In order to ensure anonymity between public full-nodes and
+clients we utilise the Tor network. This is essential as full- 9 Leaves within iMesh
+nodes may otherwise receive sensitive information such as
+their clients’ IP addresses along with the clients’ transac- As mentioned previously in Section 4, the speed of confirmation depends heavily on the number of leaves, Nl eaves ,
+tions.
+in iMesh. This is due to the fact that as the number of leaves
+It is important to note that Tor is not employed for com- within iMesh increases, the probability that a new transacmunications between full-nodes. This is due to the fact that tion will refer to any one leaf reduces.
+routing traffic via the Tor network introduces an unavoidable element of delay into inter-nodal communications, and There are a number of scenarios in which the number of
+efficiency between full-nodes is a critical aspect of the speed leaves could conceivably increase, as illustrated in Figof the entire Aidos Kuneen network. Additionally, there is ure 12:
+little need to enforce anonymous communication between
+nodes, this is due to the fact that even if the initial clientto-node connection were not secured with Tor, the initial
+receiving node does not transmit any sensitive information
+about the client when it relays the transaction to the other
+nodes.
+Unfortunately however, Tor is not quantum secure. Though,
+Tor does have the advantage of being a well established,
+trusted network with a large number of participants. We believe that for the short term at least, the strong anonymity
+provided by the Tor network is an excellent fit for Aidos Kuneen. We will continue to investigate other potential
+methods of providing quantum-resistant anonymity as they
+become available.
+Table 2 lists the basic packet commands for the Aidos
+Kuneen network.
+
+Figure 12: Leaves within iMesh
+The first scenario is that an attacker might seek to slow
+down iMesh by intentionally referring to non-leaf transactions. This would have the effect of adding additional, unreferenced leaves to the DAG, thus decreasing the overall
+efficiency of the entire network.
+In order to combat this situation we could set Nr e f ≥ 3 to
+help prevent attackers from increasing the number of leaves
+
+8https://msgpack.org/
+
+11
+
+indiscriminately. If we combine this with the fact that an at4. λ in =10 TPS
+tacker can only add one new leaf per transaction, we will
+find that (provided the attacker does not control more than Algorithm 1 Simulation of the number of leaves within
+50% of the total network hash power) honest transactions iMesh
+INPUT Nr e f : number of directly referring transactions
+will rapidly reference the attacker’s new leaves, thus inteINPUT Tsi m : number of iterations
+grating them into the DAG and preventing the uncontrolled
+INPUT λ in : rate of incoming transactions
+growth of unreferenced leaves.
+INPUT λ pow : time to complete PoW
+OUTPUT: number of leaves
+In a similar situation to scenario one, an attacker may seek
+to spam the network by broadcasting a large number of very
+time = 0 //current time
+low (or even zero value) transactions to either himself or an
+pow_t xs = {} //transactions which are undergoing PoW
+t xs = {} //transactions in iMesh
+accomplice in an attempt create a large number of leaves
+while time < Tsi m do
+in a short amount of time, thus causing confirmation times
+step ⇐ an exponentially distributed value at rate λ in
+to significantly increase. This is easily prevented by the extime ⇐ time + step
+isting requirement to complete PoW for every transaction,
+regardless of the value being transacted.
+//add a new transaction to the transaction list
+//with a period to complete PoW.
+In the third scenario, one transaction T1 could enter into
+make new transaction t new
+t new .is_lea f ⇐ true
+iMesh while another, T2 , is still in the process of being valileaves ⇐ select random Nr e f leaves in t xs
+dated (i.e. still undergoing PoW) and has not yet appeared in
+t
+new .leaves ⇐ leaves
+iMesh. Thus T1 and T2 may actually both be referring to the
+pow_time ⇐ an exponentially distributed value at rate
+same reference transaction. This scenario is not necessarily
+λ pow
+the result of malicious intent, in fact, it could be expected to
+t new .pow_time ⇐ time + pow_time
+append t new to pow_t xs
+occur quite frequently during normal network operation.
+To solve this problem, we could increase the number of referring transactions for any one transaction, Nr e f , in order
+to decrease Nl eaves (i.e. to converge iMesh). However, this
+has the undesirable side effect of increasing the transaction
+size. As such, we need to determine the optimal Nr e f value
+in order to converge iMesh, while still seeking to maintain
+a small transaction size.
+To this end, we will now present a simulation of the behavior of iMesh.
+Firstly, we assume the process of incoming transactions can
+be modelled by a Poisson flow, the size of a transaction |T x|
+is given by (constant+32×Nr e f ) bytes, and the time to complete PoW can be modelled by an exponential distribution.
+So, let λ in equal the rate of the Poisson flow and 1/λ pow
+equal the expected time to complete PoW. Therefore, we
+can say that on average, users will produce transactions at
+rate of λ in and will complete PoW in 1/λ pow . Note: The
+transaction rate includes PoW time 1/λ pow .
+While a user is performing PoW, other users will be generating new transactions and these transactions will likely include some of the same reference transactions as the transaction currently undergoing PoW. The fact that Nr e f (t) depends on Nr e f (t − t 0 ) (i.e. the status in the past) makes it
+difficult to solve for Nr e f directly. Hence, it becomes necessary to simulate the behaviour of Nr e f .
+
+//handle transactions whose PoW has finished
+for all t in pow_t xs do
+if t.pow_time ≤ time then
+remove t from pow_t xs
+append t to t xs
+for all l in t.leaves do
+l.is_lea f ⇐ f alse
+end for
+end if
+end for
+count t such that t.is_lea f = true in t xs and print it
+end while
+Figures 13 ~ 17 in Appendix A show the results of the simulation. The result of Nr e f = 8, 16, 32 for λ in = 1 transactions per minute are not included as these results essentially
+the same as those of Nr e f = 4.
+From these results, we can see that the number of leaves
+Nl eaves decreases in proportion to the increasing value of
+Nr e f . Even when λ in = 1 transaction per minute, Nr e f = 2
+is not enough to fully converge the DAG, (Nl eaves is around
+3 ~ 26), and Nr e f ≥ 4 is better (Nl eaves = 1 ~ 18). Furthermore, when we look at the other λ in values, we notice that
+Nr e f = 2 is considerably worse than the other Nr e f values. For example, at λ in = 5 TPS, Nl eaves ' 3800 when
+Nr e f = 2, Nl eaves ' 500 when Nr e f = 8. Therefore, it is
+clear that we should NOT use Nr e f = 2 if we assume transactions enter into iMesh at same speed as Bitcoin. The time
+to converge DAG is below 3000 seconds (50 minutes) for
+all values of Nr e f except Nr e f = 2 when λ in = 10 TPS.
+
+Algorithm 1 shows the algorithm used to simulate the number of leaves in iMesh. We take 1/λ pow = 10 minutes and It should also be mentioned that as |T x| exhibits simple linsimulate with Nr e f = 2, 4, 8, 16, 32 across the following ear behaviour and doubles with each increase in the value of
+rates of input transactions λ in :
+Nr e f , from a purely transaction size focused point of view,
+1. λ in =1 transaction per minute (This models the early we should seek to minimise the Nr e f value.
+days of iMesh when the user base is small)
+We also simulate how the number of transactions,
+2. λ in =1 TPS (transaction per second)
+Ndescendant , which refer directly and indirectly to any one
+3. λ in =5 TPS (This is the peak transaction speed in the transaction grow for each of the cases mentioned previously. Figures 18 ~ 21 in Appendix B illustrate these results.
+Bitcoin network as occurred in May 2017)
+12
+
+In these figures, the x-axis shows the number of transactions
+which enter into iMesh (after iMesh has become stable).
+The y-axis shows Ndescendant (the number of descendant
+transactions) for one random transaction. The graph would
+become a diagonal (linear) line if Ndescendant were to grow
+at an ideal rate. When λ in = 1 transaction per minute, the
+graphs of all Nr e f are almost diagonal. But, as λ in increases, Ndescendant reduces. For example, when λ in =5
+TPS, Ndescendant does not increase diagonally even after
+25000 transactions (25000 × 0.2 seconds ' 1.39 hours on
+average) at Nr e f = 2. When Nr e f = 8 and after 4000 transactions (4000 × 0.2 seconds ' 13.3 minutes on average),
+Ndescendant starts to increase linearly.
+As such, we believe that the best course of action is to allow
+Nr e f to remain as a variable. Nr e f = 8 will be adopted at
+the initial setting, due to the fact that even if iMesh were
+to grow to λ in = 5 TPS (which is the maximum TPS in
+Bitcoin), Nr e f = 8 still allows iMesh converge at around
+#leaves=500. Additionally, as previously discussed, setting
+Nr e f = 8 ≥ 3 will help to prevent attackers from increasing
+the number of leaves indiscriminately.
+As iMesh continues to grow we will review the value of the
+Nr e f variable in order to maintain optimal network performance.
+
+10
+
+Future Plans
+
+The following plans are intended to be integrated into the
+Aidos Kuneen network in the future:
+1. Distribute transactions between nodes to allow for increased scalability (i.e. a single full-node does not hold
+all transactions within the network but instead queries
+other nodes in the network as required)
+2. Implement a Kademlia based scheme for Tor-like
+anonymity, post-quantum security and distributed peer
+discovery.
+3. Implement a more sophisticated ZKNI algorithm in order to reduce transaction sizes.
+
+11
+
+Conclusion
+
+In this white paper we have presented the new cryptocurrency Aidos Kuneen.
+Aidos Kuneen employs iMesh, where all transactions are directly referred to one another in order to form a DAG structure.
+To prevent double spending we utilize ‘SPECTRE’ to determine the legitimacy of all transactions.
+We employ the hash-based signature ‘XMSS’ as the signature scheme for post-quantum resistance.
+For anonymity we introduce AKShuffle which utilises
+the zero-knowledge proof ‘ZKBoo (ZKB++)’ for postquantum security.
+To cater for the future growth of the IoT sector we introduce a novel cooperative Proof of Work mechanism called
+13
+
+coPoW, which allows low powered devices to combined
+their resources and perform PoW as a group.
+Finally, we provided a simulation of the number of leaves
+within iMesh, and the expected behaviour of the network as
+the network grows.
+
+Table 3: Aidos Kuneen: Technical Specifications
+Ticker
+
+ADK
+
+Total Supply
+
+25,000,000 ADK
+
+Minimum Unit
+
+0.00000001 (10−8 ) ADK
+
+PoW Algorithm
+
+Cuckoo Cycle
+
+Anonymity
+
+AKShuffle (post-quantum
+zero knowledge proof) and
+Tor
+
+Consensus Algorithm
+
+SPECTRE
+
+Distributed Ledger
+
+iMesh (transaction DAG)
+
+Signature Scheme
+
+XMSS (post quantum hash
+based signature)
+
+Usage
+
+Finance, Banking, Digital Commerce, IoT Micropayments
+
+References
+[1] Satoshi Nakamoto, Bitcoin: A Peer-to-Peer Electronic Cash System, 2008.
+[2] Crypto Forum Research Group, draft-irtf-cfrg-xmss-hash-based-signatures-10 XMSS:Extended Hash-Based Signatures, 2017.
+[3] Serguei Popov, The tangle, 2017.
+[4] Sheldon M. Ross, Introduction to Probability Models. 10th Edition, 2012.
+[5] Sergio Demian Lerner, DagCoin: a cryptocurrency without blocks, 2015.
+[6] Johannes Buchmann, Erik Dahmen, Andreas Hülsing, XMSS — A Practical Forward Secure Signature Scheme Based
+on Minimal Security Assumptions, 2011.
+[7] Irene Giacomelli, Jesper Madsen, Claudio Orland, ZKBoo: Faster Zero-Knowledge for Boolean Circuits, 2016.
+[8] Melissa Chase, David Derler, Steven Goldfeder, Claudio Orlandi, Sebastian Ramacher, Christian Rechberger, Daniel
+Slamanig, Greg Zaverucha, Post-Quantum Zero-Knowledge and Signatures from Symmetric-Key Primitives, 2017.
+[9] Yonatan Sompolinsky, Yoad Lewenberg, and Aviv Zohar, SPECTRE: Serialization of Proof-of-work Events: Confirming Transactions via Recursive Elections, 2016.
+[10] Peter W. Shor, Polynomial-Time Algorithms for Prime Factorization and Discrete Logarithms on a Quantum Computer, 1995.
+[11] Masoud Mohseni, Peter Read, Hartmut Neven, Commercialize early quantum technologies, 2017.
+[12] PQCRYPTO, Post-Quantum Cryptography for Long-Term Security, Initial recommendations of long-term secure
+post-quantum systems, 2015.
+[13] Nicolas van Saberhagen, CryptoNote v 2.0, 2013.
+[14] John Tromp, Cuckoo Cycle: a memory bound graph-theoretic proof-of-work, 2014.
+[15] Anton Churyumov, Byteball: A Decentralized System for Storage and Transfer of Value.
+[16] Michael Szydlo, Merkle Tree Traversal in Log Space and Time, 2004.
+[17] PQCRYPTO, Post-Quantum Cryptography for Long-Term Security, 2015.
+[18] David Schwartz, Noah Youngs, Arthur Britto, The Ripple Protocol Consensus Algorithm, 2014.
+
+14
+
+Appendix A
+
+Results of Simulation — Number of Leaves Nleaves
+
+Figure 13: λ in = 1 transaction per minute, Nr e f = 2
+
+Figure 16: λ in = 5 TPS
+
+Figure 14: λ in = 1 transaction per minute, Nr e f = 4
+
+Figure 17: λ in = 10 TPS
+
+Figure 15: λ in = 1 TPS
+
+15
+
+Appendix B
+
+Results of Simulation — Growth of Ndescendant
+
+Figure 18: λ in = 1 transaction per minute
+
+Figure 21: λ in = 10 TPS
+
+Figure 19: λ in = 1 TPS
+
+Figure 20: λ in = 5 TPS
+
+16
+
+

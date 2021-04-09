@@ -1,0 +1,986 @@
+Whitepaper
+Version 2.0
+
+www.hpb.io
+
+Contents
+1.
+2.
+3.
+4.
+
+About HPB...........................................................................................................................2
+Public Blockchain Industry Overview................................................................................ 3
+The Problem....................................................................................................................... 4
+Our Solution........................................................................................................................5
+4.1 Our Value Proposition...................................................................................................6
+
+5. Our Technology – the Blockchain Offload Engine.............................................................8
+6. Governance.......................................................................................................................11
+6.1 Consensus Algorithm: Introducing Proof of Performance (PoP)................................ 11
+6.1.1 Node Types.............................................................................................................. 11
+6.1.2 Two-Tier Calculation Formula..................................................................................12
+6.2 The BOE Node: Dual-election of Nodes...................................................................... 13
+6.3 Global BOE Node Allocation....................................................................................... 13
+6.4 Voting: Election and Invitation of Nodes.................................................................... 14
+6.4.1 Election of Nodes: Voting........................................................................................ 15
+6.4.2 Invitation of Nodes: Voting Exclusion......................................................................15
+6.4.3 Pre-assigned HPB Foundation Nodes: Voting Exclusion..........................................15
+6.5 BOE-Node Incentives.................................................................................................. 15
+6.5.1 BOE-Node Block rewards......................................................................................... 16
+6.6 Voting Rules................................................................................................................ 16
+6.7 Running for a BOE Hardware...................................................................................... 17
+7. Token and Distribution.................................................................................................... 18
+8. Application........................................................................................................................19
+8.1 Blockchain APIs & Application SDKs........................................................................... 19
+8.2 Smart Contract............................................................................................................19
+8.3 System Management.................................................................................................. 20
+9. Roadmap...........................................................................................................................21
+10. Use Cases.......................................................................................................................... 22
+10.1 Smart Big Data.......................................................................................................... 22
+10.2 Gaming:..................................................................................................................... 22
+10.3 Anti-Counterfeit Traceability.................................................................................... 23
+11. The HPB Team.................................................................................................................. 24
+11.1 Founding Team......................................................................................................... 24
+11.2 Overseas Business Development Team.................................................................... 25
+11.3 Core Domestic Team.................................................................................................26
+12. Acknowledgements..........................................................................................................27
+
+www.hpb.io
+
+1
+
+1. About HPB
+With blockchain technology growing at an unprecedented pace and the world scrambling to
+find new and exciting applications for this development, a problem plaguing the industry
+has hampered progress: scalability. High Performance Blockchain (HPB) has solved this issue
+with its novel approach in combining software and hardware. HPB is a revolutionary
+permissionless blockchain architecture developed and operated by the HPB Foundation.
+Committed to becoming the world’s highest performing blockchain platform, HPB will pave
+the way for the blockchain technology revolution for businesses and consumers alike.
+With a core team comprised of talents from high-powered multinationals such as Huawei,
+IBM, Inspur, Alibaba, UnionPay, ICBC, McKinsey and Deloitte, Founder and CEO Wang
+Xiaoming formally established the team in 2017. CEO Wang Xiaoming gathered a team to
+build and launch a platform that would win numerous awards in the blockchain industry,
+and himself was rewarded the title of “Most Innovative CEO” in the 4th Annual Blockchain
+Finance & Fin-tech China 2018.
+Due to the novel approach of combining hardware and software, HPB gained the attention
+of blockchain enthusiasts, IT professionals, and developers worldwide. Through immense
+fundraising done by the core team, HPB has grown to more than 50 professionals from top
+firms and universities with experiences ranging from top IT employees, investment bankers,
+consultants and marketing specialists. Having weathered the peak and valley of the
+cryptocurrency market, one of the foundational beliefs of the project is stronger than ever:
+blockchain technology is not only an advancement of computing technology, but also an
+economic model wherein all stakeholder interests are aligned.
+As blockchain technology grows and becomes a part of everyday life, we hope that you will
+join us. We hope that you will collaborate with us to build a new world which is more
+transparent, more accessible, and more agreeable to both ends of a transaction. We believe
+that with the proliferation of blockchain technology, a new economic model for businesses
+will develop and flourish into a powerful instrument in security, transparency, and
+commerce. We look forward to that day, and we hope you will be there with us.
+
+www.hpb.io
+
+2
+
+2. Public Blockchain Industry Overview
+The blockchain industry has evolved from the simple cryptocurrency application with an
+immutable, public ledger at blockchain 1.0, to smart contracts with innumerable
+applications 2.0 with decentralized applications (DApps). In the current landscape, public
+chains are scrambling to gather as much funding and developers as they can to create their
+ecosystem and tokenomics to secure their spot in the future of blockchain. With the influx
+of investments from Initial Coin Offerings (ICOs), to direct private investments and token
+swaps, the industry itself has moved from the initial boom of publicity to steady
+development.
+With so many public chains and corresponding applications being developed, the industry is
+a highly fragmented, competitive environment all striving for sustainability. With initial
+reactions of many key governments harshly regulating blockchains and cryptocurrencies,
+they are now stabilizing and looking to foster growth of their respective industries. After
+enjoying a very hectic boom of the industry in late 2017/early 2018, investors and
+consumers alike have become more stabilized and are awaiting the projects with
+sustainability. The main traits they look for are, of course, attractive tokenomics, capabilities
+of the infrastructure, development team and so forth, but also the solution to the big
+blockchain problem: scalability. Blockchain 1.0 offered a new platform and technology to
+transact and keep a ledger, and blockchain 2.0 offered smart contracts. As with any future
+technology, the main differentiator for blockchain 3.0 may be an unknown at the moment,
+but it is evident that the scalability problem must be solved for the tech to move forward,
+with the possibility that scalability itself will be the differentiator.
+DApp development and their ecosystem have been a point of focus for many public chains,
+and rightfully so; without a full, thriving ecosystem, the majority of a public chain’s value
+becomes void. As new applications are coming to light, such as social networking, energy
+and resource management, big data, financial instruments, advertising, and more, it is
+apparent that DApp development must be fostered and allowed to explore new avenues of
+business. With proper tokenomics, all stakeholders’ interests may be aligned, creating a new
+business model where owners/investors, employees, and consumers all benefit together.
+With a strong and powerful enough infrastructure, developers may create applications to
+their heart’s content, allowing for any number of different capabilities. With user/developer
+friendly tools, the burden of learning a new technology is taken away and that barrier to
+adoption is nullified.
+Although a fragmented market, the blockchains that offer a competitive advantage, lasting
+infrastructure, or high utility will undoubtedly survive and move forward exploring this blue
+ocean.
+
+www.hpb.io
+
+3
+
+3. The Problem
+The current major iterations of blockchain possess several problems:
+TPS performance
+
+High transaction fees
+
+As blockchain technology’s adoption rate
+grows, transaction volumes grow at an
+exponential rate. Current infrastructures
+cannot handle the volume, causing massive
+congestion and slow-downs
+
+Congestion in networks leads to higher
+transaction fees, as the processing entities
+prioritize the ones who pay the most
+
+Bitcoin is a legacy network, confined to
+about 7 TPS. Visa, running at an average of
+2,000 TPS with a maximum of 50,000, far
+outpaces current networks in comparison
+
+High block sizes can lead to increased
+network latency, in turn increasing
+confirmation times, congestion, and a
+general slow-down of the network. This
+again increases fees even further
+
+Difficulty in developing DApp
+
+Poor security
+
+Due to the stated issues, developers
+experience roadblocks and face challenges
+in DApp development
+
+Several public chains have already
+experienced security breaches
+A split in the community can lead to hard
+forks, leading to splintered blockchain
+networks and sometimes even
+abandonment of the infrastructure
+A protection against a 51% network attack,
+where a majority of mining resources are
+turned against the network, still hasn’t
+been found for most networks
+
+www.hpb.io
+
+4
+
+4. Our Solution
+With blockchain technology still being in its infancy, the implementations of its offerings
+differ with each public chain. HPB aims to tackle the most obvious problem, scalability, with
+a novel architecture in an effort to add value to businesses while solving the challenges for
+consumers.
+With the unique mix of open-source hardware and software, the architecture offers many
+unique advantages not seen elsewhere. Through this mix, a fusion of high-level technologies
+come together to create the comprehensive package offered:
+
+This suite of technologies is served first by the hardware architecture. The BOE hardware
+unit is comprised of four main components; the MAC module, Hardware Random Number
+Generator, TCP/IP Offload Engine (TOE), and Elliptic Curve Digital Signature Algorithm
+Module. These modules come together to present a streamlined approach to security, data
+integrity, data collection, and the main blockchain processes such as signature verifications
+and the consensus algorithm, while massively reducing the workload on the parent system.
+This system is designed to optimize the software as much as possible, leaving the hardware
+to do what it should do - computation.
+The software architecture focuses mainly on being an interface as a customizable tool for
+the user. It provides accounts, identity, authorization and policy management, along with
+database and asynchronous communications on a multitude of CPUs, FPGAs or clustered
+program schedules.
+www.hpb.io
+
+5
+
+The two architectures are assigned to perform what they are best suited for; hardware for
+raw computing, software and data management for interacting with the user.
+Through lowering parent system requirements, one of the barriers to entry is lowered to
+join the blockchain as the BOE takes the majority of the work. With the expansion of
+Software Development Kits (SDKs) that will allow most mainstream programming languages
+to be implemented with minimal adjustments, developers will enjoy a more flexible
+development stage as they can utilize the language their applications are best suited for and
+are comfortable with. Lastly, as scalability is solved through the high performance of the
+network, the HPB public blockchain will be a great offering to all, from large multinationals
+to individual developers.
+
+4.1 Our Value Proposition
+
+High Transactions Per Second (TPS)
+The Blockchain Offload Engine (BOE) hardware chipset is developed to optimize the
+blockchain network and alleviate the most common bottlenecks. Different parts of the
+www.hpb.io
+
+6
+
+consensus algorithm process are offloaded onto the chipset to greatly enhance transaction
+speeds.
+
+Full Customizability & Accessibility
+The HPB platform is programming language agnostic using RPC to build new SDKs for most
+programming languages, making decentralized application (DApp) development highly
+accessible. At launch of the HPB MainNet JAVA will be the main coding language. After a
+variety of coding languages will be available, professionals and unaffiliated developers alike
+can utilize whichever means they deem fit for their purpose and develop their DApps
+without the hassle of tweaking their projects to a specific language, as any of the added
+coding languages can be used to deploy smart contracts.
+Low Maintenance Costs
+Unlike traditional hardware, our BOE hardware chipset is specifically developed to run and
+maintain a decentralized blockchain network. The chip is fully optimized to complete the
+consensus algorithm process in a highly efficient and effective manner. Through the unique
+synergies achieved by the combination of hardware and software, transactions are verified
+and stored without incurring excessive electricity costs.
+Data & System Security
+The coupling of hardware and software enables greater system security compared to
+traditional systems. Blockchain by nature is a distributed ledger, preventing data loss and
+preserving the integrity of said data. The BOE hardware adds another layer of security by
+introducing the physical component to the blockchain infrastructure, which is far less
+susceptible to attacks than software only solutions. In addition, the BOE hardware has an
+embedded hardware random number generator, which greatly increases security through
+unpredictability.
+
+www.hpb.io
+
+7
+
+5. Our Technology – the Blockchain Offload Engine
+For traditional blockchain nodes, functions such as transaction broadcasting, transaction
+verification, block broadcasting, and block packaging are all implemented on the software
+level. The data connection between each node is a serial process, resulting in complications
+such as complex network topology, long delay times and low serial processing performance
+due to general hardware bottlenecks.
+To address such stumbling blocks, the Blockchain Offload Engine (BOE) was created. The
+BOE is a heterogeneous processing system, harmonizing hardware, firmware, and
+corresponding matching software that streamlines the whole process. To achieve target
+performance and high concurrent computing acceleration, the BOE combines CPU serial
+capabilities and the parallel processing capabilities of Field-Programmable Gate Arrays
+(FPGA)/ASIC chips.
+
+BOE Board Schematic
+
+www.hpb.io
+
+8
+
+The BOE’s first point of interface with the network is the MAC module. Connecting to other
+devices through a Peer-to-Peer (P2P) network, the MAC module uses a Gigabit/10 Gigabit
+Ethernet interface. Encrypted communication channels are established via the TCP/IP
+Offload Engine (TOE) module. The module performs integrity checks and signature
+verifications, as well as account balance checks on messages, transactions and blocks. TCP
+and UDP packets are resolved for communication. For excessive block data, it performs
+fragment processing to be sent and encapsulates each fragment to ensure the integrity of
+the received data. This offloads a lot of resources from the CPU, as it takes no part in these
+functions.
+The BOE is designed to be able to provide corresponding incentives for the contribution of
+the system, so as to attract more users to participate in maintaining the network's operation.
+This is done through collecting statistical information regarding the received traffic of each
+TCP connection.
+ECDSA Acceleration
+To reinforce security, every transaction and block broadcast in the network requires a
+signing and verification process. ECDSA, the Elliptic Curve Digital Signature Algorithm, is
+currently the most mature and widely used digital signature algorithm in the industry. Due
+to hardware limitations of traditional blockchain set-ups, software-only implementations
+are limited to a low number of verifications per second (VPS), falling far short of HPB’s
+desired specifications.
+The BOE hardware solves this issue by an ECDSA module embedded in the unit itself,
+alleviating the burden of having software run the process. This solution allows for signature
+verification speeds that meet enterprise level requirements.
+Hardware Random Number Generator
+When data transmission is performed between nodes, an encrypted channel needs to be
+established through a key exchange. As software random number generators are generally
+pseudo-random, a hardware solution is needed to guarantee truly random numbers for
+encryption purposes. This not only ensures the true nature of the random number, but also
+alleviates a workload from the CPU.
+Data Fragmentation
+Current network infrastructures are not able to handle the great amount of data
+transmitted between nodes, leading to slow data synchronization. The BOE adopts block
+data fragmentation broadcast processing. In this approach, each block fragment contains a
+complete block header, allowing for newly generated blocks to be broadcast easily to all
+nodes and realize a quick convergence of the blockchain.
+Network Performance
+One of the network’s requirements to become a High-Performance Node is to provide
+bandwidth to the system. Collecting network statistics and traffic information through the
+BOE is the most efficient, as the gateway to the network is through the BOE hardware. This
+results in an easily and readily available method of data collection provided by the BOE unit.
+
+www.hpb.io
+
+9
+
+Concurrency
+The BOE is able to achieve a considerable number of concurrent connections, supporting
+more than 10,000 simultaneous TCP sessions, processing the sessions in parallel. This
+greatly reduces the number of distributed network layers by dedicating parallel processing
+hardware in place of traditional serial processing methods. This allows functions such as
+transaction data broadcasting, transaction confirmation broadcasting and so forth to be
+done in parallel, greatly reducing response times and bolstering network speeds by a factor
+of 100.
+
+www.hpb.io
+
+10
+
+6. Governance
+Despite being heralded as the onset of decentralization, a fully decentralized blockchain
+faces many infrastructure-breaking problems. Due to their uncontrolled nature, the
+infrastructure itself may be subject to roadblocks such as hard forks from a divided voter
+base, or cartels that may form to control the voter base.
+The dual-election model of HPB is the solution to balancing the benefits we seek from
+decentralization, and a stable infrastructure. Although the issue of decentralization is at the
+very least sensitive, and at most subjective, we believe we have found a good solution. With
+four core principles, efficiency, transparency, accessibility, and inclusion, we are able to
+bridge the gap between decentralization, and effectiveness.
+
+6.1 Consensus Algorithm: Introducing Proof of Performance (PoP)
+
+As the consensus algorithm is one of the pillars of blockchain, it is understandable that
+many different iterations have sprung up from the different public chains. HPB is no
+different, and faced the core of the problem head-on. The vision of a decentralized future
+was difficult to balance with performance, and after carefully balancing the pros and cons, a
+novel approach was chosen. Existing algorithms presented strong drawbacks in one of two
+categories; decentralization and performance. Striking a balance without much compromise
+had been the holy grail of upcoming projects, and our core team was able to devise their
+own design.
+HPB’s consensus algorithm is based on the performance contribution of each Node and
+takes into consideration many different factors in its calculation. This sets it very much apart
+from other consensus algorithms that we have analyzed for the use for our blockchain and
+because of it we have named it Proof of Performance (PoP).
+
+6.1.1 Node Types
+
+In order to understand the technical details of HPB’s Proof of Performance, it is important to
+understand the type of Nodes that participate in the network. Each Node type has its own
+purpose participating in the network and execute different processes on the blockchain.
+
+The main drivers of the HPB MainNet are the BOE-Nodes that comprise the entire active
+network for the duration of the seasonal BOE Node Election & Invitations periods as
+outlined in Section 6.3. The MainNet is run on 150 active BOE-Nodes, out of which 31 are
+denoted HP-Nodes based on their performance. HP-Nodes are on constant rotation and
+generated by the consensus algorithm, choosing from the pool of Candidate-Nodes and reassessing existing HP-Nodes using an embedded two-tier calculation formula.
+
+www.hpb.io
+
+11
+
+6.1.2 Two-Tier Calculation Formula
+
+The PoP consensus algorithm features a two-tier formula that divides and completes the
+calculations from an outer and inner layer. This division reduces computational resources
+and increases the speed at which the PoP can complete the necessary calculations to reach
+consensus.
+1) Outer Layer
+The outer layer of the consensus algorithm determines which Candidate-Node will
+become a HP-Node through an embedded HP-Node generation mechanism. All HPNodes are chosen from the available pool of BOE-Nodes based on the performance
+contribution of each Node. The embedded HP-Node generation mechanism utilizes
+performance indicators that rank the BOE-Nodes to determine which Node will be a HPNode of the next HP-Node rotation occurring every 10 minutes.
+The HP-Node generation mechanism embedded in the PoP consensus algorithm runs
+automatically and ensures a steady Node rotation for fairness of the HP-Node selection.
+Key influencing factors for becoming a HP-Node are:
+- Server performance (high spec. server set up)
+- Network bandwidth (bi-directional upload & download speed)
+- BOE compliance status (BOE-Node network connectivity; BOE-Node transaction
+analysis)
+- Number of times a BOE-Node has been selected as HP-Node
+- Geographical location
+- Daily continuous votes received
+
+2) Inner Layer
+The inner layer of the consensus algorithm determines which HP-Node is prioritized to
+generate the block, based on an anonymous hash queue mechanism. The inner layer
+calculation is divided into three components of 1) Nomination, 2) Statistics and, 3)
+Computation:
+www.hpb.io
+
+12
+
+Nomination: At the beginning of each HP-Node rotation, the BOE generates random
+Commits, which are part of the generated blocks. Each HP-Node submits their respective
+blocks to be synchronized into the chain, including the random Commits.
+Statistics: At the end of each HP-Node rotation, the HP-Nodes count the Commits part
+of the generated block and create a Commit Pool: (Commit1, Commit2, Commit3,
+Commit4, … Commitn)
+Computation: When a new block is generated, each HP-Node calculates the priority of
+the Node in the block. This priority calculation is done using the Commits fixed weight
+algorithm choosing from the created Commit Pool. The HP-Node with the highest
+priority will generate the block, while the other BOE-Nodes perform signature
+verifications, following the principle of Verifiable Random Functions (VRF) to ensure
+privacy and security, as the new block is integrated into the blockchain.
+As a result of the inner and outer layer design of the PoP consensus algorithm, the HP-Node
+selection and the block generation process provide enhanced security and privacy for the
+entire network. In addition, the division of the calculation helps to increase computational
+speeds and allows for higher performance on the blockchain.
+
+6.2 The BOE Node: Dual-election of Nodes
+
+By ensuring that the spirit of decentralization remains as the foundation of our model, the
+dual-election of nodes was chosen as our method of voting and selecting our BOE-Nodes.
+This method features an Election, and Invitation track that determines how nodes are
+allocated, and the amount of block rewards they receive.
+Through the Election track, any entity, be it person or organization, may apply and vote for
+a BOE hardware unit. If elected, the candidates that successfully pass our community
+supervision guidelines will be given a BOE hardware unit on a quarterly basis until our BOE
+hardware unit cap is reached. Anyone may apply and vote to become an active BOE-Node
+running on the MainNet.
+The Invitation track is different in nature, where HPB invites entities to become nodes. Here
+is where we not only bridge the gap between effectiveness and decentralization, but also
+keep alive the spirit of blockchain itself. The main benefits of blockchain were widely
+acclaimed due to its holistic, non-zero-sum-game nature; it looked to benefit all
+stakeholders. We uphold these values by inviting institutions that are contributing to the
+development of society, such as universities and scientific research institutions, NPOs, NGOs,
+and those having a stake in the network (i.e. HPB DApps). By thoroughly vetting the invitees,
+we ensure that invitee nodes may bring synergy to the network and create wider
+decentralization.
+
+6.3 Global BOE Node Allocation
+
+As having an operational BOE hardware unit is a prerequisite to participating in running the
+HPB blockchain and receiving its block rewards, we have defined the following Node
+allocation to ensure a smooth and efficient system:
+
+www.hpb.io
+
+13
+
+With the total number of BOE Nodes being less than that of BOE units in circulation, Election
+and Invitee Nodes are subject to a rotation cycle. BOE Node Elections are held every three
+months, and Invitee Node delegations every six months.
+As demand for the HPB infrastructure grows, the network of active Nodes will grow
+organically in tandem. The expansion of the Node network is divided into two phases
+supporting the infrastructure from the time of the MainNet launch.
+Phase 1) MainNet Go-Live
+A total of 150 BOE Nodes maintain the network, with a total of 31 HP-Nodes.
+Phase 2) BOE Node Expansion
+An additional 150 BOE Nodes are added to the network to strengthen the MainNet,
+resulting in 300 BOE Nodes maintaining the network, 61 will be HP-Nodes.
+In regards to our BOE Node holder governance, it is important to highlight that we foster
+the principle of inclusion and give everyone the opportunity to apply for a BOE hardware
+unit by means of the Election and Invitation Tracks.
+The Election Track allows anyone to apply for a BOE hardware unit, competing with other
+applicants at every BOE Hardware Election. It is when BOE hardware owners compete again
+as part of the BOE Node Elections for an active BOE Node that network participation is
+decided. Invitee Nodes however, face stringent requirements and are vetted harshly as they
+are delegated directly by the HPB Foundation, and automatically become BOE Nodes
+participating in the network. In principle, anyone or any institution may apply to join the
+network as an Invitee Node, but we will only consider the following institutions and partners:
+- Enterprises: Enterprises within the HPB ecosystem that deploy DApps and serve
+their target users.
+- Academic Research Institutions: Universities or scientific research institutions that
+can carry out academic research and develop advanced technology in the blockchain
+industry.
+- Developers: Those who can contribute to the HPB technical ecosystem.
+- NPOs: Non-profit organizations that can give back to the society through blockchain
+technology.
+
+6.4 Voting: Election and Invitation of Nodes
+
+The HPB blockchain infrastructure is open source and allows all participants, both network
+operators and users holding HPB coin, the opportunity to impact the platform governance.
+This is an important virtue embedded within HPB’s vision regarding community supervision,
+as the community can come together to build a decentralized future, aligning majority
+stakeholders interests, where every HPB coin can be used to cast one vote, with the weight
+of the votes being accumulative.
+www.hpb.io
+
+14
+
+6.4.1 Election of Nodes: Voting
+
+The BOE Nodes maintaining the network are the backbone of the HPB infrastructure, and
+facilitate most of the transactional processes occurring on the HPB blockchain. The BOE
+Hardware Election is divided into two expansion phases. Phase one voting will continue
+quarterly until BOE hardware owners are elected by the community to fill the hardware unit
+cap of 200 (at time of writing, Q3 2018, 124 have been distributed). Phase two will increase
+the cap to 400 as to meet the expected increase in demand.
+The voting feature is accessed through the HPB Wallet, where all users can use their HPB
+coins to cast votes for themselves or other community members. For each BOE Hardware
+Election, applicants compete with each other for the most votes, with the highest ranking
+receiving a hardware unit each. As we feel a healthy amount of competition is good for the
+system, more hardware units will be released than there are available slots for BOE Nodes,
+implying that there will be applicants who own the BOE hardware units without the status
+of a BOE-Node. Those who won the BOE Hardware Elections, now compete with each other
+to run an active BOE-Node. This competition is called BOE Node Elections and follows the
+same election logic and is based on the same voting rules.
+
+6.4.2 Invitation of Nodes: Voting Exclusion
+
+The Node Invitation is also divided into two expansion phases, where Node holders are
+invited by the HPB Foundation during a bi-annual Node Application for Invitation cycles.
+Although there is no hardware unit cap for invitations, a maximum of only 36 active Nodes
+will be able to participate in the network. For phase two, the number of active Nodes for
+invitations will double to 72, falling in line with the expansion plan of the network. At the
+time of writing, 2 out of 36 invitee BOE Nodes have been allocated (Q3 2018). Unlike the
+Election track, Node invitees are automatically given the status of an active BOE-Node, and
+as such will be completely segregated from the voting feature, unable to cast or receive
+votes. This is to balance the economic rewards as part of the Node incentives (i.e. block
+rewards) outlined in Section 6.5.
+
+6.4.3 Pre-assigned HPB Foundation Nodes: Voting Exclusion
+
+There are pre-assigned Nodes for the HPB Foundation, which will not be rotated. A total of 9
+BOE Nodes as part of the network in phase one. Phase two will again double the number,
+bringing a total of 18 HPB Foundation Nodes active in the network. As they are not elected
+Nodes, they will follow the logic of Invitation Nodes where they are segregated from the
+voting feature, being unable to cast or receive votes. This again is to balance the economic
+rewards as part of the Node incentives (i.e. block rewards) outlined in Section 6.5.
+
+6.5 BOE-Node Incentives
+
+The economic model for BOE-Node holders is driven by an incentive paradigm embedded in
+the way the supply of HPB coins increase annually. HPB has a total initial supply of
+100,000,000 HPB and the annual additional issuance is capped at 6,000,000 HPB. The team
+has decided that adopting an inflationary model will help to stabilize HPB’s market economy,
+especially because we agree with the theory that coin loss can be modeled as a percentage
+of the total supply per year and the total HPB supply in circulation will eventually stabilize
+and reach an equilibrium.
+
+www.hpb.io
+
+15
+
+For the first year of the HPB MainNet operations (running on 150 BOE-Nodes) the inflation
+will not reach the issuance cap, instead is set at 3% of the initial token supply or 3,000,000
+HPB. As part of the BOE Node Expansion (running on 300 BOE-Nodes) the issuance is
+expected to reach the cap of 6% of the initial token supply or 6,000,000 HPB. Fixing the
+maximum inflation using an issuance cap implies that relative inflation decreases every year.
+Furthermore, we have decided that for the first year of inflation an equal amount of HPB
+coin will be burned from the reserve fund to drive adoption and economic incentives for
+BOE-Node holders. This means, despite using an inflationary model, the effective inflation
+for the first year will be 0%.
+
+6.5.1 BOE-Node Block rewards
+
+The additional issuance of HPB coin as part of the inflation is allocated as block rewards to
+BOE-Node holders and the distribution of the block rewards is divided into two parts:
+1) Two-thirds of the block rewards are allocated to HP-Nodes and Candidate-Nodes.
+For each block generated, the HP-Node responsible for the block generation
+receives 35% of the block reward, and all other Candidate-Nodes evenly divide the
+remaining 65% of the block rewards.
+2) One-third of the block rewards are allocated according to the proportion of daily
+votes the elected BOE-Nodes obtained, as part of the BOE Node Continuous Voting
+process. This allocation model compensates for the block reward allocation model
+of HP-Nodes and Candidate-Nodes and incentivizes those maintaining nodes.
+
+6.6 Voting Rules
+
+In order to facilitate the BOE Hardware Elections, BOE Node Elections and, BOE Node
+Continuous Voting the voting feature is embedded in the HPB Wallet. The rules for voting
+consider the stake users have in the network and also allows for community initiatives to
+thrive.
+Voting Period: Each HPB coin can be used to cast one vote every 24 hours, which will be
+accounted for calculating the node's reward for that day, as part of the BOE Node
+Continuous Voting process. In order to qualify for the 1/3 block reward allocation for
+elected BOE Nodes the node must receive at least one vote.
+Vote Source: The eligible amount of HPB coin for voting is captured with a random snapshot
+of the wallet balance of the previous day. The eligible amount for voting stays the same
+within the same round of voting and will not change if the balance in the wallet changes.
+
+www.hpb.io
+
+16
+
+Voting: Voting is done using the HPB Wallet App and features an automatic voting
+mechanism (AutoVote), votes can be automated based on a percentage allocation. The
+following scenarios apply:
+-
+
+Additional funds added to the wallet are not automatically considered for voting,
+and need to be manually added to the automated voting mechanism
+If funds are less than originally specified, the voting allocation will use the
+percentage allocation based on the remaining funds (random snapshot)
+
+Vote Count: Votes received are used to calculate the block reward for each round. Any
+votes received are cleared and reset to zero for the next round of voting on the next day.
+Vote Withdrawal: Withdrawing votes already submitted within the same round/ day of
+voting. Votes withdrawn within the same day/ round can be used to vote for other BOE
+nodes.
+
+6.7 Running for a BOE Hardware
+
+The BOE hardware is a prerequisite for anyone who wants to participate in the network as a
+BOE-Node. Given the hardware integration into a server, minimum server requirements
+apply. The BOE Hardware Election is subject to a performance test of the server which can
+be completed while the BOE Hardware Elections are open. Interested parties are asked to
+complete the following steps:
+-
+
+Register for the BOE Hardware Elections on HPB’s website: www.hpb.io
+Download and run the server testing software
+Link and verify the authenticity of the wallet address, by sending 0.1 HPB coin to the
+address shown on the BOE Hardware Election page
+
+Applicants compete for available BOE hardware units through their wallet holdings. The
+wallet linked to the application is used to determine a ranking of the majority stakeholders
+for the current season of BOE Hardware Elections.
+The minimum BOE hardware requirements are:
+
+www.hpb.io
+
+17
+
+7. Token and Distribution
+HPB total coin supply is 100,000,000 HPB. In order to incentivize our node holders, the HPB
+foundation provides an annual proportional reward of 3 to 6% of the total initial coin supply.
+For the first year (starting September 2018), the reward is set at 3% and is issued through
+our reserve fund. Starting from year 2 (September 2019), there will be an additional
+issuance of coins to reward the high-performance nodes and candidate nodes. The number
+of additional issuances shall not exceed 6% per year.
+
+Team: 20%
+Incentive for founding team and employees.
+Founding team & employee coins will be locked for three years and the unlocking process is
+one-third per year;
+Investors: 36%
+Cornerstone Investors coins will be locked for three years and the unlocking process is onethird per year;
+Ecosystem Development: 24%
+Build the HPB brand and DApp ecosystem, promote community ecosystem development,
+such as application development, community operation incentives, etc.;
+Reserve Fund：20%
+Used for strategic investment, token exchange, government cooperation, response to
+industry changes, etc.
+Reserve Fund will be locked for three years and the unlocking process is one-third per year.
+
+www.hpb.io
+
+18
+
+8. Application
+8.1 Blockchain APIs & Application SDKs
+
+The base layer of the blockchain system provides a series of blockchain data access and
+interaction interfaces by using JSON-RPC & RESTful API to support various data applications
+and development languages. It supports multi-blockchain, data query, transaction
+submission and other blockchain operations. In different business scenarios, the interactive
+access interface can be further integrated with the privilege control system.
+Application SDKs will be available as well, allowing for the execution of blockchain
+operations and functions, packet-based encryption, data signatures, transaction generation,
+among other features. The SDKs will provide a comprehensive service function interface for
+the developers working with HPB. It can be extended to integration of specific business logic
+functions, and seamlessly support expansion and integration into various business system
+languages. Currently it supports Java, whereas the following coding languages are planned
+for the future: JavaScript, .NET, Ruby, Python and other SDK languages.
+
+8.2 Smart Contract
+
+General Virtual Machine (GVM) Mechanism
+HPB supports a variety of virtual machines, with the capability of adding new virtual
+machines as needed over time through a modular design. The underlying virtual machine is
+combined with upper-level programming language parsing and transformation to flexibly
+support the basic applications of the virtual machine. Through customized API operations,
+the external interface of the virtual machine can be realized, and flexibly interact with the
+ledger and external data. This mechanism streamlines native code execution when running
+smart contracts. A GVM also supports code from other blockchains, allowing for greater
+flexibility
+Ethereum Virtual Machine (EVM)
+EVM has been the most popular solution for existing smart contracts, and can also be used
+on HPB. It is possible to run the HPB operating system’s blockchain, and EVM smart
+contracts within an internal sandbox, allowing for interactions with other HPB applications
+with minimal alterations.
+Neo Virtual Machine (NeoVM)
+NeoVM is actively being used for enterprise-level finance solutions while also having a
+strong presence in other industries. When future NeoVM users run into scenarios requiring
+high-performance, they can interact with HPB with only small modifications.
+Smart Contract Lifecycle Management
+The system handles smart contracts as digital assets, managing their full lifecycle from start
+to finish. It functions as a complete controlled management system of submission,
+deployment, usage, and cancellation of the assets. Comprehensive smart contract
+management can be fully implemented when paired with the right management mechanism.
+
+www.hpb.io
+
+19
+
+Smart Contract Auditing
+Smart contract auditing is achieved through secure auditing, a combination of automated
+auditing tools and professional auditors. With automated code review, formal verification,
+and integrated unit coverage testing tools, the smart auditing process provides security for
+most main points of vulnerability of smart contracts.
+Smart Contract Template
+By increasing the number of smart contracts written and executed, active adoption of the
+smart contract will build a flexible portfolio of templates for businesses to use, supporting
+flexible configurations for a multitude of scenarios.
+
+8.3 System Management
+
+System Configuration
+The system architecture can be divided into four levels: hardware, hardware abstraction,
+middle, and implementation layers.
+The software and hardware versions of the overall architecture must be compatible with
+each other. As such a novel approach may be a new undertaking for some systems, HPB
+provides a system upgrade service to help with compatibility. With simple commands,
+various levels of compatibility checks, automated downloads and upgrades, and
+deployments can be implemented for clarity and ease of use.
+System Monitoring
+HPB provides the whole ecosystem with comprehensive monitoring, logging dashboard
+applications, and real-time activity alerts and notifications. Remote fault recovery and
+network system restart services are also provided by HPB in cases of technical troubles, and
+integrated monitoring and expansion for specific business needs.
+
+www.hpb.io
+
+20
+
+9. Roadmap
+As of the writing (Q3 2018), we have strived for and achieved many steps towards our vision.
+Throughout 2018, our MainNet has launched and our platform has grown. In 2019 and
+beyond, we will push for greater use cases, with partnerships that will strengthen and add
+to our core competencies to build a strong DApp ecosystem, and HPB market economy.
+
+www.hpb.io
+
+21
+
+10. Use Cases
+10.1 Smart Big Data
+
+Security and privacy are quickly becoming the focal points of media and consumers
+concerning big data. Large multinationals are not immune to breaches in security as
+numerous widely publicized incidents have shown, from stolen information through online
+methods to stolen hardware through offline means. Preventing direct attacks on the server
+in question does not completely nullify the threat however, as even tertiary and auxiliary
+collection of benign data may eventually become robust enough to identify customers, and
+a breach to their systems will result in breach of privacy.
+We can help combat those concerns by not only securing its data through its blockchain, but
+also the accompanying services. Our blockchain ensures transparency, the BOE ensures
+security through encryption, and a suite of monitoring services ensures integrity of the
+system. Through this holistic approach in alleviating big data’s concerns, we have gained
+recognition from industry leaders in big data. UnionPay Smart for example, has partnered
+with us in an effort to preserve data integrity and performance. With an annual turnover of
+80 trillion Yuan, UnionPay Smart is specialized in big data innovation and currently is
+responsible for 80% of China’s banking transaction data. The partnership will bolster the
+authentication, certification, and traceability aspects of their data, with a tentative launch
+date set at Q3-4, 2018.
+
+10.2 Gaming:
+
+The global gaming market is hitting unseen heights, having reached $109 billion USD in 2017.
+With such a vast market, new business models and trends are constantly presenting
+themselves, such as the rise of Free-to-Play (F2P) games. One-time paid games, the
+traditional model of the industry where the consumer pays up front to buy the game, has
+been overtaken by the F2P model in revenue share, offering in-app purchases for in-game
+benefits ranging from items and services. Currently, almost all games are created and run by
+centralized game content providers, responsible for administering the game assets, trades,
+and all of the in-game logic.
+Personal Owned Game Asset:
+In virtually all of the centralized games, in game currencies and assets are stored and
+managed by the company’s administration. This gives the content provider the capability to
+manipulate the user’s in-game assets freely.
+Through our infrastructure, virtual in-game commodities may be stored on the blockchain,
+and in turn will be owned solely by the user; once the asset has been issued to the user, the
+right to modify or transfer said assets would only belong to the user.
+Fair and Transparent Virtual Assets Marketplace:
+As the game provider hold all administrative access and rights to the network, trading
+activities are controlled and monitored by the game provider. They hold the power to
+intervene on any trades between users, or even forbid any activity when needed, even if fiat
+currencies are involved. A prime example in recent memory is the third iteration of a widely
+popular MMO. The game had a thriving auction house, where in-game or real currencies
+could be used to trade between players. The new feature became necessary because
+previous releases had allowed user-to-user trading and players came together in online
+www.hpb.io
+
+22
+
+forums and traded their items, sometimes leading to fraudulent activity. Despite the feature
+being an attempt at controlling the trading environment, the game publisher ultimately
+decided that the trading was harmful to the longevity of the game and shut down the
+auction house, leaving players that had invested large amounts of fiat into the game with no
+retribution.
+Through us, players can trade assets freely. The blockchain infrastructure will be responsible
+for authentication in the trading process, with no possibility of third-party intervention.
+Fair and Transparent Game Rule Written by Smart Contracts:
+In centralized games, game rules, logic, and code are often held server-side, hidden from
+players. The users can only trust the provider and hope that the process is as represented
+and fair. This is not a problem for a lot of casual games, but once fiat gets involved with
+probability, it could make the difference between an ethical transaction and a money-grab.
+In online casino gaming, players may have a great amount of money riding on probability
+calculations that are done server-side, with no way to ensure the fairness of the system.
+With blockchain technology, a game provider may publish their game logic on the chain and
+have the system run accordingly. The player would then be able to clearly see how the
+calculations are done, and judge the fairness of the system by their own standards, and not
+by blind hope that the provider is playing fair. Through Smart Contracts, it is not only
+ensured that the player will not cheat, but also the administrator, becoming a fully fair and
+transparent system.
+
+10.3 Anti-Counterfeit Traceability
+
+Information asymmetry results in difficulty in the traceability of products, and leave
+consumers and businesses alike to counterfeiting. Mainstream technologies only provide a
+one-way traceability, such as barcodes and QR codes. Enabling a two-way traceability with
+these technologies requires an immense investment by the producer, implementing a
+complex logistics chain and a way for the end-user to access such data.
+With distributed ledgers, and ledger traceability, two-way traceability blockchain technology
+can solve the traceability issue, combatting counterfeiting by ensuring each and every
+product can be traced back to the source, step-by-step.
+
+www.hpb.io
+
+23
+
+11. The HPB Team
+HPB has a team of over 50 staff dedicated towards realizing the high performance
+blockchain solution. Our talent pool includes experts from a variety of different backgrounds
+including IT, tech quants, banking, consulting and many more.
+
+11.1
+
+Founding Team
+
+Xiaoming Wang
+HPB Founder & CEO
+
+Xiaoming Wang is the CEO of HPB and a true blockchain pioneer.
+Well known in the Chinese blockchain community, he is popular
+with his nickname ‘Lan Lianhua’ (Blue Lotus). He has been involved
+for over 10 years in internet technology development and was one
+of the founders of Union Pay Smart, Union Pay’s Big Data team.
+With his expertise in technology architectures and extensive interdisciplinary knowledge in cross-border e-commerce, financial big
+data and blockchain, he later became CTO of Beltal. His
+contribution to the blockchain industry also includes being one of
+the main authors in a series of published Blockchain Development
+Guide books, participating in highly-recognized videos and TV
+programs introducing blockchain technology.
+
+Jinxin Li
+HPB Co-Founder & CFO
+Jinxin Li is a co-founder of HPB and is heading HPB’s Strategic
+Development. He was one of the first Ethereum investors and
+miners in China. Having participated in multiple digital asset
+investment projects, he achieved an annual portfolio return of
+5,000% for two years. Prior to joining HPB, Jinxin Li was the chief
+blockchain analyst at Guotai Junan Securities. He also holds a PhD
+in Finance from the Central University of Finance and Economics.
+Xu Li
+HPB Co-Founder & CTO
+
+www.hpb.io
+
+Xu Li is one of the Co-Founders of HPB and currently sits as its CTO.
+With over a decade of experience in chipset development and
+management, expertise in large-scale planning, and design of
+complex system software and hardware systems, Xu Li leads HPB
+Tech-team’s core product design, R&D, and hardware development.
+Prior to joining HPB, he led the development of China’s first
+desktop emulation product and led an architecture development
+team for a satellight hardware system during his tenure with the
+Institute of Chinese Academy of Sciences.
+
+24
+
+Shanlin Lou
+HPB Co-Founder & Tech VP
+Lou Shanlin is one of the Co-Founders of HPB and currently sits as
+the Tech VP. He leads the HPB Tech-team’s software architecture
+design. Prior to joining HPB, he primarily worked in software
+development, having over 10 years of experience in research and
+development of embedded and underlying software. He has
+worked for China’s first server vendor, Inspur, as the Chief Engineer
+of Embedded Software. His experience includes software and
+hardware development, image recognition algorithms and
+application platform development. Shanlin Lou has been involved
+in multiple national scientific research projects.
+
+11.2
+
+Core International Team
+
+Emma Zhu
+Chief Marketing Officer
+
+Emma is the CMO of HPB and coordinates the marketing
+operations for the firm. Prior to joining HPB, Emma worked in
+Guotai Junan Securities, one of the largest investment banks in
+China, where she focused on blockchain market research. Prior, she
+also worked at McKinsey&Co and YUM Group, where she
+participated in numerous cross-industry Digital Marketing
+campaigns with Alipay & Tencent Gaming and gained rich
+experience in Digital Marketing Communications. Emma holds a
+Master degree in International Affairs from Columbia University
+with a concentration on International Finance.
+
+Danny Rowshandel
+Managing Director of Overseas Business Development
+Danny has joined the HPB International Team as Business
+Development Director. He helps to drive HPB’s growth in overseas
+markets by seeking new strategic partnerships and investments.
+Prior to joining HPB, Danny primarily worked for major Chinese
+financial institutions. At HNA Technology, a Fortune 500 investment
+conglomerate with a focus on IT services, he worked as a Senior
+Finance Manager, successfully closing multiple large-scale cross
+border M&A and fundraising projects. Earlier he also worked for
+ICBC, China’s largest state-owned bank to support the development
+of its financial leasing business in different geographic regions.
+
+www.hpb.io
+
+25
+
+Julien Passagne
+Business Development Director
+Julien has joined the HPB International Team as Business
+Development Director. His focus is on the international markets
+and the expansion of the blockchain operations of the firm. Before
+joining HPB, Julien was a practitioner at Deloitte Switzerland and
+focused on providing management consulting services to private
+and leading universal banking clients. Furthermore, Julien was
+deeply engaged at Deloitte’s Blockchain services offering driving
+eminence in the market as early subject matter expert. Julien was
+also leading the Blockchain-tech group, driving internal initiatives
+such as creating and facilitating cross-industry Blockchain
+introduction and specialized tech trainings, running an internal
+code-sharing platform and publishing eminence pieces.
+
+11.3
+
+Core Domestic Team
+
+Jason Hu
+DApp Infrastructure Lead Developer
+Jason Hu acts as the technical lead for DApp infrastructure
+development for High Performance Blockchain. He is overseeing
+the DApp development of various projects and manages a large
+developer team. Prior to joining HPB, he primarily worked on
+developing core financial infrastructure for financial institutions as
+a Senior Project Director at ChinaSoft and Ruimin Software. Jason
+has over ten years of experience in product design, project
+implementation and large-scale software project management.
+
+Chris Chen
+Business Development Director
+Chris Chen is a Business Development Director at HPB, leading
+HPB's ecosystem expansion within the Chinese market. Prior to
+joining HPB, Chris worked for Alibaba Group as an Operations
+Expert. He participated in a number of Alibaba's business expansion
+campaigns ranging from expanding its new retail business to
+helping Alibaba realize its ambitions of becoming a key market
+player in rural East-China. He has also been involved as a consultant
+for one of China's leading E-commerce platforms, Dazhong
+Dianping, providing strategic planning advisory to the management.
+
+www.hpb.io
+
+26
+
+12. Acknowledgements
+HPB is honored to have had the contributions of some of the most talented people in
+finance, business, and IT. The project could not have had the successful start it had the
+privilege to experience if not for the investors, advisors, and partners that kickstarted the
+development. Be it large and sophisticated institutions, or weathered and wise individuals,
+we are humbled and grateful for their guidance and support.
+Although humbled by the aid we have received so far, we are also excited about
+opportunities to come, and the brilliant minds that we may work with. We look forward to
+the future, where all those who have had an impact on HPB’s prosperity and the industry
+itself will be there with us when blockchain stakes its claim in the world as a lasting tool in
+society.
+
+The HPB Foundation
+
+www.hpb.io
+
+27
+
+

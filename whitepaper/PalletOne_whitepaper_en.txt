@@ -1,0 +1,1287 @@
+PALLETONE
+Protocol for Abstract-Level Ledger Ecosystem
+Distributed Interchain Protocol
+---IP Protocol of Blockchains
+V 2.0Beta 2018 Mar.
+
+2
+
+Contents
+Abstract .................................................................................................................................... 4
+Introduction ............................................................................................................................. 6
+Challenges ......................................................................................................................... 6
+Scalability ................................................................................................................. 6
+Interoperability ........................................................................................................ 6
+Not User Friendly .................................................................................................... 7
+Platform Lock-in ..................................................................................................... 7
+The Birth of PalletOne....................................................................................................... 7
+Introduction to PalletOne ....................................................................................................... 7
+SDK ................................................................................................................................... 9
+PalletOne VM .................................................................................................................... 9
+Token Abstract Layer ........................................................................................................ 9
+Mediator .......................................................................................................................... 10
+Jury .................................................................................................................................. 11
+Distributed Storage .......................................................................................................... 11
+Adaptor Layer.................................................................................................................. 13
+PalletOne Protocol ................................................................................................................. 13
+Template Deployment ..................................................................................................... 13
+Contract Deployment....................................................................................................... 13
+Contract Invocation ......................................................................................................... 14
+Contract Query ................................................................................................................ 15
+Contract Termination....................................................................................................... 16
+Token Economy ..................................................................................................................... 18
+Tokens’ use as payment of Deposit ................................................................................. 18
+Tokens’ use as payment of Transaction Fee .................................................................... 18
+Token as Juror Incentive ................................................................................................. 19
+Tokens’ use as payment of Contract Deposit .................................................................. 19
+Recap ............................................................................................................................... 19
+PalletOne Attributes.............................................................................................................. 20
+Multi-chain ...................................................................................................................... 20
+Multi-task ........................................................................................................................ 20
+Multi-language ................................................................................................................ 20
+Multi-platform ................................................................................................................. 20
+Security............................................................................................................................ 21
+PalletOne Advantages ........................................................................................................... 21
+High Capacity .................................................................................................................. 21
+High Universality ............................................................................................................ 22
+Safe and Smart Token Model .......................................................................................... 22
+Healthy Ecosystem .......................................................................................................... 23
+
+3
+Application Scenarios............................................................................................................ 23
+Cross-chain Payment ....................................................................................................... 24
+Financial Instrument ........................................................................................................ 24
+Mutual Funds ......................................................................................................... 24
+Exchange Trade Fund ........................................................................................... 24
+Financial Derivatives Instrument......................................................................... 25
+Support for Multiple Payment Types on Dapps .............................................................. 25
+Core Team .............................................................................................................................. 26
+Advisors .................................................................................................................................. 30
+Time Line ............................................................................................................................... 31
+Conclusion .............................................................................................................................. 33
+STATEMENT ........................................................................................................................ 34
+RISKS AND UNCERTAINTIES ......................................................................................... 35
+CAUTIONARY NOTE ON FORWARD-LOOKING STATEMENTS ........................... 41
+Appendix ................................................................................................................................ 44
+Token issuance demo code .............................................................................................. 44
+Glossary .................................................................................................................................. 46
+
+4
+
+Abstract
+Today’s blockchain encounters the following challenges: scalability and
+interoperability etc. To address these challenges, we propose PalletOne, Protocol for
+Abstract-Level Ledger Ecosystem.
+PalletOne adopts Jury consensus mechanism which combines the whole network
+consensus and part consensus to ensure the efficiency and safety of cross-chain smart
+contract execution. Besides, Contract Template and Token Abstract Layer are
+introduced to decrease the difficulty and complexity of contract development.
+PalletOne makes inter-chain transactions possible by decoupling the state of contracts
+from the blockchains. Developers can choose the language they are familiar with and
+the platform they need. PalletOne interacts with mainstream underlying blockchains
+and accomplishes interchain interaction.
+In PalletOne, we only need a group of verifiers to execute one contract. This group of
+verifiers is called Jury, which consists of individual verifiers called Jurors. Similar to
+the IP protocol that separates the physical layer, data link layer from transport layer
+and application layer, the PalletOne fully decouples the Dapp, contract status, and
+underlying blockchain three-tier architecture.
+PalletOne contract supports multiple blockchains. Through Jury Consensus and
+Adaptor Layer, it is possible to build a contract that can interact with different
+blockchains simultaneously, so users can trade tokens from different blockchains in
+one PalletOne contract invocation to make the inter-chain token exchange distributed,
+atomic, and immutable. The PalletOne contracts of inter-chain token exchange can be
+executed in a multi-tasking way by different groups of selected Jury, which can
+effectively reduce the congestion of the whole network compared with consensus
+throughout the whole network. We plan to use PalletOne VM as the core technology
+
+5
+to build the contract executable and execute the contracts, which makes the contract
+execution more secure and developers can choose the language they are familiar with
+and the platform they need. Token Abstract Layer and Contract Template ensure the
+convenience and security of Dapp development further.
+
+6
+
+Introduction
+Blockchain technology is considered to be the core technology that has the most
+potential to trigger the fifth round of disruptive revolution after steam engine,
+electricity, information and Internet technology. Although blockchain technology is
+likely to subvert many industries in the next 5-10 years, there are still some technical
+challenges that restrict its large-scale deployment and application.
+
+Challenges
+Scalability
+In order to build a distributed trustless network in which the tokens (values) ﬂow, the
+consensus that bitcoin and Ethereum adopt is reached by every node throughout the
+network to guarantee the correctness, that is all the nodes execute the same procedure
+in order to reach the consensus on the state. Based on this kind of consensus of entire
+network, TPS（Transactions Per Second）of Bitcoin reaches only 7, In December
+2017, Crypto Kitties severely slowed down the Ethereum transactions. These
+phenomena reveal the problem of resorting to the consensus of the entire network.
+
+Interoperability
+Blockchains today such as Bitcoin or Ethereum are using full nodes as brute-forces
+trust-machines. These full nodes verify transactions on their respective chain without
+knowing anything outside their chains.
+As a result, such a blockchain becomes a silo to itself, making the blockchain look
+more like intranet today.
+
+7
+Not User Friendly
+In the current popular blockchains, there is not yet a blockchain platform, which can
+meet different needs of developers and users in terms of ease of use, security and high
+performance.
+
+Platform Lock-in
+Similar to the early stage of any computing technology, blockchains have critical
+“platform lock-in”problems. Developers have to choose which blockchain to support
+and implement platform-specific code, which makes it difficult to switch an
+application to another blockchain later on. Developers don’t want to be locked into
+working with a certain underlying blockchain . They need be free to evaluate, use, and
+switch between options. Some applications may even need to run on multiple
+platforms in order to provide the best user experience.
+
+The Birth of PalletOne
+Considering the challenges above, interchain interaction has become an important
+issue in the development of blockchain technology. So we have put forward a
+distributed interchain protocol -- PalletOne (Protocol for Abstract-Level Ledger
+Ecosystem).
+
+Introduction to PalletOne
+PalletOne propose an effective way to address these challenges that include
+scalability, interoperability, lacking of the user friendliness as well as platform lockin.
+
+8
+PalletOne adopts Jury consensus, in which we only need a group of verifiers to
+execute one contract. This group of verifiers is called Jury, which consists of
+individual verifiers called Jurors. PalletOne decouples smart contracts from the
+blockchains to accomplish interchain interaction. Mediator ensures PalletOne security
+and it is the core component of PalletOne. As the core technology to build the contract
+executable and execute the contracts. PalletOne make developers can choose the
+language they are familiar with and the platform they need. Token Abstract Layer
+defines the definition set and operation set of token, which improves security of token
+definition in smart contract. The architecture and components of PalletOne is
+illustrated as figure 1.
+
+figure 1 PalletOne architecture
+
+9
+SDK
+PalletOne provides SDK (Software Development Kit) for each supported
+programming language. Smart contract developers can quickly complete the
+development of cross chain smart contracts based on SDK.
+
+PalletOne VM
+As the core technology to build the contract executable and execute the contracts,
+PalletOne VM compile the contracts written in several programming languages into
+bytecode that allows efficient execution on multiple platforms，which makes
+PalletOne contract not only decoupled from the underlying blockchains, but also
+decoupled from contract languages and execution platforms.
+When the smart contract is deployed to PalletOne, it will run in the PalletOne VM.
+PalletOne VM provides a sandbox environment for host safety and eliminates the
+possibility of host or network attacks from malicious contracts.
+
+Token Abstract Layer
+The Token Abstract Layer defines the definition set and operation set of token which
+may be issued by users on the Platform (although PalletOne will not be responsible
+for issuing any such tokens), which decreases the difficulty and complexity of smart
+contract development and increases the security of such smart contracts, while
+expanding the range of possible digital assets or tokens which can be devleoped or
+issued by users on the Platform.
+PalletOne will initially include the following pass-through abstract models, which, for
+the avoidance of doubt, will not be the PalletOne tokens (PTN) that are the native
+tokens of the PalletOne platform:
+(1) Full pre-excavation Token
+
+10
+Similar to the token issued by Ethereum ERC20, users only need to specify the total
+amount, accuracy, token name, and abbreviation at the time of issuing the token.
+PalletOne generates and distributes the token at one time.
+(2) Mining Token
+Similar to Bitcoin's economic model, the user does not pre-excavate or not full preexcavate the token at the issue time, and the token will be generate by time or Unit
+height.
+(3) Fixed Deeds Token
+Similar to the cash, the user can define 1, 2, 5, 10, 20, 50, 100 and other
+denominations of the deeds, and once released, it is inseparable when the token is
+used.
+(4) Non-homogeneity Token
+The above-mentioned tokens are homogenous, which means that there is no
+difference between the 1 Token you have and the 1 token I have. In the real world,
+there are also a large number of non-homogenized tokens. For example, after
+tokenization of works of art (such as paintings and calligraphy), each token represents
+a unique piece of art. This non-homogeneous certification was defined in Ethereum
+ERC721. PalletOne natively supports non-homogeneous token.
+
+Mediator
+Mediator is responsible for the security of PalletOne. The character of Mediator looks
+like a traditional blockchain, which is a trustworthy machine. So Mediator should
+guarantee to make all decisions correctly. Mediator uses a Delegated Proof of
+Stake(DPoS) mechanism to reach a consensus. To prevent Mediator from being the
+
+11
+bottleneck of PalletOne, most of the work is only done by the Jury without invoking
+Mediator.
+Mediator takes the responsibility of the safety of PalletOne network. The following is
+what Mediator does:
+
+
+Maintaining PalletOne tokens, the native token of PalletOne, which is used for
+transaction fee and maintenance fee.
+
+
+
+Maintaining the deposit of Jurors.
+
+
+
+Randomly selecting the Jurors in a Jury.
+
+
+
+Arbitrating when Jurors cannot reach consensus.
+
+Jury
+Jury is the fundamental unit to maintain the security and integrity of PalletOne. More
+specifically, it will be assigned to run contracts and manage multi-signature accounts.
+To achieve a secure and decentralized design, Jury is designed to compose of many
+participants, called Jurors. Every Juror pays a deposit to guarantee the security. Jurors
+use BFT (Byzantine Fault Tolerance) algorithm to reach consensus.
+
+Distributed Storage
+Distributed storage infrastructure will be used to store contract ID, contract code and
+selected jurors list involved in the execution of Mediator, as well as the contracts
+states during contract execution of Jury.
+In PalletOne, we use Directed Acyclic Graph (DAG) as our distributed database.
+DAG has many advantages over traditional chained storage.
+
+12
+First of all, there is no concept of a block in a DAG. All transactions are individually
+encapsulated in a single structure called Unit, and the connections between the units
+are established by reference.
+Secondly, using DAG as distributed storage, transactions can be written in parallel. In
+traditional blockchains, block is generated by miners, and miners need to select
+transactions in the transaction pool based on priority and block size, and then
+transactions are associated by the Merkle tree. Therefore, under the chained storage
+structure, transactions that are not packaged into the block are all blocked, and
+transactions packaged into the block are all in an unconfirmed state before the block is
+broadcasted to the entire network. Compared with the chain storage structure, DAG
+transactions can be written in real time in parallel to the entire ledger, thus ensuring
+the speed of transaction confirmation.
+Thirdly,in the DAG, by choosing the main chain, each transaction is in an orderly
+state, which effectively solves the double spend problem.
+Finally, with the traditional chained storage architecture, when the volume of
+transactions continues to increase, there will be network congestion and long-term
+transactions that cannot be confirmed. But in the DAG, the more nodes that
+participate, the greater the volume of transactions, and the faster the confirmation of
+the transaction, because the transactions are confirmed by the relationships that they
+refer to each other.
+In PalletOne distributed storage, the specific information that needs to be stored
+mainly includes transaction information, contract ID, contract bytecode, contract
+state, list of jurors corresponding to the contract, and status information processed by
+the jury during execution of the contract.
+
+13
+Adaptor Layer
+PalletOne provides API and library in the adapter layer that not only allows for the
+interaction with popular underlying blockchains, but also facilitate emerging
+blockchains interact with PalletOne.
+
+PalletOne Protocol
+Template Deployment
+In PalletOne, all types of services are created by smart contracts. The creation of
+contracts is based on contract templates. PalletOne provides some contract templates
+for common scenarios for users. Users can also create a new contract template by
+themselves and deploy it to PalletOne. The deployment of the contract template needs
+to be designated by Mediator. Mediator is responsible for checking the syntax,
+specification, etc. of the contract template and only the contract template that meets
+the requirements can be successfully deployed. A successful deployment contract
+template will be saved in the Distributed Storage of PalletOne for contract
+deployment in the future.
+
+Contract Deployment
+In PalletOne, all contract instances are based on templates. If you cannot find correct
+contract template that you needed in PalletOne, you need deploy template first. Once
+a contract issuer attempts to deploy the contract, PalletOne will do below steps:
+
+14
+
+Step 1: Contract issuer send template hash and contract initial parameters to Mediator.
+Step 2: Mediator will create a jury and random select jurors from "juror pool" based
+on contract parameters.
+Step 3: Juror list of this jury will communicate each other and receive initial
+parameters from Mediator. Jury will retrieve template code from distributed storage.
+Step 4: Jury will create contract instance based on initial parameters and template
+code, validate and execution. After validation and execution, jury will write the state
+data, contract ID and juror list into distributed storage.
+Contract execution has two kinds of jury mode to bind: Lock juror mode and Unlock
+juror mode. User can select different kind of jury when create contract template.
+
+Contract Invocation
+After the contract has been deployed, other participants are able to invoke it.
+
+15
+
+Step 1: To invoke the contract, the contract invoker queries the distributed storage by
+the contract ID first. Then, the storage will return the contract program and the list of
+Jurors who are responsible for the execution of the contract on lock juror mode. If in
+unlock juror mode, Mediator will select a new Jury. After gathering necessary data,
+the contract will be packed with parameters into request object and sent to Jury.
+Step 2: When the Jurors receive the request, they execute the contract independently
+along with the latest contract state and invocation parameters. If everything runs as
+expected, the results of those Jurors will be the same, and the contract state will be
+shifted to the next one.
+Step 3: If an interchain transaction is triggered, they will sign a multi-signature
+transaction on that blockchain as well.
+
+Contract Query
+After the contract is deployed, the user can use the query interface in the contract to
+query the contract state data. The query of the contract will not change the Distributed
+Storage, so it does not need the participation of the Jury.
+
+16
+Contract Termination
+After the accomplishment of the contract execution or the contract meets the
+terminate conditions, the contract issuer may apply for the contract termination.
+
+Step 1: the contract issuer send message to Mediator to apply for the contract
+termination.
+Step 2: On lock juror mode, Mediator select the associated jurors from distributed
+storage by contract ID. On unlock juror mode, Mediator select a new Jury.
+Step 3: Mediator send terminate message to Jury.
+Step 4: Jury retrieve contract program and state data from distributed storage by
+contract ID.
+Step 5: Jury check the terminate conditions, if it matched, execute the terminate
+function.
+
+17
+Step 6: Jury write the state data of terminated contract into distributed storage and
+send terminated message to Mediator.
+Step 7: Mediator validates the terminated status, and then dissolves the corresponding
+Jury.
+
+18
+Token Economy
+Tokens’ use as payment of Deposit
+To ensure the safety of PalletOne system, Jurors must pay a deposit to prevent them from
+conducting fraud. To become a Juror to earn transaction fee, participants need to follow this
+process: First, pay a deposit in the form of the PalletOne tokens (“PTN”) to become a
+candidate Juror. The Juror can earn transaction fee when executing contracts. The deposit can
+be withdrawn when the smart contract ends. The Juror can also withdraw its deposit after
+invoking the Mediator to select a new Juror for replacement.
+The proper amount of deposit can be evaluated through a model that contains different
+properties, including the value of the contract, the size of Jury, the credibility of Juror and the
+design of contract. The Juror must ensure a good host environment and network environment,
+because poor host environment may cause smart contracts not to complete within the
+specified time and the poor network environment may cause the communication between the
+jurors in the Jury to timeout or even offline. As a result, smart contracts could not reach a
+consensus among the jurors. After multiple consensus failures, deposit will be forfeited and
+the Juror will be removed from the list of candidate jurors.
+
+Tokens’ use as payment of Transaction Fee
+To provide an incentive for Jury’s execution, Jurors gain fees from contract participants by
+executing contracts. Contract participants need to pay some PalletOne tokens as the
+transaction fees to those Jurors. The transaction fee would be much lower than the transaction
+fee of other blockchains because only the Jurors in the corresponding Jury will run it. The
+Jury will only execute the contract after they verify that the PalletOne tokens have been
+successfully transferred.
+In PalletOne, to provide an incentive for Jury executing contracts, Jurors gain fees from
+contract participants by executing contracts. Contract participants need to pay some
+PalletOne tokens as the transaction fees to those Jurors. The transaction fee would be much
+lower than the transaction fee of other blockchains because only the Jurors in the
+
+19
+corresponding Jury will run it. The Jury will only execute the contract after they verify that
+the PalletOne tokens have been successfully transferred into Mediator.
+
+Token as Juror Incentive
+For the efficient operation of the PalletOne whole network and to encourage as many as
+possible nodes to participate in the consensus, in addition to transaction fees, the Mediator
+will use the PalletOne tokens as incentives for the Jury's participation consensus based on
+smart contracts. Every juror who participates in the validation and execution of the contract
+will receive transaction fees and incentives in the form of PalletOne tokens as remuneration
+for their services. Because the Jury was randomly selected, everyone has the opportunity to
+become a member of the Jury and participate in the token economy.
+
+Tokens’ use as payment of Contract Deposit
+Some contracts (such as currency exchange contracts) require both participants to pay a
+certain contract deposit in the form of PalletOne tokens to the contract to avoid the
+occurrence of a breach of contract by a single party. If the contract is completed normally, the
+contract deposit will be refunded to both sides of the contract, and if one party breaches the
+contract, the other party can apply for a penalty of the defaulting party's contract deposit to
+compensate for loss.
+
+Recap
+Based on the aforementioned PalletOne architecture, the Jury can execute the contracts and
+interact with the underlying blockchains. Jurors in a Jury reach the consensus to perform the
+reliable contract execution. Such design makes the execution efficient and scalable, since the
+consensus is generated by the Jury of this individual contract instead of all Jurors on the
+network. To reduce the cost of transaction fees and settlement latency, only contract states are
+stored in the underlying blockchains at the request of contract participants.
+
+20
+PalletOne Attributes
+Multi-chain
+PalletOne smart contracts support multi-chain. Through the Jury consensus and adaptation
+layer, PalletOne smart contracts can run on different blockchains at the same time. PalletOne
+smart contract can interact with diﬀerent blockchains at the same time, so users can trade
+tokens from diﬀerent blockchains in one PalletOne contract invocation to make the interchain token exchange distributed, atomic, and immutable.
+At the same time, smart contracts (such as Bitcoin) developed for a blockchain can be reused
+on other blockchains (such as Litecoin), significantly reducing the development costs of
+smart contracts.
+
+Multi-task
+The verification, execution, etc. of the PalletOne smart contract can be done by the Jury
+specifically created for it. The Jury is composed of a group of jurors that randomly selected
+from the candidate jurors randomly. Smart contracts in PalletOne can be implemented by
+selecting different juries in a multi-tasking manner. Compared with the whole-network
+consensus, PalletOne network congestion will be effectively reduced.
+
+Multi-language
+Dapp developers of PalletOne can develop smart contracts using mainstream development
+languages (such as Java, C++, JS, etc.) without having to learn a new contract development
+language, such as Solidity for Ethereum. The attibute of PalletOne supporting multiple
+languages will contribute to prosperous of PalletOne ecosystem.
+
+Multi-platform
+As the key tool of smart contract compiling and execution, PalletOne VM is completely
+decoupled from the underlying operation system, which allow PalletOne smart contract adapt
+to windows, Linux, Mac as well as other types of platform.
+
+21
+Security
+PalletOne's security is reflected in two aspects, one is the security of development, and the
+other is the security of contract execution.
+Development security is reflected in two aspects：
+(1) In PalletOne, we will provide sorts of standard contracts for common or specific
+scenarios. When a user develops a corresponding scene contract, he/she only needs to call a
+standard contract and complete Dapp development in a few steps. This design reduces the
+difficulty of user development while also reducing the risk due to incomplete development
+considerations.
+(2) PalletOne provides a comprehensive set of token definitions and operations, making the
+
+user's token release process simple and easy to operate. Meanwhile, because of PalletOne has
+a comprehensive set of license definitions and operations, each license is traceable and safe.
+Regarding to smart contract execution, PalletOne VM provides a sandbox environment for
+host safety and eliminates the possibility of host or network attacks from malicious contracts,
+which allows PalletOne smart contracts execution more secure.
+
+PalletOne Advantages
+High Capacity
+In computer architecture, “data + algorithm (calculation)”is the program. While specific to
+the blockchain world, data is stored in blocks, and calculations are performed at the mining
+nodes. The block generation speed and block size determine the processing speed of the
+chain. In Bitcoin and Ethereum's transaction processing using the “serial storage + serial
+computing” mode, Bitcoin is about 7 TPS and Ethereum is about 15TPS.
+DAG is different from the traditional "block + chain" structure, changing the serial nature of
+single-chain, through the parallel write to solve the data storage bottlenecks. As a blockchain
+
+22
+platform for smart contracts, the serialization of computing nodes has become a new
+bottleneck in the blockchain. The independent innovation jury consensus mechanism of
+PalletOne broke the seriality of the traditional consensus mechanism. Multiple juries
+conducted consensus calculations in a multi-task parallel manner, thereby improving
+computational performance.
+Combining the DAG distributed storage with the jury consensus algorithm, both the storage
+and the computation break through the technical limitations of the traditional blockchain, and
+PalletOne thus forms a high-performance distributed ledger.
+
+High Universality
+PalletOne aims to establish an "IP protocol" for the blockchain industry, allowing value to
+flow freely between different blockchains. In the Internet technology, the physical layer may
+be a cable or an optical fiber; the data link layer includes both ATM, SDH, and Ethernet; but
+due to the existence of the IP protocol, the upper layer Internet application can not only
+ignore the physical layer and data link layer technologies. The evolution of physical facilities
+has changed, and historical accumulation of data has been retained, and the existence and
+development of sustainability have been maintained. PalletOne also plays this role. Dapp
+(Decentralized Application) can be deployed on various chains at the same time and is not
+limited by the underlying chain.
+PalletOne provides interfaces and library functions for each chain in the adapter layer through
+an abstract digital currency chain (Bitcoin as an example) and a smart contract chain (using
+Ethereum as an example). The smart contract directly addresses the abstract interface without
+for the specific chain, the smart contract is decoupled from the bottom of the blockchain; the
+underlying chain can obtain the same information or value of other blockchains through
+PalletOne's adaptation layer without any requirement, restriction or restricted exchange.
+
+Safe and Smart Token Model
+PalletOne has a built-in general-purpose pass-through abstraction model for market and
+economics. Users can create their own token simply, safely and quickly based on the existing
+token templates. PalletOne provides support for the token model on the underlying data
+structure, which isolates the pass-through data from the contract data.
+
+23
+PalletOne uses the UTXO model and provides similar payment methods such as Bitcoin
+P2PH, P2SH, etc., making users experience as simple as Bitcoin in the payment experience.
+In PalletOne token abstract model, integral token methods are provided. Therefore, the users
+do not need to write any code when issuing a token, but only need to configure the relevant
+parameters, thus avoiding the smart contract flaw in the issuance of the token.
+
+Healthy Ecosystem
+PalletOne aims to establish a complete smart contract ecosystem that allows developers,
+users, and "miners" to each and every one of PalletOne's platforms to create a healthy
+ecosystem.
+For developers, on the one hand, support for smart contracts provides support for popular
+development languages. Developers do not need to learn a new contract development
+language, but only need to use their used development language to develop smart contracts.
+Reduced the difficulty of contract development. On the other hand, the contract store
+provides developers with a platform for smart contract sales. Similar to Apple’s AppStore,
+developers can freely price smart contracts, and users benefit from using paid contracts to
+further improve developers’ enthusiasm and smart contract quality.
+For end users, user can choose smart contracts that meet their needs through the smart
+contract store provided by PalletOne. They only need to pay developers a contract fee to
+realize their own needs, instead of development and debugging by themselves. In addition,
+PalletOne will also provide a powerful set of contract templates for users to use for free.
+For "Miners", they can apply for a juror, provide a good hardware environment for the
+execution of smart contracts, and collect an execution fee. Due to use of the DPoS consensus
+and the jury consensus, the “miners” do not need to use a large number of mining machines to
+compete for mining, avoiding extreme waste of energy and increasing the use of hardware.
+
+Application Scenarios
+PalletOne is an promising cross-chain project that will focus on achieving interaction
+between different blockchains. PalletOne's ultimate vision is to connect all of the blockchains
+
+24
+so that the originally closed and isolated information, values, and applications can be used
+freely across chains to build a globally interconnected network with no boundaries.
+For the avoidance of doubt, PalletOne is not responsible for the offer of the following
+application scenarios including cross-chain payment, financial instruments, and payment
+types on dApps – these may be offered by developers of dApps or other participants on the
+platform. Because these applications may be subject to licensing requirements or other
+regulations in various jurisdictions, they may not be available in every jurisdiction.
+
+Cross-chain Payment
+We can imagine the following scenario: users in the Bitcoin network want to enjoy the fun of
+playing Crypto Kitties in Ethereum. The most feasible solution is to convert certain BTC to
+ETH through complex operations on Cryptocurrency exchange with high fees. PalletOne
+make the payment more convenient, that the user can use PalletOne to pay for the cost
+directly using BTC, thus avoiding complex currency exchange operations.
+
+Financial Instrument
+Mutual Funds
+Mutual fund is a professionally managed investment fund that pools assets from many
+investors to purchase securities. PalletOne is the best platform to share their investment
+strategies. In other words, they can create their mutual funds, and define the reward in
+contracts. Everyone will have the right to use the PalletOne as they wish, so everyone has the
+opportunity to create their own mutual fund. They can distribute the funds into different
+cryptocurrencies as they want. With PalletOne, human creation has no boundaries.
+
+Exchange Trade Fund
+Financial instruments are monetary contracts between parties. They can be created, traded,
+modified and settled. At present, there are very few cryptocurrency ETF over the world, and
+they are all controlled by large financial institutions. Users can use PalletOne to create their
+own ETFs and hold assets such as cryptocurrencies, commodities, or bonds. Create more
+opportunities for investors all over the world.
+
+25
+Financial Derivatives Instrument
+For financial applications, PalletOne also provides convenient services. The token in
+PalletOne is highly flexible. Any user can use the forensic tool to design a Bitcoin, Ethereum,
+Litecoin or even stocks and bonds. In the case of a combination of various assets, the value of
+this certificate will be determined by the real-time market for all the assets that make up the
+permit, so as to avoid the risk of a large increase or decrease in individual currencies or
+securities.
+In addition, based on the Token Abstraction Layer, the user can also issue different functions
+for the assets he holds. For example, a house can issue the ownership token and the use right
+pass, and the user who purchased the ownership pass will have this. A home, and the user
+who purchased the pass will be able to use the house during the life cycle of the permit.
+PalletOne provides a comprehensive set of at-risk definitions and warrants that can
+accomplish this and ensure security.
+
+Support for Multiple Payment Types on Dapps
+Based on PalletOne, developers can deploy various types of Dapps, unlike the case where
+Dapp on Ethereum only supports ETH payments. When users use Dapps built on PalletOne,
+the payment method is more flexible and free: both through PalletOne Token and You can
+choose BTC, ETH, or even random combination of several ways. The flexibility of payment
+methods will stimulate the diversity of users to a certain extent, which will further promote
+the development of the PalletOne ecosystem.
+
+26
+Core Team
+Peijiang Zhu
+PalletOne Global Community Leading Official
+Secretary General of Z-Park Blockchain Industry Alliance Engaged in network, video as
+well as blockchain technology research for years. Expert at underlying blockchain
+technology, consensus algorithm, token economy ecosystem.
+
+Matthew Jones
+PalletOne North American Business Official
+Business Planner,MICROSOFT Acquired master degree from the University of Texas at
+Austin.
+
+Yi Zeng
+PalletOne Technical Director
+Database expert, author of "SQL Server database technical handbook", work and research
+in database application, data warehouse, big data and blockchain technology. Expert at
+development on Fabric.
+
+Cuicui Wang
+PalletOne Architect & Researcher
+M.A. of Beijing University of Posts and Telecommunications, worked in Baidu and
+subordinate research institution of certain state management department. Expert at research
+of network security, network traffic analysis as well as blockchain technology.
+
+Kenneth Chen
+Specialist of PalletOne
+Co-Founder & CTO of GenieNRM，Chief Strategy officer of TelTel，Co-Founder &
+CTO of Datamite Technology，20 years experience in products design and management.
+
+27
+Dr. Jian Liu
+Specialist of PalletOne
+The doctor of National University of Defense Technology,
+Engaged in the development and research of operating system, distributed computing,
+supercomputer and so on for years.
+
+Dr. Yu Chen
+Specialist of PalletOne
+Received the doctorate degree in mathematics from the University of South Carolina
+Served as a research scientist in the US Summus Inc, mainly developing algorithms and
+software for image processing and pattern recognition in the US Defense Research
+Department, such as ONR and Sandia National Labs.
+
+Ningning Shi
+Specialist of PalletOne
+Specialist of PalletOne.
+
+Xiaojun Mao
+PalletOne CMO
+As Senior Market Consultant for Blockchain Industrial Alliance of Zhongguancun , as
+CEO of STARTHALO (Beijing) Media Technology Co., Ltd. as master of management of
+MSC, ESC Rennes School of Business, France. Having worked in the Economic
+Management College for DBA Office of Beijing University of Posts and
+Telecommunications.
+
+Donghai Liu
+PalletOne director of operation
+As Senior Market Director for Blockchain Industrial Alliance of Zhonggancun, as
+executive director of STARTHALO (Beijing) Media Technology Co., Ltd., and general
+manager of Harmony Totem (Beijing) Commercial Management Co.,Ltd.
+
+Minsen Feng
+PalletOne Asia-Pacific Marketing Director
+PalletOne Asia-Pacific Marketing Director.
+
+28
+Xiang Zhao
+PalletOne Asia-Pacific Marketing Director
+PalletOne Asia-Pacific Marketing Director.
+
+Zheng Zhang
+PalletOne manager of operation
+COO for STARTHALO (Beijing) Media Technology Co., Ltd.
+
+Yu Yang
+PalletOne Distributed Storage DAG Module Leader
+Master of Science in Electronics and Communication Engineering, Beijing Jiaotong
+University. Has many years of development experience, early researcher of Bitcoin,
+Ethereum and DAG technology.
+
+Lihua Guo
+PalletOne senior engineer
+leader of virtual machine and contract management module
+Engaged in software development, architecture design and multi-year technical
+management of the Internet and broadcasting industry. Has in-depth research and practical
+development experience on blockchains such as fabric and bitcoin.
+
+Jiyou Wang
+Leader of the PalletOne code framework
+and p2p network module
+Master of Bohai University. Proficient in C, C++, Go languages, rich experience in
+DHCPv6, ND, RUI protocols, and high-performance server design and development;
+Familiar with block chain P2P network design and development.
+
+Jie Yang
+PalletOne development engineer
+storage DAG and memory management
+Graduated from Beijing university of chemical technology, majoring in computer science, I
+have been engaged in the development of the back-end of go language for a long time, and
+have a deep understanding of the basic elements and design of block chain.
+
+29
+Albert·Gou
+PalletOne development engineer
+leader of consensus algorithm module
+Familiar with a variety of front-end and back-end technology, many years of C++ language
+research and development experience, participate in application software development in
+multiple industries, and have in-depth research on BitShares and DPoS consensus.
+
+Xiangli Zhang
+PalletOne Senior Core R&D Engineer
+manager of the underlying chain transaction adapter model
+With years of experience in C / CPP development, familiar with encryption and decryption
+algorithms, bitcoin, data structure and algorithms have a deeper understanding, block chain
+lover.
+
+Ligang Wang
+PalletOne Senior Development Engineer
+leader of chain data API and wallet service module
+Master degree from China University of Petroleum (Beijing), with experience in data
+communications, big data, block chains, micro-services related development, and engaged
+in economic research.
+
+Zhiyuan Wu
+PalletOne Senior Development Engineer
+head of system contract module
+Graduated from Beijing University of Posts and Telecommunications, MBA. Engaged in
+block chain investment and Practice for many years. Focus on technology and study the
+sociological and economic significance of blockchain.
+
+30
+Advisors
+Yan Meng
+Vice president of the well-known open source
+community-CSDN
+one of the promoters of “Tong Zheng”（Token）conception
+
+Dr. Li Gong
+PalletOne Chief Scientist
+President of Mozilla company，Former vice president of Microsoft China R &
+D group，president of China Engineering Research Institute of Sun. Got a
+bacherlor’s degree and a master’s degree in computer science of Tsinghua
+University, Ph. D. of computer science of University of Cambridge.
+
+Akiyoshi Fukumitsu
+Founder & CEO of Hivelocity Inc.
+Mr. Fukumitsu is based in Tokyo, has over 20 years of web development, online
+marketing and business solutions extensive experience. Founder & CEO of
+Hivelocity Inc.
+Mr. Fukumitsu received a Bachelor’s degree in Civil Engineering and M.A. in
+Urban Planning from Waseda University in Tokyo, Japan.
+
+31
+
+Time Line
+We are a group of passionate people who are fond of technology and believe in the
+future vision of blockchain: the Internet of Value. We have developed vChain (internal
+project) since Oct 2015. In the meantime, we have developed explorer, VM etc. for
+vChain and tried to promote blockchain technology for practical usage.
+Starting in 2016, we tried to decouple Ethereum's smart contract system to make it
+adaptable to Bitcoin, and even other existing chains.
+Meanwhile, we noticed the real potential of decoupling. It can do more than we think
+before, which is capable of overcoming the challenges nowadays and reaching the
+Internet of value. From then on, we start to research and design a protocol based on
+this concept. Thanks to the eﬀort so far, we now introduce PalletOne to start a new
+generation of the Internet of Value.
+
+32
+2015 Oct
+vChain (internal project) Concept born
+
+2016 Apr
+Release illustration about vChain
+
+2016 Nov
+Update vChain-compat-openssl.spec
+
+2017 Feb
+Develop vChain explorer
+
+2017 May
+Modify vChain EVM from Ethereum EVM
+
+2017 June
+Decouple oracle module from vChain
+
+2017 Sep
+Release vChain v1.2
+
+2017 Sep
+Concept of PalletOne born
+
+2018.3
+Release PalletOne White Paper
+
+2018.5
+Release PalletOne Tech Yellow Paper
+
+2018.Q2
+Start PalletOne Development and Open Source
+
+2018.Q3
+Publish Bitcoin-supported PalletOne Protocol
+
+2018.Q3
+Publish Ethereum-supported PalletOne Protocol
+
+2018.Q4
+PalletOne Test Network online
+
+2019.Q2
+PalletOne Network online
+
+2019.Q3
+PalletOne Will Support More Blockchains
+
+Road Map
+
+33
+
+Conclusion
+PalletOne is an abstract-level smart contract protocol which decouples execution from
+underlying blockchains. As a result, execution of contracts can be more scalable and able to
+interact with diﬀerent blockchain. Benefiting from leveraging PalletOne VM, contract in
+PalletOne can not only be programmed in multiple languages but also be reused by existing
+tools to provide a secure and high performance execution.
+PalletOne allows users to trade on-chain and oﬀ-chain properties. To drive PalletOne
+protocol, users can buy PalletOne tokens and use them as transaction fees to Jury, or users
+can become Jurors to earn PalletOne tokens.
+
+34
+STATEMENT
+This document or any other document prepared in connection with the sale of PalletOne
+tokens has not been and will not be lodged or registered as a prospectus with the Monetary
+Authority of Singapore (the “MAS”) under the Securities and Futures Act, Chapter 289 of
+Singapore, as may be amended from time to time (the “SFA”). The MAS assumes no
+responsibility for the contents of this document or any such document. Accordingly, statutory
+liability under the SFA in relation to the content of prospectuses would not apply.
+Notwithstanding anything in this document, the Palletone tokens’ sole purpose and function
+will be their potential use by users who wish to participate as Mediators, Jurors, DApp or
+smart contract template developers, or common users on the Palletone platform or otherwise
+access services on the Platform as contemplated in this document (which potential use remain
+subject to change in PalletOne Foundation’s sole and absolute discretion). Ownership of the
+PalletOne tokens carries no rights, express or implied, other than the right to use the
+PalletOne tokens as a means to enable usage of and interaction with the Platform, if
+successfully completed and deployed. The PalletOne tokens therefore do not represent or
+confer any ownership right or stake, share, equity or security or equivalent rights, or any right
+to receive any future profit or revenue shares, intellectual property rights or any other asset in
+or relating to the Platform or any Group Entity. The PalletOne tokens will be sold to any
+purchaser solely on the understanding that any interest the purchaser may have in the
+PalletOne tokens is solely limited to potentially using the PalletOne tokens as contemplated
+in this document, and not for any other purposes, including, but not limited to, any
+investment, speculative, or financial purpose or with a view towards making a profit from the
+secondary sale of the PalletOne tokens. No promises of future performance or value are or
+will be made with respect to Tokens, including no promise of inherent value, and no
+guarantee that the PalletOne Tokens will hold any particular value. The PalletOne Tokens
+should not be acquired for speculative or investment purposes with the expectation of making
+a profit on resale.
+For the avoidance of doubt, the consideration paid for the PalletOne Tokens, as well as the
+PalletOne platform and any other assets of the platform, will belong to the PalletOne
+Foundation both legally and beneficially and may be used by PalletOne Foundation in its sole
+and absolute discretion as it deems fit, and none of the consideration nor any property, asset,
+
+35
+revenue, profit, shares, interest, or any other rights are managed or collectively managed for
+or for the benefit of any holder or holders of the PalletOne tokens whatsoever.
+The Tokens (a) are not a loan to any Group Entity; (b) do not provide any ownership or other
+interest or rights whether actual or notional in any Group Entity or any other company,
+enterprise, or undertaking or any kind of venture; (c) are not intended to be a representation
+of currency or money (whether fiat or virtual or any form of electronic money), security, unit
+in a collective investment scheme, commodity, bond, debt instrument, stored value facility, or
+any other kind of financial instrument or investment; (d) are not a commodity or asset that
+any person is obliged to redeem or purchase; (e) are not any note, debenture, warrant, or other
+certificate that entitles the holders of the Tokens to interest, dividend, or any kind of return
+from any person; (f) are not intended to be a security, unit in a collective investment scheme,
+commodity, financial derivative, commercial paper or negotiable instrument, or any other
+kind of financial instrument or investment between the holders of Tokens and any other
+person, nor is there any expectation of profit or returns; and the purchasers of the Tokens will
+not have any right to a refund in any circumstances including if the Platform is not developed
+or successfully developed.
+The purchasers of the Tokens from the Company that the purpose of the Tokens is to enable
+Users to access, use, and enjoy the Platform whether as a Mediator, Juror, developer of DApp
+or smart contract template, or any other common User. It will be made clear to the purchasers
+of the Tokens that the Tokens are not sold as an investment and no person should purchase
+the Tokens from the Company with any expectation that the Company will take any action
+for the purposes of or in any way increasing or creating an increase in the value or
+maintaining the value of the Tokens. The Company’s sole focus will be on developing and
+operating the Platform to ensure that the Platform will be attractive for use by its Users.
+RISKS AND UNCERTAINTIES
+Prospective purchasers or holders of PalletOne Tokens (“PTN”) (“Purchasers”, “Holders”, or
+“You”) should carefully consider and evaluate all risks and uncertainties associated with
+PTN, the PalletOne Platform (“Platform”), PalletOne Foundation Ltd and any of its related
+corporations (“Group Entities”) and their respective businesses and operations, any sale and
+purchase of PTN including the terms and conditions governing such sale (“T&Cs”), and all
+information set out in this white paper (“White Paper”) prior to any purchase of PTN. You
+should not purchase PTN unless you have understood and accepted all risks involved in the
+
+36
+purchasing, holding and using of the PTN including the risks set out in this document. If any
+of such risks and uncertainties develops into actual events, the business, financial condition,
+results of operations and prospects of PTN and/or any or all of the Group Entities could be
+materially and adversely affected. No person owes you any returns in respect of the PTN or
+can guarantee that the Platform, any PTN and any and all the activities and businesses
+contemplated and discussed in this White Paper will definitely be established, materialise and
+be carried out, or result in any returns now or in the future. In such cases, you may lose all or
+part of the value of the PTN which you and you alone will have to solely bear.
+For the avoidance of doubt, the risks involved with purchasing PTN include (but are not
+limited to) the following:
+1.
+
+Risk of Uninsured Losses
+
+Unlike bank accounts or accounts at some other financial institutions, PTN is uninsured
+unless you specifically obtain private insurance to insure them. Thus, in the event of loss or
+loss of utility value, there is no public insurer or private insurance arranged by any person to
+provide recourse (and in any event, no person is obliged to compensate or insure you for any
+event of loss or loss of utility value).
+2.
+
+Risks Associated with Uncertain Regulations and Enforcement Actions
+
+The regulatory status of PTN and distributed ledger technology is unclear or unsettled in
+many jurisdictions, but numerous regulatory authorities across jurisdictions have been
+outspoken about considering the implementation of regulatory regimes which govern
+cryptocurrency or cryptocurrency markets. It is difficult to predict how or whether regulatory
+agencies may apply existing regulation with respect to such technology and its applications,
+including the Platform and PTN. It is likewise difficult to predict how or whether legislatures
+or regulatory agencies may implement changes to law and regulation affecting distributed
+ledger technology and its applications, including the Platform and PTN. Regulatory actions
+could negatively impact the Platform and PTN in various ways, including, for purposes of
+illustration only, through a determination that PTN is a regulated financial instrument that
+require registration or licensing, which may force the Platform to be made unavailable in
+certain areas. Any Group Entity may cease operations in a jurisdiction in the event that
+regulatory actions, or changes to law or regulation, make it illegal or difficult to operate in
+such jurisdiction, or commercially undesirable to obtain the necessary regulatory approval(s)
+to operate in such jurisdiction.
+
+37
+3.
+
+Risks Arising from Taxation
+
+The tax characterisation of PTN is uncertain. You must seek your own tax advice in
+connection with purchasing, holding and utilising PTN, which may result in adverse tax
+consequences to you, including, without limitation, withholding taxes, transfer taxes, value
+added taxes, income taxes and similar taxes, levies, duties or other charges and tax reporting
+requirements.
+4.
+
+Risk of alternative competing platforms
+
+It is possible that alternative platforms could be established in an attempt to facilitate services
+similar to those provided by the Platform. The Platform may compete with these alternative
+platforms, which could negatively impact the Platform and PTN.
+5.
+
+Risk of Insufficient Interest in the Platform or Distributed Applications
+
+It is possible that the Platform will not be used by a large number of individuals, companies
+and other entities or that there will be limited or no public interest in the creation and
+development of distributed platforms (such as the Platform) more generally. Such lack of use
+or interest could negatively impact the development of the Platform and therefore the
+potential utility of PTN.
+6.
+
+Risks Associated with the Development and Maintenance of the Platform
+
+The Platform is still under development and may undergo significant changes over time.
+Although it is intended for PTN and the Platform to have the features described in this White
+Paper, and the relevant Group Entity will endeavour to work towards those ends (subject to
+internal business considerations), changes may be required to be made to the specifications of
+PTN or the Platform for any number of reasons. This could create the risk that PTN or the
+Platform, as further developed and maintained, may not meet your expectations or
+requirements at the time of purchase. Furthermore, despite the relevant Group Entity’s good
+faith efforts to develop and maintain the Platform, it is still possible that the Platform will
+experience malfunctions or otherwise fail to be adequately developed or maintained, which
+may negatively impact the Platform and PTN.
+7.
+
+Inadequate disclosure of information.
+
+As at the date hereof, the Platform is still under development and its design concepts,
+consensus mechanisms, algorithms, codes, and other technical details and parameters may be
+
+38
+constantly and frequently updated and changed. Any statement in the White Paper is subject
+to change and may be adjusted and updated from time to time.
+8.
+
+Risk of an Unfavourable Fluctuation of Currency Value
+
+The proceeds from selling PTN are intended to fund the development and maintenance of the
+Platform. If the value of digital assets in which the PTN sale proceeds are denominated
+fluctuates unfavourably during or after the sale of PTN, the relevant Group Entity which will
+undertake development of the Platform may not be able to fund development, or may not be
+able to develop and/or maintain the Platform in the manner that it intended.
+9.
+
+Risk of Dissolution of any Group Entity or Platform
+
+Start-up companies such as any of the Group Entities involve a high degree of risk. Financial
+and operating risks confronting start-up companies are significant, and the Group Entities are
+not immune to these. Start-up companies often experience unexpected problems in the areas
+of product development, marketing, financing, and general management, among others,
+which frequently cannot be solved.
+It is possible that, due to any number of reasons, including, but not limited to, an
+unfavourable fluctuation in the value of cryptographic and fiat currencies, decrease in the
+utility of PTN due to negative adoption of the Platform, the failure of commercial
+relationships, or intellectual property ownership challenges, the Platform may no longer be
+viable to be developed or even if developed, maintained and operated, and the Group Entities
+may be dissolved.
+10.
+
+Risks Arising from Lack of Governance Rights
+
+Because PTN confers no governance rights of any kind with respect to the Platform or any
+Group Entity, all decisions involving the Platform or any Group Entity will be made by the
+relevant Group Entity at its sole and absolute discretion, including, but not limited to,
+decisions to discontinue the Platform, or to sell or liquidate any Group Entity. These
+decisions could adversely affect the Platform and PTN you hold.
+11.
+
+Risks associated with markets for PTN
+
+There is no prior market for PTN and the PTN token sale may not result in an active or liquid
+market for PTN. PTN is designed to be used solely within the Platform, hence there may be
+illiquidity risk with respect to the PTN you hold. PTN is not a currency issued by any central
+bank or national, supra-national or quasi-national organisation, nor is it backed by any hard
+
+39
+assets or other credit nor is it a "commodity" in the usual and traditional sense of that word.
+No Group Entity is responsible for, or obliged to pursue, the circulation and trading of PTN
+on any market. Trading of PTN will merely depend on the consensus on its value between the
+relevant market participants. No one is obliged to purchase any PTN from any holder of PTN,
+nor does anyone guarantee the liquidity or market price of PTN to any extent at any time.
+Furthermore, PTN may not be resold to a purchaser who faces restrictions in the purchase of
+cryptographic tokens or with respect to whom the purchase of PTN may be in violation of
+applicable laws. Accordingly, no Group Entity or any person makes any representation,
+warranty or guarantee that there will be any demand or market for PTN, or that the price you
+pay for PTN is indicative of any market valuation or market price for PTN.
+Even if secondary trading of PTN is facilitated by third party exchanges, such exchanges may
+be relatively new and subject to little or no regulatory oversight, making them more
+susceptible to fraud or manipulation. Furthermore, to the extent that third parties do ascribe
+an external exchange value to PTN (e.g., as denominated in a digital or fiat currency), such
+value may be extremely volatile, decline below the price which you have paid for PTN,
+and/or diminish to zero.
+12.
+
+Loss of Talent
+
+The development of the Platform depends on the continued co-operation of the existing
+technical and commercial team and expert consultants, who are highly knowledgeable and
+experienced in their respective sectors. The loss of any member may adversely affect the
+Platform or its future development. Further, stability and cohesion within the team is critical
+to the overall development of the Platform. There is the possibility that conflict within the
+team and/or departure of core personnel may occur, resulting in negative influence on the
+project in the future.
+13.
+
+Failure to develop
+
+The Platform is still in the developmental stage, hence there may be large changes to the final
+design before the official version is released. There is the risk that the development of the
+Platform will not be executed or implemented as planned, or may not meet any expectation of
+purchasers of PTN, for a variety of reasons, including without limitation the event of a
+decline in the prices of any digital asset, virtual currency or PTN, unforeseen technical
+difficulties, and shortage of development funds for activities.
+
+40
+14.
+
+Risks Associated with the related Blockchain
+
+Because PTN and the Platform are based on blockchain technology, any malfunction,
+breakdown or abandonment of the relevant blockchain may have a material adverse effect on
+the Platform or PTN. Moreover, advances in cryptography, or technical advances such as the
+development of quantum computing, could present risks to PTN and the Platform by
+rendering ineffective the cryptographic consensus mechanism that underpins the relevant
+Blockchain. The future of cryptography and security innovations are highly unpredictable.
+15.
+
+Risk of Losing Access to PTN Due to Loss of Private Key(s)
+
+A private key, or a combination of private keys, is necessary to control and dispose of PTN
+stored in your digital wallet, vault or other storage mechanism. Accordingly, loss of requisite
+private key(s) associated with your digital wallet, vault or other storage mechanism storing
+PTN may result in loss of such PTN. Moreover, any third party that gains access to such
+private key(s), including by gaining access to login credentials of a hosted wallet service you
+use, may be able to misappropriate your PTN. No Group Entity can or will be responsible for
+any such losses.
+16.
+
+Risk of Mining Attacks
+
+As with other decentralised cryptographic tokens based on blockchain technology, PTN is
+susceptible to attacks by miners in the course of validating PTN transactions on the relevant
+blockchain, including, but not limited, to double-spend attacks, majority mining power
+attacks, and selfish-mining attacks. Any successful attacks present a risk to the Platform and
+PTN, including, but not limited to, accurate execution and recording of transactions involving
+PTN.
+17.
+
+Risk of Hacking and Security Weaknesses
+
+Hackers or other malicious groups or organisations may attempt to interfere with the Platform
+or PTN in a variety of ways, including, but not limited to, malware attacks, denial of service
+attacks, consensus-based attacks, Sybil attacks, smurfing and spoofing. Furthermore, because
+the Platform is based on open-source software, there is a risk that a third party or a member
+of any Group Entity may intentionally or unintentionally introduce weaknesses into the core
+infrastructure of the Platform, which could negatively affect the Platform and PTN.
+18.
+
+Forking
+
+41
+The Platform is a community project and certain elements are open-sourced. The Group
+Entities do not and cannot monopolise the development, marketing, operation or otherwise of
+the Platform’s blockchain. Any entity may independently develop a patch or upgrade of the
+source code of the Platform’s blockchain without prior authorisation of any other party. The
+acceptance of these patches or upgrades by a sufficient (not necessarily overwhelming)
+percentage of PTN holders could result in a “fork” in the blockchain, and consequently two
+diverging networks may emerge and remain. Each branch of the blockchain arising from the
+fork will have its own native cryptographic tokens – accordingly there will be two different
+versions of PTN respectively residing in the two divergent branches with almost identical
+technical features and functions. The community in the Platform may split into two groups in
+support of the two branches respectively.
+Further, it is theoretically possible for each branch of the forked blockchain to be further
+forked an unlimited number of times. The temporary or permanent existence of forked
+blockchains could adversely affect the operation of blockchain and the PTN which you hold,
+and may ruin the sustainability of the Platform.
+19.
+
+Unanticipated Risks
+
+The PTN, being cryptographic tokens, are a new and untested technology. In addition to the
+aforementioned risks, there may be other risks associated with your purchase, holding and
+use of PTN, including those may not be anticipated by the Group Entities. Such risks may
+further materialise as unanticipated variations or combinations of the risks discussed above or
+otherwise howsoever arise.
+CAUTIONARY NOTE ON FORWARD-LOOKING STATEMENTS
+All statements contained in this White Paper, statements made in press releases or in any
+place accessible by the public and oral statements that may be made by any of the Group
+Entities or their respective directors, executive officers or employees or agents or contractors
+acting on their respective behalves, that are not statements of historical fact, constitute
+“forward-looking statements”, whether or not identified by forward-looking terms such as
+“aim”, “target”, “anticipate”, “believe”, “could”, “estimate”, “expect”, “if”, “intend”, “may”,
+“plan”, “possible”, “probable”, “project”, “should”, “would”, “will” or other similar terms.
+However, these terms are not the exclusive means of identifying forward-looking statements.
+
+42
+All statements regarding any of the Group Entities’ financial position, business strategies,
+plans and prospects and the future prospects of the industry which the Group Entities is or
+will be in are forward-looking statements. These forward-looking statements, including but
+not limited to statements as to any of the Group Entities’ revenue and profitability, prospects,
+future plans, other expected industry trends and other matters discussed in this White Paper
+regarding the Platform and/or any of the Group Entities are matters that are not historic facts,
+but only statements of intention or predictions which cannot in any way be guaranteed.
+These forward-looking statements involve known and unknown risks, uncertainties and other
+factors that may cause the actual future results, performance or achievements of the Platform
+and/or any of the Group Entities to be materially different from any future results,
+performance or achievements expected, expressed or implied by such forward-looking
+statements. These factors include, amongst others:
+(1)
+
+changes in political, social, economic and stock or cryptocurrency market
+conditions, and the legal and regulatory environment in the countries in which
+any of the Group Entities conduct their respective businesses and operations;
+(2) the risk that the Platform may require regulatory licences or other similar
+regulatory approvals or clearances to be used by persons in your jurisdiction, and
+that you may not be able to use the Platform or PTN or any tokens offered under
+the platform if the operator of the Platform or the relevant issuer of the token is
+unable to obtain the necessary regulatory licence or other similar regulatory
+approval or clearance;
+(3) the risk that any of the Group Entities may be unable to execute or implement
+their respective business strategies and future plans;
+(4) changes in the anticipated growth strategies and expected internal growth of any
+of the Group Entities;
+(5) changes in the availability and fees payable to any of the Group Entities in
+connection with their respective businesses and operations;
+(6) changes in the availability and salaries of employees who are required by any of
+the Group Entities to operate their respective businesses and operations;
+(7) changes in preferences of customers or targeted users and participants of any of
+the Group Entities or the Platform;
+(8) changes in competitive conditions under which any of the Group Entities operate,
+and the ability of any of the Group Entities to compete under such conditions;
+(9) changes in the future capital needs of any of the Group Entities and the
+availability of financing and capital to fund such needs;
+(10) war or acts of international or domestic terrorism;
+(11) occurrences of catastrophic events and natural disasters that affect the businesses
+and/or operations of any of the Group Entities;
+
+43
+(12) other factors beyond the control of any of the Group Entities; and
+(13) any risk and uncertainties associated with any of the Group Entities and their
+businesses and operations, the PTN and any sale of PTN.
+All forward-looking statements made by or attributable to any of the Group Entities or
+persons acting on behalf of any of the Group Entities are expressly qualified in their entirety
+by such factors. Given the risks and uncertainties that may cause the actual future results,
+performance or achievements of any of the Group Entities to be materially different from that
+expected, expressed or implied by the forward-looking statements in this White Paper, no
+reliance must be placed on these statements. These forward-looking statements are applicable
+only as of the date of this White Paper. None of the Group Entities nor any other person
+represents, warrants and/or undertakes that the actual future results, performance or
+achievements of any of the Group Entities will be as discussed in those forward-looking
+statements. The actual results, performance or achievements of any of the Group Entities may
+differ materially from those anticipated in these forward-looking statements.
+Nothing contained in this White Paper is or may be relied upon as a promise, representation
+or undertaking as to the future performance or policies of any of the Group Entities including
+the Platform. Further, none of the Group Entities shall have any responsibility to update any
+of the above-mentioned forward-looking statements or publicly announce any revisions to the
+forward-looking statements to reflect future developments, events or circumstances, even if
+new information becomes available or other events occur in the future.
+
+44
+
+Appendix
+Token issuance demo code
+Code 1: Pseudo code of token issuance
+/* This is a pseudo code of a contract running on PalletOne.
+This contract will demonstrate how to issue a token in a
+contract.
+Some methods are defned in this contract, mint(), transfer()
+and get_balance().
+There are some predefned variables and methods provided by
+PalletOne contract APIs. */
+init(args):
+// init(args) will be called only once when deploying.
+state = new_contract_state()
+state.set_issuer(current_user)
+state.set_empty_user_balance()
+set_contract_state(state)
+run(args):
+// All invocations will start here.
+current_user = get_current_user()
+state = get_contract_state()
+param = get_parameters()
+if (args == “Mint N”) {
+return mint(N)
+} else if (args == “transfer N tokens to user U”){
+return transfer(N, U)
+} else if (args == “get_balance of user U”) {
+return get_balance(U)
+} else {
+return invalid_invocation(“Wrong arguments”)
+}
+mint(n):
+issuer = state.get_isser()
+user_balance = state.get_user_balance()
+if (current_user == issuer) {
+
+45
+user_balance[issuer] += n
+state.set_user_balance(user_balance)
+set_contract_state(state)
+return OK
+} else {
+return invalid_invocation(“Permission denied.”)
+}
+transfer(n, receiver):
+user_balance = state.get_user_balance()
+if (user_balance[current_user] >= N) {
+user_balance[current_user] -= N
+user_balance[receiver] += N
+state.set_user_balance(user_balance)
+set_contract_state(state)
+return OK
+} else {
+return invalid_invocation(“Insuﬀicient token.”)
+}
+get_balacne(user):
+// Assume all balance infos are public.
+user_balance = state.get_user_balance()
+return user_balacne[user]
+
+46
+
+Glossary
+Abstract level: PalletOne is a light-weight protocol running on a higher level on the
+blockchain, which we call abstract level.
+
+Jury: A group of chosen workers who are responsible for executing and verifying contract
+running on PalletOne.
+
+Juror: Contract verifer who is responsible for contract execution in the Jury group.
+PalletOne Token: PalletOne token is used as the transaction fees of contract executions
+for Jury and is the native token of PalletOne.
+
+Mediator: A smart contract on PalletOne which maintains PalletOne token.
+
+

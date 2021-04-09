@@ -1,0 +1,15 @@
+For(mastenode in masternodes){
+current_score = masternode.CalculateScore();
+if(current_score > best_score){
+best_score = current_score;
+winning_node = masternode;
+}
+}
+CMasterNode::CalculateScore(){
+pow_hash = GetProofOfWorkHash(nBlockHeight); // get the hash of this block
+pow_hash_hash = Hash(pow_hash); //hash the POW hash to increase the entropy
+difference = abs(pow_hash_hash - masternode_vin);
+return difference;
+}
+
+

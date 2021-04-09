@@ -1,0 +1,1337 @@
+WHITE PAPER V1.0
+
+ABSTRACT
+In the white paper, we analyze that the TOS chain is a decentralized and hierarchical block network technology based
+on SDAG for the IoT industry. The technology automatically distributes the massive transaction data to the hierarchical
+block network, so as to reduce the data capacity of the whole block network , which will be the next development of the
+block chain technology.
+
+First gives an overview of the TOS vision, the project is divided into three stages to promote:
+1) to complete the bottom public chain of TOS thing-to-Internet.
+2) open source platform that can be used for solution of the custom-build internet of thing.
+3) provide unified protocol standard for the big intelligent hardware manufacturer.
+
+SDAG(Super directed acyclic graph), the core technology of the TOS, improves the transaction speed while ensuring
+security. This article focuses on a detailed analysis of this fast and secure public Internet of Things chain. This white
+paper enumerates some of the difficulties faced by existing Internet of Things technologies and their own limitations, and
+presents TOS solutions for the current internet to things block chain. And it briefly discusses TOS and its implementation
+in the project.
+
+KEY WORDS
+SDAG, Internet of things, hierarchical block network, TPoS, free transaction, paid transaction, password economics
+balance, TVM virtual machine, smart contract.
+
+1. INTRODUCTION
+2. PROFESSIONAL GLOSSARY
+3. DISCUSSION OF EXISTING BLOCKCHAIN TECHNOLOGIES
+Throughput
+Latency
+Size and Bandwidth
+Security
+Usability
+Wasted Resources
+Versioning, Hard Forks, and Multiple Chains
+
+4. TOS DESIGN BACKGROUND
+5. INTRODUCTION OF TOS
+Block information
+Weights and related concepts
+TPoS-Transaction
+TPoS-PoS
+
+6. CORE GOALS TOS
+7. SDAG NETWORK FEATURES
+Good augmentability
+Support cost-free transaction
+Block data stratified isolation
+
+8. TECHNOLOGICAL ARCHITECTURE & INNOVATION
+TOS technology architecture
+TOS technology innovation
+
+9. TOS TECHNOLOGY ADVANTAGES IN IOT APPLICATIONS
+Hierarchical block network
+TPoS consensus
+The virtual machine
+Reduce redundant transactions
+
+10. APPLICATION SCENE
+Enterprise-class intelligent hardware platform
+Internet of Things Big Data Trading Platform
+Intelligent Financial Service Platform
+Smart Logistics Platform
+
+11. TOS ECOSYSTEM AND VALUE
+12. TOS FOUNDATION
+Establishment of TOS Foundation
+The Governance Structureof TOS Foundation
+TOS Audit
+
+13. TOS CORE TEAM
+14. BUDGET ALLOCATION
+15. ROAD MAP
+16. DISCLAIMER
+17. APPENDIX
+18. REFERENCES
+
+1. INTRODUCTION
+“Cash, after millennia as one of mankind’s most versatile and enduring technologies, looks setover thenext15 years
+or sofinally to melt away into an electronic stream of ones and zeros.”
+---The Economist (2007)
+
+In the world of today's mobile electronic banking, money is changing from a visible and touchable stuff to a string of
+beating numbers on the Internet. In this context, a new form of currency, known as "cryptocurrency", exists in encrypted
+string codes are invented . The digital currency revolution began in 2008 when the unknown Satoshi Nakamoto published
+the Bitcoin white paper.
+
+Now, almost every day new cryptocurrencies are born, and they all have one thing in common: the underlying
+technology architecture is all - block chain.
+The block chain itself is a shared public ledger that records and maintains all transaction records on the system from the first block to the moment. This book, named as block chain, consists of linked blocks, each of which contains
+a certain number of transactions that have been verified by the network at a particular time.
+
+The Internet of Things is an important part of the new generation information technology. Its English name is: "Internet
+of things." As the name implies, the Internet of Things is the Internet that connects objects. This has two meanings:
+First, the core and foundation of the Internet of Things is still the Internet. It is an expanded network based on the
+Internet.
+Second, its client extends from the computer's mobile phone to any items for information exchange and
+communication. The Internet of Things is the "Internet of Things Connected."
+The Internet of Things is changing our lives. It can also be seen that its true potential is still not being exploited on
+a large scale. However, there are still many problems such as the security technology and other issues that limit the
+development of the industry.
+The blockchain is regarded as the most promising and most imaginative technological innovation in the world. It has
+the basic attributes of decentralization, non-repudiation, non-discrimination, safety and irreversibility. How will we
+integrate block chain technology into the Internet of Things?
+
+This project will introduce a new IoT block chain technology called TOS, full name is ThingsOpreatingSystem, which
+aims to solve some of the difficulties faced by existing blockchain technologies. This white paper highlights the issues
+that TOS needs to address, the goals of the project itself, how TOS overcomes the limitations of existing block chains,
+and the TOS technical specifications.
+
+TOS is a decentralized hierarchical block network technology based on SDAG for the Internet of Things (IoT) industry.
+This technology has good scalability ,it combines the technologies of blockchain book and the technologies of directed
+acyclic graph to realize automatic distribution of massive transaction data to hierarchical block network to reduce data
+redundancy of the entire network block and solve the massive data storage problem of the Internet of Things industry;
+Users can decide to use free or paid transactions according to the value of the data,which reaches the balance of
+password economics; the open source and decentralized network protocols reduce the economic barrier to join the smart
+IoT network protocol (blockchain + IoT), they create a Cross-category、Cross-region smart-connected network protocol
+ecosystem.
+
+2. PROFESSIONAL GLOSSARY
+Block: the block in TOS is a "special block" contains only one transaction data;
+Block network: Based on the DAG (Directed Acyclic Graph) technology, constructs each block into an entangled network
+structure;
+The Genesis block: the block generated by the first transaction in the TOS network;
+The Genesis block network: The block network contains the Genesis block;
+Hight layer:the block network layer that is relatively close to the Genesis block network, the found block network layer is
+the highest layer of the block network;
+Lower layer: the block network layer that is relatively far from the Genesis block network;
+Parent block network: the block network above the current block network;
+Parent layer: the same as the parent block network;
+Parent block: A block shared by the current block network and the parent block network;
+Sub-block network: the next layer block network of the current block network;
+Sublayer: same as sub-block network;
+Sub-block: A block shared by the current block network and the sub-block network;
+Terminal layer network: Block network without sublayer network;
+Terminal layer：same as terminal layer network;
+Layering: A new sub-block network is separated from the current block network, and the sub-block network forms a
+dependency relationship with the current block network;
+TPoS: Combines the two consensuses :Transaction and PoS, they are the technical solutions for the TOS network work
+at different stages;
+Unverified blocks: blocks that have never been verified by other blocks;
+Height: The length of the longest path from the Genesis block to the current block;
+Depth: the length of the longest path from the current block to the unverified block;
+Weight: The weight of the block is proportional to the amount of work put into the node that sends the transaction;
+Total weight: The sum of all the block weights contained in the current block’s height;
+Verification of the transaction itself: the trader initiates a transaction on its own, and it was verified by Transaction
+consensus;
+Free trading: user do not need to pay miners' fees for the transactions;
+Paid transactions: user need to pay miners’ fees for the transactions;
+TOS TOKEN: TOS smart contract ERC20 Token on Ethereum;
+TOS COIN: digital assets used by TOS public chain for circulation and trading;
+DAPP TOKEN: The Token that used in DApp application which developed on the TOS public chain, Token can only use
+TOS COIN for exchange and circulation;
+
+3. DISCUSSION OF EXISTING BLOCKCHAIN TECHNOLOGIES
+For the sake of discussion, we will focus on the representative of the most widely used and studied block chain
+technology applications so far - Bitcoin and Ethereum.
+The research results of Yli-Huomo etc can be used as an important reference for the verification of blockchain
+technology. It summarizes the progress of the recent block chain technology and points out the inherent limitations of
+the block chain system. Although their research is entirely focused on documentsthat discuss Bitcoin , this finding applies
+in our discussion as well. Some key indicators come from Swan.
+Research points out seven limitations of current block chain systems:
+- Throughput
+- Latency
+- Size and Bandwidth
+- Security
+- Usability
+- Wasted Resources
+-Versioning, Hard Forks, and Multiple Chains
+
+Throughput
+A typical blockchain (such as Bitcoin) takes 10 minutes or less to confirm the transaction. The average transaction
+rate is about 4 transactions per second and up to 7 transactions per second. Ethereum can process 10 or more
+transactions per second, and the validation time is 10 times faster than on the Bitcoin network. However, comparing with
+the VISA transaction network, the limitations of the current blockchain transaction throughput can be clearly seen: VISA
+can confirm the transaction in a few seconds, processing an average of 2000 transactions per second, and the highest
+transaction volume per second is up to 65,000. From these indicators, it can be seen that there is still a large gap between
+the transaction throughput of the most used blockchain networks at present compared to traditional centralized payment
+networks (such as VISA). The main factor limiting the throughput of blockchain network transactions is the delay between
+nodes. Although people have made some positive attempts and tried to solve this problem, such as the Lightning Network
+adopted by Bitcoin, and the lightning grid that has been operated as a micro-version on the Ethereum blockchain.
+Networking, etc., but no consensus has been reached on a feasible solution for the long terms.
+
+Latency
+As it is mentioned above, since the maximum transaction throughput of the network is limited by the delay between
+nodes, the delay becomes a limiting factor of the blockchain. If there is a high delay between nodes, miners are more
+likely to mine on old blocks. On the bitcoin network, the average time for one block to synchronize to 50% of the nodes
+
+is less than 2 seconds, and synchronization to 90% of the nodes takes about 13 seconds (as of April 2017). In Ethereum,
+the average time for synchronizing to 50% of the nodes is less than 1 second, and the time for synchronizing to 90% of
+the nodes is about 10 seconds. For Bitcoin, the ratio of block-out time to network-synchronization time is large, indicating
+that the delay between nodes does not yet constitute a large limiting factor, while Ethereum's block-out interval is short
+it will be more problematic to spend too much time in synchronization. Ethereum, however, uses an algorithm based on
+the GHOST protocol to motivate miners to mine on the longest chains, rather than attempting to generate the branching
+chains by using the high delays and low time intervals.
+
+Size and Bandwidth
+When discussing size and bandwidth, two issues must be considered: the size of the physical data of the entire
+blockchain, and the size of a single block sent througt the network. According to the requirements, as a complete node
+that can dig out new blocks and interact with the blockchain network, a local copy of the complete blockchain must be
+kept. Obviously, the storage space requirement for retaining this copy is proportional to the number of blocks on the
+chain, which may lead to centralization, because if the blockchain becomes large enough, there will be only a few nodes
+that has the ability to perform block operations. In addition, when the transaction volume begins to break through the
+limit of available bandwidth, and the block size limit, the miner’s fee will increase significantly. In order to achieve greater
+throughput, it may be necessary to modify the core agreement to obtain larger block capacity or shorter block
+confirmation time. Faced with this situation, the core protocol must be modified, but the resulting hard fork is often
+difficult to be accepted.
+
+Security
+The biggest selling point of proof of work (PoW) blockchain is that it is technically difficult to crack. If an attacker
+wants to modify blocks that are already on the blockchain, they need to redo the workload proof for the block and all
+subsequent blocks. In order to implement such an attack, at least 51% of the hash power of the entire network is needed,
+and therefore it is also referred to as "51% attack." This is obviously unlikely to happen because the mining revenue
+generated by having 51% of the computing power is far greater than the gain from the attack.
+
+Usability
+In the Bitcoin block chain, transactions are released approximately every ten minutes, but afterwards it usually takes
+50 minutes or more to confirm subsequent transactions. This is similar to buying real estate in the real world, and wait
+for an hour to pay in line. For a program that wants to be applied in real time in the real world, this is obviously
+unacceptable.
+
+Wasted Resources
+Bitcoin has a considerable impact on electricity and the environment. According to current estimates, to verify a
+transaction requires 249 kWh of electricity, the miners on the Bitcoin blockchain consume 32 TWh of electricity each
+year to continuously mine new blocks. Although Ethereum is relatively low in power consumption, its energy consumption
+and environmental impact are still large. In fact, if you add up the power to keep Bitcoin and Ethereum working, it will be
+enough to supply the electricity needs of Newzealand for one year. At present, some people have tried to change the
+PoW blockchain and replaced it with the PoS. Ethereum is its most prominent supporter.
+
+Versioning, Hard Forks, and Multiple Chains
+The main problem with blockchain forking is the lack of consensus mechanisms and security. To give two
+exaggerating examples, one side is a blockchain that is heavily inflated, occupies 100% of the available computing power
+on Earth, and the other is 100 competing chains, each with 1% available power. Hard bifurcation is usually another
+unwelcome result due to the destruction of the consensus mechanism. Blockchains will split or split into branch chain
+due to the different ideologies of different people in their ecosystem. Well-known example includes the inability of Bitcoin
+to expand into a convenient and cheap e-cash, resulting in the splitting of Bit Cash (BCH), and Ethereum Classic (ETC)
+is also resulted from the inconsistency of various ideologies in the Ethereum blockchain. However, the hard bifurcation
+is not always due to ideological fragmentation, it comes from changes in the core protocols of the blockchain system
+many times, such as Ethereum's metropolitan upgrade in 2017. After the hard branches are formed, the hashing power
+on the original chain still exists. However, in the hard fork that consensus cannot be achieved, hashing power is divided
+into two competing chains, making the blockchain security level lower and vulnerable.
+
+4. TOS DESIGN BACKGROUND
+we have discussed above about some limitations of the existing blockchain technology. For these situations, the
+original intention of the TOS is to build a highly available blockchain technology and use blockchain technology to solve
+the difficult points such as massive data storage in the Internet of Things industry, high-concurrency, transaction costs,
+and the difficulties of mining the data’s value.
+
+First of all, in TOS technical design, the analysis of existing blockchain technology achievements, such as PoW
+consensus is a very large waste of resources,it is not our ideal model that to maintain the stability of the Bitcoin network
+by consuming large amounts of electricity,and the concurrent amount of its transactions is relatively low ;the problems
+such as the high concurrent volume of the Internet of Things, the big transaction cost cannot be solved by bitcoin
+technology . However, we have enlightened by entangling the block network structure with the existing DAG technology.
+The consensus built by using DAG technology can achieve high concurrency and free transactions;moreover the current
+existing mature PoS rights proof consensus form the combination of free and paid transaction, on the basis of free and
+paid type, and traded miner's fees, it is better to separate the data according to the value tag to dig the value of the
+data.
+
+Then, although using existing DAG technology can achieve high concurrent volume and free transactions, it is
+impossible to solve the problems of massive data storage, the time of the ransaction data cannot be determined and
+data value classification in the Internet of Things. These issues are crucial and cannot be ignored.
+
+Finally, the existing public-chain technology is only applied to the digital currency's transaction and circulation, but
+it has not really reached the enterprise-level commercial application. Technically, highly available commercial-level public
+chain technologies need to be secure, scalable, and decentralized. Because in the blockchain technology world there is
+an iron-triangle relationship that checks and balances each other. It is safe, scalable, and decentralized. Based on this
+contradiction, a large amount of analysis is performed on the existing blockchain technology. We design some new
+technical index models, such as the economic value of the block network and the adjustment of smart miner's fees.
+Finally, to re-architecture the existing blockchain technology, there is TOS's core SDAG layered block network technology.
+
+In the hierarchical block design of the TOS, all the blocks in the blockchain are first formed into a DAG block network
+structure by a chain topology, and then the DAG block network is layered into a number of DAG block network layers,
+each of the DAG block network is linked by the "parent network hash" value inside the block. First, the block is entangled
+into a DAG block network. different levels of the DAG block network form a chain relationship, and each unit in the chain
+can be seen as a DAG block network; then, a combination of free and fee-based transactions is added to separate the
+transaction data according to the value tag. The more important the data is, the higher layer the data will be stored in
+
+the block network.In the hierarchical block design of the TOS, all the blocks in the blockchain are first formed into a DAG
+block network structure by a chain topology, and then the DAG block network is layered into a number of DAG block
+network layers, each of which is a DAG area. The block network is linked by the "parent network hash" value link inside
+the block. First, the block is entangled into a DAG block network. Different levels of the DAG block network form a chain
+relationship, and each unit in the chain can Understanding is a DAG block network; then, a combination of free and feebased transactions is added to separate the transaction data from the value tag. The more important the data is, the
+higher layer the data will be stored in the block network; ultimately, the crypto economy Balancing mechanism ensures
+the high availability of commercial activities, plus the TVM virtual machine for smart contracts creates a decentralized
+hierarchical block network technology based on SDAG.
+
+The technology of layered blocks, the combination free and fee-transation to solve the block data redundancy,
+transaction performance and transaction costs, and data value classification of TOS is just the beginning of a
+commercially available public-chain technology solution. In this ecosystem, in the future of our strategic plan , more will
+be included such as the full data type of the upper chain, block data storage incentives, data banks and other roles to
+build a complete and highly available commercial-level public chain ecosystem.
+
+5. INTRODUCTION OF TOS
+Introduction of TOS chain,a decentralization layered block network technology based on SDAG .
+
+Super directed acyclic graph,it is based on existing DAG technology, PoS Rights are added on the basis of the
+Transaction consensus,and they are combined into TPoS Consensus.It constructs a hierarchical block entanglement
+network by using the S-mechanisms (Smart miner) functions and B-algorithm (Block chain network economic algorithm)
+algorithms. Block chain networks at each layer stores the corresponding data, similar to the administrative division such
+as province > city > county > district, each administrative center manages its own data. The block data of the whole
+network are separated,so that there is no need for one province to care the data of the other province ,same among the
+countries . Each block network is only concerned with the block data that is needed, so that a large amount of data can
+be reduced.It increase TVM virtual machine and Transaction and PoS management contract,to build SDAG smart contract.
+Ultimately SDAG can do the followings: users can decide to use free or paid transactions based on the value of the data.
+It is a special decentralized system,it combines two technologies, block chain book and directed acyclic graph. Therefore,
+two different consensuses are included. They are divided and ordered and data are kept in sync,all are indispensable.
+
+Block information
+We define that all blocks in a network system contain a block head, which includes an effective JSON data format.
+
+{
+"parentblockhash": "00000000c937983704a73af28acdec37b049d214adbda81d7e2a3dd146f6ed09",
+"previousblockhash": "0000000008e647742775a230787d66fdf92c46a48c896bfbc85cdc8acc67e87d",
+"hash": "00000000a2887344f8db859e372e7e4bc26b23b9de340f725afbf2edb265b4c6",
+"hashMerkleRoot": "00000a83b83by22aa86832dwu4a4uh42ewa456b5e3282aue5so23dt356aa6f3f",
+"transactioncost": "0",
+"totalweight": "12",
+"weight": "1"
+}
+
+Among them, there are the hash value of the parent block, the hash value of the previous block, the hash value of
+the current block, the hash value of the MerkleRoot, Transaction cost, the total weight of the block, and the weight of
+the transaction in the block.
+
+Weights and related concepts
+We define that each block has its own weight, total weight of the block and its related concepts. The weight of the
+block is in proportion to the amount of work that has been put to the transaction node. Each transaction that has been
+sent, will be automatically marked as an unauthenticated transaction in the network system, attached with an initial weight
+value. When a trader himself participates in the network using Transaction work proof, if the proof is verified, the total
+weight of the new block is the total weight of the verified direct indirect node plus the latest weight of the block.The
+design of block chain nodes ensures that the data in decentralized global databases is secure, trusted, and can not be
+tampered with. Adding new nodes in the block chain requires block chain node auditing in the network. The system will
+tuck the DAG data structure so that it will not continue to diverge. Through the TPoS consensus verification algorithm,
+the TOS node reached a consensus to achieve rapid transactions. It solves the problem of double payment and data
+tampering between fragmented blocks generated in the traditional block chain structure, and solves the problem that the
+large number of transactions may eventually become invalid result from the unsuccessful fragmentation.
+
+TPoS-Transaction
+We define, by verifying the terminal blocks that have not been verified,each trader itself can generate new blocks
+and concatenate any two terminal blocks to prove the effectiveness of the transaction. Based on the fact that the honest
+node will not directly or indirectly verify the block with conflicts, then as the number of transactions increases, the current
+block will be more and more new block directly or indirectly transaction verification, the system will It tends to be safe
+and stable. In other words, it is extremely difficult for a transaction to be paid by twice.. Transaction certificate is verified
+by traders themselves, which does not need to pay in the process, so the new block transactioncost generated by
+Transaction verification is 0.Through the TOS node to receive the transaction, and record the transaction data to the
+block chain, so that the block chain produces new blocks. When the TOS node conducts transaction verification, it first
+monitors the economic value of the block network through the B-algorithm algorithm, then selects the Transaction or
+PoS for preliminary verification based on the S-mechanisms mechanism, and completes the transaction quickly. After
+reaching consensus on the entire network, it extends TOS block network.
+
+TPoS-PoS
+We define, nodes can guaranteed by digital currency , consensus algorithm in virtual mining is used to verify the
+transaction data and to generate new blocks. Cost is required in this process, so the transactioncost of the new block
+generated by validation is more than 0. Because the miners pay out the labor costs, the profits are allocated by the
+miners in proportion to the labor costs.
+we have an algorithm mechanism to monitor the total number of nodes and data in the entire network to estimate
+the economic value of the block network. The value includes the total economic values of the current block network and
+all sub blocks. When the economic value of the current network reaches a threshold, costs will be required to auto-trigger
+the next block verification. Certainly , users can also set transaction costs without reaching the threshold of the whole
+network. When the transaction is successful, transaction costs will be written in the new block. We will have a checking
+algorithm to verify the amount of such personal behavior. If amount of behavior is too small , it will not affect the costfree Transaction authentication mechanism. When the economic value reaches the agreed value of the system, interest
+drives some people to use the PoS verification in the network. The miners complete the verification and get paid and
+also the cost will be written to the transactioncost value of the block, which means the block network entry into the
+period of cost-needed in advance.
+At this point, the user has two options,1.continue to generates transaction data in this block network but need to pay
+a certain amount of transaction costs;2. choose the cost-free transaction if they do not want to pay , then the network
+system will automatically generate a new sub block network from the current block and the new transaction will be written
+into sub blocks network. The automatic branch function of the block network is achieved. These phenomenon are the
+result of the interaction of the participants in the network. When the number of nodes is large enough, the TOS block
+
+networks with different layers are automatically formed as time goes on. Each block network has only the data access
+rights to the current block and all sub block network . The same layer block network data can not interact directly, but
+can communicate data through the parent block network. In this way, the mass data of the Internet of things will
+spontaneously form different sub block networks based on different regions. Massive data is cut into numerous blocks.
+The whole network data of the original block chain share one account book originally and now it changes to be one
+parent block network with numerous small account books. There are numerous small accounts. The sub block network is
+only responsible for managing its own small account book. This is the slimming of the TOS block chain, and can also
+better manage the large data.
+
+6. CORE GOALS TOS
+Working mode of the SDAG , the core technology of the TOS.
+
+In the case of network work, TOS runs as follows. It is a tree structure consisting of several different layers of DAG
+(directed acyclic graph), also known as the SDAG (super directed acyclic graph). All blocks sent through the node
+constitute the set of this super acyclic graph DAG, and there is no global block chain in SDAG. Each time when a new
+transaction occurs, a new block is generated and the new block must verify the previous two blocks. We define that when
+the new node verifies the old node, the the new node is called output and the old node is called input. The total number
+of input and output of nodes in the same layer network can not exceed 2. Each node is similar to the quadruple link of
+carbon ions, but the two keys as input and two keys as output. These validation relationships are represented by a
+directional edge, as shown in Figure 1 (in the graph, the time always goes from the left to the right). If there are at least
+two paths with directed edges between the block of transaction A and transaction B, we say that the block of transaction
+A verifies the block of transaction B directly ,and verifies the block of transaction E indirectly. We believe that the honest
+node will check whether there is a conflict in the verification transaction and will not directly or indirectly verify the block
+with the conflicting transaction. In the previous mechanism, as the new block generated by the transaction will directly
+or indirectly verify the block in the block network, the number of verified blocks increases, and the entire block is accepted
+by the block network. In other words, to forge a double deal is extremely difficult (or at least in practice is almost
+impossible).
+
+The working mode of the hierarchical network based on SADG is as follows:
+
+1) The block is set to record the transaction records in the block genesisprocess. DAG technology is used to connect
+the blocks,multiple blocks are interconnected to form a block network. The economic value of the block network includes
+the parametric models such asthe number of nodes in the block network,the number of transactions recorded, the
+transaction amount, and the miner’s fees for transactions.The B-algorithm algorithm (Block-chain network economic
+algorithm) is used to calculate the economic value of the corresponding hierarchical block network . The mathematical
+formula of the B-algorithm algorithm is a complicated curve function, and the function value can reach a threshold
+(evolveValue) over time. The function value E(t) in the future must be a fluctuation curve that is greater than the threshold
+value (evolveValue).
+2) Set the economic value function of the block network to E, define α, β, γ and δ as constant coefficients, and
+the current network node number is N; among them, the total number of transactions in the block network is T, and the
+total transaction amount in the block network is M, The total miner’s fee for the transaction in the block network is F,
+and the mathematical model for the economic value of the block network E(t) is as follows:
+
+𝐸 𝑡 = 𝑒𝑥𝑝 𝛼𝑁) +
+
+𝑒𝑥𝑝 𝛽𝑇./ + 𝛾𝑀)/ + 𝛿𝐹)/
+):)→)/
+
+3) A threshold value (evolveValue) is set as the critical value of the economic value of the block network, and the
+intelligent miner fees adjustment mechanism of the S-mechanisms mechanism (Smart miner fees regulatory mechanisms)
+is set to realize the block network generation and stratification system. In the working principle of the S-mechanisms
+mechanism, when the economic value of a block network is less than the critical value, the new block is verified and
+written into the end of the block network through the Transaction consensus verification; when the economic value of a
+block network is greater than the critical value the new block is verified by the PoS consensus miner to write to the end
+of the block network; or, the new block is verified by the Transaction consensus verification to generate the next block
+network of the block network, thereby realizing the layering of the block network.
+4) Different levels of block networks correspond to different trading rules. The corresponding trading rules are
+excuted for the new transaction according to the choice of the users . Blocks at different levels meet the needs that the
+earlier block generated , the higher the block network layer is , the transaction rules specifically include the following
+steps:
+- If a new block is written in the lowest level block network, perform the Transaction verification;
+- If a new block is written in others level block network ,perform the POS miner verification.
+In the Transaction verification method, any two blocks are verified, and the verification result is recorded together
+with the transaction in a new block. In the PoS miner verification method, the miner pays a deposit and places a bet on
+what he thinks is the next block that can be written into the block network. IN the block that is written into the block
+
+network,the mining contacts will decides that parts of the miners who participate in bet wins and is responsible for
+packing the transaction. If the bet wins, all miners who have been correctly guessed will get back the deposit and collect
+transaction fees, and verify any two blocks; if the miners on the network deal without packaging the data and wait for a
+consensus on the block generated by the next round of miners, some of the deposits will be deducted, when the miners'
+behavior violates the relevant regulations in the system, the deposits will be forfeited and they will also be disqualified
+from participating in the genesis of the block.
+Transaction verification and PoS miner transaction verification also calculate the cumulative total weight value for
+this block during the process of verification. The cumulative total weight value is the sum of the block transaction weight
+values from the genesisblock to all blocks in the longest path of the current block.Genesisblock is the first generated
+block.
+The greater the absolute value of the difference between the cumulative total weight of the block in the block network
+and the cumulative total weight of the block at the end of the network, the more times the block is verified and the higher
+the security of the block is. The cumulative total weight value is the sum of the block transaction weight values all the
+blocks in the longest path from the genesisblock to the current block. The path refers to all the blocks that has been
+passed from the current block along the block verification direction (ie, the direction of the arrow) to the genesis block.
+The higher level of the block network the transaction is written into , the more transaction fee is required to pay. And
+the block can only verify and deal with the block of the current block network, the parent block network and the Subblock network, and the parent block network is the last block of the current block,the sub-block network is the next layer
+network of the current block.
+When each transaction that needs to be recorded is sent in the system, the system will mark it as an unverified
+transaction with an initial weight value. When the trader participates in the transaction certificate in the network, if the
+verification is completed, the cumulative total weight of the new block is the sum of the maximum total weight of the two
+blocks verified and the weight of the current block.
+When the number of nodes and traders in the network are sufficient, the block of the TOS network forms a plurality
+of different-level block networks. As shown in the following figure, the earlier the block network is formed, the higher the
+level of the block network is. The higher; the block in the A-block network is the earliest block network and it is the
+highest-level block network, B1~B4 is the sub-block network of the A-block network, and the A-block network is the
+parent block network of B1~B4 block.The C1~C2 block networks are at the bottom of the current block network, which is
+the lowest layer of the current layer block network; The higher level block networks gradually derive into multiple lower
+levels in the transaction. and so on, eventually it formed a block network structure similar to oceans, rivers, and streams.
+
+Each block network only stores the transaction book in the hierarchical block network. When the node synchronizes
+data in the blockchain network, it only needs to synchronize the data in the node network and the higher-level block
+network, not necessary to synchronize all the blocks, which can save a lot of storage space for a single node's ledger,
+also greatly reduces the node storage load. The system automatically determines which level of the block network the
+transaction is recorded in according to the transaction fees that the users are willing to pay. The more transaction fees
+the user pays, the higher the level of the block network the transaction can be written to , and the more securer the
+transaction data will be . Meanwhile , the higher the security level of the blocks is , the greater the value of the data is,
+which is more conducive to later data management and data mining.
+When the user selects the transaction fee as 0, the Transaction verification method is executed. If the economic
+value of the current block network is greater than the threshold, a new sub-block will be generated from the end of the
+current block network and the transaction will be recorded in the new block. Otherwise,the transaction will be recorded
+in the current block network. When the user chooses the transaction fee to be greater than 0, the POS miner transaction
+verification method is executed, and the system automatically determines the corresponding hierarchical block network
+according to the miner fee. The higher the user is willing to pay, the higher the block level is written.
+SDAG is a kind of hierarchical block network technology with high concurrency, fast transaction speed, and it can
+support for different hierarchical block networks to use different transaction types. The Transaction certification method
+adopted by the lowest level block network has a simple block generation mechanism and large concurrent transaction
+volume. The PoS miner transaction verification method adopted by the high level network is slow but the transaction
+security is high. With the organic combination of the high layer block network transaction method and low level block
+network transaction methods, the shortcomings of small concurrency, slow speed, and equal status of all transactions
+have been overcame.
+
+7. SDAG NETWORK FEATURES
+Good augmentability
+As we all know, due to the hierarchical block mechanism of the SDAG network, the network can have an infinitely
+hierarchical sub-block function, which is like an infinite extension of the root. In the TPoS consensus block network, the
+PoS is responsible for verifying the data with transaction costs，It is characterized by higher security, and the more
+important the information is, the the higher layer network it can be written to by paying high transaction fees. The
+Transaction verifies itself, and the transaction data is written to the terminal block network, which is relatively lower in
+security than the PoS, but it can achieve high transaction volume and high throughput. In summary, SDAG has good
+extensibility.
+
+Support cost-free transaction
+The Transaction certification itself can be cost-free, which is very convenient for many users. For example, the
+demand of the equipment data of integrated mill in big Internet is : to be able to communicate with other devices, and
+can access the third party authorized device data in the entire Internet of things. If the equipment belongs to the high
+frequency data generator, it is unacceptable for each transaction data to be written to the block, which requires high
+cost for the factory. At that time, the advantage of Transaction sharing mechanism is reflected. The factory can branch
+itself into a terminal network (terminal sub net is the most end network in sub network). Transaction consensus validation
+is used to record transaction data. Of course, someone will challenge the security because when the node of the terminal
+network is small, it is possible to tamper with the data if paying enough for it. This security phenomenon is inevitable in
+the current Internet. The motive of any perpetrator to attack is for the benefit. If it is some worthless or small amount of
+data, the perpetrator will not have enough power to do such a loss. But if it's valuable data, you don't have to record it
+in the terminal network. In other words, the user can determine the layer of the block network that records the data on
+the basis of the value of its own data. The risk is the user's consideration, and the higher the security of the data, the
+higher the cost you have to pay. This is also in line with economic phenomena, security needs the cost.
+
+Block data stratified isolation
+As it is mentioned above, the block network has infinite sub network function. The block network at each layer
+stores the corresponding data and separates the block data of the whole network. The whole network block is divided
+into branching blocks. There is no communication between the branch blocks. It can be understood as the Yangtze River
+
+and its branches, the head stream of Yangtze river is the original region of the block. The main block network is as the
+main road of the Yangtze River. There are numerous branch block network just as the numerous tributaries in the Yangtze
+River. The writing of new transaction data in the sub block chain is like the flowing of water into the small streams.
+Different sub blocks cannot change data directly just as those small streams cannot flow directly among each other. But
+the reflection function can be used to check the corresponding sub block network data through the parent block network.
+Such data are layered isolated. Therefore, the amount of data of each sub block of the network include the parent branch
+network (minor groove > small stream > river > Yangtze river). The block data isolation mechanism in the network system
+can greatly reduce the data redundancy of the whole network block. Further, as the data pressure of the node decreases,
+the load of the system is lighter. It can be predicted that after the system runs a certain time, with the system mechanism,
+the more important data will be stored in the upper block network. Therefore, SDAG can better support large data
+management and high value data mining.
+
+8. TECHNOLOGICAL ARCHITECTURE & INNOVATION
+TOS technology architecture
+
+TOS technology innovation
+1) SDAG support free transaction and charge transaction
+Through the TPoS combined with the consensus mechanism, free transactions allow users to record common data
+without transaction costs, which fits in with the massive data scenarios generated by IoT devices. Charge transactions
+are applicable to the transfer of high value data transactions in the Internet of Things.The data is recorded in high-level
+block network, with better circulation and higher security.
+
+2) SDAG has unlimited hierarchical block network capabilities
+SDAG uses the S-mechanisms mechanism and B-algorithm algorithm to realize block network layering. The Balgorithm algorithm monitors the economic value of the block network. When the economic value of the network reaches
+a threshold, the S-mechanisms mechanism will automatically trigger the next new block verification cost. At this point,
+the user is faced with two choices, and the transaction data of the network in this block needs a fee. If the users want
+
+to continue to use free transactions, the network system will layer a new sub-block network from the current block
+network and write new transaction-generated blocks to the sub-block network，and achieve unlimited hierarchical block
+network capabilities.
+
+3) SDAG cryptographic economic balance mechanism.
+The combination of free trade and fee trade can form checks and balances.Through the charge and free , a hierarchy
+of data distribution can be formed . The free transaction data is only stored in the lower or final layer blocks while the
+fee transaction is stored in the hierarchical block, and the higher the transaction fee is paid , the more you can store it.
+In this way, it is possible to avoid the blockage of garbage data and reduce the amount of data in the hierarchy block.
+Separate the data at different levels in block network,and store them in different layers according to the data value, it is
+more suitable for data mining and the combination with human intelligent in the future.
+
+4) Extended smart contract of SDAG
+
+The blocks in the SDAG contain signature, block information, and parent block network information. Blocks are hashrelated and are the combination of blockchain ledger and directed acyclic graphs. However, the extension of SDAG is
+based on the DAG technology. As far as the original DAG technology architecture itself is concerned, there is a big hidden
+danger which is it cannot fully guarantee the atomic unity of the transaction status. In terms of time,it may be possible
+that the time the specific nodes (such as remote nodes)confirm the transaction cannot be estimated. From the point of
+node, there might be one node that unable to update the transaction information of a certain time, that is, the node has
+not been broadcast to the transaction information at a certain time. These conditions for many commercial pattern is
+extremely a hidden trouble. In order to solve this problem, the original DAG technology architecture has been improved,
+and the virtual machine (TVM) was added to realize the intelligent contract in SDAG.
+
+5) A hierarchical structure of internet of things
+According to the hierarchical architectureof the Internet of Things, TOS designes corresponding standards protocols
+for the perceptual layer, transport layer, and application layer to ensure that every step and level of the Internet of Things
+is protected, managed, and controlled,and it eventually ensures data security and information disclosure and transparency.
+
+5.1) Perceptual layer
+The sensory layer use electronic tags, RFID, radio frequency or near-field technologies to identify, and then use
+sensor networks to perceive in all aspects. Therefore, in terms of security protection, it is necessary to protect RFIDrelated physical devices, protect sensor nodes, and periodically perform security verification and authentication; it is also
+necessary to establish information security transmission mechanisms between sensor nodes to ensure transmission，so
+that the data cannot be captured by unauthorized nodes or it cannot be deciphered even it is captured.
+
+5.2) Transport layer
+The information sensed by the sensor is processed through the transmission layer to the application layer through
+the preliminary processing and filtering,and then accesses the TOS network node. Therefore, end-to-end data encryption,
+node security verification, and network access security must be guaranteed at the transport layer. The end-to-end
+transmission security is ensured by technologies such as validation, authentication, and keys; in addition, data integrity
+and security are ensured by relevant data encryption algorithms.
+
+5.3) application layer
+The amount of data transmitted to the application layer through the transport layer is large, and the data is
+heterogeneous. Therefore, massive heterogeneous data needs to be processed at the application layer and converted
+into TOS standard protocol format to access the uplink data in the network node. It is also necessary to establish a
+unified standard system and security mechanism for data access rights, authorization management and other security
+protection measures to strengthen the protection of personal privacy and various types of application data. First, each
+smart device passes through the perceptual layer, the transport layer to the application layer, and the application layer
+runs the compatible packet of each manufacturer. Then, the data converted by the compatible packet is accessed to the
+TOS network node. The TOS decentralized block chain technology interconnects all intelligent devices.For manufacturers,
+there is no need to change the existing equipment protocol standards, and after equipment data is put to the TOS chain ,
+the manufacturer does not have a centralized data operating cost, and only needs a protocol compatibility package to
+achieve Win-win. As the Internet of Things continues to infiltrate all walks of life and people's daily lives, there will be
+certain security risks both in perception, transmission, and application processing phases. while the Internet of Things
+
+data presents those characters such as large amount of data, heterogeneous, burstiness. Therefore, when adopting
+relevant security measures for the Internet of Things, it is more necessary to carry out different management and control
+in different stages and phases. The TOS adopts a layered security architecture for the Internet of Things. This structure
+provides comprehensive protection for data awareness, data transmission, and data processing at the sensing, transport,
+and application layers in order to comprehensively improve the security of the Internet of Things.
+
+6) Decentralized IoT Operating System
+The Internet of ThingsOpreatingSystem is a public business development platform with a rich and comprehensive
+basic functional components and application development environment for the Internet of Things. It can greatly reduce
+the development time and development cost of Internet of Things applications. The unified IoT operating system has
+consistent data storage and data access methods, providing possibilities for data sharing between different industries.
+The IoT operating system can break down industry barriers, enhance data sharing capabilities between different industries,
+and even provide services “above the service industry “ such as data mining; the Internet of Things is very wide in general,
+all the operating system can be applied in the field of the Internet of Things, the operating system is the strategic
+commanding point in the era of the Internet of Things. Today, the operating system overlord of the PC and mobile phone
+era may not be able to continue its legend in the Internet of Things. The law of the operating system industry is: When
+the monopoly has been formed, the latecomers will find it difficult to subvert and can only wait for the next industrial
+wave. Today, TOS is opening a new, decentralized operating system which is full of imagination.
+
+9. TOS TECHNOLOGY ADVANTAGES IN IOT APPLICATIONS
+The core technology of TOS, SDAG, solves the three pain points of the Internet of things:massive data storage, high
+concurrency and large transaction costs.
+For existing block chain technology, DAG technology can solve the problem of high concurrency and high transaction
+cost. But the problems such as huge amount of data redundancy, the huge amount of network data transmission and the
+inability to determine the time’s length of the transaction are not solved, and they are the problems that must be solved
+in the Internet of things.
+
+For SDAG, the core technology of TOS, the four features of it can solve the above problems:
+
+Hierarchical block network
+It reduces the large amount of data redundancy in the Internet of things, the data capacity of single node is smaller,
+and the storage cost of equipment is reduced. Each node only needs to verify the current block network transaction data,
+and improve transaction efficiency. Let us make a bold imagination, if there are 10, 000 hierarchical block networks, the
+TPS in each layer is 7 per second, same as the bit coins, and the total TPS of TOS is 70,000. If the TPS performance of
+a single layer of TOS is 1,000, then the total TPS of TOS is 10 million. In fact, SDAG is fully equipped with high TPS on
+DAG technology, and can achieve a performance that thousand times as much as the bit coins. That is, the more the
+block network is stratified, the higher the total TPS is, it can even reach tens of millions of levels or even more than one
+billion.
+
+TPoS consensus
+Through the combination of TPoS (Transaction+PoS), users can choose to use free or paid Transaction according to
+the importance of data. Free and paid mode coexist, the data store in different layers according to the transaction cost.
+
+The virtual machine
+TVM virtual machine can realize intelligent contract, in the Internet business applications, it has the event-driven
+state, and the intelligence contacts stored and operated in the block chain contracts bring the security for both parties
+and ensure the trusting trade in the absence of a third party, reduce unnecessary losses.
+
+Reduce redundant transactions
+In the TPoS (Transaction+PoS) consensus mechanism of the SDAG ,the hierarchical block network, a large number
+of transactions can be collected within a block verified by PoS miners. If there is a double-flowering(double transaction)
+problem, redundant transactions can be eliminated and the problem of redundant transactions or influence to the
+verification efficiency of the transaction will not occur.
+
+Because the Transaction consensus generates redundant transactions, the PoS consensus does not generate
+redundant transactions. Therefore, before SDAG's current layered block network stratifies out of the sublayer block
+network, Transaction consensus mechanism is used. When the economic value of the hierarchical block network reaches
+the threshold, the PoS charging verification mechanism is automatically activated to avoid redundant transactions. so all
+redundant transactions in the SDAG will only appear in the lowest-level economic value block network, and only at the
+stage when the economic value of this layer network does not reach the threshold. It can be seen that the greater the
+development of the hierarchical block network is , the lower the proportion of redundant transactions will be, in this way,
+it will reduce a large number of redundant transactions.
+
+According to the four characteristics of SDAG, in the TOS chain, first, the data redundancy of the nodes is very small,
+and the storage space requirement for the equipment is very low; secondly, the network transmission data is reduced,
+and the requirement for the network bandwidth is reduced; thirdly, Users can choose the transaction payment type so
+that they can reduce transaction costs. Fourth, SDAG's hierarchical block network can achieve rapid transactions and
+high TPS. Data is filtered by the S-mechanisms mechanism and then distributed to non-hierarchical block networks for
+data mining. Fifth, reducing a large number of redundant transactions; Finally, intelligent contracts in the DApp commercial
+application can compulsory perform the both parties' contracts and economic security. In summary, the TOS technical
+solution is suitable for the Internet of Things industry.
+
+10. APPLICATION SCENE
+Enterprise-class intelligent hardware platform
+The enterprise-class intelligent hardware platform is the basis of the TOS chain and the core application platform.
+Based on smart contracts, devices, objects, data, logical methods, vouchers, etc., can be perfectly organized and
+executed on the TOS chain, and provide operating environments and execution systems for other TOS applications. TOS's
+intelligent hardware platform includes a wide range of application types and is optimized for applications in different
+Internet of Things and different corporate environment scenarios. The types of smart contracts currently set are:
+
+1) master class contact
+Blockchain-based smart contracts include affairs processing and preservation mechanisms, as well as a complete
+state machine for accepting and processing various smart contracts; and the state processing and saving of the affairs
+are done on the block chain. Affairs mainly contain data that needs to be sent; events are descriptions of these data.
+After the affairs and events information are passed to the smart contract, the resource status in the contract resource
+will be updated, and trigger the smart contract to enter the storage statues judgment mechanism. If the trigger condition
+of one or more actions in the automatic state machine is satisfied, the contract is automatically executed by the state
+machine according to the preset information.
+- Features:
+• The world’s first block chain platform puts IoT device smart contracts into practical scenarios
+- For example: Decentralized Smart Rental Case, A high-end apartment adopt a TOS decentralized rental program,
+it replaces the yoke with a yoke that supports the TOS smart contract, and launch rental information in a block chain
+mode rental website to formulate a rental agreement. Reservation and appointment will be made online. Once the
+appointment is made, it will be temporarily deducted for a one-month rental guarantee and the passwords will be sent
+to the tenants’ mobile phone and it will be valid for one hour. The tenant checks the room within one hour with the
+password. If it is not satisfied, the tenant will go directly. After one hour, the password will be reset and the rent guarantee
+will be refunded; if the tenants are satisfied with the apartment , the rental smart contract will become effective, rental
+deposit free,and it will deduct rent DAPP TOKEN per month, and set the lock password for the tenant only. If the rent is
+overdue, the lock will automatically change the password.. In the entire rental process, no sales escort is required, no
+credit approval is required, and a great deal of manpower and material resources are saved.
+
+2) Data settlement contract
+The data settlement contract is used on the Internet of Things (IoT) device or other products that can provide data.
+The owner of the device studies out data content that can be shared openly and provides data interfaces. The data
+requesting party can follow the agreed price and method acquire data according to data interface at a fix time and
+automatically complete settlement.
+- Features:
+• Supports a variety of different data types, as well as diverse data collection for IoT devices
+• Support ultra-small payments ，ultra-low commission transactions and facilitate small payments to meet data
+fragmentation trading needs
+- For example: Users use driving data for transaction, User A has just bought car with transaction data \and intelligent
+contacts, and drive it everyday. According to the content of the intelligent contract, as long as A agrees to share the data
+anonymously including the driving habits, geographical trajectory, and information of the car, these data will be used to
+analyze the driving habits of the driver, to complete the portrait analysis of the driver, to help merchant' Driverless AI to
+improve Driving Model, and advertisers can also analyze the positioning user's preference based on the data, and perform
+accurate advertisement placement on the device. In return, A won the DAPP TOKEN to offset the maintenance fees in
+the 4S store, or to pay the petrol in the gas station.
+
+3) TPoS consensus contacts
+The TPoS consensus protocol is the core operating mechanism of the TOS. Through the Transaction consensus
+based on the original DAG technology and the PoS consensus based on the Casper protocol, every IoT device connected
+to the network can become a TOS miner . Smart devices can receive commissions by “virtual mining” through the PoS
+Margin Economic Incentive Management Contract and ensure network security by verifying the previous two transaction
+blocks and the mechanism of direct or indirect verification of transaction blocks. Due to the adoption of the TPoS
+consensus of Transaction + PoS, in the TOS system, only a small amount of power is required to trade the Self-verification
+Transaction consensus algorithm and the PoS Consensus Calculation Based on Margin Economic Incentive Agreement,
+thereby avoiding wasteful calculations.
+- Features
+• Transaction consensus based on DAG technology, self-verification and indirect verification of transactions based
+on a small amount of computational power
+• Support PoS verification consensus to gain fees to provide continuous operating costs for miners
+• Basic computing power to support IoT devices and embedded operation in the TOS environment
+- For example: The XIAO MI sweeping robot becomes a central node, When XIAO MI sweeping robots were used in
+homes, each of them became a TOS network node, and data reporting realized the functions of transaction verification
+and data storage . By connecting more IoT device nodes and more transaction data, each smart device becomes part of
+
+the TPoS consensus. As a result, the sweeping robot can provide its owner with PoS consensus to obtain TOS COIN by
+"virtual mining" and to continue to create wealth.
+
+4) Ledger type contract
+TOS's blockchain technology can also use decentralized book functions to create, confirm, and transfer various types
+of products and private placement, crowdfunding, and bond contracts. These forms can be used as TOS intelligent
+hardware incubator platform for smart hardware distribution of crowd funding projects based on TOS, and use TOS's
+complete block chain technology and data system to achieve richer types Smart Book Contracts.
+- Features:
+• Designed specifically for smart hardware companies to help their products on the chain
+• Provides a wealth of contractual contents ranging from digital equity, digital items to digital bonds
+• Providing a variety of upstream and downstream resources such as users, data, and APIs to intelligent hardware
+companies who participate in the incubation .
+- For example: There is not too much relation between a smart hardware company's products, and the block chain ,
+and it is not convenient to issue token directly in the form of Ethereum. Using TOS's smart hardware contracts, crowd
+funding can be directly based on hardware products. All participating users can use smart contracts to enjoy the future
+sales share of hardware products after successful sales. Because every smart hardware is on the TOS chain,
+manufacturers cannot falsify and must use smart contracts to make token settlements for users participating in crowd
+funding to ensure that participants gain revenue.
+
+Internet of Things Big Data Trading Platform
+The TOS data exchange platform serves as the DApp application party in the TOS ecosystem, its DAPP TOKEN is
+an important basis for the transaction in the TOS system. On this platform, equipment manufacturers can establish
+channels for collecting data and sales data, and increase the benefits of the equipment to attract more users; equipment
+users can provide personal data through this channel to obtain revenue; data buyers, such as advertisers, can also use
+this platform to accurately locate users, perceive the user’s portrait data, and effectively achieve the purpose of
+dissemination at a lower price.
+
+For advertisers, a core concept of target users is “personal profile”: it refers to the individual’s age, gender, behavior,
+personality, trend, etc. In short, it is what kind of person is the user? This is a key criterion for the “differentiated audience”
+of advertising. Before the advent of the Internet, personal users were very slow to portray. With the rise of the Internet,
+especially the mobile Internet, personal data suddenly entered the global internet in a way that could be easily shared and
+
+copied. Network. Personal portraits become a growing ocean of data and are used by many people. The prospect of
+advertising technology should have created a more efficient and transparent market that matches advertising with target
+consumers. Digital technology should also make it easier to track the flow of transactions between advertisers and target
+markets, and ensure that information reaches the target consumer groups. However, the advertising technology
+ecosystem formed after 20 years of development is still full of all kinds of intermediary and complex transactions, which
+is confusing. Advertisers have lost billions of dollars in revenue due to false data and inaccurate data, and fraud has been
+rampant. Advertisers also suffer from poor feedback and insufficient accuracy. There is no doubt that all this requires a
+good solution. TOS's data exchange platform currently includes the following two core modules: Smart Advertising
+Communication and Data Trading Center.
+
+1) The smart Advertising Communication
+a breakthrough service model based on the Internet of Things and AI era. It focuses on solving various problems in
+the dissemination and delivery of centralized advertising. First of all, advertisers can directly place advertisements in front
+of users without the middlemen. Internet of Things TVs, refrigerators, cars, etc., can all become media, accurate and
+efficient. Second, advertisers’ screening of target users has also become very efficient. Because the TOS platform can
+collect and analyze various data related to personal life that involved in data transactions, it is far more than a single
+dimension such as mobile phones and browser search keywords. The accuracy of the user's portrait is greatly increased,
+and it can even be recommended by the AI robot when the user drinks beer. On the one hand it meets the user's precise
+needs, on the other hand it allows advertisers to deliver and spread more efficiently.
+
+2) Data Trading Center
+As a data sharing and trading platform, the data security and consumer privacy of data transaction center is
+particularly important. The decentralization technology of TOS itself is unmodifiable. Public Transaction Information and
+the Transaction verification and PoS verification of SDAG (Super Directive Acyclic Graph) Transaction ensure that the
+user's transaction is deterministic and secure. In the TOS network, the uniqueness and certainty of its transactions will
+be guaranteed and cannot be tampered with. In addition, if users want to apply stored data on the chain, they will be free
+to choose the encryption method. The security of encryption depends on the algorithm and strength of the selected
+encryption. Similarly, its uniqueness and certainty will be guaranteed, and once the application transaction is successfully
+written, it will not be tampered with. Consumer privacy is also a top priority for TOS decentralized platforms, in addition
+to using distributed storage to reduce the risk of a single device being invaded and using harsh data encryption
+methods,all externally shared data can be set by the consumers to share permissions, or it can be completely closed. In
+addition, the shared data also closely protects consumers’ personal privacy information, including IDs, names, and
+detailed addresses, and does not share them externally, nor can they associate with existing data. The data that ensures
+
+the transaction is based solely on the portrait of the public behavior rather than the specific information of a specific
+consumer.
+
+Intelligent Financial Service Platform
+TOS's financial services platform includes digital stocks, private equity, crowdfunding, bonds and other types of
+financial derivatives. TOS's Intelligent financial services, smart contract system, and data exchange platform are three
+major segments. Along with the smart hardware portal, the 3+1 model is integrated, providing the AI and intelligent
+hardware companies with the benefits of the ecological value chain. A solution to private placement, product development,
+product online, product distribution, product benefits, etc., helps traditional hardware and home appliance companies to
+to quickly online, quickly acquire users and improve user experience through decentralized networking mode. These three
+major systems and one core product are also the key to distinguish TOS from other public chain platforms. TOS pays
+more attention to landing, pays more attention to applications, and pays more attention to the feedback of users' actual
+application of block chain technology. We have reason to believe that TOS will lead the block chain technology to a more
+practical future.
+- features:
+• Solving financial services issues for smart hardware companies
+• Provide smart contract content such as digital equity, digital products, digital bonds, etc.
+- For Examples: A smart hardware company's products require a lot of research and development expenses, the
+traditional financial services cost is high. Using TOS's smart hardware contract, it can be digitized directly based on the
+hardware product, and its digital product can be use as a payment medium to obtain the corresponding TOS COIN,
+which ultimately helps the company to obtain R&D expenses. After successful product development, the company
+obtained TOS COIN by selling the product, and then used TOS COIN to repurchase the hardware product through smart
+contracts.
+
+Smart Logistics Platform
+In the future, TOS will use bar code, radio frequency identification technology, sensors, global positioning system
+and other advanced Internet of Things technologies to be widely used in logistics industry transportation, warehousing,
+distribution, packaging, loading and unloading, etc. through information processing and network communication
+technology platforms. It will realize the automated operation of the cargo transportation process and the efficient
+optimization of management, improve the service level of the logistics industry, reduce costs, and reduce the consumption
+of natural resources and social resources. The Internet of Things provides a good platform for the logistics industry to
+combine the traditional logistics technology with the intelligent system operation and management, so that it can better
+and faster realize the informatization, intelligence, automation, and transparency of the smart logistics. The use of
+integrated intelligent technology enables the logistics system to imitate human intelligence and has the ability to think,
+
+perceive, learn, reason and judge and solve some problems in logistics. That is, to acquire information and to analyze
+information and make decisions during the circulation process, so that the goods can be tracked and managed from the
+source. You can make the shipment automate, informatize, and networking with RFID, sensors, and mobile communication
+technologies, and technically it will realize: item identification, location tracking, item tracking, item monitoring, and realtime response.
+- features:
+• Provide digital business circulation for smart logistics
+• Solve the combination problems of logistics, gold flow and information flow in smart logistics
+- For example: A transportation company can use digital logistics platform DApp for digital logistics. First of all, the
+transportation company needs to pay a certain amount of TOS COIN as a credit guarantee in the TOS intelligent logistics
+platform;then, the transportation company can undertake the transportation of the logistics link. When the transportation
+company receives the specified goods at the specified location, the non-quality DAPP TOKEN in the TOS system is
+automatically transferred to the transportation company's account. The non-identical DAPP TOKEN records the
+information of the goods for inspection of the goods and guarantees that the goods can be traced back without being
+transferred. The delivery company will receive the corresponding TOS COIN as a service fee after the delivery of the
+goods. The entire logistics process can be open, transparent, and secure. It can also improve efficiency and the cost of
+both parties can be greatly reduced.
+
+11. TOS ECOSYSTEM AND VALUE
+The application scenarios of the TOS mentioned above can be divided into four blocks: enterprise-level intelligent
+hardware platform, Internet of Things big data transaction platform, intelligent financial service platform, and intelligent
+logistics platform. Through these four blocks, the TOS ecosystem is constructed.
+
+1) For example, in an enterprise-class intelligent hardware platform, a master-class smart contract can be applied
+to the consensus economy of house leasing. According to the market demand of the renter, a corresponding rental DApp
+application can be developed in the TOS system, and the DAPP TOKEN in the DApp application can be used as rents,
+the user's needs and settlement in the TOS application can form a closed loop, which can indirectly increase the flow of
+TOS COIN.
+
+Smart devices are data producers that can get TOS COIN through data sales, and there are a large number of full node devices in the TOS system, which are connected to the TOS network for 24 hours. Because of the "virtual mining"
+mechanism of PoS in TOS, some equipment with strong computing power and strong storage capacity can carry out PoS
+mining. In the ecosystem, early equipment can produce data, sell TOS COIN, and use TOS COIN for PoS mining. The work
+of these devices can bring stability to the TOS network. At the same time, the self-hematopoietic ability of the equipment
+can also stimulate more intelligent equipment in the whole ecology to participate in its ecological environment, forming
+mutual benefits .
+
+TOS's intelligent contract can create equipment digitalization, stock digitalization, private equity, public funding,
+bonds and other derivatives. For example, an intelligent device vendor can issue non homogeneous DAPP TOKEN (the
+values of each Token is different and inalienable) for each of the different types of devices,which is also known as digital
+goods. In chain transactions, users buy non qualitative DAPP TOKEN from vendors, their real devices are hosted by
+vendors, they are responsible for their security. When users pick up the intelligent devices, they need to provide the
+private key to generate digital summary of the device and non homogeneous DAPP TOKEN in the chain. After the device
+vendor verifies the actual effectiveness of the digital summary of the device, the corresponding non homogeneous DAPP
+TOKEN will be destroyed. In this way, each device can be digitalized into a digital commodity, which can be traded
+through the DAPP TOKEN, and the sale of smart devices can correspond to the digitized commodity DAPP TOKEN
+through transactions. The tamper-resistant and secure characteristics of blockchain technology, can ensure the
+uniqueness of the digital commodity, and the market circulation of intelligent equipment, the ownership of the digital
+goods can be traded also. TOS is a decentralization technology platform that can realize the value exchange , and it is
+also the cornerstone of the Internet.
+
+2) For example, in the Internet of Things big data transaction platform, TOS data transaction is the basis for TOS
+COIN circulation. Massive data exists in the TOS network. Equipment manufacturers can establish channels for collecting
+data and sales data, through the preparation of data transaction contracts ,the data that produced by these devices, can
+realizes the value exchanges and can complete the settlement automatically, at the same time, the settled DAPP TOKEN
+is transferred to the seller’s account. Users can be accurately positioned according to the user's data image, and the
+advertising and target consumers can be more efficiently and transparently matched to achieve the promotion effect. For
+example, intelligent advertising applications in the TOS network such as televisions, refrigerators, steam trains, and so
+on, are all part of their ecosystem. Smart advertising applications can collect and analyze users' personal transaction
+data in the TOS network. Of course, the personal privacy information of the user, including ID, name, and detailed address,
+etc., will also be closely protected by TOS. In the end, the advertiser can accurately screen the target user on various
+smart devices and improve the promotion efficiency. Similarly, the uniqueness and certainty of its data are also
+guaranteed, and once the data transaction in the application is successful, it will not be tampered with.
+
+TOS provides a good business environment for a large number of equipment producers, and for the entire Internet
+of things industry, there is a real place to deal with the large amount of data’s equipment. The data transaction of TOS
+system can provide liquidity, combine its downstream analysis to analyze data, and finally become the data commercial
+value application of data production, processing, selling, and so on. That is to say, TOS has great value in data exchange
+and intelligent equipment industry.
+
+3) For example, in the intelligent financial service platform, intelligent hardware companies are provided with
+solutions such as product digitalization, product development, and online access. Through the enterprise-class intelligent
+hardware platform, data transaction platform, and financial service platform, the company has been integrated with
+intelligent hardware as its entrance to help traditional hardware and household appliance companies in the ecological
+system and solve financial problems. Hardware companies can digitize hardware products in the TOS system, obtain
+corresponding DAPP TOKEN by using digital goods as a payment medium, bind DAPP TOKEN to hardware devices, and
+hardware devices themselves have value, so the corresponding DAPP TOKEN have values. Since the circulation between
+DAPP TOKEN can only use TOS COIN as the transaction fee, the TOS COIN's circulation is driven, and the value of TOS
+COIN also increases with the corresponding demand.
+
+4) for example, in the intelligent logistics platform, each link from warehousing to distribution is tedious and involves
+a large number of people. In view of these features, the goods are digitalized as corresponding non qualitative DAPP
+TOKEN in TOS, and for the goods to be transferred in every commercial link of the Internet of things, it is necessary to
+use non qualitative DAPP TOKEN transactions in the TOS network, and also TOS COIN should be used for payment and
+real-time settlement in each logistics process. For example, cross-border logistics, the use of TOS COIN can realize
+automatic customs declaration, tax calculation and the rapid settlement of the whole supply chain, and there will have
+the problems of the cost of exchange rates among countries. The circulation records of TOS COIN in the whole logistics
+supply chain will be recorded in the blockchain to realize the digital management of three flows, such as information flow,
+logistics, capital flow and so on. With the development of the platform, the demand for TOS COIN will continue to increase,
+and the value of TOS COIN will also increase.
+
+12. TOS FOUNDATION
+The TOS (ThingsOpreatingSystem) project is a global smart IoT network open protocol project driven by the Foundation.
+
+Establishment of TOS Foundation
+Based on the international positioning and influence of the TOS, the TOS FOUNDATION PTE LED (here after referred
+to as TOS Foundation) is a non-profit organization whith its headquartered in Singapore. The Foundation is committed
+to the maintenance and operation of the TOS open source community, and the development/construction of the TOS
+public-chain platform, it advocate transparent governance and the management of the DAO model, so that the TOS
+community truly belongs to all builders and hobbies participating in the TOS Internet of Things value chain, and promote
+the maturity and continuous development of TOS open source ecological community.
+
+The Governance Structure of TOS Foundation
+The first TOS Foundation's decision-making committee consists of a core founding members, a total of five people
+with a term of four years. The core founding members have extensive industry experience in the blockchain field. After
+the expiry of the term, 50 community representatives are elected by the TOS Community Decision Committee according
+to weights of the holding share of the TOS digital assets and the age of the assets that they held, and finally 5 members
+of the decision committee are elected; the TOS Foundation governance’structure includes Operational procedures and
+execution rules for daily and special situations. The TOS platform respects the decentralized DAO (distributed
+Automomous Organization)governance model and believes that all TOS project participants share the development value
+and decision-making rights of the TOS platform. All matters concerning TOS are jointly decided by voting,the voting
+matters are limited to the TOS platform and do not involve the TOS Foundation. If there is a TOS promotion issue, any
+TOS participant can organize the follow-up community members to initiate it; at the same time, the TOS token holder’s
+authority is limited to the TOS platform related issues, and does not have any decision rights on the composition and
+decision-making of the TOS Foundation.
+
+TOS Audit
+TOS foundation will maintain a high level of integrity and business ethics, comply with the relevant laws and industry
+regulations, and the TOS foundation will invite the international well-known third audit institutions to audit and evaluate
+the the operations such the use of TOS TOKEN \Cost expenditure\profit distribution regularly.The TOS foundation will
+release the digital assets information disclosure to third agencies for assessment and audi without any reservation.
+
+13. TOS CORE TEAM
+Chairman of the foundation
+Jeffers Kieron Matthew
+
+CEO
+Stephen Wu
+
+Securities Investment Institute (SII) Advisor.
+Director of Chartered Securities Institute
+UK Financial Conduct Authority: CF1 Director;
+CF10 Compliance Supervision; CF11 Money
+Laundering Report; CF30 Financial Supervision
+for the Customer Regional Chain
+Manari Co., Ltd.: Chairman, London, UK:
+Managing various asset classes (including foreign
+exchange, securities and futures) FCA supervises
+and arranges transactions for wholesale,
+institutions, professional and retail customers.
+Global Market Index (GMI): London, UK/Shanghai,
+China/Hong Kong, Specific customize the
+original ISDA agreement for OTC transactions.
+
+Crown Capital Founder
+Senior Investor of Digital Currency
+Previous posts: Fund Manager, Hong Kong Sun Hung
+Kai Group's Independent Investment Department
+Infinity Service USA Inc. Greater China COO
+In 2006, he earns a net profit of HK$100 million for
+Hong Kong’s Sun Hung Kai Group’s Independent
+Investment ;Division and was named the Top Ten
+Outstanding Fund Manager of the Year. In 2008, during
+his tenure of the Infinity Service USA Inc. COO, the
+company’s scale was expanded to 64 subsidiaries,and
+system standardization management was conducted
+meanwhile.
+He has experience in the operation of the block chain
+technology exchanges’ overall solution, he is familiar
+with the digital cryptocurrency market, and has in-depth
+research on future trends.
+
+CTO
+Navy TAO
+He was a senior engineer of Tencent
+Corporation.
+He used to be the chief architect of Huawei's
+mobile voice community project.
+Digital currency community enthusiasts who
+dedicated to guide the development of the block
+chain industry.
+Nearly a decade of technology research and
+development experience and years of deep
+research of block chain technology . It has unique
+insights on the financial innovation,and traditional
+application scenarios of the block chain.
+Currently,he is leading the team to focuse on the
+R&D of the IoT block chain technology, and he
+believe that the blockchain development will start
+the second era of the Internet.
+
+CFO
+Daniel Hornstein
+Block chain Expert / Password Currency Advisor /
+Financial Advisor.
+Used to achieve performance management,
+negotiation project management by Block chain
+development and technology cryptocurrency
+Technical and back-end IT consultants for Traxco
+Swiss Blockchain.
+Chief Executive Officer and Financial Advisor of Bayz
+Sdn Parking Co., Ltd.
+Taniwha Sdn Co., Ltd. Director/Financial Adviser.
+Adviser to Royal Dutch Embassy (Kuala Lumpur).
+
+Chief Product Officer
+Timothy Shi
+
+Chief Architect
+Tony Lee
+
+Once worked as a R&D manager for Nongtai
+Finance.
+He once served as chief architect of sinosafe
+Insurance Client Project.
+He used to be a senior development engineer for
+Huawei's key projects.
+Digital asset enthusiasts who has many years of
+project architecture experience. He once
+participated in the research and application of
+block chain technology to solve trust and security
+issues in the insurance industry and P2P
+investment transactions. He is now committed to
+the implementation of decentralized technology
+research and development,and focuses on the
+application of block chain technology to solve
+various traditional pain points.
+
+He was a senior engineer at Ping An Financial
+Technology.
+He once served as Huawei Mobile Voice Project
+Manager.
+Blockchain zealots who is committed to the research
+of block chain technology. With years of experience in
+R&D frameworks project, he is currently focusing on
+researching and solving massive data and transaction
+efficiency issues of block chains, and is committed to
+build a safe, reliable, low-cost and efficient block
+chain ecosystem.
+
+Technical Adviser
+Diego Cresta
+Master of Financial Managementin Higher School of Management, Paris.
+Doctor of Business Administration in National Technical University of the Philippines
+He has served as investment consultant investment trainer and enterprise management consultant in Malaysia, the United
+Kingdom, Australia, and Hong Kong.
+Certificate og Accounting Professionalof London Business Industry
+Malaysian Registered Financial Planner (RFP).
+American Financial Management Institute professional consultant.
+Securities Asset Management Certificate issued by The Securities Institute of Hong Kong
+Academician, American Life Insurance Institute (LUTCF).
+Member of the American Institute of Financial Engineers (IAFE).
+Australian Tax and Management Accountant (ATMA).
+The Chartered Financial Advisor Certificate (ChFC) issued by the American Academy of Finance in Pennsylvania and the
+Malaysian Institute of Insurance.
+
+14. BUDGET ALLOCATION
+TOS TOKEN and TOS COIN are the original encrypted digital certificates officially issued by the TOS Foundation.
+The first phase will generate TOS TOKEN based on smart contracts at Ethereum, and the second phase will generate
+TOS COIN based on the TOS public chain and serve as the TOS Foundation's only payment medium for community
+rewards, forum points, settlement, transaction, and the use of IoT smart contracts. After the success of the TOS public
+chain, the TOS TOKEN in the first phase will be replaced with the TOS COIN in the second phase at a ratio of 1:1. A total
+of 1 billion pieces of digital certificates were issued for the TOS program, which was created by the TOS Foundation in
+the form of TOS TOKEN in the first stage. The total amount has been set, and cannot be changed or added . The digital
+passport of the TOS program is assigned to different holders according to certain rules and proportions.
+
+50% of the digital assets obtained through private placement are used for blockchain construction, R&D of product
+modules, application of ecological layout, and overall operation and maintenance of TOS public chains. 5% of Token will
+be reserved for early cornerstone investors, 15% will be reserved for founding team members, and 20% will be reserved
+for foundations for later R&D of public-linked, marketing and operations, and blockchain research, 10% It will be used to
+invest in TOS community construction.
+
+Team lock-in period: The team holds 15% Token, of which 10% is used for the incentive of the existing team members,
+and 5% is used for the incentives of new team memberin the later period，to ensure the team's development and operation
+strength. The team holds a lock-in period of three years for Token. It is unlocked once every six months from the fourth
+year. The amount of Token unlocked in one single session does not exceed 30% of the total amount of the remaining
+token that can be used for team incentives in the current period.
+
+The TOS TOKEN private offering is divided into two rounds: Cornerstone and Private Place. Private placement targets
+only specific institutions or qualified investors. The type of the currency raised is Ethereum (ETH), and the cornerstone
+stage: 1 ETH = 9308 TOS TOKEN，the private placement stage：1 ETH = 5225 TOS TOKEN, the average price: 1 ETH =
+6483 TOS TOKEN.
+
+TOS lock-in mechanism: During the private placement, the corresponding TOS TOKEN is locked by the smart contract
+lock reward, and the time for unlocking is 2018-12-15.
+
+Liquidity Pool (32%): Pre-funded liquidity pool used
+to maintain the TOS blockchain.
+Research and Development (29%): For continuous
+
+TOS development: The continuous development of
+the TOS public-owned technology infrastructure is
+critical. The TOS Foundation will set aside 10% of the
+
+participation in blockchain applications and research,
+
+TOS TOKEN as an expansion of the technical team's
+
+and to establish a complete ecosystem in the local
+
+research and development costs to build a variety of
+
+community.
+
+localized TOS side chains and subchains.
+
+Operations (12%): Used to promote alliances and
+
+Legal and Finance: Daniel Hornstein has been
+
+cooperation with strategic partners and start projects.
+
+appointed to advise on regulatory and compliance
+
+Accidents (10%): For any unexpected project
+
+matters, including providing independent legal advice.
+
+overruns.
+Marketing and Business Development (7%): Used to
+market TOS projects in different jurisdictions. This will
+include online and offline marketing activities and
+signing partnerships with various business partners.
+
+During the project development and implementation
+process, a strong internal legal team will be established
+to control the legal environment.
+Diego Cresta has been appointed to advise on tax
+and audit matters. A strong internal finance team will be
+established to manage the financial and accounting
+functions that are in line with global best practices.
+Based on the token sales results and project
+schedule, the expected details may change.
+
+15. ROAD MAP
+Q3
+2017
+
+Step one
+
+Q4
+2017
+
+Step two
+
+Q1
+2018
+
+Step three
+
+Q2
+2018
+
+Step four
+
+Q4
+2018
+
+Step five
+
+Q1
+2019
+
+Step six
+
+Q2
+2019
+
+Step seven
+
+Q3
+2019
+
+Step eight
+
+ESTABLISHMENT OF TOS
+FUNDATION AND TOS GROUP
+
+DEVELOPING TOS CORE TECHNOLOGY
+
+TOS CORNERSTONE INVESTMENTS AND
+PRIVATE PLACEMENT
+
+TOS BASE MODULE COMPLETES TEST
+TRANSACTION CONSENSUS COMPLETES TEST
+
+POS CONSENSUS COMPLETE TESTING
+SDAG COMPLETE TESTING AND WALLET
+COMPLETES TEST
+TOS CODE REVIEW AND AUDIT
+TOS V1.0 ONLINE TEST
+THE FIRST INTERNET OF THINGS PARTNER
+SETTLED IN TOS
+
+SMART HOME/SMART LOGISTICS END-TO-END
+TESTING
+HARDWARE PROVIDER INTEGRATION WITH TOS
+
+TOS 2.0 VERSION ONLINE
+
+16. DISCLAIMER
+Special Notice: All the TOS TOKEN disclaimers below apply to TOS COIN.
+
+The project will be managed by the TOS Foundation which is a non-profit organization registered in Singapore
+and regulated by Singapore law and the ACRA. The foundation's mission is to promote and support TOS's decentralized
+project development, make it a public Internet of Things chain that is more globally accepted, trustworthy. In any
+jurisdiction, TOS TOKEN cannot be used as negotiable securities. This white paper does not constitute a prospectus
+or any type of offer document. It does not constitute a securities offer or investment solicitation. It does not involve
+public offering of shares or financing in any way, nor does it involve any The sale of securities in any jurisdiction. TOS
+TOKEN are not intended to be marketed, offered for sale, purchased, sold or traded in any jurisdiction that is prohibited
+by applicable law or requires further registration in any relevant government department. The TOS TOKEN is not a loan
+of the Foundation. The TOS TOKEN is neither a debt instrument or bond of any nature nor any other form of loan that
+is prepaid to the Foundation. Whether to obtain a TOS TOKEN through a token sale or other means does not mean
+that the TOS TOKEN holder is granted any right of claim against the foundation's financial or any other assets.
+
+TOS TOKEN do not grant the right to participate in the Foundation or its assets. TOS Foundation do not provide
+TOS TOKEN holders with any ownership or other benefits of the Foundation. Obtaining a TOS TOKEN does not mean
+that you can use cryptocurrency in exchange for any form of the Foundation's shares or the Foundation's assets
+(including intellectual property). TOS TOKEN holders are not entitled to any guaranteed forms of interest, income
+distribution and voting rights. TOS TOKEN are non-refundable. The Foundation will not provide TOS TOKEN holders
+with refunds related to TOS TOKEN for any reason. The TOS TOKEN holders will not receive money or other
+compensation in lieu of refunds. Regarding the future performance or value of TOS TOKEN, there are no and no
+promises at present or in the future, including a promise of intrinsic value, a commitment to continue paying, and a
+guarantee that the TOS TOKEN has any specific value.
+
+17. APPENDIX
+TOS TOKEN & TOS COIN Function Description
+[1] TOS TOKEN(TOS ERC20 Token) enjoys the role of digital currency(TOS COIN) equal rights in the TOS public chain.
+[2] Both TOS TOKEN(TOS ERC20 Token) and TOS digital currency(TOS COIN) can participate in TOS autonomy and
+Voting Election Committee.
+[3] TOS TOKEN(TOS ERC20 Token) is a digital asset that was released and sold during the initial phase of the TOS
+public chain agreement to fund the research and development of its project.
+[4] The TOS public chain goes online, TOS TOKEN(TOS ERC20 Token) can be converted into a digital currency(TOS
+COIN) of the TOS public chain at a ratio of 1:1.
+[5] Transaction costs in TOS public chain need to consume TOS digital currency(TOS COIN).
+[6] Based on the PoS mining consensus, TOS digital currency (TOS COIN) is required.
+[7] TOS digital currency(TOS COIN) has the function of digital assets circulation in TOS public chain.
+
+18. REFERENCES
+[1] Blake2.net. (2017). BLAKE2. [online] Available at: https://blake2.net/ [Accessed 16 Oct. 2017].
+[2] CoinDesk. (2016). Understanding The DAO Attack - CoinDesk. [online] Available at:
+https://www.coindesk.com/understanding-dao-hack-journalists/ [Accessed 20 Nov. 2017].
+[3] Croman, K., Decker, C., Eyal, I., Gencer, A.E., Juels, A., Kosba, A., Miller, A., Saxena, P., Shi, E.,Sirer, E.G. and
+Song,D., 2016, February. On scaling decentralized blockchains. In InternationalConference on Financial Cryptography
+andData Security (pp. 106-125). Springer Berlin Heidelberg.
+[4] Decker, C. (2017). BitcoinStats. [online] Bitcoinstats.com. Available at:
+http://bitcoinstats.com/network/propagation/ [Accessed 10 Nov. 2017].
+[5] Decker, C. and Wattenhofer, R., 2013, September. Information propagation in the bitcoin network.In Peer-toPeerComputing (P2P), 2013 IEEE Thirteenth International Conference on (pp. 1-10).IEEE.
+[6] digiconomist.net. (2017). Bitcoin Energy Consumption. [online] Available at:
+https://digiconomist.net/bitcoin-energy-consumption [Accessed 16 Nov. 2017].
+[7] Digiconomist. (2017). Ethereum Energy Consumption Index (beta) - Digiconomist. [online]
+Available at: https://digiconomist.net/ethereum-energy-consumption [Accessed 8 Dec. 2017].
+[8] The Economist. (2007). The end of the cash era. [online] Available at:
+http://www.economist.com/node/8702890 [Accessed 27 Sep. 2017].
+[9] Ethereum Blog. (2014). Toward a 12-second Block Time - Ethereum Blog. [online] Available at:
+https://blog.ethereum.org/2014/07/11/toward-a-12-second-block-time/ [Accessed 27 Sep. 2017].
+[10] Etherscan.io. (2017). Ethereum Average BlockSize Chart . [online] Available at:
+https://etherscan.io/chart/blocksize [Accessed 16 Nov. 2017].
+[11] Ethstats.net. (2017). Ethereum Network Status. [online] Available at: https://ethstats.net/ [Accessed 16 Nov. 2017].
+[12] Goland.org. (2017). How to make block chains strongly consistent – Stuff Yaron Finds Interesting. [online] Available
+at: http://www.goland.org/why_block_chains_are_strongly_consistent/ [Accessed 27 Sep. 2017].
+[13] Goland.org. (2017). The block chain and the CAP Theorem – Stuff Yaron Finds Interesting.
+[online] Available at: http://www.goland.org/blockchain_and_cap/ [Accessed 27 Sep. 2017].
+[14] Google Developers. (2017). Protocol Buffers | Google Developers. [online] Available at:
+https://developers.google.com/protocol-buffers/ [Accessed 20 Oct. 2017].
+[15] James-Lubin, K. (2015). Blockchain scalability. [online] O'Reilly Media. Available at:
+https://www.oreilly.com/ideas/blockchain-scalability [Accessed 16 Nov. 2017].
+[16] Koteska, B., Karafilovski, E. and Mishev, A. (2017), Blockchain Implementation Quality Challenges: A Literature
+Review : Proceedings of the SQAMIA 2017: 6th Workshop of Software Quality, Analysis, Monitoring, Improvement, and
+Applications, Belgrade, Serbia, 11-13.9.2017.
+[17] Malanov.A, (2017). Six main disadvantages of Bitcoin and the blockchain. [online]
+Kaspersky.com. Available at: https://www.kaspersky.com/blog/bitcoin-blockchain-issues/18019/
+[Accessed 16 Nov. 2017].
+[18] Motherboard. (2017). One Bitcoin Transaction Now Uses as Much Energy as Your House in a Week.
+[online] Available at: https://motherboard.vice.com/en_us/article/ywbbpm/bitcoin-miningelectricity-consumptionethereum-energy-climate-change [Accessed 20 Nov. 2017].
+[19] Nakamoto, S., 2008. Bitcoin: A peer-to-peer electronic cash system.
+
+[20] The NodeSource Blog - Node.js Tutorials, Guides, and Updates. (2014). Why Asynchronous?.
+[online] Available at: http://nodesource.com/blog/why-asynchronous/ [Accessed 16 Nov. 2017].
+[21] Park, J.H. and Park, J.H., (2017). Blockchain Security in Cloud Computing: Use Cases,Challenges, and Solutions.
+Symmetry, 9(8), p.164.
+[22] Poon, J. and Dryja, T.. (2016). The Bitcoin Lightning.network [online] Available at:
+https://lightning.network/lightning-network-paper.pdf.
+[23] Raiden-network.readthedocs.io. (2017). Raiden Specification — Raiden Network 0.2.0
+documentation. [online] Available at: https://raiden-network.readthedocs.io/en/stable/spec.html
+[Accessed 7 Dec. 2017].
+[24] Reitwiessner, C. (2017). zkSnarks in a Nutshell [online] Available at:
+http://chriseth.github.io/notes/articles/zksnarks/zksnarks.pdf [Accessed 23 Nov. 2017].
+[25] Sirer, E.G. and Song, D., 2016, February. On scaling decentralized blockchains. In International
+Conference on Financial Cryptography and Data Security (pp. 106-125). Springer Berlin Heidelberg.
+[26] Sompolinsky, Y., Lewenberg, Y. and Zohar, A., 2016. SPECTRE: A Fast and Scalable Cryptocurrency Protocol.
+IACR Cryptology ePrint Archive, 2016, p.1159.
+[27] Sompolinsky, Y. and Zohar, A., 2015, January. Secure high-rate transaction processing in bitcoin.
+In International Conference on Financial Cryptography and Data Security (pp. 507-527). Springer,Berlin, Heidelberg.
+[28] Son, M. (2017). Bitcoin’s Rise Happened in Shadows of Finance. Now Banks Want In. [online]
+Bloomberg.com. Available at: https://www.bloomberg.com/news/articles/2017-10-05/bitcoin-s-risehappened-inshadows-of-finance-now-banks-want-in
+[Accessed 7 Dec. 2017].
+[29] Swan, M., 2015. Blockchain: Blueprint for a new economy. " O'Reilly Media, Inc.".
+[30] VISA (2017). Visa Inc. Facts & Figures . [online] Available at:
+https://usa.visa.com/dam/VCOM/global/about-visa/documents/visa-facts-figures-jan-2017.pdf
+[Accessed 20 Nov. 2017].
+[31] Yli-Huumo, J., Ko, D., Choi, S., Park, S. and Smolander, K. (2016). Where Is Current Research
+on Blockchain Technology?—A Systematic Review. PLOS ONE, 11(10), p.e0163477.
+[32] Dziembowski, Stefan; Faust, Sebastian; Kolmogorov, Vladimir; Pietrzak, Krzysztof (2015).
+"Proofs of Space". 9216: 585–605.
+Available at: https://eprint.iacr.org/2013/796.pdf
+[33] Secg.org. (2010). Standards For Efficient Cryptography 2, [online] Available at:
+http://www.secg.org/sec2-v2.pdf [Accessed 20 Jan. 2018].
+[34] Wood, G., 2014. Ethereum: A secure decentralised generalised transaction ledger. Ethereum
+Project Yellow Paper, 151.
+
+

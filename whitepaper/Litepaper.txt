@@ -1,0 +1,370 @@
+1
+
+Introduction
+The world of blockchains and cryptocurrencies has seen lots of developments over the course
+of the last two years. While efforts at present are geared towards delivering better speed of
+transactions, network security, and transparency, TARUSH has emerged to make a difference.
+The certainty of the blockchain as a major milestone in the push by mankind for greater control
+over personal fortune and direction is a landmark. Paying attention to the weight of disillusionment with the traditional, commercial, financial, and transactional algorithms across the globe,
+it is clear that the blockchain route cannot be ignored.
+The utility of cryptocurrencies and blockchain in our world today surely point in the direction of
+greater adoption and consideration. There is an increased demand and yearning for faster processing methodologies, decentralized approach, assured security, and usability. No other pathway seems to make all these expectations possible in today’s world like blockchain innovation.
+This is where TARUSH makes an entry.
+TARUSH is an upcoming cryptocurrency project focused on privacy, scalability, and fungibility that is built by implementing a MimbleWimble blockchain with some various optimizations.
+The choice of MimbleWimble as the governing protocol is informed by its privacy advantages.
+
+2
+
+The MimbleWimble Protocol
+MimbleWimble (MW) was developed by in July 2016 by Tom Elvis Jedusor to take the privacy
+concerns of cryptocurrency proponents into consideration. The first steps to MinbleWimble derived from the work of Adam Brock, who conceived confidential transactions in order to encrypt
+the sending and receiving of bitcoins.
+
+Block
+N-2
+
+Block
+N-1
+MW
+tracsactions
+
+Block
+N
+
+Blocks are formed with
+TX cut-through and all
+inputs and outputs are
+mixed
+
+MW TXs still have
+input/output
+information
+
+The primary ingredient for the working of MW is the use of blinding factors. The use of blinding
+factors essentially involves a random value chosen to encrypt the transactional value of bitcoin.
+This is determined by the sender as the transaction is initiated.
+What needs to be taken note of here is that the blinding factor should be able to encrypt the
+transactional value without altering the input and expected output of such transactions.
+In terms of value determination, this is how it works:
+If v is the value of a transaction input or output and H a point on the elliptic curve C, we can simply embed v*H instead of vin a transaction. This works because using the ECC operations, we
+can still validate that the sum of the outputs of a transaction equals the sum of inputs:
+
+3
+
+v1 + v2 = v3 => v1*H + v2*H = v3*H
+Verifying this property on every transaction allows the protocol to verify that a transaction
+doesn’t create money out of thin air, without knowing what the actual values are. However,
+there are a finite number of usable values (transaction amounts) and one could try every single
+one of them to guess the value of your transaction.
+In addition, knowing v1 (from a previous transaction for example) and the resulting v1*H reveals
+all outputs with value v1 across the blockchain. For these reasons, we introduce a second point G
+on the same elliptic curve (practically G is just another generator point on the same curve group
+as H) and a private key r used as a blinding factor.
+An input or output value in a transaction can then be expressed as:
+r*G + v*H
+• r is a private key used as a blinding factor, G is a point on the elliptic curve C and their
+
+product r*G is the public key for r (using G as generator point).
+• v is the value of an input or output and H is another point on the elliptic curve C, together
+producing another public key v*H (using H as generator point).
+Generating a private key as a blinding factor for each input value and replacing each value with
+their respective Pedersen Commitments in the previous equation, we obtain:
+(ri1*G + vi1*H) + (ri2*G + vi2*H) = (ro3*G + vo3*H)
+Which as a consequence requires that:
+ri1 + ri2 = ro3
+This is the first pillar of MW: the arithmetic required to validate a transaction can be done without knowing any of the values.
+TARUSH will leverage on the core strengths of MW, which entails confidential and privacy guarantees. How this works is two-fold:
+
+4
+
+Unavoidable Zero Sums
+Every transaction has to result in a zero outcome as far as the verification protocol demands. In this vein, output netted off input has to be zero so that it can be proven that a
+transaction does not create new funds outside of the intended actual amounts.
+
+Ascertainment of Private Keys
+The world of cryptocurrencies revolves around the availability of private keys, otherwise, transactional security will be compromised. In the network, an entity will not be
+able to prove ownership of private keys just by signing a transaction.
+
+Verifying the zero sum and validating the private keys are made possible by the combination of account balance, change proofs as well as ownership.
+
+5
+
+The Transaction Kernel
+In arriving at a validation parameter, an excess value is built-in such that in addition to
+the original transaction values, the added excess is known to the transacting parties.
+Since this validation process is not machine -computed or algorithmically derived, no
+advanced computing power can unlock it is it is not disclosed.
+
+1.
+
+Inputs
+
+Outputs
+
+2.
+
+Inputs
+
+Outputs
+
+3.
+
+Inputs
+
+Outputs
+
+Txn1
+
+Kernel
+(excess)
+
+Txn2
+Kernels (excesses)
+
+Kernels (excesses)
+
+Kernel
+(excess)
+Two valid MimbleWimble transactions and
+their excesses. Each txn’s excess value is
+the result of all its outputs minus its inputs.
+
+We can concatenate two txns together to
+produce another valid MW txn.
+In this scenario, we can see that one of the
+inputs of txn 2 spent an output from txn (circled).
+
+Redundant txn date can be pruned away and the txns can still
+be validated by their excesses as long as the excesses are preserved.
+It makes no difference if I take the details away as long as the
+same value is present in both the input and output. In other
+words, the authorization is preserved but the evidence of the
+intermediate steps are not.
+
+A transaction thus encrypted under MW will have an excess value that can only be unlocked with a signature. The required signature then is the excess of inputs less outputs
+as far as the particular transaction is concerned. So, the required signature will be a valid
+public that matches the private key.
+Every transaction thus has a signature and additional data that is checked by validators
+for transaction integrity. The component of the transaction will be the transaction
+kernel.
+
+6
+
+The Core Deliverables of TARUSH
+TARUSH has set out to ensure that there are key deliverables that are available as it enters the
+cryptocurrency and blockchain sphere. In this regard, what its modus operandi will be can be
+seen in:
+• Native tokens
+• Community Governance
+• Preserving Decentralization
+• Confidentiality
+
+Native Tokens
+As TARUSH is driven by MW, it has to issue tokens necessary to drive its ecosystem. The
+issuance of native tokens here cannot be overlooked as it becomes the needed enabler
+of all transactions in terms of value and value measurement.
+
+7
+
+Community Governance
+Executive
+Nodes
+
+Legislature
+Miners transmit mined
+blocks via nodes
+
+Judiciary
+
+The Senate
+
+Miners
+
+Developers
+Developers send code
+for miners and nodes
+to choose to run
+
+House of Reps
+Business & Infrastructure
+Community
+
+Businesses can
+support code
+development and
+devs can contribute
+to business goals
+
+Businesses send transactions to miners via nodes
+
+Some users run nodes themselves
+
+Users use businesses to interact with the network
+
+The Users/Community
+
+A very rough and simplistic diagram of Bitcoin’s governance model
+
+The most successful cryptocurrency projects are noted for their active community participation. In this league, it is important to point to Bitcoin, Ethereum and EOS blockchains. These leading platforms have retained the respect and attention of the global
+cryptocurrency audience as a result of their design and community-driven focus.
+A step further in the governance of TARUSH is the decision to situate all tokens in the
+community and the community will hold them in trust. The old world of traditional
+finance and banking institutions drew flakes from Satoshi Nakamoto and led to the
+bitcoin innovation.
+
+8
+
+Preserving Decentralization
+This is vital to ensuring that the all-important decentralization objectives for which
+cryptocurrencies are noted for is preserved.
+By involving an active community and vesting ownership of tokens on the members,
+TARUSH shows a commitment to the tenets of decentralization and cryptocurrency
+democracy.
+
+Confidentiality
+
+public
+key
+
+encryption
+plain text
+
+9
+
+secret
+key
+
+Different keys
+
+A4$h*L@9,
+T6=#/>B#1
+R06/J2,>IL
+1RPL39P20
+cipher text
+
+encryption
+plain text
+
+The confidentiality of transactions cannot be overlooked as a vital component of the
+evolving world of cryptocurrencies. One of drawbacks of the Ethereum and Bitcoin
+blockchains as already known is the public display of transactions. In this sense, anyone
+who accesses a linked explorer to these blockchains can view transactions carried out
+with clear details made public.
+For TARUSH, while transactions will be viewed publicly, the details will not be easily
+available. Only the parties to a transaction, in this case-the sender and receiver, can
+decode the exact transaction amounts. So, while TARUSH is not setting out to become
+another dark web, it is also providing privacy guarantees.
+
+Making A Difference
+The global realities of TARUSH are intended to be easy to decipher. In this sense, as TARUSH
+enters into the global marketplace of cryptocurrencies, it intends to make a difference.
+The notable highlights are examined below:
+
+No Pre-mine Nor ICO
+TARUSH will not go the ICO route and there will be no ICO. Instead, all the tokens issued will be airdropped to community members. In this sense, all the tokens of the project are available to members of the community and they will be able to take ownership
+of the project with the tokens held by them.
+
+Totally Decentralized
+By using the decentralization route, TARUSH will not have a headquarters nor a CEO or
+central control. As the community takes shape, voting will be used to give a structure
+that will preserve the independence of the network.
+
+10
+
+No individual or entity can take control of TARUSH, and as a community-driven project,
+the ideas and input of members will make a difference.
+
+Transaction Speed
+With Ethereum still tethering at 30 transactions per second, there is room for transaction speed optimization that can make a real difference.
+Early benchmark for transaction speed will be 100,000 TPS.
+
+11
+
+Smart Contract
+To preserve the uniqueness of the project, a smart contract will be developed on the
+Tron blockchain in order to have an automated determinant of all transactions. By going the smart contract route, no intermediary is required to approve or vouchsafe transactions.
+
+Traditional Web vs Decentralized
+Website
+
+Dapp
+
+API
+
+Smart Contract
+
+Database
+
+Blockchain
+
+Smart contract functionalities make it easy to preserve transaction security and maintain the integrity of the built-in processes.
+
+12
+
+Affordable Fees
+Fees charged is a common determinant of how well a blockchain is patronized. As the
+global cryptocurrency world has shown a preference for low-fees, TARUSH is primed to
+charge next to nothing as transaction fees.
+While a $25 Bitcoin transaction will cost $0.42, TARUSH will ensure that it comes to
+$0.001, and at that rate, a global and widespread adoption is assured as we deliver on
+our key tenets.
+
+Security Guarantee
+With MW transactional encryption and proofing, tokens cannot be created out of thin
+air within the TARUSH network.
+
+Your App
+Security framework
+Authorization &
+authentication
+
+Secure data
+
+Code signing
+
+Cryptography
+
+{{
+Transaction spoofing will not occur, and 51% attack will be impossible. By sticking to a
+Proof of Stake algorithm, no concentrated mining pool will result, and delegated nodes
+will not result.
+
+13
+
+Big Advantages
+TARUSH is coming into the cryptocurrency space with big advantages for users and the
+global community.
+
+Beating Price Manipulation
+One of the big downs of bitcoin is the drawback of price manipulation. The causative
+factor for this is the concentration of the coins in a few hands. With the community
+ownership pattern for TARUSH, a commitment to beating price manipulation exists.
+The other side of price manipulation has to do with high-leveraging of tokens and coins
+just for profit -motive. Over-leveraging is akin to round-tripping and assigning arbitrary
+values to non-existent assets or assets that have intangible composites.
+While the profit- motive works for a few, it leads to loss of value for the greater majority. Organic price growth is preferred, and this is what TARUSH and its community will
+protect and propagate.
+
+TARUSH was born to complete a special mission - Fighting against BTC & CryptoCurrency price manipulation. That would be the reason why TARUSH will create a global
+appeal and a revolution of requisite listing on global exchanges will take place.
+
+14
+
+TARUSH Mainnet
+The development of TARUSH Mainnet is a primary goal that will be given all the attention it deserves. Reputable hands, industry experts and other collaborators will be
+given a chance to be a part of our community so that the needed progress can be made.
+The advantages of a mainnet overshadows the time and resources expended on its development. Why community members will play an active role here, resources will also
+be set aside in the token allocation to take care of the rewards due to developers and
+like minds working on its realization.
+The process that will lead to a main net development will certainly begin with the nod
+of a testnet. With the examples seen in other project environments of blockchains, a
+testnet has its place as we move ahead to take TARUSH to its point of realization.
+The outline of a roadmap that will lead to the unveiling of the TARUSH will surely be
+such that will attract community participation and buy-in. we look forward to making a
+difference in the cryptocurrency marketplace.
+
+15
+
+16
+
+

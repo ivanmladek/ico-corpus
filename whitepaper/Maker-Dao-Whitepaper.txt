@@ -1,0 +1,794 @@
+The​ ​Dai​ ​Stablecoin​ ​System
+Whitepaper
+
+https://makerdao.com/
+By​ ​the​ ​Maker​ ​Team
+
+December​ ​2017
+
+Overview​ ​of​ ​the​ ​Dai​ ​Stablecoin​ ​System
+
+3
+
+Collateralized​ ​Debt​ ​Position​ ​Smart​ ​Contracts
+
+3
+
+Single-Collateral​ ​Dai​ ​vs​ ​Multi-Collateral​ ​Dai
+
+4
+
+Price​ ​Stability​ ​Mechanisms
+
+5
+
+The​ ​CDP​ ​interaction​ ​process
+
+Pooled​ ​Ether​ ​(Temporary​ ​mechanism​ ​for​ ​Single-Collateral​ ​Dai)
+
+4
+5
+
+Target​ ​Price
+
+5
+
+Sensitivity​ ​Parameter
+
+7
+
+Global​ ​Settlement:​ ​Step​ ​by​ ​Step
+
+7
+
+Target​ ​Rate​ ​Feedback​ ​Mechanism
+
+6
+
+Global​ ​Settlement
+
+7
+
+Risk​ ​Management​ ​of​ ​The​ ​Maker​ ​Platform
+Risk​ ​Parameters
+
+8
+9
+
+MKR​ ​Token​ ​Governance
+
+10
+
+MKR​ ​and​ ​Multi-Collateral​ ​Dai
+
+11
+
+Automatic​ ​Liquidations​ ​of​ ​Risky​ ​CDPs
+
+11
+
+Liquidity​ ​Providing​ ​Contract​ ​(Temporary​ ​mechanism​ ​for​ ​Single-Collateral​ ​Dai)
+Debt​ ​and​ ​Collateral​ ​Auctions​ ​(Multi-Collateral​ ​Dai)
+
+Key​ ​External​ ​Actors
+
+12
+12
+13
+
+Keepers
+
+13
+
+Oracles
+
+14
+
+Global​ ​Settlers
+
+14
+
+Examples
+
+14
+
+Addressable​ ​Market
+
+16
+
+Risks​ ​and​ ​their​ ​Mitigation
+
+17
+
+Malicious​ ​hacking​ ​attack​ ​against​ ​the​ ​smart​ ​contract​ ​infrastructure
+
+17
+
+Black​ ​swan​ ​event​ ​in​ ​one​ ​or​ ​more​ ​collateral​ ​assets
+
+18
+
+Pricing​ ​errors,​ ​irrationality​ ​and​ ​unforeseen​ ​events
+
+18
+
+Competition​ ​and​ ​the​ ​importance​ ​of​ ​ease-of-use
+
+18
+
+Failure​ ​of​ ​centralized​ ​infrastructure
+
+19
+
+Conclusion
+
+19
+
+Glossary​ ​of​ ​Terms
+
+20
+
+Links
+
+21
+
+Overview​ ​of​ ​the​ ​Dai​ ​Stablecoin​ ​System
+Popular​ ​digital​ ​assets​ ​such​ ​as​ ​Bitcoin​ ​(BTC)​ ​and​ ​Ether​ ​(ETH)​ ​are​ ​too​ ​volatile​ ​to​ ​be​ ​used​ ​as
+everyday​ ​currency.​ ​The​ ​value​ ​of​ ​a​ ​bitcoin​ ​often​ ​experiences​ ​large​ ​fluctuations,​ ​rising​ ​or
+falling​ ​by​ ​as​ ​much​ ​as​ ​25%​ ​in​ ​a​ ​single​ ​day​ ​and​ ​occasionally​ ​rising​ ​over​ ​300%​ ​in​ ​a​ ​month.1.
+The​ ​Dai​ ​Stablecoin​ ​is​ ​a​ ​collateral-backed​ ​cryptocurrency​ ​whose​ ​value​ ​is​ ​stable​ ​relative​ ​to​ ​the
+US​ ​Dollar.​ ​We​ ​believe​ ​that​ ​stable​ ​digital​ ​assets​ ​like​ ​Dai​ ​Stablecoin​ ​are​ ​essential​ ​to​ ​realizing
+the​ ​full​ ​potential​ ​of​ ​blockchain​ ​technology.
+Maker​ ​is​ ​a​ ​smart​ ​contract​ ​platform​ ​on​ ​Ethereum​ ​that​ ​backs​ ​and​ ​stabilizes​ ​the​ ​value​ ​of​ ​Dai
+through​ ​a​ ​dynamic​ ​system​ ​of​ ​Collateralized​ ​Debt​ ​Positions​ ​(CDPs),​ ​autonomous​ ​feedback
+mechanisms,​ ​and​ ​appropriately​ ​incentivized​ ​external​ ​actors.
+Maker​ ​enables​ ​anyone​ ​to​ ​leverage​ ​their​ ​Ethereum​ ​assets​ ​to​ ​generate​ ​Dai​ ​on​ ​the​ ​Maker
+Platform.​ ​Once​ ​generated,​ ​Dai​ ​can​ ​be​ ​used​ ​in​ ​the​ ​same​ ​manner​ ​as​ ​any​ ​other
+cryptocurrency:​ ​it​ ​can​ ​be​ ​freely​ ​sent​ ​to​ ​others,​ ​used​ ​as​ ​payments​ ​for​ ​goods​ ​and​ ​services,​ ​or
+held​ ​as​ ​long​ ​term​ ​savings.​ ​Importantly,​ ​the​ ​generation​ ​of​ ​Dai​ ​also​ ​creates​ ​the​ ​components
+needed​ ​for​ ​a​ ​robust​ ​decentralized​ ​margin​ ​trading​ ​platform.
+
+Collateralized​ ​Debt​ ​Position​ ​Smart​ ​Contracts
+Anyone​ ​who​ ​has​ ​collateral​ ​assets​ ​can​ ​leverage​ ​them​ ​to​ ​generate​ ​Dai​ ​on​ ​the​ ​Maker​ ​Platform
+through​ ​Maker’s​ ​unique​ ​smart​ ​contracts​ ​known​ ​as​ ​Collateralized​ ​Debt​ ​Positions.​ 2​
+CDPs​ ​hold​ ​collateral​ ​assets​ ​deposited​ ​by​ ​a​ ​user​ ​and​ ​permit​ ​this​ ​user​ ​to​ ​generate​ ​Dai,​ ​but
+generating​ ​also​ ​accrues​ ​debt.​ ​This​ ​debt​ ​effectively​ ​locks​ ​the​ ​deposited​ ​collateral​ ​assets
+inside​ ​the​ ​CDP​ ​until​ ​it​ ​is​ ​later​ ​covered​ ​by​ ​paying​ ​back​ ​an​ ​equivalent​ ​amount​ ​of​ ​Dai,​ ​at​ ​which
+point​ ​the​ ​owner​ ​can​ ​again​ ​withdraw​ ​their​ ​collateral​ ​.​ ​Active​ ​CDPs​ ​are​ ​always​ ​collateralized​ ​in
+excess,​ ​meaning​ ​that​ ​the​ ​value​ ​of​ ​the​ ​collateral​ ​is​ ​higher​ ​than​ ​the​ ​value​ ​of​ ​the​ ​debt.
+1
+2
+
+​ ​ ​David​ ​Ernst​​ ​Hard​ ​Problems​ ​in​ ​Cryptocurrency
+​ ​https://github.com/makerdao
+
+The​ ​CDP​ ​interaction​ ​process
+●
+
+Step​ ​1:​ ​Creating​ ​the​ ​CDP​ ​and​ ​depositing​ ​collateral
+The​ ​CDP​ ​user​ ​first​ ​sends​ ​a​ ​transaction​ ​to​ ​Maker​ ​to​ ​create​ ​the​ ​CDP,​ ​and​ ​then​ ​sends
+another​ ​transaction​ ​to​ ​fund​ ​it​ ​with​ ​the​ ​amount​ ​and​ ​type​ ​of​ ​collateral​ ​that​ ​will​ ​be​ ​used
+to​ ​generate​ ​Dai.​ ​At​ ​this​ ​point​ ​the​ ​CDP​ ​is​ ​considered​ ​collateralized.
+
+●
+
+Step​ ​2:​ ​Generating​ ​Dai​ ​from​ ​the​ ​collateralized​ ​CDP
+The​ ​CDP​ ​user​ ​then​ ​sends​ ​a​ ​transaction​ ​to​ ​retrieve​ ​the​ ​amount​ ​of​ ​Dai​ ​they​ ​want​ ​from
+the​ ​CDP,​ ​and​ ​in​ ​return​ ​the​ ​CDP​ ​accrues​ ​an​ ​equivalent​ ​amount​ ​of​ ​debt,​ ​locking​ ​them
+out​ ​of​ ​access​ ​to​ ​the​ ​collateral​ ​until​ ​the​ ​outstanding​ ​debt​ ​is​ ​paid.
+
+●
+
+Step​ ​3:​ ​Paying​ ​down​ ​the​ ​debt​ ​and​ ​Stability​ ​Fee
+When​ ​the​ ​user​ ​wants​ ​to​ ​retrieve​ ​their​ ​collateral,​ ​they​ ​have​ ​to​ ​pay​ ​down​ ​the​ ​debt​ ​in​ ​the
+CDP,​ ​plus​ ​the​ ​Stability​ ​fee​ ​that​ ​continuously​ ​accrue​ ​on​ ​the​ ​debt​ ​over​ ​time.​ ​The
+Stability​ ​Fee​ ​can​ ​only​ ​be​ ​paid​ ​in​ ​MKR.​ ​Once​ ​the​ ​user​ ​sends​ ​the​ ​requisite​ ​Dai​ ​and
+MKR​ ​to​ ​the​ ​CDP,​ ​paying​ ​down​ ​the​ ​debt​ ​and​ ​Stability​ ​Fee,​ ​the​ ​CDP​ ​becomes​ ​debt
+free.
+
+●
+
+Step​ ​4:​ ​Withdrawing​ ​collateral​ ​and​ ​closing​ ​the​ ​CDP
+With​ ​the​ ​Debt​ ​and​ ​Stability​ ​Fee​ ​paid​ ​down,​ ​the​ ​CDP​ ​user​ ​can​ ​freely​ ​retrieve​ ​all​ ​or
+some​ ​of​ ​their​ ​collateral​ ​back​ ​to​ ​their​ ​wallet​ ​by​ ​sending​ ​a​ ​transaction​ ​to​ ​Maker.
+
+Single-Collateral​ ​Dai​ ​vs​ ​Multi-Collateral​ ​Dai
+Dai​ ​will​ ​initially​ ​launch​ ​with​ ​support​ ​for​ ​only​ ​one​ ​type​ ​of​ ​collateral,​ ​Pooled​ ​Ether.​ ​In​ ​the​ ​next
+6-12​ ​months​ ​we​ ​plan​ ​to​ ​upgrade​ ​Single-Collateral​ ​Dai​ ​to​ ​Multi-Collateral​ ​Dai.​ ​The​ ​primary
+difference​ ​is​ ​that​ ​it​ ​will​ ​support​ ​any​ ​number​ ​of​ ​CDP​ ​types.3
+
+​ ​ ​Mechanics​ ​that​ ​are​ ​temporarily​ ​in​ ​place​ ​in​ ​the​ ​system​ ​during​ ​the​ ​Single-Collateral​ ​phase​ ​are​ ​marked
+in​ ​this​ ​white​ ​paper
+3
+
+Pooled​ ​Ether​ ​(Temporary​ ​mechanism​ ​for​ ​Single-Collateral​ ​Dai)
+At​ ​first,​ ​Pooled​ ​Ether​ ​(PETH)​ ​will​ ​be​ ​the​ ​only​ ​collateral​ ​type​ ​accepted​ ​on​ ​Maker.​ ​Users​ ​who
+wish​ ​to​ ​open​ ​a​ ​CDP​ ​and​ ​generate​ ​Dai​ ​during​ ​the​ ​first​ ​phase​ ​of​ ​the​ ​Maker​ ​Platform​ ​need​ ​to
+first​ ​obtain​ ​PETH.​ ​This​ ​is​ ​done​ ​instantly​ ​and​ ​easily​ ​on​ ​the​ ​blockchain​ ​by​ ​depositing​ ​ETH​ ​into
+a​ ​special​ ​smart​ ​contract​ ​that​ ​pools​ ​the​ ​ETH​ ​from​ ​all​ ​users,​ ​and​ ​gives​ ​them​ ​corresponding
+PETH​ ​in​ ​return.
+If​ ​there​ ​is​ ​a​ ​sudden​ ​market​ ​crash​ ​in​ ​ETH,​ ​and​ ​a​ ​CDP​ ​ends​ ​up​ ​containing​ ​more​ ​debt​ ​than​ ​the
+value​ ​of​ ​its​ ​collateral,​ ​the​ ​Maker​ ​Platform​ ​automatically​ ​dilutes​ ​the​ ​PETH​ ​to​ ​recapitalize​ ​the
+system.​ ​This​ ​means​ ​that​ ​the​ ​proportional​ ​claim​ ​of​ ​each​ ​PETH​ ​goes​ ​down.
+After​ ​the​ ​Maker​ ​Platform​ ​is​ ​upgraded​ ​to​ ​support​ ​multiple​ ​collateral​ ​types,​ ​PETH​ ​will​ ​be
+removed​ ​and​ ​replaced​ ​by​ ​ETH​ ​alongside​ ​the​ ​other​ ​new​ ​collateral​ ​types.
+
+Price​ ​Stability​ ​Mechanisms
+Target​ ​Price
+The​ ​Dai​ ​Target​ ​Price​ ​has​ ​two​ ​primary​ ​functions​ ​on​ ​the​ ​Maker​ ​Platform:​ ​1)​ ​It​ ​is​ ​used​ ​to
+calculate​ ​the​ ​collateral-to-debt​ ​ratio​ ​of​ ​a​ ​CDP,​ ​and​ ​2)​ ​It​ ​is​ ​used​ ​to​ ​determine​ ​the​ ​value​ ​of
+collateral​ ​assets​ ​Dai​ ​holders​ ​receive​ ​in​ ​the​ ​case​ ​of​ ​a​ ​global​ ​settlement.
+The​ ​Target​ ​Price​ ​is​ ​initially​ ​denominated​ ​in​ ​USD​ ​and​ ​starts​ ​at​ ​1,​ ​translating​ ​to​ ​a​ ​1:1​ ​USD​ ​soft
+peg.
+
+Target​ ​Rate​ ​Feedback​ ​Mechanism
+In​ ​the​ ​event​ ​of​ ​severe​ ​market​ ​instability,​ ​the​ ​Target​ ​Rate​ ​Feedback​ ​Mechanism​ ​(TRFM)​ ​can
+be​ ​engaged.​ ​Engaging​ ​the​ ​TRFM​ ​breaks​ ​the​ ​fixed​ ​peg​ ​of​ ​Dai,​ ​but​ ​maintains​ ​the​ ​same
+denomination.
+
+The​ ​TRFM​ ​is​ ​the​ ​automatic​ ​mechanism​ ​by​ ​which​ ​the​ ​Dai​ ​Stablecoin​ ​System​ ​adjusts​ ​the
+Target​ ​Rate​ ​in​ ​order​ ​to​ ​cause​ ​market​ ​forces​ ​to​ ​maintain​ ​stability​ ​of​ ​the​ ​Dai​ ​market​ ​price
+around​ ​the​ ​Target​ ​Price.​ ​The​ ​Target​ ​Rate​ ​determines​ ​the​ ​change​ ​of​ ​the​ ​Target​ ​Price​ ​over
+time,​ ​so​ ​it​ ​can​ ​act​ ​either​ ​as​ ​an​ ​incentive​ ​to​ ​hold​ ​Dai​ ​(if​ ​the​ ​Target​ ​Rate​ ​is​ ​positive)​ ​or​ ​an
+incentive​ ​to​ ​borrow​ ​Dai​ ​(If​ ​the​ ​Target​ ​Rate​ ​is​ ​negative).​ ​When​ ​the​ ​TRFM​ ​is​ ​not​ ​engaged​ ​the
+target​ ​rate​ ​is​ ​fixed​ ​at​ ​0%,​ ​so​ ​the​ ​target​ ​price​ ​doesn’t​ ​change​ ​over​ ​time​ ​and​ ​Dai​ ​is​ ​pegged.
+When​ ​the​ ​TRFM​ ​is​ ​engaged,​ ​both​ ​the​ ​Target​ ​Rate​ ​and​ ​the​ ​Target​ ​Price​ ​change​ ​dynamically
+to​ ​balance​ ​the​ ​supply​ ​and​ ​demand​ ​of​ ​Dai​ ​by​ ​automatically​ ​adjusting​ ​user​ ​incentives​ ​for
+generating​ ​and​ ​holding​ ​Dai.​ ​The​ ​feedback​ ​mechanism​ ​pushes​ ​the​ ​market​ ​price​ ​of​ ​Dai
+towards​ ​the​ ​variable​ ​Target​ ​Price,​ ​dampening​ ​its​ ​volatility​ ​and​ ​providing​ ​real-time​ ​liquidity
+during​ ​demand​ ​shocks.
+With​ ​the​ ​TRFM​ ​engaged,​ ​when​ ​the​ ​market​ ​price​ ​of​ ​Dai​ ​is​ ​below​ ​the​ ​Target​ ​Price,​ ​the​ ​Target
+Rate​ ​increases.​ ​This​ ​causes​ ​the​ ​Target​ ​Price​ ​to​ ​increase​ ​at​ ​a​ ​higher​ ​rate,​ ​causing
+generation​ ​of​ ​Dai​ ​with​ ​CDPs​ ​to​ ​become​ ​more​ ​expensive.​ ​At​ ​the​ ​same​ ​time,​ ​the​ ​increased
+Target​ ​Rate​ ​causes​ ​the​ ​capital​ ​gains​ ​from​ ​holding​ ​Dai​ ​to​ ​increase,​ ​leading​ ​to​ ​a
+corresponding​ ​increase​ ​in​ ​demand​ ​for​ ​Dai.​ ​This​ ​combination​ ​of​ ​reduced​ ​supply​ ​and
+increased​ ​demand​ ​causes​ ​the​ ​Dai​ ​market​ ​price​ ​to​ ​increase,​ ​pushing​ ​it​ ​back​ ​up​ ​towards​ ​the
+Target​ ​Price.
+The​ ​same​ ​mechanism​ ​works​ ​in​ ​reverse​ ​if​ ​the​ ​Dai​ ​market​ ​price​ ​is​ ​higher​ ​than​ ​the​ ​Target
+Price:​ ​the​ ​Target​ ​Rate​ ​decreases,​ ​leading​ ​to​ ​an​ ​increased​ ​demand​ ​for​ ​generating​ ​Dai​ ​and​ ​a
+decreased​ ​demand​ ​for​ ​holding​ ​it.​ ​This​ ​causes​ ​the​ ​Dai​ ​market​ ​price​ ​to​ ​decrease,​ ​pushing​ ​it
+down​ ​towards​ ​the​ ​Target​ ​Price.
+This​ ​mechanism​ ​is​ ​a​ ​negative​ ​feedback​ ​loop:​ ​Deviation​ ​away​ ​from​ ​the​ ​Target​ ​Price​ ​in​ ​one
+direction​ ​increases​ ​the​ ​force​ ​in​ ​the​ ​opposite​ ​direction.
+
+Sensitivity​ ​Parameter
+The​ ​TRFM’s​ ​Sensitivity​ ​Parameter​ ​is​ ​a​ ​parameter​ ​that​ ​determines​ ​the​ ​magnitude​ ​of​ ​Target
+Rate​ ​change​ ​in​ ​response​ ​to​ ​Dai​ ​target/market​ ​price​ ​deviation.​ ​This​ ​tunes​ ​the​ ​rate​ ​of
+feedback​ ​to​ ​the​ ​scale​ ​of​ ​the​ ​system.​ ​MKR​ ​voters​ ​can​ ​set​ ​the​ ​Sensitivity​ ​Parameter​ ​but​ ​when
+
+the​ ​TRFM​ ​is​ ​engaged​ ​the​ ​Target​ ​Price​ ​and​ ​the​ ​Target​ ​Rate​ ​are​ ​determined​ ​by​ ​market
+dynamics,​ ​and​ ​not​ ​directly​ ​controlled​ ​by​ ​MKR​ ​voters.
+The​ ​Sensitivity​ ​Parameter​ ​is​ ​also​ ​what​ ​is​ ​used​ ​to​ ​engage​ ​or​ ​disengage​ ​the​ ​TRFM.​ ​If​ ​the
+Sensitivity​ ​Parameter​ ​and​ ​the​ ​Target​ ​Rate​ ​are​ ​both​ ​zero,​ ​Dai​ ​is​ ​pegged​ ​to​ ​the​ ​current​ ​Target
+Price.
+
+Global​ ​Settlement
+Global​ ​settlement​ ​is​ ​a​ ​process​ ​that​ ​can​ ​be​ ​used​ ​as​ ​a​ ​last​ ​resort​ ​to​ ​cryptographically
+guarantee​ ​the​ ​Target​ ​Price​ ​to​ ​holders​ ​of​ ​Dai.​ ​It​ ​shuts​ ​down​ ​and​ ​gracefully​ ​unwinds​ ​the
+Maker​ ​Platform​ ​while​ ​ensuring​ ​that​ ​all​ ​users,​ ​both​ ​Dai​ ​holders​ ​and​ ​CDP​ ​users,​ ​receive​ ​the
+net​ ​value​ ​of​ ​assets​ ​they​ ​are​ ​entitled​ ​to.​ ​The​ ​process​ ​is​ ​fully​ ​decentralized,​ ​and​ ​MKR​ ​voters
+govern​ ​access​ ​to​ ​it​ ​to​ ​ensure​ ​that​ ​it​ ​is​ ​only​ ​used​ ​in​ ​case​ ​of​ ​serious​ ​emergencies.​ ​Examples
+of​ ​serious​ ​emergencies​ ​are​ ​long​ ​term​ ​market​ ​irrationality,​ ​hacking​ ​or​ ​security​ ​breaches,​ ​and
+system​ ​upgrades.
+
+Global​ ​Settlement:​ ​Step​ ​by​ ​Step
+●
+
+Step​ ​1:​ ​Global​ ​Settlement​ ​is​ ​activated
+If​ ​enough​ ​actors​ ​who​ ​have​ ​been​ ​designated​ ​as​ ​global​ ​settlers​ ​by​ ​Maker​ ​Governance
+believe​ ​that​ ​the​ ​system​ ​is​ ​subject​ ​to​ ​a​ ​serious​ ​attack,​ ​or​ ​if​ ​a​ ​global​ ​settlement​ ​is
+scheduled​ ​as​ ​part​ ​of​ ​a​ ​technical​ ​upgrade,​ ​they​ ​can​ ​active​ ​the​ ​Global​ ​Settlement
+function.​ ​This​ ​stops​ ​CDP​ ​creation​ ​and​ ​manipulation,​ ​and​ ​freezes​ ​the​ ​Price​ ​Feed​ ​at​ ​a
+fixed​ ​value​ ​that​ ​is​ ​then​ ​used​ ​to​ ​process​ ​proportional​ ​claims​ ​for​ ​all​ ​users.
+
+●
+
+Step​ ​2:​ ​Global​ ​Settlement​ ​claims​ ​are​ ​processed
+After​ ​Global​ ​Settlement​ ​has​ ​been​ ​activated,​ ​a​ ​period​ ​of​ ​time​ ​is​ ​needed​ ​to​ ​allow
+keepers​ ​to​ ​process​ ​the​ ​proportional​ ​claims​ ​of​ ​all​ ​Dai​ ​and​ ​CDP​ ​holders​ ​based​ ​on​ ​the
+fixed​ ​feed​ ​value.​ ​After​ ​this​ ​processing​ ​is​ ​done,​ ​all​ ​Dai​ ​holders​ ​and​ ​CDP​ ​holders​ ​will
+be​ ​able​ ​to​ ​claim​ ​a​ ​fixed​ ​amount​ ​of​ ​ETH​ ​with​ ​their​ ​Dai​ ​and​ ​CDPs.
+
+●
+
+Step​ ​3:​ ​Dai​ ​and​ ​CDP​ ​holders​ ​claim​ ​the​ ​collateral​ ​with​ ​their​ ​Dai​ ​and​ ​CDPs
+Each​ ​Dai​ ​and​ ​CDP​ ​holder​ ​can​ ​call​ ​a​ ​claim​ ​function​ ​on​ ​the​ ​Maker​ ​Platform​ ​to
+exchange​ ​their​ ​Dai​ ​and​ ​CDPs​ ​directly​ ​for​ ​a​ ​fixed​ ​amount​ ​of​ ​ETH​ ​that​ ​corresponds​ ​to
+the​ ​calculated​ ​value​ ​of​ ​their​ ​assets,​ ​based​ ​on​ ​the​ ​target​ ​price​ ​of​ ​Dai.
+
+E.g.​ ​If​ ​the​ ​Dai​ ​Target​ ​Price​ ​is​ ​1​ ​U.S.​ ​Dollar,​ ​The​ ​ETH/USD​ ​Price​ ​is​ ​200​ ​and​ ​a​ ​user​ ​holds
+1000​ ​Dai​ ​when​ ​Global​ ​Settlement​ ​is​ ​activated,​ ​after​ ​the​ ​processing​ ​period​ ​they​ ​will​ ​be​ ​able
+to​ ​claim​ ​exactly​ ​5​ ​ETH​ ​from​ ​the​ ​Maker​ ​Platform.​ ​There​ ​is​ ​no​ ​time​ ​limit​ ​for​ ​when​ ​the​ ​final
+claim​ ​can​ ​be​ ​made.
+
+Risk​ ​Management​ ​of​ ​The​ ​Maker​ ​Platform
+The​ ​MKR​ ​token​ ​allows​ ​holders​ ​to​ ​vote​ ​to​ ​perform​ ​the​ ​following​ ​Risk​ ​Management​ ​actions:
+●
+
+Add​ ​new​ ​CDP​ ​type:​​ ​Create​ ​a​ ​new​ ​CDP​ ​type​ ​with​ ​a​ ​unique​ ​set​ ​of​ ​Risk​ ​Parameters.​ ​A
+CDP​ ​type​ ​can​ ​either​ ​be​ ​a​ ​new​ ​type​ ​of​ ​collateral,​ ​or​ ​a​ ​new​ ​set​ ​of​ ​Risk​ ​Parameters​ ​for
+an​ ​existing​ ​collateral​ ​type.
+
+●
+
+Modify​ ​existing​ ​CDP​ ​types:​​ ​Change​ ​the​ ​Risk​ ​Parameters​ ​of​ ​one​ ​or​ ​more​ ​existing
+CDP​ ​types​ ​that​ ​were​ ​already​ ​added
+
+●
+
+Modify​ ​Sensitivity​ ​Parameter:​ ​Change​ ​the​ ​sensitivity​ ​of​ ​the​ ​Target​ ​Rate​ ​Feedback
+Mechanism
+
+●
+
+Modify​ ​Target​ ​Rate:​​ ​Governance​ ​can​ ​change​ ​the​ ​Target​ ​Rate.​ ​In​ ​practice​ ​modifying
+the​ ​Target​ ​Rate​ ​will​ ​only​ ​be​ ​done​ ​in​ ​one​ ​specific​ ​circumstance:​ ​When​ ​MKR​ ​voters
+want​ ​to​ ​peg​ ​the​ ​price​ ​of​ ​Dai​ ​to​ ​its​ ​current​ ​Target​ ​Price.​ ​It​ ​will​ ​always​ ​be​ ​done​ ​in
+conjunction​ ​with​ ​modifying​ ​the​ ​Sensitivity​ ​Parameter.​ ​By​ ​setting​ ​both​ ​Sensitivity
+Parameter​ ​and​ ​Target​ ​Rate​ ​to​ ​0%,​ ​the​ ​TRFM​ ​becomes​ ​disabled​ ​and​ ​the​ ​Target​ ​Price
+of​ ​Dai​ ​becomes​ ​pegged​ ​to​ ​its​ ​current​ ​value.
+
+●
+
+Choose​ ​the​ ​set​ ​of​ ​trusted​ ​oracles:​​ ​The​ ​Maker​ ​Platform​ ​derives​ ​its​ ​internal​ ​prices
+for​ ​collateral​ ​and​ ​the​ ​market​ ​price​ ​of​ ​Dai​ ​from​ ​a​ ​decentralized​ ​oracle​ ​infrastructure,
+consisting​ ​of​ ​a​ ​wide​ ​set​ ​of​ ​individual​ ​oracle​ ​nodes.​ ​MKR​ ​voters​ ​control​ ​how​ ​many
+nodes​ ​are​ ​in​ ​the​ ​set​ ​of​ ​trusted​ ​oracles,​ ​and​ ​who​ ​those​ ​nodes​ ​are.​ ​Up​ ​to​ ​half​ ​of​ ​the
+oracles​ ​can​ ​be​ ​compromised​ ​or​ ​malfunction​ ​without​ ​causing​ ​a​ ​disruption​ ​to​ ​the
+continued​ ​safe​ ​operation​ ​of​ ​the​ ​system
+
+●
+
+Modify​ ​Price​ ​Feed​ ​Sensitivity:​​ ​Change​ ​the​ ​rules​ ​that​ ​determine​ ​the​ ​largest​ ​change
+that​ ​the​ ​price​ ​feeds​ ​can​ ​affect​ ​on​ ​the​ ​internal​ ​price​ ​values​ ​in​ ​the​ ​system.
+
+●
+
+Choose​ ​the​ ​set​ ​of​ ​global​ ​settlers:​ ​Global​ ​settlement​ ​is​ ​a​ ​crucial​ ​mechanic​ ​that
+allows​ ​the​ ​Maker​ ​Platform​ ​to​ ​survive​ ​attacks​ ​against​ ​the​ ​oracles​ ​or​ ​the​ ​governance
+process.​ ​The​ ​governance​ ​process​ ​chooses​ ​a​ ​set​ ​of​ ​global​ ​settlers​ ​and​ ​determines
+how​ ​many​ ​settlers​ ​are​ ​needed​ ​to​ ​activate​ ​global​ ​settlement.
+
+Risk​ ​Parameters
+Collateralized​ ​Debt​ ​Positions​ ​have​ ​multiple​ ​Risk​ ​Parameters​ ​that​ ​enforce​ ​how​ ​they​ ​can​ ​be
+used.​ ​Each​ ​CDP​ ​type​ ​has​ ​its​ ​own​ ​unique​ ​set​ ​of​ ​Risk​ ​Parameters,​ ​and​ ​these​ ​parameters​ ​are
+determined​ ​based​ ​on​ ​the​ ​risk​ ​profile​ ​of​ ​the​ ​collateral​ ​used​ ​by​ ​the​ ​CDP​ ​type.​ ​These
+parameters​ ​are​ ​directly​ ​controlled​ ​by​ ​MKR​ ​holders​ ​through​ ​voting,​ ​with​ ​one​ ​MKR​ ​giving​ ​its
+holder​ ​one​ ​vote.
+The​ ​key​ ​Risk​ ​Parameters​ ​for​ ​CDPs​ ​are:
+●
+
+Debt​ ​Ceiling:​​ ​The​ ​Debt​ ​Ceiling​ ​is​ ​the​ ​maximum​ ​amount​ ​of​ ​debt​ ​that​ ​can​ ​be​ ​created
+by​ ​a​ ​single​ ​type​ ​of​ ​CDP.​ ​Once​ ​enough​ ​debt​ ​has​ ​been​ ​created​ ​by​ ​a​ ​CDP​ ​of​ ​any​ ​given
+type,​ ​it​ ​becomes​ ​impossible​ ​to​ ​create​ ​more​ ​unless​ ​existing​ ​CDPs​ ​are​ ​closed.​ ​The
+debt​ ​ceiling​ ​is​ ​used​ ​to​ ​ensure​ ​sufficient​ ​diversification​ ​of​ ​the​ ​collateral​ ​portfolio.
+
+●
+
+Liquidation​ ​Ratio:​ ​The​​ ​Liquidation​ ​Ratio​ ​is​ ​the​ ​collateral-to-debt​ ​ratio​ ​at​ ​which​ ​a
+CDP​ ​becomes​ ​vulnerable​ ​to​ ​Liquidation.​ ​A​ ​low​ ​Liquidation​ ​Ratio​ ​means​ ​MKR​ ​voters
+expect​ ​low​ ​price​ ​volatility​ ​of​ ​the​ ​collateral,​ ​while​ ​a​ ​high​ ​Liquidation​ ​Ratio​ ​means​ ​high
+volatility​ ​is​ ​expected.
+
+●
+
+Stability​ ​Fee:​​ ​The​ ​Stability​ ​Fee​ ​is​ ​a​ ​fee​ ​paid​ ​by​ ​every​ ​CDP.​ ​It​ ​is​ ​an​ ​annual
+percentage​ ​yield​ ​that​ ​is​ ​calculated​ ​on​ ​top​ ​of​ ​the​ ​existing​ ​debt​ ​of​ ​the​ ​CDP​ ​and​ ​has​ ​to
+be​ ​paid​ ​by​ ​the​ ​CDP​ ​user.​ ​The​ ​Stability​ ​Fee​ ​is​ ​denominated​ ​in​ ​Dai,​ ​but​ ​can​ ​only​ ​be
+paid​ ​using​ ​the​ ​MKR​ ​token.​ ​The​ ​amount​ ​of​ ​MKR​ ​that​ ​has​ ​to​ ​be​ ​paid​ ​is​ ​calculated
+based​ ​on​ ​a​ ​Price​ ​Feed​ ​of​ ​the​ ​MKR​ ​market​ ​price.​ ​When​ ​paid,​ ​the​ ​MKR​ ​is​ ​burned,
+permanently​ ​removing​ ​it​ ​from​ ​the​ ​supply.
+
+●
+
+Penalty​ ​Ratio:​​ ​The​ ​Penalty​ ​Ratio​ ​is​ ​used​ ​to​ ​determined​ ​the​ ​maximum​ ​amount​ ​of​ ​Dai
+raised​ ​from​ ​a​ ​Liquidation​ ​Auction​ ​that​ ​is​ ​used​ ​to​ ​buy​ ​up​ ​and​ ​remove​ ​MKR​ ​from​ ​the
+supply,​ ​with​ ​excess​ ​collateral​ ​getting​ ​returned​ ​to​ ​the​ ​CDP​ ​user​ ​who​ ​owned​ ​the​ ​CDP
+prior​ ​to​ ​its​ ​liquidation.​ ​The​ ​Penalty​ ​Ratio​ ​is​ ​used​ ​to​ ​cover​ ​the​ ​inefficiency​ ​of​ ​the
+liquidation​ ​mechanism.​ ​During​ ​the​ ​phase​ ​of​ ​Single-Collateral​ ​Dai,​ ​the​ ​Liquidation
+Penalty​ ​goes​ ​to​ ​buy​ ​and​ ​burn​ ​of​ ​PETH,​ ​benefitting​ ​the​ ​PETH​ ​to​ ​ETH​ ​ratio.
+
+MKR​ ​Token​ ​Governance
+In​ ​addition​ ​to​ ​payment​ ​of​ ​the​ ​Stability​ ​Fee​ ​on​ ​active​ ​CDPs,​ ​the​ ​MKR​ ​token​ ​plays​ ​an
+important​ ​role​ ​in​ ​the​ ​governance​ ​of​ ​the​ ​Maker​ ​Platform.
+Governance​ ​is​ ​done​ ​at​ ​the​ ​system​ ​level​ ​through​ ​election​ ​of​ ​an​ ​Active​ ​Proposal​ ​by​ ​MKR
+voters.​ ​The​ ​Active​ ​Proposal​ ​is​ ​the​ ​smart​ ​contract​ ​that​ ​has​ ​been​ ​empowered​ ​by​ ​MKR​ ​voting
+to​ ​gain​ ​root​ ​access​ ​to​ ​modify​ ​the​ ​internal​ ​governance​ ​variables​ ​of​ ​the​ ​Maker​ ​Platform.
+Proposals​ ​can​ ​be​ ​in​ ​two​ ​forms:​ ​Single​ ​Action​ ​Proposal​ ​Contracts​ ​[SAPC],​ ​and​ ​Delegating
+Proposal​ ​Contracts​ ​[DPC].
+Single​ ​Action​ ​Proposal​ ​Contracts​ ​are​ ​proposals​ ​that​ ​can​ ​only​ ​be​ ​executed​ ​once​ ​after​ ​gaining
+root​ ​access,​ ​and​ ​after​ ​execution​ ​immediately​ ​applies​ ​its​ ​changes​ ​to​ ​the​ ​internal​ ​governance
+variables​ ​of​ ​the​ ​Maker​ ​Platform.​ ​After​ ​the​ ​one-time​ ​execution,​ ​the​ ​SAPC​ ​deletes​ ​itself​ ​and
+cannot​ ​be​ ​re-used.​ ​This​ ​type​ ​of​ ​proposal​ ​is​ ​what​ ​will​ ​be​ ​used​ ​during​ ​the​ ​first​ ​phases​ ​of​ ​the
+system,​ ​as​ ​it​ ​is​ ​not​ ​very​ ​complicated​ ​to​ ​use,​ ​but​ ​is​ ​less​ ​flexible.
+Delegating​ ​Proposal​ ​Contracts​ ​are​ ​proposals​ ​that​ ​continuously​ ​utilize​ ​their​ ​root​ ​access
+through​ ​second​ ​layer​ ​governance​ ​logic​ ​that​ ​is​ ​codified​ ​inside​ ​the​ ​DPC.​ ​The​ ​second​ ​layer
+governance​ ​logic​ ​can​ ​be​ ​relatively​ ​simple,​ ​such​ ​as​ ​defining​ ​a​ ​protocol​ ​for​ ​holding​ ​a​ ​weekly
+
+vote​ ​on​ ​updated​ ​risk​ ​parameters.​ ​It​ ​can​ ​also​ ​implement​ ​more​ ​advanced​ ​logic,​ ​such​ ​as
+restrictions​ ​on​ ​the​ ​magnitude​ ​of​ ​governance​ ​actions​ ​within​ ​defined​ ​time​ ​periods,​ ​or​ ​even
+delegating​ ​some​ ​or​ ​all​ ​of​ ​its​ ​permissions​ ​further​ ​to​ ​one​ ​or​ ​more​ ​third​ ​layer​ ​DPCs​ ​with​ ​or
+without​ ​restrictions.
+Any​ ​Ethereum​ ​account​ ​can​ ​deploy​ ​valid​ ​proposal​ ​smart​ ​contracts.​ ​MKR​ ​voters​ ​can​ ​then​ ​use
+their​ ​MKR​ ​tokens​ ​to​ ​cast​ ​approval​ ​votes​ ​for​ ​one​ ​or​ ​more​ ​proposals​ ​that​ ​they​ ​want​ ​to​ ​elect​ ​as
+the​ ​Active​ ​Proposal.​ ​The​ ​smart​ ​contract​ ​that​ ​has​ ​the​ ​highest​ ​total​ ​number​ ​of​ ​approval​ ​votes
+from​ ​MKR​ ​voters​ ​is​ ​elected​ ​as​ ​the​ ​Active​ ​Proposal.
+
+MKR​ ​and​ ​Multi-Collateral​ ​Dai
+After​ ​the​ ​upgrade​ ​to​ ​Multi-Collateral​ ​Dai,​ ​MKR​ ​will​ ​take​ ​on​ ​a​ ​more​ ​significant​ ​role​ ​in​ ​the​ ​Dai
+Stablecoin​ ​System​ ​by​ ​replacing​ ​PETH​ ​as​ ​the​ ​the​ ​recapitalization​ ​resource.​ ​When​ ​CDPs
+become​ ​undercollateralized​ ​due​ ​to​ ​market​ ​crashes,​ ​the​ ​MKR​ ​supply​ ​is​ ​automatically​ ​diluted
+and​ ​sold​ ​off​ ​in​ ​order​ ​to​ ​raise​ ​enough​ ​funds​ ​to​ ​recapitalize​ ​the​ ​system.
+
+Automatic​ ​Liquidations​ ​of​ ​risky​ ​CDPs
+To​ ​ensure​ ​there​ ​is​ ​always​ ​enough​ ​collateral​ ​in​ ​the​ ​system​ ​to​ ​cover​ ​the​ ​value​ ​of​ ​all
+outstanding​ ​Debt​ ​(according​ ​to​ ​the​ ​Target​ ​Price),​ ​a​ ​CDP​ ​can​ ​be​ ​liquidated​ ​if​ ​it​ ​is​ ​deemed​ ​to
+be​ ​too​ ​risky.​ ​The​ ​Maker​ ​Platform​ ​determines​ ​when​ ​to​ ​liquidate​ ​a​ ​CDP​ ​by​ ​comparing​ ​the
+Liquidation​ ​Ratio​ ​with​ ​the​ ​current​ ​collateral-to-debt​ ​ratio​ ​of​ ​the​ ​CDP.
+Each​ ​CDP​ ​type​ ​has​ ​its​ ​own​ ​unique​ ​Liquidation​ ​Ratio​ ​that​ ​is​ ​controlled​ ​by​ ​MKR​ ​voters​ ​and
+established​ ​based​ ​on​ ​the​ ​risk​ ​profile​ ​of​ ​the​ ​particular​ ​collateral​ ​asset​ ​of​ ​that​ ​CDP​ ​type.
+Liquidation​ ​occurs​ ​when​ ​a​ ​CDP​ ​hits​ ​its​ ​Liquidation​ ​Ratio.​ ​The​ ​Maker​ ​Platform​ ​will
+automatically​ ​buy​ ​the​ ​collateral​ ​of​ ​the​ ​CDP​ ​and​ ​subsequently​ ​sell​ ​it​ ​off.​ ​There​ ​is​ ​a​ ​temporary
+mechanism​ ​in​ ​place​ ​for​ ​Single-Collateral​ ​Dai​ ​called​ ​a​ ​Liquidity​ ​Providing​ ​Contract.​ ​For
+Multi-Collateral​ ​Dai​ ​an​ ​auction​ ​mechanism​ ​will​ ​be​ ​used.
+
+Liquidity​ ​Providing​ ​Contract​ ​(Temporary​ ​mechanism​ ​for
+Single-Collateral​ ​Dai)
+During​ ​Single-Collateral​ ​Dai,​ ​the​ ​mechanism​ ​for​ ​liquidation​ ​is​ ​a​ ​Liquidity​ ​Providing​ ​Contract:
+a​ ​smart​ ​contract​ ​that​ ​trades​ ​directly​ ​with​ ​ethereum​ ​users​ ​and​ ​keepers​ ​according​ ​to​ ​the​ ​price
+feed​ ​of​ ​the​ ​system.
+When​ ​a​ ​CDP​ ​is​ ​liquidated,​ ​it​ ​is​ ​immediately​ ​acquired​ ​by​ ​the​ ​system.​ ​The​ ​CDP​ ​owner
+receives​ ​the​ ​value​ ​of​ ​the​ ​leftover​ ​collateral​ ​minus​ ​the​ ​debt,​ ​Stability​ ​Fee​ ​and​ ​Liquidation
+Penalty.
+The​ ​PETH​ ​collateral​ ​is​ ​set​ ​for​ ​sale​ ​in​ ​the​ ​Liquidity​ ​Providing​ ​Contract,​ ​and​ ​keepers​ ​can
+atomically​ ​purchase​ ​the​ ​PETH​ ​by​ ​paying​ ​Dai.​ ​All​ ​Dai​ ​paid​ ​this​ ​way​ ​are​ ​immediately​ ​removed
+from​ ​the​ ​Dai​ ​supply,​ ​until​ ​an​ ​amount​ ​equal​ ​to​ ​the​ ​CDP​ ​debt​ ​has​ ​been​ ​removed.​ ​If​ ​any​ ​Dai​ ​is
+paid​ ​in​ ​excess​ ​of​ ​the​ ​debt​ ​shortfall,​ ​the​ ​excess​ ​Dai​ ​is​ ​used​ ​to​ ​purchase​ ​PETH​ ​from​ ​the
+market​ ​and​ ​burn​ ​it,​ ​which​ ​positively​ ​changes​ ​the​ ​ETH​ ​to​ ​PETH​ ​ratio.​ ​This​ ​results​ ​in​ ​a​ ​net
+value​ ​gain​ ​for​ ​PETH​ ​holders.
+If​ ​the​ ​PETH​ ​selloff​ ​initially​ ​does​ ​not​ ​raise​ ​enough​ ​Dai​ ​to​ ​cover​ ​the​ ​entire​ ​debt​ ​shortfall,​ ​more
+PETH​ ​is​ ​continuously​ ​created​ ​and​ ​sold​ ​off.​ ​New​ ​PETH​ ​created​ ​this​ ​way​ ​negatively​ ​changes
+the​ ​ETH​ ​to​ ​PETH​ ​ratio,​ ​causing​ ​PETH​ ​holders​ ​to​ ​lose​ ​value.
+
+Debt​ ​and​ ​Collateral​ ​Auctions​ ​(Multi-Collateral​ ​Dai)
+During​ ​a​ ​liquidation,​ ​the​ ​Maker​ ​platform​ ​buys​ ​the​ ​collateral​ ​of​ ​a​ ​CDP​ ​and​ ​subsequently​ ​sells
+it​ ​in​ ​an​ ​automatic​ ​auction.​ ​This​ ​auction​ ​mechanism​ ​enables​ ​the​ ​system​ ​to​ ​settle​ ​CDPs​ ​even
+when​ ​price​ ​information​ ​is​ ​unavailable.
+In​ ​order​ ​to​ ​take​ ​over​ ​the​ ​collateral​ ​of​ ​the​ ​CDP​ ​so​ ​that​ ​it​ ​can​ ​be​ ​sold,​ ​the​ ​system​ ​first​ ​needs​ ​to
+raise​ ​enough​ ​Dai​ ​to​ ​cover​ ​the​ ​CDP’s​ ​debt.​ ​This​ ​is​ ​called​ ​a​ ​Debt​ ​Auction,​ ​and​ ​works​ ​by
+diluting​ ​the​ ​supply​ ​of​ ​the​ ​MKR​ ​token​ ​and​ ​selling​ ​it​ ​to​ ​bidders​ ​in​ ​an​ ​auction​ ​format.
+
+In​ ​parallel,​ ​the​ ​collateral​ ​of​ ​the​ ​CDP​ ​is​ ​sold​ ​in​ ​a​ ​Collateral​ ​Auction​ ​where​ ​all​ ​proceeds​ ​(also
+denominated​ ​in​ ​Dai)​ ​up​ ​to​ ​the​ ​CDP​ ​debt​ ​amount​ ​plus​ ​a​ ​Liquidation​ ​Penalty​ ​(A​ ​Risk
+Parameter​ ​determined​ ​by​ ​MKR​ ​voting)​ ​is​ ​used​ ​to​ ​buy​ ​MKR​ ​and​ ​remove​ ​it​ ​from​ ​the​ ​supply.
+This​ ​directly​ ​counteracts​ ​the​ ​MKR​ ​dilution​ ​that​ ​happened​ ​during​ ​the​ ​Debt​ ​Auction.​ ​If​ ​enough
+Dai​ ​is​ ​bid​ ​to​ ​fully​ ​cover​ ​the​ ​CDP​ ​debt​ ​plus​ ​the​ ​Liquidation​ ​Penalty,​ ​the​ ​Collateral​ ​Auction
+switches​ ​to​ ​a​ ​reverse​ ​auction​ ​mechanism​ ​and​ ​tries​ ​to​ ​sell​ ​as​ ​little​ ​collateral​ ​as​ ​possible--any
+leftover​ ​collateral​ ​is​ ​returned​ ​to​ ​the​ ​original​ ​owner​ ​of​ ​the​ ​CDP.
+
+Key​ ​External​ ​Actors
+In​ ​addition​ ​to​ ​its​ ​smart​ ​contract​ ​infrastructure,​ ​the​ ​Maker​ ​Platform​ ​relies​ ​on​ ​certain​ ​external
+actors​ ​to​ ​maintain​ ​operations.​ ​Keepers​ ​are​ ​external​ ​actors​ ​who​ ​take​ ​advantage​ ​of​ ​the
+economic​ ​incentives​ ​presented​ ​by​ ​the​ ​Maker​ ​platform.​ ​Oracles​ ​and​ ​Global​ ​Settlers​ ​are
+external​ ​actors​ ​with​ ​special​ ​permissions​ ​in​ ​the​ ​system​ ​assigned​ ​to​ ​them​ ​by​ ​MKR​ ​voters.
+
+Keepers
+A​ ​keeper​ ​is​ ​an​ ​independent​ ​(usually​ ​automated)​ ​actor​ ​that​ ​is​ ​incentivized​ ​by​ ​profit
+opportunities​ ​to​ ​contribute​ ​to​ ​decentralized​ ​systems.​ ​In​ ​the​ ​context​ ​of​ ​the​ ​Dai​ ​Stablecoin
+System,​ ​keepers​ ​participate​ ​in​ ​the​ ​Debt​ ​Auctions​ ​and​ ​Collateral​ ​Auctions​ ​when​ ​CDPs​ ​are
+liquidated.
+Keepers​ ​also​ ​trade​ ​Dai​ ​around​ ​the​ ​Target​ ​Price.​ ​Keepers​ ​sell​ ​Dai​ ​when​ ​the​ ​market​ ​price​ ​is
+higher​ ​than​ ​the​ ​Target​ ​Price​ ​and​ ​buy​ ​Dai​ ​when​ ​the​ ​market​ ​price​ ​is​ ​below​ ​the​ ​Target​ ​Price​ ​to
+profit​ ​from​ ​the​ ​expected​ ​long-term​ ​convergence​ ​towards​ ​the​ ​Target​ ​Price.
+
+Oracles
+The​ ​Maker​ ​Platform​ ​requires​ ​real​ ​time​ ​information​ ​about​ ​the​ ​market​ ​price​ ​of​ ​the​ ​assets​ ​used
+as​ ​collateral​ ​in​ ​CDPs​ ​in​ ​order​ ​to​ ​know​ ​when​ ​to​ ​trigger​ ​liquidations.​ ​The​ ​Maker​ ​Platform​ ​also
+needs​ ​information​ ​about​ ​the​ ​market​ ​price​ ​of​ ​Dai​ ​and​ ​its​ ​deviation​ ​from​ ​the​ ​Target​ ​Price​ ​in
+order​ ​to​ ​adjust​ ​the​ ​Target​ ​Rate​ ​when​ ​the​ ​TRFM​ ​is​ ​engaged.​ ​MKR​ ​voters​ ​choose​ ​a​ ​set​ ​of
+trusted​ ​oracles​ ​to​ ​feed​ ​this​ ​information​ ​to​ ​the​ ​Maker​ ​Platform​ ​through​ ​Ethereum​ ​transactions.
+
+To​ ​protect​ ​the​ ​system​ ​from​ ​an​ ​attacker​ ​who​ ​gains​ ​control​ ​of​ ​a​ ​majority​ ​of​ ​the​ ​oracles,​ ​and
+from​ ​other​ ​forms​ ​of​ ​collusion,​ ​there​ ​is​ ​a​ ​global​ ​variable​ ​that​ ​determines​ ​the​ ​maximum​ ​change
+to​ ​the​ ​value​ ​of​ ​the​ ​price​ ​feed​ ​permitted​ ​by​ ​the​ ​system.​ ​This​ ​variable​ ​is​ ​known​ ​as​ ​the​ ​Price
+Feed​ ​Sensitivity​ ​Parameter.
+As​ ​an​ ​example​ ​of​ ​how​ ​the​ ​Price​ ​Feed​ ​Sensitivity​ ​Parameter​ ​works,​ ​if​ ​the​ ​Price​ ​Feed
+Sensitivity​ ​Parameter​ ​is​ ​defined​ ​as​ ​“5%​ ​in​ ​15​ ​minutes”,​ ​the​ ​price​ ​feeds​ ​cannot​ ​change​ ​more
+than​ ​5%​ ​within​ ​one​ ​15​ ​minute​ ​period,​ ​and​ ​changing​ ​~15%​ ​would​ ​take​ ​45​ ​minutes.​ ​This
+restriction​ ​ensures​ ​there​ ​is​ ​enough​ ​time​ ​to​ ​trigger​ ​a​ ​global​ ​settlement​ ​in​ ​the​ ​event​ ​that​ ​an
+attacker​ ​gains​ ​control​ ​over​ ​a​ ​majority​ ​of​ ​the​ ​oracles.
+
+Global​ ​Settlers
+Global​ ​Settlers​ ​are​ ​external​ ​actors​ ​similar​ ​to​ ​price​ ​feed​ ​oracles​ ​and​ ​are​ ​the​ ​last​ ​line​ ​of
+defense​ ​for​ ​the​ ​Dai​ ​Stablecoin​ ​System​ ​in​ ​the​ ​event​ ​of​ ​an​ ​attack.​ ​The​ ​set​ ​of​ ​global​ ​settlers,
+selected​ ​by​ ​MKR​ ​voters,​ ​have​ ​the​ ​authority​ ​to​ ​trigger​ ​global​ ​settlement.​ ​Aside​ ​from​ ​this
+authority,​ ​these​ ​actors​ ​do​ ​not​ ​have​ ​any​ ​additional​ ​special​ ​access​ ​or​ ​control​ ​within​ ​the
+system.
+
+Examples
+The​ ​Dai​ ​Stablecoin​ ​System​ ​can​ ​be​ ​used​ ​by​ ​anyone​ ​without​ ​any​ ​restrictions​ ​or​ ​sign-up
+process.
+●
+
+Example​ ​1:​ ​Bob​ ​needs​ ​a​ ​loan,​ ​so​ ​he​ ​decides​ ​ ​to​ ​generate​ ​100​ ​Dai.​ ​He​ ​locks​ ​an
+amount​ ​of​ ​ETH​ ​worth​ ​significantly​ ​more​ ​than​ ​100​ ​Dai​ ​into​ ​a​ ​CDP​ ​and​ ​uses​ ​it​ ​to
+generate​ ​100​ ​Dai.​ ​The​ ​100​ ​Dai​ ​is​ ​instantly​ ​sent​ ​directly​ ​to​ ​his​ ​Ethereum​ ​account.
+Assuming​ ​that​ ​the​ ​Stability​ ​Fee​ ​is​ ​1%​ ​per​ ​year,​ ​Bob​ ​will​ ​need​ ​101​ ​Dai​ ​to​ ​cover​ ​the
+CDP​ ​if​ ​he​ ​decides​ ​to​ ​retrieve​ ​his​ ​ETH​ ​one​ ​year​ ​later.
+
+One​ ​of​ ​the​ ​primary​ ​use​ ​cases​ ​of​ ​CDPs​ ​is​ ​margin​ ​trading​ ​by​ ​CDP​ ​users.
+
+●
+
+Example​ ​2:​​ ​Bob​ ​wishes​ ​to​ ​go​ ​margin​ ​long​ ​on​ ​the​ ​ETH/Dai​ ​pair,​ ​so​ ​he​ ​generates​ ​100
+USD​ ​worth​ ​of​ ​Dai​ ​by​ ​posting​ ​150​ ​USD​ ​worth​ ​of​ ​ETH​ ​to​ ​a​ ​CDP.​ ​He​ ​then​ ​buys​ ​another
+100​ ​USD​ ​worth​ ​of​ ​ETH​ ​with​ ​his​ ​newly​ ​generated​ ​Dai,​ ​giving​ ​him​ ​a​ ​net​ ​1.66x
+ETH/USD​ ​exposure.​ ​He’s​ ​free​ ​to​ ​do​ ​whatever​ ​he​ ​wants​ ​with​ ​the​ ​100​ ​USD​ ​worth​ ​of
+ETH​ ​he​ ​obtained​ ​by​ ​selling​ ​the​ ​Dai.​ ​The​ ​original​ ​ETH​ ​collateral​ ​(150​ ​USD​ ​worth)
+remains​ ​locked​ ​in​ ​the​ ​CDP​ ​until​ ​the​ ​debt​ ​plus​ ​the​ ​Stability​ ​Fee​ ​is​ ​covered.
+
+Although​ ​CDPs​ ​are​ ​not​ ​fungible​ ​with​ ​each​ ​other,​ ​the​ ​ownership​ ​of​ ​a​ ​CDP​ ​is​ ​transferable.
+
+This​ ​allows​ ​CDPs​ ​to​ ​be​ ​used​ ​in​ ​smart​ ​contracts​ ​that​ ​perform​ ​more​ ​complex​ ​methods​ ​of​ ​Dai
+generation​ ​(for​ ​example,​ ​involving​ ​more​ ​than​ ​one​ ​actor).
+●
+
+Example​ ​3:​​ ​Alice​ ​and​ ​Bob​ ​collaborate​ ​using​ ​an​ ​Ethereum​ ​OTC​ ​contract​ ​to​ ​issue​ ​100
+USD​ ​worth​ ​of​ ​Dai​ ​backed​ ​by​ ​ETH.​ ​Alice​ ​contributes​ ​50​ ​USD​ ​worth​ ​of​ ​ETH,​ ​while​ ​Bob
+contributes​ ​100​ ​USD​ ​worth.​ ​The​ ​OTC​ ​contract​ ​takes​ ​the​ ​funds​ ​and​ ​creates​ ​a​ ​CDP,
+thus​ ​generating​ ​100​ ​USD​ ​worth​ ​of​ ​Dai.​ ​The​ ​newly​ ​generated​ ​Dai​ ​are​ ​automatically
+sent​ ​to​ ​Bob.​ ​From​ ​Bob's​ ​point​ ​of​ ​view,​ ​he​ ​is​ ​buying​ ​100​ ​USD​ ​worth​ ​of​ ​Dai​ ​by​ ​paying
+the​ ​equivalent​ ​value​ ​in​ ​ETH.​ ​The​ ​contract​ ​then​ ​transfers​ ​ownership​ ​of​ ​the​ ​CDP​ ​to
+Alice.​ ​She​ ​ends​ ​up​ ​with​ ​100​ ​USD​ ​worth​ ​of​ ​debt​ ​(denominated​ ​in​ ​Dai)​ ​and​ ​150​ ​USD
+worth​ ​of​ ​collateral​ ​(denominated​ ​in​ ​ETH).​ ​Since​ ​she​ ​started​ ​with​ ​only​ ​50​ ​USD​ ​worth
+of​ ​ETH,​ ​she​ ​is​ ​now​ ​3x​ ​leveraged​ ​long​ ​ETH/USD.
+
+Liquidations​ ​ensure​ ​that​ ​in​ ​the​ ​event​ ​of​ ​a​ ​price​ ​crash​ ​of​ ​the​ ​collateral​ ​backing​ ​a​ ​CDP​ ​type,
+
+the​ ​system​ ​will​ ​automatically​ ​be​ ​able​ ​to​ ​close​ ​CDPs​ ​that​ ​become​ ​too​ ​risky.​ ​This​ ​ensures​ ​that
+the​ ​outstanding​ ​Dai​ ​supply​ ​remains​ ​fully​ ​collateralized.
+●
+
+Example​ ​4:​​ ​Let's​ ​assume​ ​that​ ​there​ ​is​ ​an​ ​Ether​ ​CDP​ ​type​ ​with​ ​a​ ​Liquidation​ ​Ratio​ ​of
+145%,​ ​a​ ​Penalty​ ​Ratio​ ​of​ ​105%,​ ​and​ ​we​ ​have​ ​an​ ​Ether​ ​CDP​ ​with​ ​a​ ​collateral-to-debt
+ratio​ ​of​ ​150%​ ​.​ ​The​ ​Ether​ ​price​ ​now​ ​crashes​ ​10%​ ​against​ ​the​ ​Target​ ​Price,​ ​causing
+the​ ​collateral-to-debt​ ​ratio​ ​of​ ​the​ ​CDP​ ​to​ ​fall​ ​to​ ​~135%.​ ​As​ ​it​ ​falls​ ​below​ ​the
+Liquidation​ ​Ratio,​ ​traders​ ​can​ ​trigger​ ​its​ ​Liquidation​ ​and​ ​begin​ ​bidding​ ​with​ ​Dai​ ​for
+buying​ ​MKR​ ​in​ ​the​ ​debt​ ​auction.​ ​Simultaneously,​ ​traders​ ​can​ ​begin​ ​bidding​ ​with​ ​Dai
+for​ ​buying​ ​the​ ​~135​ ​Dai​ ​worth​ ​of​ ​collateral​ ​in​ ​the​ ​collateral​ ​auction.​ ​Once​ ​there​ ​is​ ​at
+least​ ​105​ ​Dai​ ​being​ ​bid​ ​on​ ​the​ ​Ether​ ​collateral,​ ​traders​ ​reverse​ ​bid​ ​to​ ​take​ ​the​ ​least
+amount​ ​of​ ​collateral​ ​for​ ​105​ ​Dai.​ ​Any​ ​remaining​ ​collateral​ ​is​ ​returned​ ​to​ ​the​ ​CDP
+owner.
+
+Addressable​ ​Market
+As​ ​mentioned​ ​in​ ​the​ ​introduction,​ ​a​ ​cryptocurrency​ ​with​ ​price​ ​stability​ ​is​ ​a​ ​basic​ ​requirement
+for​ ​the​ ​majority​ ​of​ ​decentralized​ ​applications.​ ​As​ ​such,​ ​the​ ​potential​ ​market​ ​for​ ​Dai​ ​is​ ​at​ ​least
+as​ ​large​ ​as​ ​that​ ​of​ ​the​ ​entire​ ​blockchain​ ​industry.​ ​The​ ​following​ ​is​ ​a​ ​short,​ ​non-exhaustive​ ​list
+of​ ​some​ ​of​ ​the​ ​immediate​ ​markets​ ​(in​ ​both​ ​the​ ​blockchain​ ​and​ ​the​ ​wider​ ​industry)​ ​for​ ​the​ ​Dai
+Stablecoin​ ​System​ ​in​ ​its​ ​capacity​ ​as​ ​a​ ​cryptocurrency​ ​with​ ​price​ ​stability​ ​and​ ​its​ ​use​ ​case​ ​as
+a​ ​decentralized​ ​margin​ ​trading​ ​platform:
+●
+
+Prediction​ ​Markets​ ​&​ ​Gambling​ ​Applications:​​ ​When​ ​making​ ​an​ ​unrelated
+prediction,​ ​it​ ​is​ ​obvious​ ​not​ ​to​ ​want​ ​to​ ​increase​ ​one’s​ ​risk​ ​by​ ​placing​ ​the​ ​bet​ ​using​ ​a
+volatile​ ​cryptocurrency.​ ​Long​ ​term​ ​bets​ ​become​ ​especially​ ​infeasible​ ​if​ ​the​ ​user​ ​has
+to​ ​also​ ​gamble​ ​on​ ​the​ ​future​ ​price​ ​of​ ​the​ ​volatile​ ​asset​ ​used​ ​to​ ​place​ ​the​ ​bet.​ ​Instead,
+a​ ​cryptocurrency​ ​with​ ​price​ ​stability​ ​like​ ​Dai​ ​will​ ​be​ ​the​ ​natural​ ​choice​ ​for​ ​prediction
+market​ ​and​ ​gambling​ ​users.
+
+●
+
+Financial​ ​Markets;​ ​Hedging,​ ​Derivatives,​ ​Leverage:​​ ​CDPs​ ​will​ ​allow​ ​for
+permissionless​ ​leveraged​ ​trading.​ ​Dai​ ​will​ ​also​ ​be​ ​useful​ ​as​ ​stable​ ​and​ ​reliable
+collateral​ ​in​ ​custom​ ​derivative​ ​smart​ ​contracts,​ ​such​ ​as​ ​options​ ​or​ ​CFD’s.
+
+●
+
+Merchant​ ​receipts,​ ​Cross-border​ ​transactions​ ​and​ ​remittances:​ F
+​ oreign
+exchange​ ​volatility​ ​mitigation​ ​and​ ​a​ ​lack​ ​of​ ​intermediaries​ ​means​ ​the​ ​transaction
+costs​ ​of​ ​international​ ​trade​ ​can​ ​be​ ​significantly​ ​reduced​ ​by​ ​using​ ​Dai.
+
+●
+
+Transparent​ ​accounting​ ​systems:​​ ​Charities,​ ​NGO’s​ ​and​ ​Governments​ ​will​ ​all​ ​see
+increases​ ​in​ ​efficiency​ ​and​ ​lower​ ​levels​ ​of​ ​corruption​ ​by​ ​utilizing​ ​Dai.
+
+Risks​ ​and​ ​their​ ​Mitigation
+There​ ​are​ ​many​ ​potential​ ​risks​ ​facing​ ​the​ ​successful​ ​development,​ ​deployment,​ ​and
+operation​ ​of​ ​the​ ​Maker​ ​Platform.​ ​It​ ​is​ ​vital​ ​that​ ​the​ ​Maker​ ​community​ ​takes​ ​all​ ​necessary
+steps​ ​to​ ​mitigate​ ​these​ ​risks.​ ​The​ ​following​ ​is​ ​a​ ​list​ ​spells​ ​out​ ​some​ ​of​ ​the​ ​risks​ ​identified​ ​and
+the​ ​accompanying​ ​plan​ ​for​ ​risk​ ​mitigation:
+
+Malicious​ ​hacking​ ​attack​ ​against​ ​the​ ​smart​ ​contract
+infrastructure
+The​ ​greatest​ ​risk​ ​to​ ​the​ ​system​ ​during​ ​its​ ​early​ ​stages​ ​is​ ​the​ ​risk​ ​of​ ​a​ ​malicious​ ​programmer
+finding​ ​an​ ​exploit​ ​in​ ​the​ ​deployed​ ​smart​ ​contracts,​ ​and​ ​using​ ​it​ ​to​ ​break​ ​or​ ​steal​ ​from​ ​the
+system​ ​before​ ​the​ ​vulnerability​ ​can​ ​be​ ​fixed.​ ​In​ ​a​ ​worst​ ​case​ ​scenario,​ ​all​ ​decentralized
+digital​ ​assets​ ​that​ ​are​ ​held​ ​as​ ​collateral​ ​in​ ​The​ ​Maker​ ​Platform,​ ​such​ ​as​ ​Ether​ ​(ETH)​ ​or​ ​Augur
+Reputation​ ​(REP),​ ​could​ ​be​ ​stolen​ ​without​ ​any​ ​chance​ ​of​ ​recovery.​ T
+​ he​ ​part​ ​of​ ​the​ ​collateral
+portfolio​ ​that​ ​is​ ​not​ ​decentralized,​ ​such​ ​as​ ​Digix​ ​Gold​ ​IOU’s,​ ​would​ ​not​ ​be​ ​stolen​ ​in​ ​such​ ​an
+event​ ​as​ ​they​ ​can​ ​be​ ​frozen​ ​and​ ​controlled​ ​through​ ​a​ ​centralized​ ​backdoor.
+
+Mitigation:​​ ​Smart​ ​contract​ ​security​ ​and​ ​best​ ​security​ ​practices​ ​have​ ​been​ ​the​ ​absolute
+highest​ ​priority​ ​of​ ​the​ ​Dai​ ​development​ ​effort​ ​since​ ​its​ ​inception.​ ​The​ ​codebase​ ​has​ ​already
+undergone​ ​three​ ​independent​ ​security​ ​audits​ ​by​ ​some​ ​of​ ​the​ ​best​ ​security​ ​researchers​ ​in​ ​the
+blockchain​ ​industry.
+In​ ​the​ ​very​ ​long​ ​term,​ ​the​ ​risk​ ​of​ ​getting​ ​hacked​ ​can​ ​theoretically​ ​be​ ​almost​ ​completely
+mitigated​ ​through​ ​formal​ ​verification​ ​of​ ​the​ ​code.​ ​This​ ​means​ ​mathematically​ ​proving​ ​that​ ​the
+code​ ​does​ ​exactly​ ​what​ ​it​ ​is​ ​intended​ ​to​ ​do.​ ​While​ ​complete​ ​formal​ ​verification​ ​is​ ​a​ ​very​ ​long
+term​ ​goal,​ ​significant​ ​work​ ​towards​ ​it​ ​has​ ​already​ ​been​ ​completed,​ ​including​ ​a​ ​full​ ​reference
+implementation​ ​of​ ​the​ ​Dai​ ​Stablecoin​ ​System​ ​in​ ​the​ ​functional​ ​programming​ ​language
+Haskell,​ ​which​ ​serves​ ​as​ ​a​ ​stepping​ ​stone​ ​towards​ ​more​ ​sophisticated​ ​formalizations​ ​that
+are​ ​currently​ ​under​ ​active​ ​research​ ​and​ ​development
+
+Black​ ​swan​ ​event​ ​in​ ​one​ ​or​ ​more​ ​collateral​ ​assets
+Another​ ​high​ ​impact​ ​risk​ ​is​ ​a​ ​potential​ ​Black​ ​Swan​ ​event​ ​on​ ​collateral​ ​used​ ​for​ ​the​ ​Dai.​ ​This
+could​ ​either​ ​happen​ ​in​ ​the​ ​early​ ​stages​ ​of​ ​Dai​ ​Stablecoin​ ​System,​ ​before​ ​MKR​ ​is​ ​robust
+enough​ ​to​ ​support​ ​inflationary​ ​dilutions,​ ​or​ ​after​ ​the​ ​Dai​ ​Stablecoin​ ​System​ ​supports​ ​a
+diverse​ ​portfolio​ ​of​ ​collateral.
+Mitigation:​​ ​CDP​ ​collateral​ ​will​ ​be​ ​limited​ ​to​ ​ETH​ ​in​ ​the​ ​early​ ​stages,​ ​with​ ​the​ ​debt​ ​ceiling
+initially​ ​limited​ ​and​ ​growing​ ​gradually​ ​over​ ​time.
+
+Competition​ ​and​ ​the​ ​importance​ ​of​ ​ease-of-use
+As​ ​mentioned​ ​previously,​ ​there​ ​is​ ​a​ ​large​ ​amount​ ​of​ ​money​ ​and​ ​brainpower​ ​working​ ​on
+cryptocurrency​ ​with​ ​price​ ​stability.​ ​By​ ​virtue​ ​of​ ​having​ ​“true​ ​decentralization”,​ ​the​ ​Dai
+Stablecoin​ ​System​ ​is​ ​by​ ​far​ ​the​ ​most​ ​complex​ ​model​ ​being​ ​contemplated​ ​in​ ​the​ ​blockchain
+industry.​ ​A​ ​perceived​ ​risk​ ​is​ ​a​ ​movement​ ​among​ ​cryptocurrency​ ​users​ ​where​ ​the​ ​ideals​ ​of
+decentralization​ ​are​ ​exchanged​ ​for​ ​the​ ​simplicity​ ​and​ ​marketing​ ​of​ ​centralized​ ​digital​ ​assets.
+Mitigation:​​ ​We​ ​expect​ ​that​ ​Dai​ ​will​ ​be​ ​very​ ​easy​ ​to​ ​use​ ​for​ ​a​ ​regular​ ​cryptocurrency​ ​user.
+Dai​ ​will​ ​be​ ​a​ ​standard​ ​Ethereum​ ​token​ ​adhering​ ​to​ ​the​ ​ERC-20​ ​standard​ ​and​ ​will​ ​be​ ​readily
+available​ ​with​ ​high​ ​liquidity​ ​across​ ​the​ ​ecosystem.​ ​Dai​ ​has​ ​been​ ​designed​ ​in​ ​such​ ​a​ ​way​ ​that
+the​ ​average​ ​user​ ​need​ ​not​ ​understand​ ​the​ ​underlying​ ​mechanics​ ​of​ ​the​ ​system​ ​in​ ​order​ ​to
+use​ ​it.
+The​ ​complexities​ ​of​ ​the​ ​Dai​ ​Stablecoin​ ​System​ ​will​ ​need​ ​to​ ​be​ ​understood​ ​primarily​ ​by
+Keepers​ ​and​ ​capital​ ​investment​ ​companies​ ​that​ ​use​ ​the​ ​Dai​ ​Stablecoin​ ​System​ ​for​ ​margin
+trading.​ ​These​ ​types​ ​of​ ​users​ ​have​ ​enough​ ​resources​ ​to​ ​onboard​ ​themselves​ ​as​ ​long​ ​as
+there​ ​is​ ​abundant​ ​and​ ​clear​ ​documentation​ ​of​ ​every​ ​aspect​ ​of​ ​the​ ​system's​ ​mechanics.​ ​The
+Maker​ ​community​ ​will​ ​ensure​ ​that​ ​this​ ​is​ ​the​ ​case.
+
+Pricing​ ​errors,​ ​irrationality​ ​and​ ​unforeseen​ ​events
+A​ ​number​ ​of​ ​unforeseen​ ​events​ ​could​ ​potentially​ ​occur,​ ​such​ ​as​ ​a​ ​problem​ ​with​ ​the​ ​price
+feed​ ​from​ ​the​ ​Oracles,​ ​or​ ​irrational​ ​market​ ​dynamics​ ​that​ ​cause​ ​variation​ ​in​ ​the​ ​value​ ​of​ ​Dai
+for​ ​an​ ​extended​ ​period​ ​of​ ​time.​ ​If​ ​confidence​ ​is​ ​lost​ ​in​ ​the​ ​system,​ ​the​ ​TRFM​ ​adjustments​ ​or
+even​ ​MKR​ ​dilution​ ​could​ ​reach​ ​extreme​ ​levels​ ​while​ ​still​ ​not​ ​bringing​ ​enough​ ​liquidity​ ​and
+stability​ ​to​ ​the​ ​market.
+Mitigation:​​ ​The​ ​Maker​ ​community​ ​will​ ​need​ ​to​ ​incentivize​ ​a​ ​sufficiently​ ​large​ ​capital​ ​pool​ ​to
+act​ ​as​ ​Keepers​ ​of​ ​the​ ​market​ ​in​ ​order​ ​to​ ​maximize​ ​rationality​ ​and​ ​market​ ​efficiency​ ​and​ ​allow
+the​ ​Dai​ ​supply​ ​to​ ​grow​ ​at​ ​a​ ​steady​ ​pace​ ​without​ ​major​ ​market​ ​shocks.
+
+Failure​ ​of​ ​centralized​ ​infrastructure
+The​ ​Maker​ ​Team​ ​plays​ ​a​ ​major​ ​role​ ​in​ ​the​ ​development​ ​and​ ​governance​ ​of​ ​the​ ​Maker
+Platform​ ​in​ ​its​ ​early​ ​days:​ ​budgeting​ ​for​ ​expenses,​ ​hiring​ ​new​ ​developers,​ ​seeking
+partnerships​ ​and​ ​institutional​ ​users,​ ​and​ ​interfacing​ ​with​ ​regulators​ ​and​ ​other​ ​key​ ​external
+stakeholders.​ ​Should​ ​the​ ​Maker​ ​Team​ ​fail​ ​in​ ​some​ ​capacity​ ​—​ ​for​ ​legal​ ​reasons,​ ​or​ ​due​ ​to
+internal​ ​problems​ ​with​ ​management​ ​—​ ​the​ ​future​ ​of​ ​Maker​ ​could​ ​be​ ​at​ ​risk​ ​without​ ​a​ ​proper
+backup​ ​plan.
+Mitigation:​​ ​The​ ​Maker​ ​community​ ​exists​ ​partly​ ​to​ ​act​ ​as​ ​the​ ​decentralized​ ​counterparty​ ​to
+the​ ​Maker​ ​Team.​ ​It​ ​is​ ​a​ ​loose​ ​collective​ ​of​ ​independent​ ​actors​ ​who​ ​are​ ​all​ ​aligned​ ​by​ ​holding
+the​ ​MKR​ ​token,​ ​giving​ ​them​ ​a​ ​strong​ ​incentive​ ​to​ ​see​ ​the​ ​Maker​ ​Platform​ ​succeed.​ ​During
+the​ ​early​ ​phases​ ​of​ ​MKR​ ​distribution,​ ​great​ ​care​ ​was​ ​taken​ ​to​ ​ensure​ ​that​ ​the​ ​most​ ​important
+core​ ​developers​ ​received​ ​a​ ​significant​ ​MKR​ ​stake.​ ​In​ ​the​ ​event​ ​that​ ​the​ ​Maker​ ​Team​ ​is​ ​no
+longer​ ​effectively​ ​able​ ​to​ ​lead​ ​the​ ​development​ ​of​ ​the​ ​Maker​ ​Platform,​ ​individual​ ​MKR
+holders​ ​will​ ​be​ ​incentivized​ ​to​ ​fund​ ​developers​ ​(or​ ​simply​ ​carry​ ​out​ ​development​ ​themselves)
+in​ ​an​ ​effort​ ​to​ ​protect​ ​their​ ​investment.
+
+Conclusion
+The​ ​Dai​ ​Stablecoin​ ​System​ ​was​ ​designed​ ​to​ ​solve​ ​the​ ​crucial​ ​problem​ ​of​ ​stable​ ​exchange​ ​of
+value​ ​in​ ​the​ ​Ethereum​ ​ecosystem​ ​and​ ​the​ ​wider​ ​blockchain​ ​economy.​ ​We​ ​believe​ ​that​ ​the
+mechanism​ ​through​ ​which​ ​Dai​ ​is​ ​created,​ ​transacted,​ ​and​ ​retired,​ ​along​ ​with​ ​the​ ​direct​ ​Risk
+Management​ ​role​ ​of​ ​MKR​ ​holders,​ ​will​ ​allow​ ​for​ ​self-interested​ ​Keepers​ ​to​ ​maintain​ ​the​ ​price
+stability​ ​of​ ​Dai​ ​over​ ​time​ ​in​ ​an​ ​efficient​ ​manner.​ ​The​ ​founders​ ​of​ ​the​ ​Maker​ ​community​ ​have
+established​ ​a​ ​prudent​ ​governance​ ​roadmap​ ​that​ ​is​ ​appropriate​ ​for​ ​the​ ​needs​ ​of​ ​agile
+development​ ​in​ ​the​ ​short​ ​term,​ ​but​ ​also​ ​coherent​ ​with​ ​the​ ​ideals​ ​of​ ​decentralization​ ​over
+time.​ ​The​ ​development​ ​roadmap​ ​is​ ​aggressive​ ​and​ ​focused​ ​on​ ​widespread​ ​adoption​ ​of​ ​Dai
+in​ ​a​ ​responsible​ ​fashion.
+
+Glossary​ ​of​ ​Terms
+●
+
+Collateralized​ ​Debt​ ​Position​ ​(CDP):​​ ​A​ ​smart​ ​contract​ ​whose​ ​users​ ​receive​ ​an​ ​asset
+(Dai),​ ​which​ ​effectively​ ​operates​ ​as​ ​a​ ​debt​ ​instrument​ ​with​ ​an​ ​interest​ ​rate.​ ​The​ ​CDP
+user​ ​has​ ​posted​ ​collateral​ ​in​ ​excess​ ​of​ ​the​ ​value​ ​of​ ​the​ ​loan​ ​in​ ​order​ ​to​ ​guarantee
+their​ ​debt​ ​position.
+
+●
+
+Dai:​​ ​The​ ​cryptocurrency​ ​with​ ​price​ ​stability​ ​that​ ​is​ ​the​ ​asset​ ​of​ ​exchange​ ​in​ ​the​ ​Dai
+Stablecoin​ ​System.​ ​It​ ​is​ ​a​ ​standard​ ​Ethereum​ ​token​ ​adhering​ ​to​ ​the​ ​ERC20​ ​standard.
+
+●
+
+Debt​ ​Auction:​ ​The​ ​reverse​ ​auction​ ​selling​ ​MKR​ ​for​ ​Dai​ ​to​ ​cover​ ​Emergency​ ​Debt
+when​ ​a​ ​CDP​ ​becomes​ ​undercollateralized.
+
+●
+
+Collateral​ ​Auction:​​ ​The​ ​auction​ ​selling​ ​collateral​ ​from​ ​a​ ​CDP​ ​undergoing​ ​liquidation.
+It​ ​is​ ​designed​ ​to​ ​prioritize​ ​covering​ ​the​ ​debt​ ​owed​ ​by​ ​the​ ​CDP,​ ​and​ ​secondarily​ ​to
+give​ ​the​ ​CDP​ ​owner​ ​the​ ​best​ ​possible​ ​price​ ​for​ ​their​ ​excess​ ​collateral​ ​refund.
+
+●
+
+The​ ​Dai​ ​Foundation:​​ ​A​ ​decentralized​ ​team​ ​of​ ​smart​ ​contract​ ​developers​ ​committed
+to​ ​the​ ​development​ ​and​ ​successful​ ​launch​ ​of​ ​the​ ​Maker​ ​Platform.
+
+●
+
+Keepers:​​ ​Independent​ ​economic​ ​actors​ ​that​ ​trade​ ​Dai,​ ​CDPs​ ​and/or​ ​MKR;​ ​create
+Dai​ ​or​ ​close​ ​CDPs;​ ​and​ ​seek​ ​arbitrage​ ​on​ ​The​ ​Dai​ ​Stablecoin​ ​System.​ ​As​ ​a​ ​result,
+Keepers​ ​help​ ​maintain​ ​Dai​ ​market​ ​rationality​ ​and​ ​price​ ​stability.
+
+●
+
+MKR:​​ ​The​ ​ERC20​ ​token​ ​used​ ​by​ ​MKR​ ​voters​ ​for​ ​voting.​ ​It​ ​also​ ​serves​ ​as​ ​a​ ​backstop
+in​ ​the​ ​case​ ​of​ ​insolvent​ ​CDPs.
+
+●
+
+MKR​ ​Voters:​​ ​MKR​ ​holders​ ​who​ ​actively​ ​manage​ ​the​ ​risk​ ​of​ ​the​ ​Dai​ ​Stablecoin
+System​ ​by​ ​voting​ ​on​ ​Risk​ ​Parameters.
+
+●
+
+Maker:​​ ​The​ ​name​ ​of​ ​the​ ​Decentralized​ ​Autonomous​ ​Organization​ ​that​ ​is​ ​made​ ​up​ ​of
+the​ ​Maker​ ​Platform​ ​technical​ ​infrastructure,​ ​and​ ​the​ ​community​ ​of​ ​MKR​ ​voters.
+
+●
+
+Oracles:​​ ​Ethereum​ ​accounts​ ​(either​ ​contracts​ ​or​ ​users)​ ​selected​ ​to​ ​provide​ ​price
+feeds​ ​into​ ​various​ ​components​ ​of​ ​Maker​ ​Platform.
+
+●
+
+Risk​ ​Parameters:​​ ​The​ ​variables​ ​that​ ​determine​ ​(among​ ​other​ ​things)​ ​when​ ​the
+Maker​ ​Platform​ ​automatically​ ​judges​ ​a​ ​CDP​ ​to​ ​be​ ​Risky,​ ​allowing​ ​Keepers​ ​to
+liquidate​ ​it.
+
+●
+
+Sensitivity​ ​Parameter:​​ ​The​ ​variable​ ​that​ ​determines​ ​how​ ​aggressively​ ​the​ ​Dai
+Stablecoin​ ​System​ ​automatically​ ​changes​ ​the​ ​Target​ ​Rate​ ​in​ ​response​ ​to​ ​Dai​ ​market
+price​ ​deviations.
+
+●
+
+Target​ ​Rate​ ​Feedback​ ​Mechanism​ ​(TRFM):​​ ​The​ ​automatic​ ​mechanism​ ​by​ ​which
+the​ ​Dai​ ​Stablecoin​ ​System​ ​adjusts​ ​the​ ​Target​ ​Rate​ ​in​ ​order​ ​to​ ​cause​ ​market​ ​forces​ ​to
+maintain​ ​stability​ ​of​ ​the​ ​Dai​ ​market​ ​price​ ​around​ ​the​ ​Target​ ​Price.
+
+Links
+●
+
+Chat:​​ ​https://chat.makerdao.com/​​ ​—​ ​Primary​ ​platform​ ​of​ ​community​ ​interaction
+
+●
+
+Forum:​​ ​https://forum.makerdao.com/​​ ​—​ ​For​ ​debate​ ​and​ ​proposals
+
+●
+
+Subreddit:​​ ​https://reddit.com/r/makerdao/​​ ​—​ ​Best​ ​place​ ​to​ ​get​ ​latest​ ​news​ ​and​ ​links
+
+●
+
+GitHub:​​ ​https://github.com/makerdao/​​ ​—​ ​Repository​ ​of​ ​the​ ​public​ ​Maker​ ​code
+
+●
+
+TeamSpeak:​​ ​https://ts.makerdao.com/​​ ​—​ ​For​ ​governance​ ​meeting​ ​conference​ ​calls
+
+●
+
+SoundCloud:​​ ​https://soundcloud.com/makerdao/​​ ​—​ ​Governance​ ​meeting​ ​recordings
+
+●
+
+Oasis:​​ ​https://oasisdex.com/​​ ​—​ ​MKR​ ​and​ ​Dai​ ​decentralized​ ​exchange
+
+●
+
+Sai:​​ ​https://sai.makerdao.com/​​ ​—​ ​Experimental​ ​stablecoin
+
+

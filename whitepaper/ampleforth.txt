@@ -1,0 +1,608 @@
+Ampleforth: A New Synthetic Commodity
+Evan Kuo, Brandon Iles, Manny Rincon Cruz∗
+May 20, 2019
+
+Abstract
+
+Synthetic commodities, such as Bitcoin, have thus far demonstrated low correlation with
+stocks, currencies, and precious metals. However, today’s synthetics are also highly correlated
+with each other and with Bitcoin. The natural question to ask is: can a synthetic commodity
+have low correlation with both Bitcoin and traditional asset groups? In this paper, we 1) introduce Ampleforth: a new synthetic commodity and 2) suggest that the Ampleforth protocol, detailed below, will produce a step-function-like volatility fingerprint that is distinct from existing
+synthetics.
+
+∗ We
+
+thank Niall Ferguson, Sam Lessin, Noah Jessop, and Joey Krug for their comments. The views expressed in
+this paper are the authors’ own and do not reflect the views of the Hoover Institute. This working paper is circulated for
+discussion and comment purposes. It has not been peer-reviewed. contact: research@ampleforth.org
+
+1
+
+1
+
+Introduction
+
+Monetary economists often highlight two of money’s properties—scarcity and use value. To monetary historians, the way in which these two properties are combined to produce money depends on the technological and institutional infrastructure of the time.
+Commodity moneys—that is, those which are absolutely scarce and have non-monetary use value—have
+been important throughout history. These were often precious metals, the supply and demand for which
+could change the course of even large economies (Von Glahn 1996). This use of precious metals was driven
+in part by a need to limit counterfeiting, but also raised the cost of producing money, making even the simple feature of multiple denominations nearly impossible to achieve (Velde and Sargent 2002).
+
+Non-Monetary Use
+Yes
+
+No
+
+Yes
+
+Commodity
+
+Synthetic Commodity
+
+No
+
+Coase Durable
+
+Fiat
+
+Absolutely Scarce
+
+Table 1: Classification of Outside Money
+
+In this light, the second great innovation in “money” was the creation of true fiat money lacking both absolute scarcity and non-monetary use value. Early attempts to introduce such moneys failed—some spectacularly. Only with the Industrial Revolution in Europe, and the ability to introduce money “tokens” with
+high cost of counterfeiting but low cost to mint, could real fiat money be produced. Beyond innovations in
+production, the successful integration of fiat also called for institutional adaptations, such as the widespread
+monetization and circulation of government debt in the form of notes (Ferguson 2008).
+Still, most banknotes continued to have some kind of link to gold or silver until the final step to fiat was
+taken when convertibility into commodity money was suspended in 1971. Since then, the value of fiat has
+depended primarily on the state’s ability to force its use as payment. (Most moneys have always had this
+feature for tax payments, but not as their sole source of value [Desan 2015].)
+Today’s institutional and technological infrastructure has made possible a third type of money—synthetic
+commodities, defined by Selgin (2015) and Goodspeed (2018) as money that has absolute scarcity but lacks
+non-monetary use value.
+The vast majority of modern-day money exists in electronic form, costing nothing more than electricity and
+the depreciation of hardware on which it is stored—its value guaranteed by a wide variety of financial institutions and their interrelated system of controls and accounting. But the easy reproducibility of electronic
+information made it seemingly impossible for electronic moneys outside of fiat to exist.
+2
+
+Bitcoin’s blockchain is the technological innovation that makes this chimera of absolute scarcity and no use
+value possible. Through the ubiquity of the internet, Bitcoin can exist as a cryptographically secured ledger
+between a network of computers, limited to 21 million units.
+Interestingly, synthetic commodities have thus far demonstrated risk-return tradeoffs that are “distinct from
+those of stocks, currencies, and precious metals;” having no exposure to most common stock market and
+macroeconomic factors (Liu & Tsyvinski 2018). As “crypto finance” continues to converge with traditional
+financial institutions, investors are looking to diversify their portfolios with Bitcoin which is not highly correlated with traditional asset groups.
+And while it remains unclear how the new asset class will perform under periods of macroeconomic recession, when it’s common for interclass correlations to increase, it has been established there is “little evidence” behind the popular narratives that there are similarities between cryptocurrencies and traditional
+assets. (Liu & Tsyvinski 2018).
+However, current-generation synthetic commodities are highly correlated with one another and with Bitcoin. Our point of departure is to ask, given today’s changed technological and institutional landscape, can
+we create a synthetic commodity that is not highly correlated with either Bitcoin or other asset classes?
+When Bitcoin initially launched, there were no exchanges or critical points in the ecosystem where information could have been gathered. But the institutional landscape has changed since 2009. With the Bitcoin
+bull run of 2017 we now have regulated exchanges valued in the billions. This modern-day ecosystem of
+exchanges provides liquidity, and also serves as an efficient means of price discovery.
+We think the next logical experiment is to use the information signals available in today’s institutional infrastructure to create a new type of synthetic commodity. In this paper we first introduce Ampleforth, a new
+synthetic commodity protocol, which propagates nominal exchange-rate information into token supply.
+We then suggest that the incentives introduced by the Ampleforth protocol’s design cannot be realized with
+existing price-based trading strategies, and instead call for the creation of new trading strategies that take an
+additional supply information signal into consideration. For this reason, we expect that Amples will produce
+a distinct volatility fingerprint.
+
+2
+
+Protocol
+
+At a high level the Ampleforth protocol propagates price-information into supply by reacting to nominal
+exchange-rate information. The protocol achieves this by actively seeking a price-supply equilibrium—and
+will automatically enter a state of unrest until it finds one. Consider the following example:
+
+3
+
+- Equilibrium 1 :
+Alice has 1 Ample worth $1.
+- Demand Increases :
+Alice has 1 Ample worth $2.
+- Equilibrium 2 :
+Alice has 2 Amples each worth $1.
+Whether Alice holds 1 Ample worth $2 or 2 Amples each worth $1, makes no difference in terms of net
+balance. The difference is the Ampleforth protocol directly propagates price-information to each token
+owner through the count in their token balances. By expanding to and contracting from coin holders directly, a given user’s percent ownership remains fixed unless the user chooses to sell or buy more.
+
+2.1
+
+Two Simple Rules
+
+The Ampleforth protocol expands and contracts supply in one of two ways. Given a price target Pt , and
+price threshold, δ:
+1. if the nominal exchange rate between Amples and its target is > Pt + δ, the protocol responds by
+expanding to coin holders.
+2. if the nominal exchange rate between Amples and its target is < Pt − δ, the protocol responds by
+contracting from coin holders.
+
+price
+
+Expansion
+Pt + δ
+
+Pt
+
+Pt − δ
+
+Contraction
+time
+Figure 1: Target Threshold Band
+
+4
+
+2.2
+
+Supply Smoothing
+
+The protocol sets supply targets algorithmically, and to avoid overcorrection it grades supply changes as
+though they will distribute uniformly over the course of k days. For example:
+• if the exchange rate is 1.5 Amples : 1, the price difference can be offset by increasing each wallet’s balance by 50%. Grading uniformly over k days, the protocol will increase wallet quantities by
+50%/k on day zero.
+• if the exchange rate is 0.5 Amples : 1, this price difference can be offset by decreasing each wallet’s balance by −50%. Grading uniformly over k days, the protocol will update wallet quantities by
+−50%/k on day zero.
+The supply change ∆i /k is recomputed and executed no more than once every 24 hours. This operation
+is stateless. Each day, the protocol recomputes the supply target based on the latest price difference, and
+executes as though the targeted change will occur uniformly over the next k days without any memory of
+the previous day’s supply change.
+
+2.3
+
+Market Oracle & Expansion Coefficient
+
+To absorb price information from the outside world, the protocol utilizes a market oracle system made up
+of whitelisted independent data providers who broadcast 24 hour volume weighted average price to a single
+on-chain Aggregator.
+To enact supply changes automatically and simultaneously across wallets, the Aggregator updates a global
+coefficient of expansion referred to as the splitRatio no more than once every 24 hours. For detailed
+information on the market oracle and supply adjustment systems, please see the appendix.
+
+2.4
+
+Announcing Supply Changes
+
+Each supply change operation is publicly logged and timestamped automatically to provide visibility into
+when the next supply change will occur.
+Supply update values are computed based on a 24 hour volume weighted average of price, which is freely
+visible in the market. Additionally, the price values are publicly logged ahead of a rebase, so all participants
+have general visibility into whether a supply change will occur and in what measure.
+We will provide a simple visualization of this information, but anyone is free to construct their own as well.
+
+5
+
+3
+
+Thinking Fast and Slow
+
+The Ampleforth protocol establishes a set of initial conditions and incentives for the network. There is no
+centralized oversight of price or supply in the Ampleforth protocol. Rather, it depends on a decentralized
+network of actors. While the protocol propagates price information into supply, it’s the actors that propagate
+supply information back into price.
+Recall that the Ampleforth protocol programmatically sets equilibrium supply targets, which is important
+because the promise of elastic supply needs to be strictly enforced. However changing supply does not
+mean that actors will correspondingly adjust their bids, nor will they do so in unison. Instead, actors will
+respond to supply changes based on how quickly or slowly they think others will respond.
+
+3.1
+
+Inductive Explanation
+
+To illustrate it helps to separate fast actors, F A, who operate on short time windows; from slow actors, SA,
+who operate on long time windows. The total set of actors, T , is the combined set of fast and slow actors,
+T = F A ∪ SA.
+To a slow actor who typically holds for long periods and only occasionally buys and sells, whether demand
+information is reflected in price or count (that is, price or supply) makes no difference with respect to their
+net balance.
+But for a fast actor who benefits from near term trades, expansion and contraction events present a new market dynamic. Consider the following example:
+Slow Actor: Let’s imagine Alice is a slow actor. She checks in at time, t0 and sees that she
+has 1 Ample worth $1.2, later she checks in at t1 and sees that she now has 1.2 Amples each
+worth $1.
+Alice at t0:
+1 coin, worth $1.2/coin
+Alice at t1:
+1.2 coins, worth $1/coin
+Since Alice0 s USD net balance at t0 and t1 are equivalent, there isn’t any compelling reason for her to buy
+or sell before or after the state change. Not so for a fast actor:
+Fast Actor (Expansion): Let’s imagine Bob is a fast actor. He checks in before expansion at
+state t0, again while the system is expanding at state t1, and finally after expansion at state t2.
+Bob at t0:
+1 coin, worth $1.2/coin
+
+6
+
+Bob at t1:
+1.2 coins, worth $1.2/coin
+Bob at t2:
+1.2 coins, worth $1/coin
+At t1 there’s a limited opportunity for Bob to sell more units than he could have at t0 for the same price,
+before other fast actors restore the price to its equilibrium value. The opposite is true in the event of contraction:
+Fast Actor (Contraction): Let’s imagine Charlie is a fast actor. He checks in before contraction at state t0, again while the system is contracting at state t1, and finally after contraction at
+state t2.
+Charlie at t0:
+1 coin, worth $0.8/coin
+Charlie at t1:
+0.8 coins, worth $0.8/coin
+Charlie at t2:
+0.8 coins, worth $1/coin
+Similarly, at t1 there’s a limited opportunity for fast actors to purchase a greater percentage of the network
+from Charlie at the same price they could have at t0 (should he be willing to sell), before other fast actors
+restore the price to its equilibrium value.
+
+4
+
+Volatility Fingerprint
+
+By adjusting supply in response to demand, the Ampleforth protocol applies a countercyclical pressure that
+is not present in current-generation digital assets. For this reason, it’s natural to ask whether Ample prices
+will move differently from other synthetic commodities. Below, we suggest that the movement pattern or
+volatility fingerprint generated by the Ampleforth protocol will eventually have:
+• A step-function-like market cap curve that alternates between dynamic states and equilibrium states
+• A price curve that trades around the exchange rate target, with deviation during dynamic periods
+To understand the potential behavior of Amples, we start by examining the proxies for gain and loss presented by the Ampleforth protocol that do not exist in other synthetic commodities. How actors respond to
+these will determine the movement pattern of Amples’ price and supply.
+
+7
+
+4.1
+
+What’s New?
+
+Unlike current-generation synthetics, value changes in the Ampleforth network can be attributed to supply
+in addition to price. Thus both the supply of units, S, and the price per unit, P , should be taken into consideration. The combination of these two signals can be represented by market cap, M , where M = P × S.
+The Ampleforth supply policy (described in Section 2) has three states:
+• Expansion
+• Contraction
+• Equilibrium
+Below, we explore the behavior of M = P × S across these three states, which we believe defines Amples’
+potential volatility fingerprint.
+
+4.2
+
+Expansion
+
+As discussed in Section 3, during expansion there is a window in time where fast actors have an opportunity
+to sell after the supply increases but before any price correction occurs. As long as there are enough fast
+actors willing to sell, price will decrease. This could produce price and supply patterns like those below:
+supply
+
+price
+
+S2
+
+O
+2
+
+O
+S1
+
+1+δ
+1−δ
+
+time
+
+time
+t1
+
+t2
+
+t1
+
+Figure 2: Price - Expansion Series
+
+t2
+
+Figure 3: Supply - Expansion Series
+
+As shown above, the price series P (left) could end roughly as it begins; however the corresponding supply
+series S (right) would end higher than where it began. To best evaluate the unique gain and loss relationship
+created, we examine the M = P × S or market cap series below:
+
+8
+
+market cap
+
+O
+
+M2
+
+M1
+
+time
+t1
+
+t2
+
+Figure 4: Market Cap - Expansion Series
+
+Looking at M above, fast actors will see that, while t1 < t < t2 , there is an opportunity to sell more Amples
+at a higher price than at the next equilibrium point M2 . This occurs because the system expands proportionally to holders when the nominal exchange rate of Amples is > the price target threshold, and continues to
+expand daily until the price target returns.
+An actor looking only at price cannot differentiate between selling at t < O and t > O, because by all
+appearances the price series chart is symmetric. In contrast, an actor looking at P × S sees an asymmetric
+opportunity, and can capitalize on it.
+
+4.3
+
+Contraction
+
+The activity on contraction is similar. As long as enough actors value the opportunity to buy more of the
+network for a cheaper price, price would correct upward and creating general price and supply patterns like:
+supply
+
+price
+
+S2
+1+δ
+
+O
+
+1−δ
+S1
+0.5
+
+O
+time
+
+time
+t1
+
+t2
+
+t1
+
+Figure 5: Price - Contraction Series
+
+t2
+
+Figure 6: Supply - Contraction Series
+
+Again in this case the price series (left) appears to end roughly as it begins; whereas the corresponding sup-
+
+9
+
+ply series (right) paints a different picture, ending lower than where it began. To evaluate the market dynamic created, we can similarly look at the M = P × S or market cap series below:
+market cap
+
+M2
+
+M1
+
+O
+time
+t1
+
+t2
+
+Figure 7: Market Cap - Contraction Series
+Looking at M above, fast actors will see that, while the system is contracting between t1 < t < t2 , there
+is an opportunity to buy more Amples at a lower price than at the next equilibrium point M1 . This occurs
+because the system contracts proportionally from holders when the nominal exchange rate of Amples is <
+the price target threshold, and continues to contract daily until the price target returns.
+Similar to the expansion case, an actor looking only at price cannot differentiate between buying at t <
+O and t > O, because the price series chart is symmetric. In contrast, an actor looking at P × S sees an
+asymmetric opportunity, and can capitalize on it.
+
+4.4
+
+Equilibrium
+
+Within the threshold band of the price target the supply policy does not intervene and supply remains constant. This would generate a price and supply pattern like below:
+price
+
+supply
+
+1+δ
+1−δ
+
+time
+
+Figure 8: Price - Equilibrium Series
+
+time
+
+Figure 9: Supply - Equilibrium Series
+
+10
+
+4.5
+
+Predicted Output
+
+Combining all these together suggests a potential price and supply movement pattern like below:
+price
+
+supply
+
+time
+
+time
+
+Figure 10: Price - Volatility Fingerprint
+
+Figure 11: Supply - Volatility Fingerprint
+
+Price (above left) could remain around a certain exchange-rate, deviating during dynamic (dotted) periods.
+However, market cap could look like a step-function, alternating between dynamic (dotted) states and equilibrium states:
+market cap
+
+time
+
+Figure 12: Market Cap - Volatility Fingerprint
+In practice, the time to exit a dynamic state is market dependent and may take multiple supply adjustment
+cycles to complete. Fast actors will therefore have an opportunity to act in each of these cycles. We expect
+that actors will attempt to predict where the next equilibrium market cap will land, derive their buy and sell
+targets from these predictions, and update targets as the market discovers its actual equilibrium point.
+
+11
+
+5
+
+Conclusion
+
+By our analysis above, we conclude that the market dynamics of Amples cannot be determined by price
+alone, and require the consideration of supply in addition to price. As a result, the volatility fingerprint of
+Amples will be distinct from current-generation synthetic commodities.
+While any structural distinction in movement pattern can benefit asset managers seeking to reduce diversifiable risk (Lintner 1965), the question of how correlated or uncorrelated Amples will be with existing
+synthetic commodities, remains open.
+
+12
+
+References
+[1] Desan, C. (2015). Making Money: Coin, Currency, and the Coming of Capitalism. Oxford University
+Press.
+[2] Dowd, K. (2013). “Contemporary Private Monetary Systems.” Institute of Economic Affairs Monographs, Hobart Paper 174.
+[3] Ferguson, N. (2008). The Ascent of Money: A Financial History of the World. Penguin.
+[4] Goodspeed, T. (2018). “Kicking Away the Ladder? Cryptocurrencies in Historical Perspective.” Applied History Volume (Working Paper).
+[5] Lintner, J. (1965). “Security Prices, Risk, and Maximal Gains from Diversification.” The Journal of
+Finance.
+[6] Liu, Y., and Tsyvinski, A. (2018). “Risk and Returns of Cryptocurrency.” National Bureau of Economic Research (Working Paper).
+[7] Nakamoto, S. (2008). “Bitcoin: A Peer-to-Peer Electronic Cash System.” https://bitcoin.org/bitcoin.pdf.
+[8] Selgin, G. (2015). “Synthetic Commodity Money.” Journal of Financial Stability.
+[9] Velde, F., and Sargent, T. (2002). “The Big Problem of Small Change.” Princeton University Press.
+[10] Von Glahn, R. (1996). Fountain of Fortune University of Hawai’i Press.
+[11] Wood, G. (2014). “Ethereum: A secure decentralised generalised transaction ledger.” Ethereum Yellow
+Paper available at: http://gavwood.com/paper.pdf.
+
+13
+
+Appendices
+A
+
+Software Architecture
+
+Here we present an overview of the Ampleforth architecture and its touch-points with the external world.
+At its core, the system consists of three smart contracts initially deployed on Ethereum: 1) the Ampleforth
+ERC-20 Contract 2) the Market Oracle Contract, and 3) the Supply Policy Contract.
+
+•
+
+•
+(price, volume)
+
+Smart Contracts
+
+Market Source 0
+
+Market Source N
+
+Data Provider
+
+Market Oracle
+2. getP riceAndV olume()
+1. rebase()
+Any User
+
+Supply Policy
+3. rebase(supplyDelta)
+Ampleforth ERC-20
+
+•
+
+•
+events
+
+Ethereum
+
+A.1
+
+Policy Dashboard
+
+Ampleforth ERC-20 Contract
+
+The Ampleforth token implements the standard ERC-20 interface. It has one additional function called
+rebase(uint256 epoch, int256 supplyDelta) and overwrites a number of public interfaces.
+This method instructs the token contract to add to, or subtract from, the total supply of tokens, and is only
+callable by the Supply Policy Contract. All supply adjustments are symmetric across expansion and contraction such that:
+If supplyDelta is positive, new tokens are added to existing holders pro-quota. If supplyDelta is
+negative, tokens are removed from existing holders pro-quota.
+To execute this process efficiently, we avoid generating a transaction for each wallet. Instead, Ampleforth
+balances are internally represented by a hidden internal denomination. All external interfaces to the system
+
+14
+
+reference the external denomination, while all internal operations reference the hidden internal denomination.
+The conversion rate between the hidden internal denomination and the external denomination is controlled
+by an exchange rate that equals hiddenSupply/uFragmentSupply. This coefficient of expansion,
+sometimes referred to as the splitRatio, is represented rationally as the quotient of two numbers in the
+codebase.
+By design, Solidity does not support floating point numbers. Rounding is a tricky business in accounting
+software and this puts pressure on developers to take great care when thinking about numerical stability. In
+practice, we follow a stricter version of the EU’s guidelines on rounding numbers during currency conversion1 . We guarantee the following:
+If address A transfers X Amples to address B, A’s resulting external balance will be decreased
+by precisely X Amples, and B’s external balance will be precisely increased by X Amples.
+In other words, any transaction or approval will always be precise with respect to both sides of the transaction. However, we do not guarantee that the sum of all balances always equals the result of calling
+totalSupply(). This is consistent with widely adopted currency conversion systems, and the trade-off
+is unavoidable because for any conversion function f that has non-zero rounding error, f (x0 )+f (x1 )+...+
+f (xn ) is not always equal to f (x0 + x1 + ... xn ).
+
+A.2
+
+Market Oracle Contract
+
+The Market Oracle Contract provides data from the outside world to be used by the Supply Policy Contract.
+Specifically, it returns the 24hr volume-weighted Ample Price from exchanges. At launch, the oracle will
+have a trusted whitelist of sources and the price is calculated as the median of the sources.
+1. Only whitelisted addresses can provide market data.
+2. A market report must exist on-chain publicly for at least 1 hour before it can be used by the supply
+policy.
+3. A market report will expire on-chain if a new report is not provided before 6 hours elapses.
+
+A.3
+
+Supply Policy Contract
+
+The Supply Policy Contract has a single external function, also called rebase(), this not to be confused
+with the rebase method in the Ampleforth ERC-20 Contract.
+1 “The Introduction of the Euro and the Rounding of Currency Amounts (1999)” is a good starting reference for practices related
+to currency conversions. We follow a stricter version of these rules in our implementation. http://ec.europa.eu/economy_
+finance/publications/pages/publication1224_en.pdf
+
+15
+
+This rebase() method is publicly callable by anyone, but will only execute at most once every 24 hours.
+Opening this method up, helps to remove us as a necessary central party in the system’s execution. If we fail
+to call rebase() for any reason, others are free to make that call in our place.
+The rebase() method first queries the Market Oracle to get the current price. If the price is within
+priceThreshold of the target price, no supply policy change is applied. Otherwise, the absolute
+supplyDelta is equal to (price-target)*totalSupply/target. For example, if Amples are
+trading for $1.15, the absolute totalSupply increase will be 15%.
+Next, it applies a “rebase reaction lag” to dampen the supply change. At launch, the reaction lag will be
+30 days. Finally, the Ampleforth ERC-20 token is instructed to adjust its supply by the dampened value.
+Continuing with the example above, the dampened increase would be (15% / 30 days) = 0.5% per day.
+Due to the unpredictability of when transactions get mined into a block, and because at least 24 hours must
+pass before a rebase executes, there will always be slightly more than 24 hours between rebases. This means
+that, even though our rebase time is 24hrs, the rebase call will “drift” slightly over time. Based on our measurements on Ethereum’s Rinkeby testnet, we expect this drift to be about 1 hour per year. So if rebase calls
+execute at 0:00 UTC time on Jan 1st, they would execute 1:00 UTC a year later.
+A public countdown timer to the next allowable rebase operation each day is displayed on the Ampleforth
+Protocol dashboard.
+
+A.4
+
+Multichain Ampleforth
+
+The Ampleforth Protocol will initially be deployed on Ethereum, but the protocol is chain-agnostic and Ample tokens can exist simultaneously on many platforms.
+The Supply Policy, Oracle, and future Governance modules will be deployed only once, on the chain with
+the highest level of decentralization and and enough usage to guard against 51% attacks. Today, we believe
+that’s Ethereum. Long term, more Ampleforth ERC-20 contracts, still governed by the same existing supply
+policy, can co-exist on other chains. The only requirement for future token platforms is that there is a bridge
+from the policy chain that allows atomic transfers of Amples and propagation of rebase transactions, and a
+virtual machine on the new platform powerful enough to support the required token arithmetic.
+
+B
+
+Choice of Information Signal
+
+In today’s environment, the choice of having a fixed supply cap is reasonable. However a fixed supply commodity, when used as a currency, brings with it well known problems.
+Dowd estimates that under reasonable assumptions Bitcoin will have a long-run annual deflation rate of
+1.5%. He also predicted that given a fixed supply of Bitcoin one could have either a significant take-up rel-
+
+16
+
+ative to existing currencies, or price activity that causes bubble-bust cycles, but not both. Bitcoin’s history
+has largely shown this to be correct, and hyperdeflation from price bubbles have had negative impacts on
+markets like the Silk Road where Bitcoin was the main currency (Dowd, 2013).
+
+17
+
+

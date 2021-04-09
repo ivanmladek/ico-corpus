@@ -1,0 +1,1098 @@
+Whitepaper
+BTU [Booking Token Unit] Protocol
+An open protocol for decentralized bookings
+
+Vidal Chriqui, Hervé Hababou
+vidal@btuprotocol.com​, ​herve@btuprotocol.com
+808 Labs
+
+March 22nd, 2018
+Version 1.2
+
+Abstract
+Our mission is to create an open source standardized decentralized
+booking protocol along with reference implementations that can be
+leveraged by participants in industries such as hospitality, travel, finance,
+healthcare, retail, automotive and more.
+The Booking Token Unit (BTU) protocol is a building block for any
+decentralized application (dApp) or web site willing to implement booking
+features for their end-users. This standard also brings interoperability
+among decentralized applications that incorporate it.
+The BTU protocol is being standardized as ERC-808 and requires the use
+of the Ethereum-based ​BTU token​. The purpose of the BTU Token is to
+incentivize proper behaviors such as rewarding successful bookings and
+enforcing late cancellation and no-shows policies.
+All applications implementing the BTU protocol would benefit from a hybrid
+approach that combines an on-chain smart contract and off-chain software
+components, providing more scalability.
+Finally, a transparent and public inventory enabled by an open-source
+protocol would considerably lower the entry barriers into the online booking
+markets.
+
+1
+
+TABLE OF CONTENTS
+
+Introduction
+
+3
+
+Impacted markets
+
+3
+
+General
+
+3
+
+Impacted market example - hotel booking
+
+4
+
+The BTU protocol
+
+7
+
+Definitions
+
+7
+
+Specification and sequence of steps
+
+8
+
+Anti-spam
+
+9
+
+Broadcasted message format
+
+10
+
+Booking infrastructure
+
+10
+
+The RES smart contract
+
+10
+
+Motivation
+
+10
+
+Coverage
+
+11
+
+Definition and Workflow
+
+11
+
+Specification of the Standard Interface
+
+11
+
+ERC-808 reference implementation
+
+12
+
+Protocol token
+
+12
+
+The BTU token
+
+12
+
+Governance
+
+13
+
+BTUIPs - BTU improvement proposals
+
+13
+
+Forks
+
+13
+
+Token function
+
+13
+
+BTU infrastructure - Scalability considerations
+
+14
+
+Roadmap
+
+14
+
+First use case - Hotel Booking
+
+15
+
+Description & involved parties
+
+15
+
+Architecture
+
+16
+
+Simplified process description
+
+16
+
+Conclusion
+
+17
+
+References
+
+18
+
+2
+
+1. Introduction
+In all booking platforms, we believe that centralization has led to an imbalance where online
+platforms are gaining more power over the actual service providers who bear the operational
+costs and investments. Digital network effects are preventing existing players from operating
+in a free market.
+As a result, service providers are experiencing high commission fees ranging from 15% to
+35%. Those fees are paid to the centralized “winner takes all” booking platforms.
+Other issues with centralized booking platforms include, but are not limited to :
+- Loyalty points are platform or service specific,
+- End-user confidential information is at risk of large-scale hacks,
+- Complementary services offered are limited.
+With blockchain networks emerging as a new global infrastructure, we have the opportunity
+to create vastly different power structures. A public inventory and an open protocol lower
+operational costs while allowing fair competition between a higher number of market
+participants.
+
+2. Impacted markets
+2.1.
+
+General
+
+At first, the Internet was thought to lead to disintermediation in many industries. Twenty
+years after the dot-com bubble, a new type of intermediary - “Internet Platforms” - dominate
+these industries. Internet platforms have provided superior value propositions to end users in
+terms of convenience, price or performance. But they have also benefited from powerful
+digital network effects due to the very nature of the Internet technology. The centralized
+platforms have exploited this market power to win it all, and eventually to collect higher and
+higher returns.
+Our blockchain-based booking protocol can benefit any industry that relies on a reservation
+process and where centralized players have become the dominant participants.
+Since decentralized platforms foster the adoption of more transparent practices, it should
+encourage healthier competition. It should then alter the walled-garden content policy in
+place and encourage a new wave of developers to deliver innovative and open services,
+leading to better functioning markets.
+An array of markets could benefit from the above. For instance, our protocol could be used
+to book many of the following services :
+- Hotel and Apartments;
+3
+
+-
+
+Offices, Studios and Warehouses;
+Cars, Flights, Jets, Trains, Buses, Yachts and Ferries;
+Tours, Holiday packages, Cruises and Museums;
+Shows, Sports, Events and Restaurants;
+Medical and Well-being appointments;
+Tests, Photographers, Guides, Caterers, Car repair …
+
+Innovative offerings could be built that enable the booking of bundled services. As our
+protocol is industry independent and easy to implement, existing players in one industry may
+be able to offer new services to their existing customers (cross-sales).
+That is what platform envelopment strategy suggests where a second entry path is required,
+that does not rely on Schumpeterian innovation. This strategy has been documented by
+Thomas R. Eisenmann, the Howard H. Stevenson Professor of Business Administration at
+the Harvard Business School, in the Platform Envelopment working paper ( see ​Ref [1] )
+
+2.2.
+
+Impacted market example - hotel booking
+
+The hotel booking sector was one of the most impacted industries at the start of the Internet
+revolution. It is now a highly concentrated oligopolistic market, with a Herfindahl Index
+above 5,000, we have found it to be an excellent first example use case of the BTU Protocol.
+Indeed, two online travel agency (“OTA”), namely Expedia and Priceline are dominating the
+market due to market forces only possible with the current state of the internet as well as
+extensive consolidation (acquisitions).
+-
+
+-
+
+Expedia now owns Expedia.com, Hotels.com, HomeAway, Hotwire, Orbitz Worldwide
+Travelocity, Traveldoo, Trivago, Venere, Wotif Group, Carrentals.com, Classic Vacations
+and eLong.com.
+Priceline now owns Booking.com, Kayak, Priceline.com, Agoda.com, Cheapflights.com,
+Ctrip.com (partially), Momondo.com, Opentable.com, Rentalcars.com and Rocketmiles.
+
+Economic theory predicted that leading OTA would increase their fees and that these costs
+are split between consumers and hotels according to the relative elasticity of supply and
+demand. This is exactly what is happening.
+In September 2017, AccorHotels’ CEO Sébastien Bazin explained the business issue facing
+large Hotel operators: “I think all the big hotel companies in the world, we have the same
+market cap as Booking and Expedia together, $130 billion. They probably have together
+80,000 to 90,000 employees. All together we have over 3 million employees. So it is a
+weakness. It appears to be a weakness, which is why they have so much value in the stock
+market because they have better agility, less volatility and better free cash flow”.
+However he seemed to agree he could hardly do without these OTA. “It’s more and more
+costly, tougher on the acquisition of a new client because Booking and Expedia have a
+4
+
+better reach to new clients. You accept to pay more because they give you a client you
+cannot have otherwise.”
+Still, the Hotel industry in Europe (via the HOTREC trade association) is trying to fight back
+by alerting the E.U. and requesting new regulation to be enforced. Its latest position paper
+(​Ref [2]​), that we recommend reading, includes screenshot proofs of problematic issues.
+HOTREC claims to have identified over the past years several unfair practices of oligopolistic
+platforms, which are putting pressure and increasing the fragility of the 200 000 European
+establishments (composed of 91% micro-enterprises). They also note that the power of
+narrow access gates to the online market has resulted in uniformed contracts, and several
+market practices which are considered unfair such as platforms dictating their conditions and
+influencing consumers choices in an opaque manner.
+The detailed mechanisms of how two OTAs ended up controlling 95% of the U.S. market
+and how they use this position to command outrageously high fees are very well
+documented in this July 2017 article from Benjamin G. Edeman (​@bgedelman​):
+http://www.benedelman.org/publications/ota-bias-12jul2017.pdf
+Benjamin G. Edelman is an Associate Professor of Business Administration at the Harvard
+Business School where he studies and teaches about the economics of online markets. He
+is a Winner of the 2013 Prize in Game Theory and Computer Science from the Game Theory
+Society for “the best paper at the interface of game theory and computer science in the last
+decade”. His bottom line is that OTA practices drive up costs for both hotels and consumers.
+Some of his arguments are summarized here but we highly recommend reading the article :
+-
+
+Consumers are unaware of the hundreds of dollars of OTA fees, 25% or even more of
+their hotel booking budget, due to the OTA market structure. Consumers choose these
+OTA sites in part as a result of billions of dollars spent on advertising. Expedia is the
+31st-largest advertiser in the U.S., just behind Pepsi, spending an estimated $1.3 billion
+in 2015. And travelers perceive no cost to booking through OTAs and have had little
+reason to seek out the “cheapest OTA” or to think about OTA fees at all.
+
+-
+
+Priceline and Expedia have adjusted their pricing and rules to extract higher payments
+from hotels including auctioning off the top positions in search results. No other OTA
+controls more than 1% of the OTA market. The hotel industry remains fragmented and
+smaller hotels, especially, cannot oppose fees that have increased as OTAs have
+merged and gained in market power.
+
+-
+
+OTAs have incentives to bias results, including to bias results towards hotels that pay
+them greatest commissions, and to demote the hotels that insist on lower commissions.
+When a small property requested a lower fee, the OTA had every reason to decline,
+knowing that customers would be unlikely to miss that property. Independent hotels pay
+dearly for the favored placement they receive, 25% or 30%, more than they spend on
+physical plant, maintenance, or cleaning.
+5
+
+-
+
+When some hotels have offered lower “members only” rates on their own sites, OTAs
+changed the sequence of search results (e.g. placing on subsequent pages of results),
+changed color schemes to deemphasize these hotels, withheld standard promotional
+text or removed photos these hotels previously uploaded to the OTA.
+
+-
+
+Search bias is deceptive. Consumers have no reason to expect properties to be sorted
+based on fees paid while OTAs indicate “Recommended” properties by default. Search
+bias perpetuates the expectation that prices are the same at OTAs and directly. So
+hotels risk end up competing not to offer low prices or high quality to consumers, but
+instead competing to offer the highest commission to OTAs. ​This is discouraging
+hotels from soliciting direct bookings.
+
+-
+
+Moreover OTAs have taken steps to impede hotels’ efforts to become more self-reliant.
+Multiple hotel chain marketing managers reported that OTAs rejected their requests for
+contract terms preventing OTAs from bidding on their own hotel names. As a result,
+when a user searches for an affected hotel, the user sees OTA advertisements.
+
+-
+
+A corrective disclosure is necessary to put consumers on notice of actual practice. ​Once
+consumers begin direct booking in earnest, the change might be virtually
+irreversible. Reasonable inquiry should examine OTA internal emails as they might
+reveal other practices intended to mislead consumers, penalize hotels that seek to
+reduce marketing costs, or otherwise fall short of applicable standards.
+
+As much as we agree with Ben’s brilliant analysis of the market, we do not think regulation
+alone could solve the issues outlined above in a timely fashion.
+Actually, in April 2017, the European Commission and ten national competition authorities
+(Belgian, Czech, French, German, Hungarian, Irish, Italian, Dutch, Swedish and UK)
+published a coordinated report on competition in the online hotel booking sector with the
+objective to assess the effects of the antitrust enforcement measures adopted in recent
+years in this sector. The detailed report can be found here:
+http://ec.europa.eu/competition/ecn/hotel_monitoring_report_en.pdf
+The results are so unconvincing that the European Competition Network has had to “keep
+the online hotel booking sector under review”.
+We believe blockchain innovation could be called to the rescue. Decentralization, openness
+and tokenization would lower the cost of entry and enable new market entry strategies. This
+is where the BTU protocol can help.
+
+6
+
+3. The BTU protocol
+3.1.
+
+Definitions
+
+A reservation process involves at least 4 parties or components : a provider, a booker, a
+booking infrastructure and the RES smart contract.
+Provider
+
+The provider is an entity providing its own resource or a third-party party
+resource to be booked
+
+Booker
+
+The booker is an entity that books the resource for itself or a third party
+
+Booking
+The booking infrastructure is the public “location” where providers can
+infrastructure “post” resource availability data and where these resources can be
+reserved by bookers.
+The booking infrastructure facilitates signaling between providers and
+bookers by aggregating a high volume of resource type and availabilities.
+RES
+
+RES is the smart contract implementation of the decentralized
+standardized BTU protocol.
+
+Payments are handled outside of the scope of the BTU protocol.
+
+7
+
+3.2.
+
+Specification and sequence of steps
+
+The BTU protocol involves potentially ten steps and our standardized decentralized
+reservation contract (RES). Some of following steps can be relayed off-chain, but are always
+settled on-chain.
+
+Hereafter the general sequence :
+● (​Step 1.1​) Provider is creating an “availability offer” (OFFER) specifying :
+○ resource id OR bundle id. A bundle is a group of resources.
+○ resource name OR bundle name
+○ resource category
+○ deposit amount in BTU : amount requested for escrow in order to allow a
+reservation request
+○ commission amount in BTU : amount paid to booker
+○ availability start date,
+○ availability end date
+○ limit date and time for a free reservation cancellation
+○ signed (r,s,v) hash of previous information​. This signed hash serves as a
+signed identifier of the resource to be reserved.
+○ Metadatas : daily price of the resource (fiat amount to be paid at resource
+“delivery”), links to images, long description, key-values that can be used as
+search criteria, etc...
+The availability data is broadcasted over any communication channel, ideally a
+decentralized off-chain solution.
+● (​Step 1.2​) At any moment, the provider can update the resource metadata by
+broadcasting a new message.
+It is very common that yield management requires many prices (fiat price of the
+resource) update during the same day. This update only impacts the off-chain
+components.
+
+8
+
+●
+●
+
+●
+
+●
+●
+●
+
+●
+
+●
+
+(​Step 2)​ Booker is looking for a resource is querying all resources matching his
+criteria and is selecting a resource he is willing to reserve
+(​Step 3.1​) In the same operation :
+○ Booker is approving to RES smart contract the required amount of BTU to
+make the booking (amount defined in step 1.1 by the provider)
+○ A booking entry is registered into the smart contract with following information
+■ Signed hash of resource
+■ Signed pointer to all full offer information (datas + metadatas) at the
+moment of the reservation request. Those information are stored in
+the offchain booking infrastructure.
+■ Public address matching the hash signature
+■ desired reservation start date
+■ desired reservation end date
+■ status : RESERVATION_REQUESTED
+(​Step 3.2​) Booker broadcasts the resource reservation request to the Booking
+infrastructure adding all end-user profile information off-chain that may be necessary
+for the reservation approval. This would help comply with privacy protection
+requirements.
+It is the responsibility of the Booker to notify its end user customer of the full resource
+information and the provider signature (Availability “snapshot” data). This can be
+used as proof of reservation details in (the extreme) case resource information at
+reservation time is deleted from off-chain infrastructure.
+(​Step 4)​ Provider is validating the reservation request and broadcasts the new status
+to “RESERVATION_CONFIRMED”.
+(​Step 5)​
+RES smart contract is updating the reservation status to
+“RESERVATION_CONFIRMED”
+(​Step 6.1 - Optional​) Booker cancels the reservation by broadcasting a cancellation
+request. This triggers a submission to the RES smart contract that empties the
+registries for this resource.
+Depending on the conditions and cancellation date, the BTU escrowed into the RES
+smart contract are affected back to the user or to the provider
+(​Step 6.2 - Optional​) Provider cancels the reservation by broadcasting a cancellation
+request. This triggers a submission to the RES smart contract that empties the
+registries for this resource. RES smart contract is releasing the escrowed amount to
+booker.
+(​Step 7.1 & 7.2​) Booker is notifying that the resource has been paid (presumably at
+resource check-out). RES smart contract is releasing the escrowed BTU back to user
+in addition to a BTU agreed commission.
+
+3.3.
+
+Anti-spam
+
+To avoid any malicious behavior, the protocol implementation may request providers to
+escrow some BTU tokens before being allowed to submit availabilities offers into the booking
+infrastructure.
+
+9
+
+The amount of BTU tokens to be escrowed may depend on the provider’s reputation as
+tracked by a third party service.
+
+3.4.
+
+Broadcasted message format
+
+Each availability message contains the following parameters :
+● unique resource id
+● resource description
+● resource category - useful as a filtering criteria
+● booking price : BTU amount requested for escrow in order to allow a reservation
+request
+● availability start date and time
+● availability end date and time
+● limit date and time for a free reservation cancellation
+● JSON metadata describing the bookable resource (fiat price to be paid, images, list
+of images, full description, options, etc..). This metadata is specific to each category
+of resource.
+Also, the hash submitted to the smart contracts are using the blockchain network platform
+standard. Example : ECDSA signature and Keccak-256 function for Ethereum.
+
+3.5.
+
+Booking infrastructure
+
+For Bookers and Providers to meet, a booking infrastructure is required to host and
+propagate the messages.
+In its principle, this infrastructure is very similar to an exchange order book (availability book
+in this case) that aggregates sell & buy orders (availability offer & availability request). This
+leads us to qualify this booking infrastructure as an “exchange” or “relayer”.
+The protocol described in this section does not describe an incentive for third parties to
+operate such a relayer platform. However, the next section will offer suggestions of how BTU
+token may be used to design such incentives.
+
+3.6. The RES smart contract
+3.6.1. Motivation
+The following describes standard functions for BTU standardized and extensible reservation
+process. The reservation process embeds some actions (listing availabilities, deposit,
+sharing customer information, etc..), and claims (proof of reservation).
+This standardized reservation interface allows Dapps, smart contracts or any Third Party to
+initiate a booking process and to check the status of a booking.
+
+10
+
+3.6.2.
+
+Coverage
+
+The specification covers all the steps even the ones that are potentially off-chain.
+Nevertheless, in practice and while waiting for more scalability on existing smart contracts
+infrastructures, only a few of RES smart contract function will be used.
+
+3.6.3.
+
+Definition and Workflow
+
+Workflow consists of following steps :
+Function name
+
+Short Description
+
+Long Description
+
+publishAvailabilities
+(off-chain)
+
+Publish one or multiple
+available resources
+
+Publish one or multiple available
+resources for reservations and for
+being “searchable”.
+
+listAvailabilities
+(off-chain)
+
+List available resources
+
+List all available resources
+matching a search criteria
+
+requestReservation
+
+Request or update or
+cancel for a booking
+
+Request for a reservation. The
+function can be used for initial
+reservation request OR updating
+
+getReservationStatus
+
+Request for a booking
+status
+
+Read reservation status.
+Following values are possible :
+REQUESTED, REJECTED,
+CONFIRMED
+
+3.6.4.
+
+Specification of the Standard Interface
+
+The up to date standard is described in the ERC-808 specification submitted to EIP Ethereum Improvement Proposal - process for comments (no impacts on the core protocol
+and Ethereum Client).
+Information is available in this link :
+https://github.com/appyhour770/EIPs/blob/master/EIPS/eip-770.md
+A pull request to ethereum/EIPs has been submitted and is currently under review :
+https://github.com/ethereum/EIPs/pull/808
+The ERC-808 standard implements ERC-20 transferable token standard, while adding
+specific functions handling the reservation process.
+Find the description of main functions
+contract ​ERC808​ ​{
+
+// Availability structure
+
+11
+
+​enum BookingStatus { ​REQUESTED, REJECTED, CONFIRMED, CANCELLED​ }
+struct ​availability​ ​{
+address
+
+​_contractAdress;
+
+uint​
+
+_resourceId ; // resource id OR bundle id
+
+uint​
+
+_type; // Type of Availability
+
+uint​
+
+_minDeposit ; // minimum BTU deposit for booking this resource
+
+uint​
+
+_commission ; // commission amount paid to booker in BTU
+
+uint​
+
+_freeCancelDateTs; // Limit date for a reservation cancellation
+
+uint​
+
+_startDateTs; //availability start date timestamps
+
+uint​
+
+_endDateTs; //availability end date timestamps
+
+BookingStatus​
+string​
+
+_bookingStatus ; // reservation status
+_metaDataLink // Link to Meta Data of the bookable resource (desc, image links, etc…)
+
+}
+//Submit one or multiple availability - implementation will be off-chain
+​function​ ​publishAvailabilities ​(​address​ _owner, ​availability[]​ _availability, bytes32 _signatureProof ) ​constant returns
+
+(​uint​ status);
+
+//Query Availabilities - implementation will be off-chain
+​function​ ​ListAvailabilities​(​address​ _requester, ​string ​_criterias) ​constant returns​ (​availability[] a​);
+//Request reservation
+
+​function​ ​requestReservation​(​address​ _requester, ​availability​ _availability) ​constant returns​ (​uint​ status);
+//Check booking status
+
+}
+
+​function​ ​getReservationStatus​(​address​ _requester, ​availability​ _availability) ​constant returns​ (​BookingStatus ​status);
+
+3.6.5.
+
+ERC-808 reference implementation
+
+The reference implementation can be found on github on BTU repository. Every developer is
+invited to review the specification and contribute to enrich the process definition.
+
+4. Protocol token
+4.1.
+
+The BTU token
+
+The BTU token is an ERC20 token working in conjunction with a ERC-808 standard
+reference implementation contract that is compliant with most booking processes.
+The BTU token is issued on top of Ethereum public infrastructure. It can be used as :
+- Deposit value for booking a resource : The deposit is an incentive for any Booker to
+cancel its reservation on time. If the resource is not released, the deposit will be kept
+by the resource owner.
+- Reward mechanisms : BTU tokens can be used to reward usage of the protocol. This
+would incentivize consumption of those resources through the BTU infrastructure
+rather than via other legacy and incumbent platforms that may list the same
+resources.
+Our vision is that a large share of the legacy platform commissions (15 to 35%) can be used
+to incentivize new platforms connections to the BTU infrastructure.
+
+12
+
+Furthermore, envelopment entails entry by one platform provider into another’s market by
+bundling its own functionalities with that of the target’s so as to leverage shared user
+relationships and common components.
+With BTU tokens, a standard protocol and open source software, dominant firms that
+otherwise are sheltered from entry due to strong network effects and high switching costs
+can be vulnerable to such envelopment attacks.
+
+4.2. Governance
+4.2.1. BTUIPs - BTU improvement proposals
+Any changes to BTU protocol (smart contracts, architecture, message format or functionality)
+should be proposed in the BTU Improvement Proposals (BTUIPs) available on our github.
+The contribution guidelines are provided there and are inspired by the Ethereum EIPs
+process.
+
+4.2.2.
+
+Forks
+
+Future proof protocol is a hard challenge when deployed in an immutable system of smart
+contract like Ethereum.
+Once the RES smart contract is deployed, its logic and modelisation cannot be upgraded.
+Hence any protocol update or upgrade that is deployed may cause a disruption : a fork of the
+network and data that may invalidate current approved reservations.
+To limit the potential disruptions of our development roadmap, we will :
+- Maximize upgrades keeping backward compatibility with previous version (soft-fork)
+- Use an ENS address such as ​btuprotocol.eth and recommend calling the smart
+contract with its ENS address to allow Dapps benefiting automatically from
+Even if we worked hard to innovate and provide leadership on the Protocol governance, we
+cannot guarantee that a situation where two versions of the protocol are live (fork) could be
+avoided.
+
+4.3.
+
+Token function
+
+As it is open source, the BTU protocol and related software could substantially lower the cost
+for any party in providing relevant booking services to their customers. The BTU token is a
+network token facilitating (off and on-chain) signaling between a Provider and a Booker.
+The token’s role is also to create financial incentives in order to drive a network of
+participants to behave rationally and with economic interests aligned.
+For instance, the BTU tokens will be used to reward Bookers. In essence, Bookers are
+effectively rewarded with tokens as they are “mining” successful bookings.
+13
+
+Anti-spam parameters are also making use of token staking in order to enforce fair use.
+The token also serves as a de facto standard and eventually enabling a virtuous network
+effect. And different industries could adopt the same protocol, thereby amplifying the network
+effects that would otherwise be limited to one industry.
+Finally, other adoption mechanisms and token use cases may be implemented, by anyone in
+the community, independently from the token initial purpose.
+
+4.4.
+
+BTU infrastructure - Scalability considerations
+
+Existing blockchain networks do not yet offer the scalability required for data storage and
+querying at reasonable transaction rates to cope with existing booking volumes in whatever
+market, even the smallest one.
+The role of the BTU booking infrastructure is to provide a cost-effective scalable way for any
+company (Provider or Booker) to operate a Dapp based on the BTU protocol and the BTU
+token.
+Three options are currently considered (in no specific order) to build the BTU infrastructure :
+- Cosmos that can provide a good way to build a sidechain-like infrastructure that can
+offer scalability and benefit from on-chain security.
+In this approach, our relayer infrastructure will be constructed as our Cosmos Zone
+and the incentive for operating the booking infrastructure comes from ATOM token
+(Cosmos token).
+- Raiden​ + IPFS + Any open source Indexing solution.
+- Raiden + ​IPDB (BigChainDB public infrastructure) : Raiden is used to follow deposits
+and IPDB to store and query availabilities. This option is a good fit for our MVP and
+can even be rolled out in a private BigChainDB infrastructure.
+Over time we may revise this strategy depending on the technology advances. We may also
+develop several implementations on top of different blockchain networks.
+
+4.5.
+
+Roadmap
+
+Macro-phase
+
+Estimated
+delivery
+date
+
+Description
+
+On-chain MVP
+Code name “Earth”
+
+May 2018
+
+●
+
+MVP Application fully onchain
+○ RES smart contact
+○ Demo Dapp for Booker
+○ Demo Dapp
+
+Scalability MVP
+Code name “Mars”
+
+January
+2019
+
+●
+
+MVP for BTU :
+○ Javascript SDK
+14
+
+●
+
+Multiple Integrations
+Code name “Jupiter”
+
+April 2019
+
+●
+
+●
+Protocol Upgrade
+Code name “Saturn”
+
+Octobre
+2019
+
+●
+
+●
+Partner tools
+January
+Code name “Uranus” 2020
+
+●
+●
+
+Token scalability
+Code name
+“Mercury”
+
+September
+2020
+
+●
+
+●
+●
+
+○ Booking infrastructure
+Support to first platform based on BTU
+protocol : Hotel booking website
+integrated to one hotel channel manager.
+BTU 1.0 implementation
+○ SDK and API
+○ More off-chain performance
+Support to one more partner leveraging our
+booking infrastructure for activities
+BTU 2.0 implementation and upgrades
+○ Dapp bar componentization to
+on-board partner more easily
+Support to one more partner leveraging our
+protocol components for car rental
+Easier on-boarding of partners via Wordpress
+or Drupal plugins
+Support to one more partner leveraging our
+protocol components for cruises
+BTU 3.0 upgrade
+○ Token sidechain for transactions and
+reward scalability
+○ Hosting validator nodes
+Support to all partners via dedicated developer
+web-site and plugins
+
+Data
+decentralisation
+Code name “Venus”
+
+February
+2021
+
+Full Privacy
+Code name
+“Neptune”
+
+October
+2021
+
+●
+●
+
+Privacy by design using ZKP
+Maintenance of application components and
+integration with reputation systems
+
+Full Blockchain
+Code name “Pluto”
+
+March
+2022
+
+●
+
+Implementation of a Cosmos Zone or any
+other state of the art scalability solution.
+
+Full Decentralization
+
+December
+2022
+
+●
+●
+
+End of centralised hosting infrastructure
+Decentralised application maintenance
+
+●
+●
+
+Architecture for decentralised hosting based
+on IPFS
+Hosting of data storage nodes
+Integration with decentralised identity systems
+
+5. First use case - Hotel Booking
+5.1.
+
+Description & involved parties
+
+This use case leverages the BTU open source software by the following parties :
+15
+
+-
+
+A hotel channel manager (BTU Provider) already working with many hotels and able
+to publish their availabilities into the BTU booking infrastructure.
+A website platform (BTU Booker) willing to provide hotel booking services to its
+end-customers
+
+Channel managers’ mission is to provide seamless real-time connections to Hotels through
+their Property Management Systems (PMS) or Central Reservation Systems (CRS). For
+instance, channel managers Sabre Hospitality and Siteminder are respectively integrated
+with 40 000 large hotels and 26 000 independent hotels.
+Website platforms already have relationships with end-customers. They could be operated
+by established companies that have millions of customer relationships in other markets such
+as publishing, telecom, e-banking, insurance, utilities or retail. They could also be operated
+by independent owners catering to a specific community, or even by a facebook friend of
+yours.
+
+5.2.
+
+Architecture
+
+5.3.
+
+Simplified process description
+
+Channel Manager Set-up:
+1. A channel manager implements the BTU open source SDK
+2. Its customers (all connected hotels) accept to publish their availabilities to the BTU
+“channel”
+Website Platform Set-up:
+16
+
+1. A website platform implements the BTU open source plug-in
+2. Its visitors (travelers) are presented with the opportunity to book hotels
+Booking Process
+1. Traveler initiates booking request of a hotel on the website platform
+2. Website platform may escrow some BTU tokens according to the hotel terms
+3. Channel manager checks with hotel and confirms booking
+Cancellation Process
+1. Traveler initiates a booking cancellation request on the website platform
+2. Website platform may charge its customer (traveler) depending on terms
+3. Channel manager informs hotel of the cancellation and may provide compensation
+Payment Process
+1. Traveler pays at the hotel using any accepted payment method
+2. Channel manager may charge its customer (hotel) for commission
+3. Channel manager may reward BTU tokens to website platform
+
+Conclusion
+It is our belief that open-source blockchain software and protocols along with token design
+supported by business strategy research and game theories, can bring new solutions to a
+vast number of business issues.
+We have applied these concepts and technologies in order to demonstrate how the current
+centralized internet booking services could be disrupted by creating a new technical protocol
+(BTU Protocol) and a specific token (BTU).
+We have explained how such a protocol could be leveraged by any developer on a first
+example use case : the internet hotel booking industry. Implementation of the BTU token
+would facilitate the creation of a more rational, fairer and dynamic market there.
+Other use cases could be implemented : yachts, car, ski or apartment rentals, medical
+appointments, spa booking, token booking, computing resources reservation etc...
+By providing a transparent inventory through an open-source protocol, the community would
+considerably lower the entry barriers for many internet booking providers, ultimately
+benefiting consumers and service providers as well.
+Decentralization is getting to a new level. Be part of the journey.
+
+17
+
+References
+[1] “Platform Envelopment” paper by Thomas Eisenmann, Geoffrey Parker and Marshall Van
+Alstyne
+http://www.hbs.edu/faculty/Publication%20Files/07-104.pdf
+[2] HOTREC position on the European Commission Communication on the mid-term review
+of the Digital Single Market Strategy
+http://www.hotrec.eu/Documents/Document/20171116113831-20171009172312-d-0717-171
+final-dm-distribution_policy_paper_avec_annexes.pdf
+[3] Impact of OTA Bias and Consolidation on Bookers
+http://www.benedelman.org/publications/ota-bias-12jul2017.pdf
+[4] Report on the monitoring exercise carried out in the online hotel booking sector by EU
+competition authorities in 2016
+http://ec.europa.eu/competition/ecn/hotel_monitoring_report_en.pdf
+
+18
+
+GENERAL DISCLAIMER
+The White Paper shall be read together with the T&C and does not constitute an offer
+or an invitation to sell shares, securities or rights belonging to 808 Labs.
+808 Labs is not deemed providing any information which can be considered as a basis for an
+investment decision.
+808 Labs is not providing any investment recommendation nor investment advice.
+The White Paper including the T&C does not constitute or form part of, and should not be
+construed as, an offer for a sale or subscription, or an invitation to buy or subscribe
+securities or financial instruments. It does not constitute the basis for, or should not be used
+as a basis for, or in connection with, a contract for the sale of securities or financial
+instruments or a commitment to sell securities or financial instruments of any kind.
+808 Labs expressly disclaims any liability for any direct or indirect loss or damage of any
+kind arising directly or indirectly from:
+(i) any reliance on the information contained in this document,
+(ii) any error, omission or inaccuracy in said information, or
+(iii) any resulting action that may be brought.
+Regulatory uncertainties of tokens
+The regulatory status of tokens and distributed ledger technology is unclear. It is difficult to
+predict how or whether regulatory authorities may apply existing regulation with respect to
+such technology. It is difficult to predict how or whether the regulator may implement
+changes to the law and regulation affecting distributed ledger technology and its
+applications, including the BTU Tokens and the Protocol. Regulatory actions could
+negatively impact the Protocol in various ways, including, for purposes of illustration only,
+though a determination that the purchases, sale and delivery of the BTU Tokens constitutes
+unlawful activity or that the BTU Token is a regulated instrument that requires registration, or
+the licensing of some or all of the parties involved in the purchase, sale and delivery thereof.
+The Protocol will not be used and may cease operations in a jurisdiction in the event where
+that regulatory actions, or changes to low or regulation, make it illegal to operate in such
+jurisdiction, or commercially undesirable to obtain the necessary regulatory approval(s) to
+operate in such jurisdiction.
+
+A BTU Token is not a financial instrument
+A BTU Token does not represent an investment in a security or a financial instrument within
+the meaning of EU Directive 2014/65/EU of the European Parliament and of the Council of
+15 May 2014 relating to markets in financial instruments: the BTU Token confers no direct or
+indirect right to the 808Labs' capital or income, nor does it confer any governance right
+within 808 Labs.
+19
+
+A BTU Token is not proof of ownership or a right of control
+It does not confer any right on any asset or share in 808 Labs. A BTU Token does not grant
+any right to participate in control over 808 Labs' management or decision-making set-up.
+A BTU Token is not an electronic currency ​within the meaning of EU Directive
+2009/110/EC of the European Parliament and of the Council of 16 September 2009 relating
+to access to and pursuit of the business of electronic currency institutions: BTU Token does
+not have a fixed exchange value equal to the amount delivered at the time of its issue.
+A BTU Token does not qualify as a payment service ​within the meaning of EU Directive
+(2007/64/EC) of 13 November 2007 relating to payment services in the internal market, nor
+within the meaning of the (EU) Directive relating to payment services 2 (DSP 2) N°
+2015/2366 of the European Parliament and of the Council of 25 November 2015: the ICO
+does not involve the purchase/sale of BTU Token and the 808 Labs’ business does not
+consist in receiving currencies against the delivery of BTU Tokens; as such, a BTU Token is
+not a means of payment either.
+A BTU Token is a cryptographic token used through the Protocol.
+A BTU Token is a crypto-currency, i.e. an unregulated, digital asset, issued and controlled by
+its developers, and used and accepted only by the members of a given community.
+Intellectual property belonging to 808 Labs
+The Purchaser acknowledges that 808 Labs retains sole and exclusive ownership of all
+intellectual, industrial and expertise rights relating to the BTU Tokens, documents, data, etc.
+The technical and technological resources and expertise used to design both BTU Tokens,
+and documents of any nature, shall remain the exclusive property of 808 Labs regardless of
+whether they are protected under an intellectual property clause. Therefore, any document,
+listing, database, etc., in its entirety, is given to the Purchaser in return for payment or free of
+charge solely as a loan for use that exclusively enables them to use the Protocol, under or
+not a separate availability and/or non-disclosure agreement that forms an integral part of
+these T&C, and may not be used by the Purchaser for any other purpose without incurring
+their liability
+Protection of Personal Data
+The processing of personal data performed under the Crowdsale will be declared in France
+to the National Commission for Data Protection and Liberties.
+In accordance with Article 32 of French law N° 78-17 of 6 January 1978 relating to
+Information Technology, Files and Civil Liberties, 808 Labs, which is responsible for
+processing the said data, will inform the Purchaser that it is processing their personal data.
+The details entered by the Purchaser on the forms available on the website are intended for
+authorized 808 Labs personnel for administrative and business management purposes.
+These data are processed to allow Purchasers to access the Crowdsale.
+- The Purchaser is entitled to access, question, modify, rectify and delete their own personal
+data,
+20
+
+- The Purchaser is also entitled to object to the processing of their personal data for
+legitimate reasons, as well as to object to the use of such data for the purposes of
+prospecting activities.
+To exercise their rights, the Purchaser shall notify their request to 808 Labs, attaching a
+copy of their signed ID document.
+The Purchaser shall comply with the provisions of French law N° 78-17 of 6 January 1978
+relating to Information Technology, Files and Civil Liberties, amended, any breach of which
+is deemed a criminal offence. In particular, they shall not collect or misuse data and, in
+general, perform any act likely to infringe the privacy or reputation of individuals.
+Regulatory uncertainties
+The Purchaser acknowledges and accepts that the Crowdsale launched by 808 Labs is
+taking place within a French legal environment that is still under development. New laws or
+rules may subsequently frame, modify or clarify the practice of such Crowdsale. Where
+necessary, should legislative changes conflict with all or part of these terms and conditions,
+808 Labs reserves the right to amend the terms of the Crowdsale as appropriate,
+retroactively if necessary, in order to ensure that the Crowdsale remains legal and compliant
+with the various French regulatory bodies.
+808 Labs will respond to any request issued via regular legal process aimed at obtaining
+specific information about the Purchasers, particularly in terms of the fight against money
+laundering.
+Applicable law and jurisdiction
+These T&C and any contract relationship relating to the Protocol set-up by 808 Labs are
+governed exclusively by French law, the 808 Labs' commitment being subject to this clause.
+808 Labs and the Purchasers agree to seek an amicable settlement prior to bringing any
+legal action. Failing this, any dispute, of any nature whatsoever, will be brought expressly
+before the court with jurisdiction over the 808 Labs's registered headquarters, as no
+document can affect a novation or waiver of this jurisdiction clause
+
+21
+
+

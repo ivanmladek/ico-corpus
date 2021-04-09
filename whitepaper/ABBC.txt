@@ -1,0 +1,1659 @@
+September 2019
+
+ABBC Whitepaper
+
+Contents
+Disclaimers ................................................................................................................................... 3
+Licenses and Approvals Are Not Assured in All Jurisdictions ............................................................. 3
+No Advice .............................................................................................................................. 3
+Not A Sale of The Security....................................................................................................... 3
+No Representations ................................................................................................................ 3
+Third-Party Data .................................................................................................................... 3
+Translations .......................................................................................................................... 3
+Restricted Transmission ............................................................................................................... 4
+Views of ABBC Foundation ...................................................................................................... 4
+Third-Party References ........................................................................................................... 4
+Graphics................................................................................................................................ 4
+Risk Statements ........................................................................................................................... 4
+Professional Advice ................................................................................................................ 5
+Caution Regarding Forward-Looking Statements ............................................................................ 5
+Executive Summary ............................................................................................................................. 6
+Introduction ................................................................................................................................. 7
+Problem Statement .................................................................................................................... 7
+ABBC Solution in Brief ................................................................................................................ 7
+Who Needs ABBC? ..................................................................................................................... 7
+Existing Projects that Inspire Us and Our Key Takeaways ....................................................................... 9
+Payments and Marketplaces ............................................................................................................. 9
+Loyalty Rewards Solutions .............................................................................................................. 10
+Projects Based on Advertisement Business Model ............................................................................. 12
+Blockchain Migration ................................................................................................................... 13
+Why and How Did We Upgrade ABBC Blockchain? ...................................................................... 13
+Our Reasoning When Switching to EOS ......................................................................................... 13
+Transaction Fees Do Not Depend on Token Value ............................................................................ 13
+DPoS Consensus ..................................................................................................................... 14
+ABBC and Byzantine Fault Tolerance of the DPoS Consensus ............................................................. 14
+Migration Roadmap and Milestones ................................................................................................. 14
+What Will Happen to Existing Coin Holders? ............................................................................... 15
+ABBC Generation 2 Blockchain ..................................................................................................... 16
+Block Producers ....................................................................................................................... 16
+Selection Criteria ..................................................................................................................... 16
+Voting and Proxies ......................................................................................................................... 16
+Commission and Customer Account Levels ...................................................................................... 17
+
+Page | 1
+
+ABBC Whitepaper
+Functional Infrastructure ................................................................................................................ 18
+Notifications Module ................................................................................................................ 18
+Customer Authentication Module .............................................................................................. 19
+Transaction History Access Module ........................................................................................... 19
+Migration Server ...................................................................................................................... 19
+ABBC Wallet ............................................................................................................................... 20
+Dedicated ............................................................................................................................... 20
+BIP44 .................................................................................................................................. 20
+Multi-Currency ..................................................................................................................... 20
+Multi-Account ...................................................................................................................... 20
+Hybrid Account Model .............................................................................................................. 21
+Level 0 or “Novice” ............................................................................................................... 21
+Level 1 or “Owner” ............................................................................................................... 21
+Level 2 or “Staker” ..................................................................................................................... 21
+Interaction with ABBC Server Infrastructure..................................................................................... 22
+Interaction with ABBC Blockchain and Other Blockchain Nodes ................................................... 22
+ABBC DAO ............................................................................................................................ 23
+Principles of ABBC Community Governance ............................................................................... 23
+Node Selection and Voting ....................................................................................................... 23
+ABBC Dev Fund ....................................................................................................................... 24
+Voting on Use of Proceeds from the Dev Fund ............................................................................ 24
+Migration and Our Upgraded Economics .............................................................................................. 25
+Go-To-Market Strategy ................................................................................................................ 27
+Conclusion: What’s Next for ABBC?............................................................................................... 29
+References ................................................................................................................................. 30
+List of Abbreviations .................................................................................................................... 32
+List of Figures ............................................................................................................................. 33
+
+Page | 2
+
+ABBC Whitepaper
+
+Licenses and Approvals Are Not Assured in All Jurisdictions
+ABBC Foundation intends to operate in full compliance with applicable laws and regulations and obtain the
+necessary licenses and approvals. Regulatory licenses and/or approvals are likely to be required in several
+relevant jurisdictions in which relevant activities may take place. This means that the development and rollout of all the initiatives described in this whitepaper are not guaranteed. It is not possible to guarantee, and
+no person makes any assurances, that any such licenses or approvals will be obtained within a particular
+timeframe or at all. As such, the initiatives described in this whitepaper may not be available in certain
+markets, or at all. This could require a restructuring of these initiatives and/or its unavailability in all or certain
+respects. Also, the development of any initiatives is intended to be implemented in stages. During certain
+stages of development, the project may rely on relationships with certain licensed third-party entities. If
+these entities are no longer properly licensed in the relevant jurisdiction, this will impact the ability of the
+ABBC Foundation to rely on the services of that party.
+
+No Advice
+This whitepaper does not constitute any investment advice or recommendation by ABBC Foundation, its
+officers, directors, managers, employees, agents, advisors or consultants on the merits of purchasing ABBC
+Coins nor should it be relied upon in connection with any other contract or purchasing decision.
+
+Not a Sale of the Security
+This whitepaper does not constitute a prospectus or financial service offering document and is not an offer
+to sell or solicit of an offer to buy any security, investment products, regulated products or financial
+instruments in any jurisdiction. ABBC Coins are not being structured or sold as securities in ABBC
+Foundation. Owners of ABBC Coins are not entitled to any rights in ABBC Foundation or any of its affiliates,
+including any equity, shares, units, royalties to capital, profit, returns or income in ABBC Foundation or any
+other company or intellectual property associated with ABBC Foundation.
+
+No Representations
+No representations or warranties have been made to the recipient of this whitepaper or its advisers as to
+the accuracy or completeness of the information, statements, opinions or matters (express or implied) arising
+out of, contained in or derived from this whitepaper or any omission from this document or of any other
+written or oral information or opinions provided now or in the future to any interested party or their advisers.
+No representation or warranty is given as to the achievement or reasonableness of any plans, future
+projections or prospects and nothing in this document is or should be relied upon as a promise or
+representation as to the future. To the fullest extent possible, all liability for any loss or damage of
+whatsoever kind (whether foreseeable or not) which may arise from any person acting on any information
+and opinions contained in this whitepaper or any information which is made available in connection with
+any further enquiries, notwithstanding any negligence, default or lack of care, is disclaimed.
+
+Third-Party Data
+This whitepaper contains data and references obtained from third party sources. While the management
+believes that these data are accurate and reliable, they have not been subject to an independent audit,
+verification, or analysis by any professional legal, accounting, engineering, or financial advisors. There is no
+assurance as to the accuracy, reliability or completeness of the data.
+
+Translations
+This whitepaper and related materials are issued in English. Any translation is for reference purposes only
+and is not certified by any person. No assurance can be made as to the accuracy and completeness of any
+
+Page | 3
+
+ABBC Whitepaper
+
+translations. If there is any inconsistency between a translation and the English version of this whitepaper,
+the English version prevails.
+
+Restricted Transmission
+This whitepaper must not be taken or transmitted to any jurisdiction where distribution or dissemination of
+this whitepaper is prohibited or restricted.
+
+Views of ABBC Foundation
+The views and opinions expressed in this whitepaper are those of ABBC Foundation and do not reflect the
+official policy or position of any government, quasi-government, authority or public body (including but not
+limited to any regulatory body of any jurisdiction) in any jurisdiction. Any regulatory authority has not
+reviewed this whitepaper.
+
+Third-Party References
+References in this whitepaper to specific companies, networks and/ or potential use cases are for illustrative
+purposes only. The use of any company and/or platform names and trademarks does not imply any affiliation
+with, or endorsement by, any of those parties. All references to ‘dollars,’ USD or ‘$’ are references to United
+States dollars unless otherwise stated.
+
+Graphics
+All graphics included in this whitepaper are for illustrative purpose only. In particular, graphics with price
+reference do not translate into actual pricing information.
+
+Risk Statements
+Purchasing ABBC tokens involves substantial risk and may lead to a loss of a substantial or entire amount of
+the money involved. Before purchasing ABBC Coins, you should carefully assess and take into account the
+risks, including those listed in any other documentation.
+A purchaser should not purchase ABBC Coins for speculative or investment purposes. Purchasers should
+only purchase ABBC tokens if they fully understand the nature of the ABBC Coins and accept the risks
+inherent to the ABBC Coins.
+Cryptographic tokens may be subject to expropriation and/or theft; hackers or other malicious groups or
+organizations may attempt to interfere with our system/network in various ways, including malware attacks,
+denial of service attacks, consensus-based attacks, Sybil attacks, smurfing, and spoofing which may result in
+the loss of your cryptographic tokens or the loss of your ability to access or control your cryptographic
+tokens. In such an event, there may be no remedy, and holders of cryptographic tokens are not guaranteed
+any remedy, refund, or compensation.
+The regulatory status of cryptographic tokens and digital assets is currently unsettled, varies among
+jurisdictions and subject to significant uncertainty. It is possible that in the future, certain laws, regulations,
+policies or rules relating to cryptographic tokens, digital assets, blockchain technology, or blockchain
+applications may be implemented which directly or indirectly affect or restrict cryptographic token holders’
+right to acquire, own, hold, sell, convert, trade, or use cryptographic tokens.
+The uncertainty in tax legislation relating to cryptographic tokens and digital assets may expose
+cryptographic token holders to tax consequences associated with the use or trading of cryptographic token.
+Digital assets and related products and services carry significant risks. Potential purchasers should assess
+the nature of, and their appetite for, relevant risks independently and consult their advisers before making
+any decisions.
+
+Page | 4
+
+ABBC Whitepaper
+
+Professional Advice
+You must consult a lawyer, accountant, tax professional, and/or any other professional advisors as necessary
+before determining whether to purchase ABBC Coins.
+
+Caution Regarding Forward-Looking Statements
+This whitepaper contains certain forward-looking statements that are based on the belief of the ABBC
+Foundation as well as certain assumptions made by and information available to ABBC Foundation regarding
+the business we operate. Forward-looking statements, by their nature, are subject to significant risks and
+uncertainties.
+Forward-looking statements may involve estimates and assumptions and are subject to risks, uncertainties
+and other factors beyond our control and prediction. Accordingly, these factors could cause actual results
+or outcomes that differ materially from those expressed in the forward-looking statements.
+Any forward-looking statement speaks only as of the date of which such statement is made, and we
+undertake no obligation to update any forward-looking statements to reflect events or circumstances after
+the date on which such statement is made or to reflect the occurrence of unanticipated events.
+
+Page | 5
+
+ABBC Whitepaper
+
+This document lists and spells out upgrades to ABBC Coin that occurred during 2018—2019, in particular:
+our switch to EOSIO as the underlying technology of ABBC Blockchain Generation 2. It explains our
+reasoning for the blockchain migration, lays out the migration roadmap, provides the details and nuances of
+our implementation of EOSIO and describes our server infrastructure existing in parallel to ABBC blockchain
+nodes.
+We prove why we decided to build an ABBC Wallet — a dedicated wallet app for ABBC Coin, which is multiaccount hierarchical deterministic multi-currency wallet based on BIP44 proposal. We describe a hybrid
+account model, that is our innovation on top of EOSIO technology that decreases the entry barrier for new
+customers of our wallet.
+We continue by laying out the structure of ABBC decentralized autonomous organization (DAO) that will be
+managing funds dedicated to the further development of wallet, ABBC blockchain, server infrastructure and
+new experimental projects based on ABBC platform. We created ABBC DAO to improve transparency and
+community participation in the oversight of the funding of the ABBC Foundation.
+We further expand the non-technological section of this paper by describing the evolution of our business
+model and the new revenue streams for the community members of ABBC according to the completion of
+this migration. In the end, we briefly state our vision for the future long-term development of our overall
+industry and for ways to grow our product in particular.
+
+Page | 6
+
+ABBC Whitepaper
+
+Problem Statement
+While global online retail will add an impressive additional $1.4 trillion in sales within the next three years
+[Statista Retail 2021], the market growth numbers are in steady decline since the mid-2010s [Statista
+Growth 2021]. This data means huge investment opportunities and rewards for startups capable of creating
+a technology that will somehow slow down the decline at worst or drive it back into growth at best [Mire].
+On the market with a three-year growth prospective measured in trillions of US dollars, investors aren’t
+necessarily looking for disruptors or “game-changers.” They are also scanning for ventures that will help
+them to “cut into the pie” and walk out with their “modest several billion.”
+Retailers “must evolve to succeed” as McKinsey and Company put it in their research [Noble]. In the mid2000s, the online marketplace business model came into existence with its originators: Amazon and eBay
+becoming the current global market leaders in mid-2010s. In 2018, experts estimated the gross merchandise
+volume (GMV) of Amazon at around $250 billion, while the GMV of eBay was $94 billion [Geldman]. JP
+Morgan predicts that the GMV of Amazon will surpass the total sales of Walmart — the current market
+leader in the US retail with particular focus on brick-and-mortar shopping by 2021 [Franck].
+
+ABBC Solution in Brief
+ABBC builds its business philosophy on the well-established concept of using blockchain and
+cryptocurrencies to facilitate online retail. During the recent decade, some outstanding teams already
+explored this concept with varying degrees of success. However, several features make ABBC stand out:
+1.
+2.
+3.
+4.
+5.
+6.
+
+We have proven experience in creating and expanding blooming businesses.
+Our team has a market vision and proven track record.
+Our technology team managed to build a full-stack ecosystem within several years. This ecosystem
+consists of blockchain explorer, iOS and Android mobile wallets, desktop app, and web interface.
+We developed the complete framework for smooth blockchain migration.
+We achieved simple account management and easy-to-understand fees policy.
+We enable 5000 Transactions per second, instant transactions, and immediate block propagation.
+
+Who Needs ABBC?
+Our primary target audience is owners of small and medium marketplaces — people who are not as big as
+Amazon but yet have sufficient traffic to be commission-sensitive. Therefore, these people are looking for
+opportunities to cut the payment processing commission for their platforms and would like to explore
+additional markets, like one of the crypto holders.
+
+Page | 7
+
+ABBC Whitepaper
+
+Our secondary target audience is advertising platforms, looking for new innovative ways to display relevant
+content on behalf of their publishers and for additional sources of legally obtained targeting data.
+Customer type
+
+Description
+
+Rationales
+
+Marketplace
+owner
+
+Founders of global, regional and
+specialized marketplaces uniting and
+providing additional services to various
+merchants who are selling goods and
+services to end customers
+
+Merchant
+
+Producers and resellers of various
+goods and services who provide ecommerce order acquisition from end
+customers via digital channels and
+perform order execution by delivering
+the product to end customer either
+online or in the physical world
+
+Advertising
+platforms
+
+Businesses that help advertisers to
+reach their target audience on various
+digital
+platforms
+(including
+marketplaces) by providing additional
+computer
+code
+that
+displays
+advertisements to visitors of the
+marketplaces
+
+Advertisers
+
+Organizations and individuals who are
+interested in providing some relevant
+offers to the customers who visit
+marketplaces and/or make purchases
+there
+
+Solution
+Providers
+
+Vendors of various IT,
+accounting, logistics, and
+services, who target all
+participants of the ecosystem
+
+End customer
+
+legal,
+other
+other
+
+People who buy goods and services
+online
+from
+merchants
+via
+marketplaces and consume these
+goods and services either digitally or in
+the physical world and consume
+advertisements for these goods and
+services
+
+(1) Enabling additional payment methods,
+hence getting new customers or more
+added value from existing customers
+(2) Providing merchants with a new
+technology advantage over competing
+platforms
+(1) The additional revenue stream from
+customers paying in cryptocurrency
+(2) Opportunity to launch targeted crypto
+loyalty programs
+(3) Access to promo and marketing
+budgets of the leading cryptocurrencies
+core teams in an early adopter’s role
+(1) Getting an additional advertisement
+channel and targeting data from
+consenting customers for analysis and
+creating added value services to
+advertisers participating in these
+platforms
+(1) Getting better targeting and customer
+predictions
+(2) More relevant customers from
+additional traffic generated by crypto
+payments
+(1) Selling solutions to additional
+platforms
+(2) Getting access to early adopter’s crowd
+(3) Participating as added value providers
+in loyalty programs
+(1) Opportunity to spend their crypto on
+physical goods and services
+(2) Earning and spending rewards via the
+crypto loyalty program
+
+Page | 8
+
+ABBC Whitepaper
+
+Payments and Marketplaces
+Company
+
+Monetha [MC]
+
+Colu
+[MC]
+
+Zeex
+
+Ubcoin
+[MC]
+
+Eligma
+[MC]
+
+OB1
+
+Description
+Monetha is a blockchain-based platform powered by
+Ethereum. It allows interacting directly with any other person,
+organization, or service, trust and privacy. The platform
+features peer-to-peer transactions, transferability of
+reputation profiles across different platforms, and a secure
+payment gateway. Its functionality designed for a different
+type of players - from vendors to end-users.
+Colu provides tools for launching and managing community
+currencies within city, product or service to connect people
+and businesses. As they claim, their main mission is to help
+cities build a local economy where users are rewarded for
+good deeds for their homes. In return, they can spend the
+reward across local partner network that accepts the
+municipal currency.
+A platform that allows you to buy goods for cryptocurrencies
+directly from brands. From the strong sides, Zeex, as they
+claimed, has gained access to top brands like Starbucks, GAP,
+H&M, Amazon, and more. Zeex has also partnered with
+several prominent crypto wallets and offers a variety of gift
+cards.
+Their positioning sounds like "eBay-like peer-to-peer
+marketplace based on cryptocurrency." They claimed that the
+company is developing its own Ubcoin Market as a part of
+Ubank app (a mobile payment app). However, it seems that
+the project is on hold.
+A company with a whole bunch of retail solutions. All buzz
+words are used in communication - from blockchain and AI to
+chatbots and payment gateways with credit card integration.
+At e-commerce, they're working with own POS solution and
+mobile wallet.
+Another company that is working on several projects
+including Heaven (a private app for e-commerce, i.e., wallet
+with marketplace) and OpenBazaar (a decentralized
+marketplace for digital goods).
+
+Key Takeaways
+Control of your digital
+identity and
+reputation system
+built in-app
+Wide range of
+solutions, including
+advising
+Local economies
+powered by local
+currencies
+The social network for
+cities
+Partnership with
+brands
+Integration with
+popular wallets
+Gift cards
+Own Marketplace
+with goods and artobjects
+Own app
+Alipay app with
+loyalty rewards
+POS solution
+Private Wallet with an
+embedded
+marketplace (in
+development)
+Own decentralized
+marketplace
+
+Page | 9
+
+ABBC Whitepaper
+
+Ink Protocol
+[MC]
+
+Ink Protocol is the reputation and payment system within the
+Listia marketplace. Additionally, Ink Protocol can be
+integrated into new or existing marketplaces and can also be
+used in marketplaces that don’t directly handle payments. It
+allows view any seller’s global reputation, pays with escrow,
+and leave feedback for completed transactions.
+
+Reputation system
+Own Marketplace
+Different apps for
+different needs
+
+Open Sea
+
+The marketplace for crypto collectiblesthat have 120
+categories, more than 3 million items, and more.
+
+Designed specifically
+for collectibles like
+CryptoKitties and
+others
+
+RAVELOUS
+
+One more marketplace where its native tokens act as a means
+of exchange for any currency
+
+Just a marketplace
+with a native token
+
+SM.M
+
+Decentralized influencer advertising marketplace. It allows us
+to collaborate with bloggers and advertisers and run
+advertising campaigns on the platform.
+
+Marketplace for
+influencers
+
+Loyalty Rewards Solutions
+Company
+Name
+
+Getpei
+
+Loyyal
+
+REME
+
+Purse
+
+Description
+
+Cashback service. Pei is a mobile application that links to your
+existing debit and credit cards and returns you automatic
+cashback for extra savings in Bitcoin or USD.
+
+Blockchain-as-a-Service offers brands to use Loyalty
+programs powered with distributive technologies. Uses
+subscription model of monetization.
+
+Cashback service fueled with Reme coins. You pay with Reme
+on repaying .me-marketplace - you receive cashback. They're
+designing an MVP so far.
+Purse is using Bitcoin to provide consumers with a large
+selection of goods at low price points. The platform claims
+that by shopping with Bitcoin and Bitcoin Cash on the Purse
+platform, users can save more than 15% on purchases from
+Amazon. Users set their desired discount percentage and
+individuals who own Amazon gift cards exchange them for the
+user’s Bitcoin or Bitcoin Cash at a discounted rate.
+
+Key Takeaways
+Cashback via App
+A lot of existing
+partnerships
+Supports a wide
+range of loyalty
+programs
+Designed for
+businesses
+Marketplace
+Cashback
+Data control
+
+Interesting mechanics
+with Amazon gift
+cards
+
+Page | 10
+
+ABBC Whitepaper
+
+Qiibee
+[MC]
+
+Vexanium
+[MC]
+
+Bitrewards
+[MC]
+
+Qiibee allows businesses around the world to run and manage
+their loyalty programs on the blockchain. Powered by branded
+token or with QBX.
+VEXANIUM is a decentralized marketing ecosystem. Utilizing
+blockchain technology, it builds an online marketplace that
+allows merchants to tokenize their rewards and promote their
+products efficiently. They claim that the VEX Platform built for
+connectivity between the Retail world and the crypto world.
+
+A company creates the rewards and loyalty platform that will
+permeate the online retailers of all shapes and sizes and
+connect them with their customers by virtue of BIT tokens.
+
+Loyalty platform
+
+Own wallet
+Tokenized
+promotions
+
+Rewards for
+purchases, friends'
+invites, Facebook
+likes, etc.
+AI-based
+recommendations for
+merchants
+Based on GIFTD
+
+Likeoin
+[MC]
+LoyalCoin
+[MC]
+
+Sandblock
+[MC]
+
+Fluz
+[MC]
+
+As they claim, LikeCoin uses Proof of Creativity mechanism
+that helps content creators make money every time someone
+pushes the Like button.
+
+Asia-based project
+
+A Blockchain-based customer loyalty rewards app. You can
+earn LCredits buying items at partner merchants and
+spending them with your wallet.
+
+Wallet with an
+embedded loyalty
+reward system
+
+A company with two solutions. First, called Stakin and
+designed to create and engage crypto-communities. Second is
+Suprice, a rewarding app for your purchases.
+
+FluzFluz is a retail rewards platform that offers cashback.
+Users have the option of redeeming their rewards in the form
+of cryptocurrencies or selling the points they don’t plan to
+use. Cashback is also distributed communally across the
+platform so that other users’ purchases are also your gain.
+
+Rewarding for Likes
+
+Two products with
+different missions
+Interesting solution
+for cryptocommunities
+Strong affiliate
+mechanics
+Claimed huge
+partnerships with
+popular stores in the
+future
+
+Page | 11
+
+ABBC Whitepaper
+
+Projects Based on Advertisement Business Model
+Company
+Name
+
+Description
+
+Key Takeaways
+
+mCart enables discovery and tracking of influencers who are
+moving customers along the path to purchase. Using mCart,
+retailers, malls, marketplaces, brands, and agencies can
+guarantee proper influencer attribution and gain complete
+awareness about the content that is driving sales — allowing
+marketers to incentivize their efforts.
+
+User-generated
+shoppable content
+publishing platform
+
+Shopin
+
+Shopin’s technology platform provides a universal shopper
+profile safeguarded with a GDPR-compliant blockchain. The
+universal shopper profile is a “just for you” recommendation
+engine for retailers and shoppers, reflecting merchandise style
+and fit preferences based on what shoppers have purchased
+across all their historic retail experiences.
+
+BaaS project a
+comprehensive
+platform to identify
+your shoppers and
+reward them if
+necessary
+
+Tradove
+
+TraDove allows suppliers to connect and collaborate with
+buyers and sellers worldwide using our AI and blockchain. It's
+kind of improved social network for B2B. Members can
+collaborate on projects, find new markets for their leads and
+needs, and conduct trades with our blockchain payment
+solution.
+
+A social network for
+B2B which matches
+buyers and suppliers
+
+mCart
+
+Adhive
+[MC]
+
+This platform fully automates ad placement with influencers.
+As they claim, Adhive's technology recognizes the brand
+identity or vocal mentioning and triggers payments from the
+advertiser to the influencer using AI and Blockchain.
+
+Data tracking and
+analytics
+
+Native advertising
+with influencers
+Own token for
+rewards and
+payments
+
+Buttrfly
+
+One more platform-marketplace for purchasing social
+influence. It matches brands and bloggers through the app. An
+influencer can access the Buttrfly Network, swipe on a brand
+they are willing to advertise for and see if there is a mutual
+connection.
+
+App for brands and
+influencers
+
+Canlead
+
+Canlead is an ‘Opportunity Sharing’ platform and service
+where headhunters/ referrers can refer friends/ candidates to
+opportunities posted by customers. This service rewards
+users each time they successfully extend a job or service to
+somebody in their network.
+
+Our switch to EOSIO
+Sharing platform for
+recommendations
+
+This service helps companies acquire their first brand
+advocates and build their own community. The platform
+delivers engagements by brands using social networks and
+media channels on a single platform like bounty campaigns
+2.0.
+
+growyourbase.io — a
+rewards platform
+
+AC3
+[MC]
+
+Page | 12
+
+ABBC Whitepaper
+
+Lead Coin
+[MC]
+
+Friendz
+[MC]
+
+Birdchain
+[MC]
+
+Consumers can earn LDC tokens by sharing their data with
+interested businesses on LeadCoin's Lead Sharing Network.
+The data is shared via a cookie or web form and is related to
+products or services they wish to buy. Then they get real-time
+targeted offers from the business that bought their lead. As
+their lead is being exchanged on the network, they earn LDC
+tokens directly to their digital wallets.
+Friendz offers a variety of digital advertising services, among
+which brand awareness and product placement campaigns,
+sharing content activities and market researches. The Friendz
+community can take part in the activities available on the
+platform such as supporting brands in the process of content
+creation and validation. Participants are rewarded for these
+activities.
+Birds app rewards users for watching ads and reading the
+content. As they claim, it is an all-in-one app where you are
+rewarded for interacting with content, discover and learn
+about the technology, and hold or exchange your earned
+BIRD.
+
+Data sharing platform
+which offers deals in
+exchange for
+information
+
+A platform with an
+app that connects
+brands with their
+target audience
+Huge list of clients
+Cool design
+Be rewarded to
+watch and engage
+content matching
+your interests
+
+Why and How Did We Upgrade ABBC Blockchain?
+ABBC started out in late 2017 as a bootstrap project of Jason Daniel Paul Philip. We needed to validate our
+business hypothesis fast and get early traction. For these purposes, we forked Bitcoin, which was one of the
+leading solutions of its time (and still continues to be within its market niche). Bitcoin had a sufficient amount
+of technology adopters, mining infrastructure, and technology improvements.
+In Spring 2018, our CTO started actively researching the existing solutions to replace cloned Bitcoin
+blockchain with a technology that best suited our purposes. After several months of research, it became
+clear that EOSIO is an unbeatable candidate for the case. In June 2019, we started switching to EOSIO
+blockchain, and in August 2019, we launched the ABBC testnet, which is a private DPoS blockchain based
+on EOS. We invented and developed the concept of hybrid account-model, which generates added value
+for both: customers with the basic understanding of blockchain transactions and for expert customers.
+
+Transaction Fees Do Not Depend on Token Value
+According to EOSIO technical documentation [EOS GitHub]: “one of the major benefits of the EOSIO
+software is that the amount of bandwidth available to an application is entirely independent of any token
+price. If an application owner holds a relevant number of tokens on a blockchain adopting EOSIO software,
+then the application can run indefinitely within a fixed state and bandwidth usage. In such case, developers
+and users are unaffected from any price volatility in the token market and therefore not reliant on a price
+feed”.
+
+Page | 13
+
+ABBC Whitepaper
+
+This independence from volatility in the token market is particularly helpful, as Bitcoin and Ethereum
+transaction fees killed many worthy startups in 2017—2018 during times of to-the-moon.
+
+DPoS Consensus
+DPoS requires way less computational resources compared to proof-of-work and is more community-driven
+comparing to regular proof-of-stake. Less computational resources mean less commission and other
+financial burdens on the end customers. More community participation means additional revenue streams
+for technology-savvy community members. We explain more in the economics section of this paper.
+
+ABBC and Byzantine Fault Tolerance of the DPoS Consensus
+BFT comes from the famous cryptography problem, explained using the Middle Ages story of the hypothetic
+generals of Byzantium, who are leading the army against an enemy (Persians) and because the empire is in
+moral and financial decay — there are high chances that one or several of the generals (not ruling out the
+commander of the force himself) are traitors.
+In the conditions of the blockchain world, where many nascent ecosystems usually rely on unverified
+providers of computational resources (and this does not necessarily mean “bad” providers) the BFT becomes
+particularly valid. It significantly lowers the risk of fraud by one or several BPs.
+EOS-like systems` BPs have additional incentive to function properly, besides BFT algorithms. This incentive
+is a social capital, which BPs are striving to get during the voting for the actual BPs. Compromising this social
+capital and trust is risky and economically unjustified.
+
+Migration Roadmap and Milestones
+Timing
+
+Event
+
+Mid-April, 2019
+
+Feasibility study
+
+May 10, 2019
+
+EOSIO blockchain development for ABBC started
+
+Mid-June, 2019
+
+Testnet launched
+
+August 4, 2019
+
+Freeze in-out on exchanges
+
+August 7, 2019
+August 8, 2019
+
+Trading of generation 1 ABBC Coin stops on crypto exchanges, 24 hours
+prior to
+Official launch and migration kick-off
+
+Page | 14
+
+ABBC Whitepaper
+
+What Will Happen to Existing Coin Holders?
+In August 2019, the ABBC management team managed to conduct migration for existing ABBC Coin holders.
+During the transitional period, which started from August 8, 2019, existing coin holders were able to
+exchange their gen. 1 coins into gen. 2 coins using a simple exchange interface [ABBC Migration Manual]
+within the ABBC Wallet.
+Customer’s View
+1) Receives migration
+notice from:
+● Email
+● Our blog or media
+● Legacy wallet inapp notification
+● Friend
+2) Installs and opens a new
+wallet.
+3) Creates account.
+4) Presses the «Migrate»
+button.
+5) Selects MC Wallet or
+Aladdin among our
+legacy wallets.
+6) Inputs legacy wallet
+credentials.
+7) Gets email confirmation.
+Confirms.
+8) Waits for ABBC approval
+of the migration request
+(up to several hours).
+9) Gets email confirmation
+of the migration
+approval.
+10) Sees account balance
+update in new wallet.
+11) Spends or stakes ABBC
+Coins.
+
+ABBC Admin’s View
+1) Gets migration request via
+Migration Server.
+2) Checks customer credentials,
+account balance, and migration
+eligibility.
+3) If there are security or eligibility
+issues — Migration Server halts
+the transaction and generates
+approval request to human
+admin.
+4) ABBC approves migration
+request automatically or via
+control panel of Migration
+Server.
+5) ABBC transfers customer funds
+to cold wallet in ABBC’s gen. 1
+blockchain for temporary
+custody.
+6) Migration Server allocates the
+equivalent of gen. 1 ABBC
+Coin to the new account of
+this customer in gen. 2
+blockchain.
+7) Migrated ABBC Coins on
+customer account in gen. 2 ABBC
+blockchain are available for use
+by this customer.
+
+External Auditor’s View
+1) Source transaction on gen.
+1 blockchain (funds transfer
+to a cold wallet) appears in
+block explorer of gen. 1
+blockchain.
+2) Target transaction on gen. 2
+blockchain (allocation of
+migration equivalent funds)
+appears in the block
+explorer of gen. 2
+blockchain.
+
+Page | 15
+
+ABBC Whitepaper
+
+Block Producers
+Being built on EOSIO ABBC Blockchain consists of an unlimited number of nodes, of which unique 21 are
+selected as active block producers (BP) by means of automated voting every 126 seconds. Like in EOSIO
+blockchain, we produce our blocks exactly every 0.5 second and exactly one block producer is authorized
+to produce a block at any given point in time [EOS GitHub].
+If a BP misses a block and has not produced any block within the last 24 hours, they are removed from
+consideration until they notify the blockchain of their intention to start producing blocks again. [EOS GitHub]
+This ensures the network operates smoothly and minimizes the number of missed blocks by excluding
+unreliable BPs.
+
+Selection Criteria
+1.
+
+Technology. In order to be eligible, a BP candidate team must be able to run secure and reliable servers
+necessary to actually produce blocks, operate a full node, and offer API endpoints to users. Our block
+producers should also be ready to scale out their infrastructure and provide sufficient processing
+capacity, storage, and network bandwidth. Both cloud and bare metal servers are accepted. However,
+our management team will examine specific details of how those are operated. Cloud-based teams
+should run their software via multiple providers in order to minimize reliance on any single cloud service.
+Teams operating bare metal servers should have secure data centers with sufficient backups.
+
+2.
+
+Community. EOSIO philosophy is about rewarding diverse community members with various areas of
+expertise via their participation in block production [Samani]. Therefore, we will incentivize BPs from
+various industries and technology layers. We are particularly looking for BPs, having not only great
+technical expertise but also able to lead and inspire other community members.
+
+3.
+
+Ethics and civilized dispute settlement. Running decentralized blockchain is a sophisticated matter from
+many standpoints, including relations between the community members. Developer’s ego and “fork
+battles” ruined and diminished market valuation of many interesting projects, including Bitcoin and early
+Ethereum.
+
+4.
+
+Geographical and institutional decentralization. To hedge our blockchain from political risks, we invite
+BPs from various regions, countries and economic backgrounds to apply. We will do our best to avoid
+situations when the majority of our BPs are located in a single country.
+
+Voting and Proxies
+In the EOS-like liquid democracy [Aurora], any user who has staked ABBC tokens can vote. Each user can
+vote for up to 30 BP candidates using the full weight of their stake. For example, if a user has 100 ABBC
+staked, she can cast 100 votes each for up to 30 BPs. Thus 21 unique block producers are chosen by the
+preference of votes cast by token holders. The selected producers are scheduled in an order agreed upon
+by 15 or more producers. [EOS GitHub]
+
+Page | 16
+
+ABBC Whitepaper
+
+We then split up the BP funds to maintain higher value for those most trusted in the community and those
+who run 1 of the active 21 BPs. We use the same active/standby proportion as EOSIO, with 25% of the BP
+pay going to active producers and 75% going to standby BPs calculated from a percentage of the votes
+received. [Floyd]
+Users have the option of voting directly for block producers, but they can also delegate their voting power
+to another account to vote on their behalf. The delegated account, called a proxy, has no control over the
+original user’s account — the user can proxy her vote trustless without handing over any keys. The proxy is
+authorized to direct that user’s voting power towards certain block producers, but the user can revoke
+proxy’s voting privileges at any point.
+
+Commission and Customer Account Levels
+Transaction fees are a serious barrier to entry for a number of well-developed blockchains, original Bitcoin
+being a good example. Using “receiver pays” philosophy developed by EOSIO [EOS GitHub] we have built a
+multi-layer approach towards customer credentials based on two basic parameters: (1) transaction activity
+and amount of (2) ABBC Coins in custody.
+Account
+Levels
+Novice
+Account
+Owner
+
+TX Activity
+
+Custody of ABBC Coins
+
+Only accepts funds
+
+The customer only installs a wallet
+
+Can accept and send
+funds
+
+The customer has a wallet
+>1 ABBC
+installed, and we created an ID for
+(~$15 cents as of now)
+her
+
+Pays commission for
+each TX
+Staker
+
+Credentials
+
+Same as above, but
+without commission
+
+The customer has a wallet,
+registered ID and staked coins for
+ABBC blockchain computing
+resources
+
+None
+
+>20 ABBC
+
+As we see, “Novice” is a basic account level for customers who are trying our solution for the first time. All
+you need to do to become “Novice” is simply install the wallet. After the customer gets her first ABBC Coins
+(1 ABBC at least), she becomes an “Owner.” This customer type can not only accept but also send funds to
+other ecosystem participants. For readers interested in understanding more about our account levels, we
+describe this technology in the Hybrid Account Model section below.
+
+Page | 17
+
+ABBC Whitepaper
+
+Functional Infrastructure
+ABBC’s functional infrastructure consists of a number of microservices, nodes, and databases. Gateway
+modules, Notifications module, Customer Authentication module, and Transaction History Access Module
+are four major microservices of our system.
+
+Notifications Module
+NM generates information feed providing live coverage of all system events within our network to other
+modules and to external clients via Notifications API. We developed it based on Firebase Cloud Messaging
+that is currently gaining widespread popularity in the blockchain world [Jayathilaka]. We picked Firebase for
+our NM because it provides: (1) a battery-efficient connection between our server and customer devices,
+(2) targeted messaging functionality based on user demographics and behaviour, (3) A/B testing integrated
+with Google Optimize.
+Notifications may originate either from ABBC’s system notifications manager or from our merchants,
+provided that they obey the schedule and content guidelines as stipulated by the notifications policy
+(document to be drafted by our merchant relations team within six months after the launch of generation 2
+ABBC Coin).
+
+Page | 18
+
+ABBC Whitepaper
+
+Customer Authentication Module
+CAM provides single credentials and a single point of customer authentication within our system. We use
+login/password pair, which we then convert into JSON Web Token (JWT) as specified by RFC 7519 to
+ensure secure storage of customer credentials.
+Note that our wallet app is non-custodial, i.e. customer’s private key, which our wallet app generates when
+creating customer’s account, never leaves the customer's device and is separated from CAM [Abra].
+Unfortunately, this might create additional loss risks for the customer. However, this is the current market
+best practice [Skellern], and it is dictated by the fact that only in 2018 $1,7 billion worth of cryptocurrency
+was hacked or stolen [Chavez-Dreyfuss].
+JWT authentication via CAM, in its turn, helps customer device to store and sync non-custodial data to our
+server. This data includes transaction history, app access details, loyalty programs which this device
+participates in and the number of rewards accumulated to customer’s bonus account. However, to use the
+rewards customer still needs the private key.
+
+Transaction History Access Module
+TxHAM is a server-side enabler of our blockchain explorer. TxHAM interacts with ABBC Blockchain Index
+Storage (BIS) to read indexed block data from our blockchain and enable any willing individual with an
+Internet connection to examine all transactions within our blockchain chronologically. Therefore, TxHAM
+provides our blockchain with its quintessential features, namely: openness and transparency.
+Transactions history is available for access via our Wallet app (you have to install it and register) and online
+via a web interface. We are also ready to provide it machine-to-machine for automatic processing via
+Transaction History API.
+
+Migration Server
+MS stores migration requests from end customers to internal database and processes their requests by
+reading legacy user balances from Heritage Balance Data Storage and converting these balances into new
+user balances in BIS. TxHAM then reads indexed data from ABBC blockchain gen. 2 and provides the
+updated balance on gen. 2 blockchain to the end customer. The migration is now technically complete.
+
+Page | 19
+
+ABBC Whitepaper
+
+ABBC Wallet is a multi-account hierarchical deterministic (HD) multi-currency wallet based on BIP44
+proposal [BIP44]. The core-supported currency of our wallet is ABBC. User can send and receive funds,
+review recent transactions, and manage blockchain resources. Our Wallet also supports Ethereum and ERC20 tokens [ERC-20] from the start, with more currencies to be added in the future versions.
+
+Dedicated
+A blockchain ecosystem that has its own wallet has much better chances of success comparing to an
+ecosystem without one. The logic is simple: controlling additional element of the added value chain and the
+key customer touchpoint creates more probability of success.
+However, this approach of building and supporting an essential element of technology infrastructure and
+customer interface requires substantial investment. In our case, smart partnership strategy and hiring of the
+best blockchain engineering talent that is available on the market enabled ABBC to build its own dedicated
+wallet within a relatively short time frame (less than 6 months) and with substantially less investment
+comparing to the market average.
+
+BIP44
+Created by Trezor founders Marek Palatinus and Pavol Rusnak, Bitcoin Improvement Proposal 0044, or
+simply BIP44, is a document which improves the previous governing standard, BIP32. It specifies multiaccount hierarchy for deterministic wallets, namely: address type, registered coin types, account types
+(sending or receiving funds, purpose), change, and public derivation.
+By being BIP44-compatible ABBC wallet ensures it can interact with most of the existing blockchain wallet
+solutions for transferring and receiving funds. The advantage of BIP44 is the support of multiple accounts.
+
+Multi-Currency
+People like to have all their finances in one place and do them in a simple manner. J.D. Power’s 2019 research
+on mobile banking applications discovered that “feature overload strains customer satisfaction with online
+banking and mobile apps.” [J.D.Power] Cryptocurrency wallets are somewhat similar to mobile banking
+with the substantial difference of crypto customers doing the banking process themselves. We can then
+conclude that simplicity and “all-in-one” approach brings customer satisfaction.
+The ABBC Wallet initially supports ABBC Coin, Ethereum and ERC-20 tokens. We plan to add support for
+more cryptocurrencies throughout 2019. Another good reason for multi-currency support is the
+development of our crypto rewards program. This program will provide various rewards and loyalty bonuses
+that will incentivize our customers whenever they spend more crypto via ABBC merchant platforms.
+
+Multi-Account
+Besides multi-currency support, that requires multiple accounts per se, we also support hierarchical multiple
+accounts inside our wallet. Hierarchy means each account can have funds in multiple currencies inside it.
+How is multi-account support relevant? Digital and crypto customers, primarily millennials, are now finding
+their way to financial stability and savings [Lerner]. Digital nature of modern banking and personal finance,
+including personal crypto finance, enables an unlimited number of accounts, which are merely a number
+within the accounting system of the provider.
+In practice, this means: a customer might have an account for vacation savings, an account for online
+shopping with increased security, an account for educational savings for kids, etc. And like in traditional
+banking, all that is possible in the world of crypto finance as well. Multiple accounts are a simple yet powerful
+tool for savings and for building healthier financial habits.
+
+Page | 20
+
+ABBC Whitepaper
+
+Hybrid Account Model
+ABBC Wallet fully supports hybrid account model, where user can either send funds using staked resources
+without any transaction fees or pay a small fee and avoid using resource staking. New users will receive
+basic-level accounts for free, which will be upgraded automatically once the user receives the first
+transaction on this address.
+This account-model invites new customers to start using ABBC Coins in real commerce without staking
+obligations and with only basic knowledge of how blockchain and cryptocurrencies work. Customers can
+acquire their first ABBC Coins directly in the wallet app, simply via the in-app purchase on the App Store or
+Google Play. As many authors indicate: complexity is one of the major barriers to decentralization and
+cryptocurrency success [Stankewicz]. By removing additional touchpoints in the customer journey
+(exchange, coin tickers, transfers in/out), we help our customers to overcome this barrier.
+How does our Hybrid Account work? Classic EOSIO account-model assumes that before you start using the
+blockchain to receive, store and send funds, you should create an account. EOSIO creates accounts on a
+paid basis. An existing account on the blockchain has to pay for account creation, assuming this customer
+has staked enough resources. At ABBC, we feel that this procedure will be too complicated for the first-time
+user (having to create an account, stake resources, etc.). Therefore, we improved EOSIO account model in
+the following manner:
+
+Level 0 or “Novice”
+This is a basic type of account. Customer does not need to do anything to create it. The customer only
+provides a public key, which we then use as an address. Before a customer receives the first asset on our
+blockchain, there is no record of this address on this blockchain (like in Bitcoin or Ethereum). We created
+the record only after we receive the first transaction. “Novice” customers can only receive transactions and
+hodl. In case they want to create transactions, then they should upgrade to “Owners.”
+
+Level 1 or “Owner”
+Once the Novice received some minimum assets within our system (i.e. more than 1 ABBC), we upgrade this
+customer to Level 1 or “Owner” account. Owners have a unique name assigned. They can also use this name
+to monitor account balance, as well as to send and receive funds. No resource staking is required at this
+point. Owners pay a fixed fee of 0,01 ABBC for each transaction they create regardless of the recipient’s
+account level.
+
+Level 2 or “Staker’
+“Staker” account type is a proper EOSIO-style account. It has an account owner who has created an account
+within our system, bought some RAM, and staked NET and CPU. Basically, “Owner” is also a proper ABBC
+blockchain user. The difference between these two is that “Owner” does not stake resources. We don’t
+charge Stakers with transaction fees.
+
+Page | 21
+
+ABBC Whitepaper
+
+Interaction with ABBC Server Infrastructure
+Our Wallet interacts with other blockchain nodes on ABBC blockchain to check account balances and
+statuses; it also interacts with ABBC Server Infrastructure to authenticate customer account, sync
+transactions history, and to receive critical updates, such as migration notification, wallet software update,
+etc.
+
+Interaction with ABBC Blockchain and Other Blockchain Nodes
+To send a transaction, the Wallet authenticates customer account credentials via Server Infrastructure then
+checks account balance with ABBC Blockchain Node. After that, it will then create and sign the new
+transaction. New transaction subsequently gets confirmed by other nodes.
+EOSIO states that typical DPoS transaction can be considered confirmed with 99.9% certainty after an
+average of 0.25 seconds from the time of broadcast. In addition to DPoS, EOSIO adds asynchronous
+Byzantine Fault Tolerance (BFT) for faster achievement of irreversibility. The aBFT algorithm provides 100%
+confirmation of irreversibility within 1 second.
+Figure 10. Wallet Interaction with ABBC Blockchain
+
+Page | 22
+
+ABBC Whitepaper
+
+ABBC is focused on achieving a long-term goal. Therefore, one of our main aims is to adopt decentralization
+principles not only in our technology but also in the management model.
+
+Principles of ABBC Community Governance
+Firstly, while the philosophy of decentralized autonomous organization provides agility and flexibility, it may
+also make managing such system a very complicated task [Sanfelix]. Secondly, according to market studies,
+the lack of a centralized authority reduces costs [Blockchainhub] and more control.
+Opposite to typical organizational model of a tech startup, a decentralized autonomous organization is a
+governance model, which enables us to be guided through business processes by data-driven decisions,
+based on the wishes of all members of the community. Besides, it is accessible at any time via smart contracts
+and blockchain technology. At the same time, the choice of this model by such projects as Dash, PIVX, or
+EOSIO confirms the interest and trust in such type of organization by the blockchain community.
+Along with the basic principles of Decentralized Autonomous Organizations [Seth Bannon], which are
+complete transparency, total shareholder control, unprecedented flexibility, and autonomous governance,
+this approach delivers a higher number of benefits. Starting from a much faster and more efficient decisionmaking process, in comparison to the typical corporate structure, and ending with psychological factors.
+DAO users aren’t just investors or token holders, but also the disruptors of the business model that use the
+power of their voices. At this point, let’s look into the user model.
+
+Node Selection and Voting
+In addition to our team, we recognize the two main actors of ABBC DAO. They are users with voting power
+(basically, each holder of ABBC Coin) and block producers (BP) who act as a decentralized government. The
+following basic rules guide us:
+●
+
+Each ABBC holder can delegate their voting power to a proxy to vote on their behalf.
+
+●
+
+Each ABBC user has the right to receive a status of BP by (1) staking a fixed part of their coins, and by (2)
+being elected as other BPs and community members.
+
+●
+
+As a vital part of our ecosystem, each BP will vote on ABBC’s blockchain for proposals that can directly
+impact the business.
+
+For example: expanding ABBC’s service to a certain region; launching a strategic partnership with a specific
+crypto project; sponsoring a team or project for presenting ABBC in front of major leaders in the ecommerce industry or implementing new features to our blockchain.
+We’re designing the code behind ABBC’s DAO with several safeguards that are aimed at preventing its
+creators or anyone else from cheating the voting. However, because the current whitepaper focuses on
+the technical execution of ABBC Coin’s blockchain and our business model, the detailed description of
+architecture and the principles of ABBC governance is available upon your request.
+
+Page | 23
+
+ABBC Whitepaper
+
+ABBC Dev Fund
+As a vital part of our ecosystem, BPs and other community members will vote on the ABBC blockchain for
+proposals that can directly impact our platform. Below are a few examples of proposals that could be
+submitted to the network:
+●
+
+expanding ABBC’s service to a certain region;
+
+●
+
+launching a strategic partnership with a certain payment broker or partner;
+
+●
+
+creating custom hardware for accelerated transaction processing;
+
+●
+
+developing of a module for augmented reality payments via contact lenses;
+
+●
+
+presenting ABBC in front of major leaders in the e-commerce industry through conference sponsorships;
+and,
+
+●
+
+establishing a relationship with a regional merchant platform.
+
+As we can see, each decision can make a significant impact on ABBC success, and create a gradual network
+effect, which is exactly what happens with Dash. The more people come into the ecosystem and implement
+valuable projects, the more established a network becomes.
+
+Voting on Use of Proceeds from the Dev Fund
+The voting for the dev fund projects should be similar to BP selection process with proxies allowed and each
+ABBC staker having an opportunity to support a number of projects in varying voting proportion. The voting
+should take place on a yearly basis for a one-year roadmap. In line with this, the ABBC management team
+considers immediate evaluation of projects through ad hoc voting.
+In the case of roadmap voting, the total amount of projects to be voted for should be selected based on the
+total amount of budget available. For example, if there are 100 project candidates with a total budget of $10
+million and the total budget available for the given year is $500k, then the number of projects which will be
+included in the roadmap decreases when the total amount of requested funds reaches $500k.
+In the case of ad hoc voting for the project, there should be a reserve funds allocation available. Otherwise,
+¾ of the total number of ABBC holders should vote for the immediate allocation of project funds using the
+next year budget, provided that such budget already exists.
+
+Page | 24
+
+ABBC Whitepaper
+
+In the world of business, technology should deliver profit. ABBC enables several business models for our
+community members to earn money and build their reputation. This section outlines them. Our original
+whitepaper listed several business models for ABBC Foundation:
+1.
+
+Placement fee — a revenue model that is typical to any early marketplace [Timmers]. Merchants pay
+fees to a platform to be listed there and to have access to the customers of this platform. This is a
+business model on which eBay and Alibaba built their business. However, the competition for merchants
+has been increasing between platforms. So, most modern e-commerce platforms have moved from
+the placement to transaction fee, which we will introduce after the migration.
+
+2.
+
+In-store promotion — ABBC will provide all participating merchants with various promotional
+instruments including straightforward “pay-to-be-on-top” opportunity. While, branded content programs
+for ABBC’s platform blog will be given to selected media outlets and bloggers. We want to view SMM
+and all the “social”-based features of our platform not merely as “posts and clicks,” but as “social
+computing features” that acknowledges the recent fusion which occurred between content and
+community, making the social experience central to the content website's digital business strategy.
+[Oestreicher-Singer]
+a.
+
+Referral programs — our initial paper only listed this business model as an option. Currently, we
+came to a clearer understanding of referral programs and will split this business into several subelements:
+
+b.
+
+Referral program as a service — ABBC Wallet and server infrastructure enable us to build a cryptoreferral program for any willing merchant quickly. The participants will get various perks which
+primarily refers to
+cryptocurrency as a form of money. These can be airdropped tokens from some hot recent token
+sales, or customer adoption influxes from the established mass-market cryptos like Dash, NEM or
+Litecoin.
+
+3.
+
+B2B Referrals for Merchants and Providers— we will provide a referral fee for participating merchants
+and solution providers who successfully invite their friends to join ABBC. The fee will be a discount for
+the future service fee and transaction fee.
+
+4.
+
+Value-added services — we are particularly interested in our community members’ and ecosystem
+participants’ business with each other. This approach creates additional value for ABBC as an ecosystem.
+A good example is video content, created by professional video editors for merchants who sell some
+produce or merchandise. Another example is accounting services provided by one ecosystem member
+to another. As we already explained in our initial white paper, ABBC serves as a guarantor for complex
+transactions that requires both parties to rely on guarantor/arbitrator whom they both trust.
+
+Page | 25
+
+ABBC Whitepaper
+
+Migration to EOS-based generation 2 of ABBC blockchain will enable three additional business models which
+differ substantially from the existing ones and which will attract more technology-centered community
+members to our ecosystem.
+5.
+
+Transaction fee — as mentioned in item 1 above, the modern merchant platforms are moving from
+placement fee (merchant pays for opportunity without understanding what revenue will it exactly
+generate) to transaction fee (merchant pays for exact deliverable measured by a specific customer
+action). That is why we also decided to introduce a transaction fee for transactions that were completed
+on our platform. In various instances we might wave this fee, namely: (1) the amount of transactions for
+this merchant exceeds X, (2) the transactions occur in a specific field, which we consider our growth
+zone, (3) the amount of referral customers which this merchant generated is Y.
+
+6.
+
+Block production — according to the EOSIO whitepaper, anyone may choose to participate in block
+production and will be allowed to produce blocks, provided that they can persuade token holders to vote
+for them [EOS GitHub]. The 21 BPs of the original EOS have estimated earnings between $100k—150k
+[Boulianne]. While ABBC won’t be originally that intensive, it can still provide BPs with a steady monthly
+income of several thousand US dollars.
+
+7.
+
+Development projects implementation via ABBC DAO — another revenue stream for the tech crowd
+and huge growth driver for ABBC. Developers are also usually the early adopters of the new business
+models and payment options. By reinvesting profit generated by ABBC ecosystem into the development
+of its infrastructure and building of new products based on the ABBC platform we will strengthen our
+competitive edge and provide stimuli for the continuous growth of the users’ base.
+
+Page | 26
+
+ABBC Whitepaper
+
+Radical personalization of customer experience is the global retail trend for the past few years. This applies
+to both traditional brick-and-mortar players and younger e-commerce businesses (which is the niche of
+ABBC ). The latest researches show that merely 80% of consumers [Epsilon] are more likely to make a
+purchase when brands offer personalized experiences.
+Along with personal offers, exclusive promotions, and virtual stores, the opportunity to choose the means
+of payment should also be included in the personalized experience. Besides, let’s not forget about pricing.
+Due to the lack of commissions and the speed of transactions, solutions based on virtual currencies allow
+retailers and vendors to reduce the cost of goods, making it more attractive to the buyer. Up to now, 81%
+of customers rate product prices as “important” when searching for and selecting products online, and 68%
+of mobile device users have searched for a retail coupon or another form of loyalty program [UPS Pulse].
+Based on the information above, we’ll focus on two main areas of work after the introduction of our updated
+blockchain. The first is a partnership with the global blockchain community and the second is direct
+cooperation with the key users of our platform – e-Tailers – who are both users and owners of
+marketplaces. Let’s pause and go into more detail.
+In the second half of 2019, we’re going to focus on testing and adjusting marketing hypotheses on our local
+market. The results will be scaled up globally, involving players from other regions in the ABBC platform:
+EMEA, APAC, and finally AMER. Speaking of more fragmented initiatives, the roadmap can be presented in
+the following way:
+1. Formation of a team with core developers specializing in major market cryptos
+2. Presentation of the solution at key blockchain and e-commerce events
+3. Sales-pipeline finalization and integration of Customer Relationship Management Software for the
+sales team
+4. Scaling up to EMEA
+5. It is attracting advertisers to use the data generated by ABBC
+6. Splitting of the office into R&D and international sales HQ (sales HQ begins relocating to the target
+geographical markets on a rotation principle)
+7. Launch of the first loyalty program and partnerships for personalized promo offers
+8. Scaling from APAC to the North and South America
+9. Involvement of advisors from the advertising cluster (beginning of cooperation with global
+advertising networks)
+10. Dedicated team for cooperation with the open-source community to create a comprehensive
+industry standard for blockchainand e-commerce
+11. Usage of the ABBC solution by market leaders (Amazon, Alibaba, eBay, etc.)
+12. Entering the omnichannel retailer market
+
+Page | 27
+
+ABBC Whitepaper
+
+For each quarter, we will pick the core business processes, target geographical market, and core industry
+challenges. The targets might be revisited and changed according to our current business alignment.
+However, the principle will remain the same.
+
+Page | 28
+
+ABBC Whitepaper
+
+We did not waste our opportunity window that opened in 2017. As what the readers learned from this
+paper, in a span of two years, ABBC has managed to build a solid product with the help of its resourceful
+team. We completely re-engineered our blockchain and based it on EOSIO — one of the most vibrant and
+rapidly evolving developer’s communities in the blockchain world.
+We revamped our business model, shifting it from placement fee to per-transaction fee, requiring
+participating merchants to pay commission only for the successful transactions which deliver revenue. We
+added two essential new models: block production and dev projects implementation. We aim these two
+models at the technical crowd within our community, hoping to unleash their innovation and tech business
+acumen.
+We transformed the ABBC Foundation into ABBC DAO — this will help our community to have more control
+over the use of funds and have more participation in the way we use them. It is our pleasure to ensure this
+openness and transparency via the same decentralized algorithms which we use in our business.
+ABBC Wallet is a matter of our personal pride. It has a beautiful design and well-tested user interface, and
+supports ABBC Coin, Ethereum, and more than 1600 ERC-20 tokens (with Litecoin, Dash, and EOS coming
+soon). The Wallet also opens new opportunities for our merchants as they can now create customized
+loyalty programs for their customers. Instead of some lucid “point” or “miles,” customers can receive ABBC Coin
+as rewards and immediately spend it for online shopping.
+The Hybrid Account Model, which we implemented for account management of our customers, substantially
+improves the original EOSIO account model. Based on our expectations, it will significantly lower the entry
+threshold for new customers. We expect it to be widely adopted by competitors and other participants of
+the blockchain ecosystem.
+It is hard to be “Amazon”, although we realize all the cumulative benefits this market position generates. We
+think that the future of digital commerce lies in return from “everything store” to curated specialized
+marketplaces, where the owner is a gatekeeper and a trendsetter in one person. Because e-commerce
+development happens in “waves,” we expect the next wave to be personalization. And of course, such
+personalization will require handy payment tools with the commission being as low as possible.
+The current market is tough for blockchain e-commerce projects as the market is cleansing itself from
+pretenders. However, hard times are usually followed by even huger opportunity windows. We strongly
+believe that customized payment instruments, based on blockchain or any other relevant technology that
+will emerge soon will drive the future of e-commerce within the next several decades. And it is truly a great
+pleasure to surf “ahead of the waves”.
+
+Page | 29
+
+ABBC Whitepaper
+
+1.
+
+Retail e-commerce sales worldwide from 2014 to 2021 (in billion U.S. dollars) by Statista
+statista.com/statistics/379046/worldwide-retail-e-commerce-sales
+
+2.
+
+Annual retail e-commerce sales growth worldwide from 2014 to 2021 by Statista
+statista.com/statistics/288487/forecast-of-global-b2c-e-commerce-growt/
+
+3.
+
+Sam Mire. Blockchain For E-commerce: 22 Startups To Watch In 2019 disruptordaily.com/blockchainstartups-ecommerce
+
+4.
+
+Ian MacKenzie, Chris Meyer, and Steve Noble. How retailers can keep up with consumers
+mckinsey.com/industries/retail/our-insights/how-retailers-can-keep-up-with-consumers
+
+5.
+
+Andy Geldman, eBay vs Amazon: The World’s Top Marketplaces Go Head to Head
+webretailer.com/lean-commerce/ebay-vs-amazon
+
+6.
+
+Thomas Franck, Amazon’s US sales to match Walmart’s within three years, JP Morgan predicts
+cnbc.com/2018/05/15/amazons-us-sales-to-match-walmarts-within-three-years-jp-morganpredicts.html
+
+7.
+
+ABBC Generation 2 Mobile Wallet Registration and Migration Manual
+https://abbccoin.com/ABBC_gen2_english_1.0.pdf
+
+8.
+
+EOSIO Technical White Paper v2
+github.com/EOSIO/Documentation/blob/master/TNechnicalWhitePaper.md
+
+9.
+
+Kyle Samani. The Definitive Voting Guide For EOSIO Block Producers
+forbes.com/sites/ksamani/2018/09/18/the-definitive-voting-guide-for-eos-blockproducers/#1400bf014d4f
+
+10. Aurora EOS. Voting Guide medium.com/@auroraeos/eos-voting-guide-3bf4e0be251b
+11. Steve Floyd, EOS Tribe: How EOS Block Producers are Paid medium.com/eostribe/how-eos-blockproducers-are-paid-7b2a1216eb2b
+12. Hiranya Jayathilaka. Developing a cryptocurrency price monitor using Firebase and Google Cloud
+Platform medium.com/google-cloud/developing-a-cryptocurrency-price-monitor-using-firebase-andgoogle-cloud-platform-34d5538f73f6
+13. Rhys Skellern. Keep Your Private Keys Safe- Why It’s so Important to Store Them Offline
+medium.com/ecomi/keep-your-private-keys-safe-why-its-so-important-to-store-them-offline8a85d946a3b2
+14. Gertrude Chavez-Dreyfuss. Cryptocurrency thefts, scams hit $1.7 billion in 2018: report
+reuters.com/article/us-crypto-currency-crime/cryptocurrency-thefts-scams-hit-1-7-billion-in-2018report-idUSKCN1PN1SQ
+15. What is a non-custodial wallet? Abra.com Support Portal support.abra.com/hc/enus/articles/360022979791-What-is-a-non-custodial-wallet16. Bitcoin Mediawiki on GitHub. Bitcoin Improvement Proposal (BIP) 0044: Multi-Account Hierarchy for
+Deterministic Wallets github.com/bitcoin/bips/blob/master/bip-0044.mediawiki
+17. ERC20 Token Standard, The Ethereum Wiki theethereum.wiki/w/index.php/ERC20_Token_Standard
+18. Bitcoin Mediawiki on GitHub. Bitcoin Improvement Proposal (BIP) 0032: Hierarchical Deterministic
+Wallets github.com/bitcoin/bips/blob/master/bip-0032.mediawiki#Abstract
+19. Feature Overload Strains Customer Satisfaction with Online Banking and Mobile Apps, J.D. Power
+Finds jdpower.com/business/press-releases/2019-banking-and-credit-card-mobile-app-studies
+
+Page | 30
+
+ABBC Whitepaper
+
+20. Michele Lerner, 7 Reasons to Have Multiple Bank Savings Accounts – Pros & Cons
+moneycrashers.com/multiple-bank-savings-accounts
+21. Tom Stankewicz, The Complexity Barrier to Decentralization and Cryptocurrency Success
+medium.com/@SleazyT/the-complexity-barrier-to-decentralization-and-cryptocurrency-successafe6a6b57919
+22. UPS Pulse of the Online Shopper. Volume 4 The Savvy Shoppers. U.S. Study:
+solutions.ups.com/rs/935-KKE-240/images/UPS-Pulse-of-the-Online-Shopper-2017-Volume4_The_Savvy_Shoppers.pdf
+23. Epsilon. The power of me: The impact of personalization on marketing performance research
+slideshare.net/EpsilonMktg/the-power-of-me-the-impact-of-personalization-on-marketingperformance/1
+24. Guillermo Navarro Sanfelix, Francisco Puig. New challenges in the franchisor-franchisee relationship.
+An analysis from agency theory perspective ehu.eus/cuadernosdegestion/documentos/150610gn.pdf
+25. Blockchainhub Berlin. Tokenized Networks: What is a DAO?
+https://blockchainhub.net/dao-decentralized-autonomous-organization/
+26. Seth Bannon. The Tao of “The DAO”
+https://techcrunch.com/2016/05/16/the-tao-of-the-dao-or-how-the-autonomous-corporation-isalready-here/
+27. Paul Timmers, Business Models for Electronic Markets. Journal Electronic Markets Volume 8, 1998 —
+Issue 2 tandfonline.com/doi/abs/10.1080/10196789800000016
+28. Gal Oestreicher-Singer, Lior Zalmanson. Content or Community? A Digital Business Strategy for
+Content Providers in the Social Age papers.ssrn.com/sol3/papers.cfm?abstract_id=1536768
+29. Mathieu Boulianne, EOS Block Producer Illustrative Revenue Analysis — How will a Block Producer be
+Rewarded? eoscanada.com/en/eos-block-producer-illustrative-revenue-analysis-how-will-a-blockproducer-be-rewarded
+
+Page | 31
+
+ABBC White Paper
+
+Artificial Intelligence
+Asia Pacific
+Application Protocol Interface
+Business-to-business (transaction type)
+Bitcoin Improvement Proposal
+Blockchain Index Storage
+
+IT Consulting
+JWT
+
+Decentralized Autonomous Organization
+Distributed Proof-of-Stake
+Europe, the Middle East and Africa
+Gross Merchandise Volume
+Headquarters
+Information Technology Consulting
+JSON Web Token
+
+Page | 32
+
+ABBC White Paper
+
+1.
+
+Target Audience of ABBC Ecosystem
+
+2.
+
+Projects that Inspire Us. Multi-wallets
+
+3.
+
+Projects that Inspire Us. Loyalty Rewards Solutions
+
+4.
+
+Ad-based Projects that Inspire Us
+
+5.
+
+ABBC Blockchain Generation 2 Migration Roadmap
+
+6.
+
+Migration Process Flow Explained in Quick Steps
+
+7.
+
+Customer Account Levels for ABBC Blockchain
+
+8.
+
+User Flow via Functional Infrastructure of ABBC Blockchain
+
+9.
+
+ABBC Gateway Architecture. Generic Node and API Implementations
+
+10. Wallet Interaction with ABBC Blockchain
+11. ABBC’s Go-to-market Strategy in 12 Steps
+
+Page | 33
+
+

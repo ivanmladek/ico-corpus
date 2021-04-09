@@ -1,0 +1,408 @@
+Atención,​ ​esto​ ​es​ ​sólo​ ​una​ ​propuesta​ ​de​ ​API.
+Versión:​ ​2017.09.03.1.0
+
+Justificación​ ​/​ ​Justification​.
+El desarrollo de la API para la integración del sistema PLACO en los diversos juegos es
+parte fundamental del proyecto. La intención de nuestra empresa es ofrecer un sistema
+sencillo​ ​para​ ​facilitar​ ​la​ ​integración​ ​del​ ​sistema​ ​de​ ​pagos​ ​en​ ​los​ ​juegos.
+Queremos ofrecer la máxima transparencia para el usuario pero a la vez intentando
+garantizar la fiabilidad de todos los intervinientes. Ello nos lleva a elaborar una serie de
+compromisos​ ​para​ ​garantizar​ ​que​ ​todas​ ​las​ ​partes​ ​cumplen​ ​sus​ ​compromisos.
+The development of the API for the integration of the PLACO system in the various games is
+a fundamental part of the project. The intention of our company is to offer a simple system to
+facilitate​ ​the​ ​integration​ ​of​ ​the​ ​payment​ ​system​ ​in​ ​the​ ​games.
+We want to offer the maximum transparency for the user but at the same time trying to
+guarantee the reliability of all the participants. This leads us to develop a series of
+commitments​ ​to​ ​ensure​ ​that​ ​all​ ​parties​ ​fulfil​ ​their​ ​commitments​ .
+El API se divide esencialmente en funciones públicas, que no requieren de la autorización
+del jugador, y funciones privadas que requieren la autorización explícita del jugador antes
+de realizarse. Algunas de las acciones que se realizarán mediante el API requieren la
+confirmación mediante 2FA del jugador. Esto deberá tenerse en cuenta a la hora de
+implementar​ ​el​ ​uso​ ​de​ ​la​ ​API​ ​en​ ​los​ ​juegos.
+The API is essentially divided into public functions, which do not require the player's
+authorization, and private functions which require the explicit authorization of the player
+before being performed. Some of the actions that will be performed through the API require
+confirmation by 2FA of the player. This should be taken into account when implementing API
+usage​ ​in​ ​games.
+Las transacciones se dividen entre las que dependen del sistema de PLACO Proof Of Play
+(actualmente​ ​la​ ​obtención​ ​de​ ​Redeem​ ​Codes)​ ​y​ ​las​ ​que​ ​permiten​ ​el​ ​comercio​ ​de​ ​PLACOS.
+Transactions are divided between those that depend on the PLACO Proof Of Play system
+(currently​ ​obtaining​ ​Redeem​ ​Codes)​ ​and​ ​those​ ​that​ ​allow​ ​trading​ ​PLACOS.
+Los​ ​Redeem​ ​Codes​ ​se​ ​usarán​ ​fuera​ ​del​ ​juego​ ​de​ ​la​ ​manera​ ​habitual.
+Redeem​ ​Codes​ ​will​ ​be​ ​used​ ​outside​ ​the​ ​game​ ​in​ ​the​ ​usual​ ​manner.​
+Los saldos y movimientos ocasionados en el juego entrarán en el sistema como
+transacciones pendientes, esto es no afectarán inmediatamente al saldo real de PLACOS
+
+del cliente, si bien se tendrán en cuenta a la hora de contar el balance del mismo o a la hora
+de efectuar transacciones. Las operaciones tendrán un retraso de 24 horas para hacerse
+efectivas sobre el saldo real, si bien el cliente podrá a su voluntad confirmarlas para acelerar
+pagos. El motivo de introducir dicho retraso es permitir al usuario controlar que
+efectivamente los cargos producidos por el juego en su cuenta son correctos y poder tener
+la posibilidad de reclamar cargos incorrectos por parte del gamedev en su cuenta. Así
+mismo tendrá acceso a los saldos pendientes de cubrir y podrá gestionar en su cuenta
+virtual​ ​cualquier​ ​reclamación​ ​que​ ​le​ ​realice​ ​un​ ​cliente.
+The balances and movements caused in the game will enter the system as pending
+transactions, that is not immediately affect the real balance of PLACOS of the customer,
+although they will be taken into account when counting the balance of the same or when
+making transactions. Transactions will be delayed by 24 hours to become effective on the
+actual balance, although the customer may at will confirm them to accelerate payments. The
+reason for introducing such a delay is to allow the user to check that the charges actually
+incurred by gambling on his account are correct and to be able to claim incorrect charges
+from gamedev on his account. You will also have access to the outstanding balances to be
+covered​ ​and​ ​will​ ​be​ ​able​ ​to​ ​manage​ ​any​ ​claims​ ​made​ ​by​ ​a​ ​customer​ ​in​ ​your​ ​virtual​ ​account.
+
+Funcionamiento​ ​general​ ​/​ ​General​ ​operation.
+La​ ​url​ ​base​ ​para​ ​todas​ ​las​ ​peticiones​ ​será:
+The​ ​base​ ​url​ ​for​ ​all​ ​requests​ ​will​ ​be:
+https://playercoin.world/api.php
+Las​ ​peticiones​ ​al​ ​API​ ​se​ ​realizarán​ ​mediante​ ​POST​ ​con​ ​los​ ​siguientes​ ​parámetros:
+Requests​ ​to​ ​the​ ​API​ ​will​ ​be​ ​made​ ​through​ ​POST​ ​with​ ​the​ ​following​ ​parameters:
+v​ ​:​ ​1
+Indica​ ​la​ ​versión​ ​del​ ​api​ ​a​ ​utilizar
+Indicates​ ​the​ ​version​ ​of​ ​the​ ​api​ ​to​ ​use
+p​ ​:​ ​JSON​ ​de​ ​la​ ​petición​ ​JSON​ ​of​ ​the​ ​petition​ ​.
+Request​ ​to​ ​API​ ​defined​ ​below.
+g​ ​:​ ​Game_Auth
+Identificador​ ​de​ ​juego​ ​que​ ​adquiere​ ​el​ ​desarrollador​ ​al​ ​dar​ ​de​ ​alta​ ​un​ ​juego​ ​nuevo​ ​en​ ​el
+sistema.
+Game​ ​identifier​ ​acquired​ ​by​ ​the​ ​developer​ ​when​ ​registering​ ​a​ ​new​ ​game​ ​in​ ​the​ ​system.​
+i​ ​:​ ​Installation_Id
+Identificador​ ​de​ ​la​ ​instalación​ ​ ​/​ ​Installation​ ​identifier​.
+s​ ​:​ ​Firma​ ​/​ ​Sign
+HASH​ ​en​ ​SHA256​ ​requerido​ ​para​ ​validar​ ​la​ ​petición​ ​en​ ​el​ ​API.
+HASH​ ​in​ ​SHA256​ ​required​ ​to​ ​validate​ ​the​ ​request​ ​in​ ​the​ ​API.
+El​ ​parámetro​ ​g​ ​sólo​ ​se​ ​usará​ ​la​ ​primera​ ​vez​ ​para​ ​solicitar​ ​una​ ​nueva​ ​instalación​ ​al​ ​sistema,
+el​ ​resto​ ​de​ ​peticiones​ ​requerirán​ ​el​ ​parámetro​ ​i​.
+
+The​ ​parameter​ ​g​ ​will​ ​only​ ​be​ ​used​ ​the​ ​first​ ​time​ ​to​ ​request​ ​a​ ​new​ ​installation​ ​from​ ​the
+system,​ ​the​ ​rest​ ​of​ ​the​ ​requests​ ​will​ ​require​ ​parameter​ ​i​.
+Excepto en la petición de identificador de instalación, en el JSON definido en ​p siempre
+deberá existir el parámetro ​n correspondiente al Nonce, un número único de secuencia que
+en cada petición deberá ser superior a la petición anterior. Una manera rápida de hacerlo es
+usar​ ​como​ ​parámetro​​ ​n​ ​el​ ​valor​ ​de​ ​timestamp.
+Except in the request for the installation identifier, in the JSON defined in ​p there must
+always be the parameter ​n corresponding to Nonce, a unique sequence number that in each
+request must be higher than the previous request. A quick way to do this is to use the
+timestamp​ ​value​ ​as​ ​parameter​ ​n.​
+
+Códigos​ ​de​ ​error​ ​/​ ​Error​ ​codes​.
+En​ ​caso​ ​de​ ​error​ ​el​ ​JSON​ ​devuelto​ ​será​ ​del​ ​siguiente​ ​formato
+In​ ​case​ ​of​ ​error​ ​the​ ​returned​ ​JSON​ ​will​ ​be​ ​the​ ​following​ ​format​ :​
+{“result”​ ​:​ ​“error”,
+“enum”​ ​:​ ​CODIGO​ ​DE​ ​ERROR​ ​/​ ​ERROR​ ​CODE​,
+“etext”​ ​:​ ​MENSAJE​ ​DE​ ​ERROR​ ​/​ ​ERROR​ ​MESSAGE​}
+CODIGO
+
+SIGNIFICADO
+
+01
+
+API​ ​VERSION​ ​NOT​ ​SET
+No​ ​hay​ ​parámetro​ ​v​ ​en​ ​la​ ​petición​ ​al​ ​API.
+There​ ​is​ ​no​ ​v​ ​parameter​ ​in​ ​the​ ​API​ ​request​.
+
+02
+
+API​ ​VERSION​ ​NOT​ ​SUPPORTED
+El​ ​parámetro​ ​v​ ​de​ ​la​ ​petición​ ​no​ ​contiene​ ​una​ ​versión​ ​válida.
+Parameter​ ​v​ ​of​ ​the​ ​request​ ​does​ ​not​ ​contain​ ​a​ ​valid​ ​version​.
+
+03
+
+F​ ​NOT​ ​SET
+No​ ​hay​ ​parámetro​ ​f​ ​(función)​ ​en​ ​el​ ​JSON​ ​recibido.
+There​ ​is​ ​no​ ​f​ ​(function)​ ​parameter​ ​in​ ​the​ ​received​ ​JSON.
+
+04
+
+F​ ​INVALID
+La​ ​función​ ​indicada​ ​en​ ​f​ ​no​ ​existe.
+The​ ​function​ ​indicated​ ​in​ ​f​ ​does​ ​not​ ​exist.
+
+05
+
+I​ ​NOT​ ​SET
+No​ ​hay​ ​parámetro​ ​i​ ​(​Installation_Id​)​ ​en​ ​la​ ​petición
+There​ ​is​ ​no​ ​i​ ​parameter​ ​(I​ nstallation_Id​)​ ​in​ ​the​ ​request
+
+06
+
+I​ ​INVALID
+El​ ​parámetro​ ​i​ ​(​Installation_id​)​ ​no​ ​corresponde​ ​a​ ​ninguna​ ​instalación​ ​del
+sistema.
+The​ ​i​ ​parameter​ ​(​Installation_Id​)​ ​does​ ​not​ ​correspond​ ​to​ ​any​ ​system
+installation.
+
+07
+
+SIGN​ ​INVALID
+La​ ​firma​ ​SHA256​ ​no​ ​es​ ​válida.
+Signature​ ​SHA256​ ​is​ ​invalid.
+
+08
+
+NONCE​ ​NOT​ ​SET
+No​ ​hay​ ​número​ ​de​ ​secuencia​ ​en​ ​el​ ​JSON.
+There's​ ​no​ ​sequence​ ​number​ ​on​ ​the​ ​JSON.
+
+09
+
+NONCE​ ​INVALID
+El​ ​número​ ​de​ ​secuencia​ ​del​ ​JSON​ ​es​ ​inferior​ ​al​ ​antecedente.
+The​ ​sequence​ ​number​ ​in​ ​lower​ ​than​ ​the​ ​previous​ ​one.
+
+10
+
+TOO​ ​MANY​ ​API​ ​CALLS
+Demasiadas​ ​peticiones​ ​al​ ​API​ ​en​ ​poco​ ​tiempo.
+Too​ ​many​ ​API​ ​petitions​ ​in​ ​a​ ​short​ ​time.
+
+11
+
+TOR​ ​NOT​ ​ALLOWED
+En​ ​principio​ ​no​ ​permitiremos​ ​accesos​ ​mediante​ ​TOR
+Access​ ​through​ ​TOR​ ​not​ ​allowed.
+
+12
+
+IP​ ​TEMPORARILY​ ​BANNED
+La​ ​IP​ ​ha​ ​sido​ ​temporalmente​ ​deshabilitada​ ​para​ ​acceder​ ​al​ ​API.​ ​Ello​ ​puede
+deberse​ ​a​ ​que​ ​se​ ​han​ ​detectado​ ​demasiadas​ ​peticiones​ ​al​ ​sistema​ ​en​ ​poco
+tiempo.
+The​ ​IP​ ​has​ ​been​ ​temporarily​ ​disabled​ ​to​ ​access​ ​the​ ​API.​ ​This​ ​may​ ​be
+because​ ​too​ ​many​ ​requests​ ​to​ ​the​ ​system​ ​have​ ​been​ ​detected​ ​in​ ​a​ ​short
+period​ ​of​ ​time.
+
+13
+
+NETWORK​ ​TEMPORARILY​ ​BANNED
+La​ ​red​ ​de​ ​donde​ ​proviene​ ​la​ ​petición​ ​ha​ ​sidos​ ​deshabilitada​ ​temporalmente
+para​ ​acceder​ ​al​ ​API.​ ​Ello​ ​puede​ ​deberse​ ​a​ ​que​ ​se​ ​han​ ​detectado
+demasiados​ ​bans​ ​de​ ​IPs​ ​de​ ​la​ ​red​ ​en​ ​poco​ ​tiempo.
+The​ ​network​ ​from​ ​which​ ​the​ ​request​ ​originates​ ​has​ ​been​ ​temporarily
+disabled​ ​to​ ​access​ ​the​ ​API.​ ​This​ ​may​ ​be​ ​because​ ​too​ ​many​ ​IP​ ​bans​ ​have
+been​ ​detected​ ​from​ ​the​ ​network​ ​in​ ​a​ ​short​ ​time.
+
+14
+
+GAME_AUTH​ ​INVALID
+El​ ​identificador​ ​del​ ​juego​ ​del​ ​parámetro​ ​g​ ​no​ ​corresponde​ ​a​ ​ningún​ ​juego​ ​en
+el​ ​sistema.
+The​ ​identifier​ ​of​ ​the​ ​game​ ​of​ ​parameter​ ​g​ ​does​ ​not​ ​correspond​ ​to​ ​any​ ​game
+in​ ​the​ ​system.
+
+15
+
+TOO​ ​MUCH​ ​INSTALLATIONS
+Demasiadas​ ​peticiones​ ​de​ ​instalación​ ​de​ ​juegos​ ​seguidas.​ ​Ello​ ​puede
+deberse​ ​a​ ​un​ ​problema​ ​a​ ​la​ ​hora​ ​de​ ​guardar​ ​el​ I​ nstallation_Id​​ ​por​ ​parte​ ​del
+desarrollador.
+Too​ ​many​ ​game​ ​installation​ ​requests​ ​in​ ​a​ ​row.​ ​This​ ​may​ ​be​ ​due​ ​to​ ​a
+problem​ ​when​ ​saving​ ​the​ ​Installation_Id​ ​by​ ​the​ ​developer.
+
+Funciones​ ​/​ ​Functions​.
+new_installation
+Solicita​ ​un​ ​nuevo​​ ​Installation_Id​​ ​al​ ​sistema.
+Requests​ ​a​ ​new​ ​Installation_Id​ ​from​ ​the​ ​system.
+Parámetros​ ​de​ ​entrada​ ​/​ ​Input​ ​parameters​:
+v​ ​:​ ​1
+g​ ​:​ ​GAME_AUTH
+p:​ ​{“f”:”new_installation”}
+Devuelve​ ​/​ ​returns​:
+{“result”​ ​:​ ​“success”,
+​ ​“i”​ ​:​ ​Installation_Id​,
+​ ​“s”​ ​:​ ​Sign}
+redeem_score
+Solicita​ ​un​ ​código​ ​de​ ​voucher​ ​para​ ​regalar​ ​PLACOs​ ​al​ ​usuario​ ​a​ ​través​ ​del​ ​sistema​ ​de​ ​Proof
+of​ ​Play.
+Request​ ​a​ ​voucher​ ​code​ ​to​ ​give​ ​PLACOs​ ​to​ ​the​ ​user​ ​through​ ​the​ ​Proof​ ​of​ ​Play​ ​system.
+Parámetros​ ​de​ ​entrada​ ​/​ ​Input​ ​parameters​:
+v​ ​:​ ​1
+i​ ​:​ ​Installation_id
+p​ ​:​ ​JSON​ ​de.
+“f”​ ​:​ ​“redeem_score”
+“score”​ ​:​ ​Puntuación​ ​/​ ​Score
+“n”​ ​:​ ​Nonce
+s​ ​:​ ​SHA256​ ​de​ ​JSON(p​ ​)+​ ​Sign
+Devuelve​ ​/​ ​returns​:
+{“result“​ ​:​ ​“success”,
+​ ​“code”​ ​:​ ​REDEEM​ ​CODE​}
+new_user
+Genera​ ​un​ ​nuevo​ ​usuario​ ​en​ ​el​ ​sistema​ ​y​ ​vincula​ ​su​ ​cuenta​ ​al​ ​juego​ ​actual.
+Generate​ ​a​ ​new​ ​user​ ​in​ ​the​ ​system​ ​and​ ​link​ ​your​ ​account​ ​to​ ​the​ ​current​ ​game.
+Parámetros​ ​de​ ​entrada​ ​/​ ​Input​ ​parameters​:
+v​ ​:​ ​1
+i​ ​:​ ​Installation_id
+p​ ​:​ ​JSON​ ​de
+“f”​ ​:​ ​“new_user”,
+“email”​ ​:​ ​Correo​ ​electrónico​ ​del​ ​usuario​ ​/​ ​User​ ​email
+“password”​ ​:​ ​Password​ ​seleccionado​ ​por​ ​el​ ​usuario​ ​/​ U
+​ ser​ ​password
+“pin”​ ​:​ ​PIN​​ ​seleccionado​ ​por​ ​el​ ​usuario​ ​para​ ​el​ ​acceso​ ​al​ ​juego​ ​/​ ​User-selected​ P
+​ IN
+for​ ​game​ ​access
+
+“n”​ ​:​ ​Nonce
+s​ ​:​ ​SHA256​ ​de​ ​JSON(p)​ ​+​ ​Sign
+Para continuar el usuario deberá validar la creación y vinculación de su cuenta mediante el
+enlace​ ​enviado​ ​a​ ​su​ ​correo​ ​electrónico
+To continue the user must validate the creation and linking of your account through the link
+sent​ ​to​ ​your​ ​email​ ​address
+Devuelve​ ​/​ ​returns​:
+{“result”​ ​:​ ​“success”}
+log_with_user_id
+Permite​ ​la​ ​entrada​ ​de​ ​un​ ​usuario​ ​si​ ​ya​ ​tiene​ ​el​ ​juego​ ​vinculado​ ​y​ ​lo​ ​ha​ ​usado​ ​anteriormente
+sólo​ ​pidiéndole​ ​el​ ​PIN​ ​del​ ​juego.
+Allows​ ​a​ ​user​ ​to​ ​enter​ ​if​ ​they​ ​already​ ​have​ ​the​ ​game​ ​linked​ ​and​ ​have​ ​used​ ​it​ ​before​ ​only
+asking​ ​for​ ​the​ ​game​ ​PIN.
+Parámetros​ ​de​ ​entrada​ ​/​ ​Input​ ​parameters​:
+v​ ​:​ ​1
+i​ ​:​ ​Installation_id
+p​ ​:​ ​JSON​ ​de
+“f”​ ​:​ ​“log_with_user_id”
+“User_Id”​ ​:​ ​USER_ID
+“pin”​ ​:​ ​PIN
+“n”​ ​:​ ​Nonce
+s​ ​:​ ​SHA256​ ​de​ ​JSON(p)​ ​+​ ​Sign
+Devuelve​ ​/​ ​returns​:
+{“result”​ ​:​ ​“success”}
+log_in
+Permite​ ​la​ ​entrada​ ​de​ ​un​ ​usuario​ ​que​ ​ya​ ​tiene​ ​cuenta​ ​en​ ​el​ ​sistema​ ​pero​ ​aún​ ​no​ ​ha
+vinculado​ ​el​ ​juego​ ​a​ ​su​ ​cuenta.
+Allows​ ​the​ ​entry​ ​of​ ​a​ ​user​ ​who​ ​already​ ​has​ ​an​ ​account​ ​in​ ​the​ ​system​ ​but​ ​has​ ​not​ ​yet​ ​linked
+the​ ​game​ ​to​ ​his​ ​or​ ​her​ ​account.
+Parámetros​ ​de​ ​entrada​ ​/​ ​Input​ ​parameters​:
+v​ ​:​ ​1
+i​ ​:​ ​Installation_id
+p​ ​:​ ​JSON​ ​de
+“f”​ ​:​ ​“log_in”
+“email”​ ​:​ ​Email
+“pin”​ ​:​ ​PIN
+“n”​ ​:​ ​Nonce
+s​ ​:​ ​SHA256​ ​de​ ​JSON(p)​ ​+​ ​Sign
+Devuelve​ ​/​ ​returns​:
+{“result”​ ​:​ ​“success”}
+
+Para​ ​continuar​ ​el​ ​usuario​ ​debe​ ​validar​ ​mediante​ ​el​ ​enlace​ ​enviado​ ​a​ ​su​ ​email​ ​la​ ​vinculación
+del​ ​juego.
+In​ ​order​ ​to​ ​continue​ ​the​ ​user​ ​must​ ​validate​ ​the​ ​game​ ​link​ ​via​ ​the​ ​link​ ​sent​ ​to​ ​his​ ​email.
+log_out
+Desconecta​ ​la​ ​sesión​ ​del​ ​jugador​ ​del​ ​sistema.
+Disconnect​ ​the​ ​system​ ​player​ ​session.
+Parámetros​ ​de​ ​entrada​ ​/​ ​Input​ ​parameters​:
+v​ ​:​ ​1
+i​ ​:​ ​Installation_id
+p​ ​:​ ​JSON​ ​de
+“f”​ ​:​ ​“log_out”
+“User_id”​ ​:​ ​USER_ID
+“n”​ ​:​ ​nonce
+s:​ ​SHA256​ ​de​ ​JSON(p)​ ​+​ ​Sign
+Devuelve​ ​/​ ​returns​:
+{“result”​ ​:​ ​“success”}
+unlink
+Desvincula​ ​el​ ​juego​ ​con​ ​el​ ​jugador.​ ​Si​ ​quiere​ ​volver​ ​a​ ​validarse​ ​deberá​ ​usar​ ​el​ ​log​ ​in.
+Dissociate​ ​the​ ​game​ ​from​ ​the​ ​player.​ ​If​ ​you​ ​want​ ​to​ ​be​ ​validated​ ​again,​ ​you​ ​must​ ​use​ ​the​ ​log
+in.
+Parámetros​ ​de​ ​entrada​ ​/​ ​Input​ ​parameters​:
+v​ ​:​ ​1
+i​ ​:​ ​Intallation_Id
+p​ ​:​ ​JSON​ ​de
+“f”​ ​:​ ​“unlink”
+“User_Id”​ ​:​ ​USER_ID
+“n”​ ​:​ ​nonce
+s​ ​:​ ​SHA256​ ​de​ ​JSON(p)​ ​+​ ​Sign
+Devuelve​ ​/​ ​returns​:
+{“result”​ ​:​ ​“success”}
+get_game_balance
+Recoge​ ​el​ ​saldo​ ​efectivo​ ​de​ ​la​ ​cuenta​ ​del​ ​juego.
+Collects​ ​the​ ​cash​ ​balance​ ​from​ ​the​ ​game​ ​account.
+Parámetros​ ​de​ ​entrada​ ​/​ ​Input​ ​parameters​:
+v​ ​:​ ​1
+i​ ​:​ ​Installation_Id
+p​ ​:​ ​JSON​ ​de
+“f”​ ​:​ ​“get_game_balance”
+“n”​ ​:​ ​nonce
+s:​ ​SHA256​ ​de​ ​JSON(p)​ ​+​ ​Sign
+
+Devuelve​ ​/​ ​returns​:
+{“result”​ ​:​ ​“success”,
+“balance”​ ​:​ ​PLACOS​ ​disponibles​ ​/​ ​PLACOS​ ​available​,
+“pending_balance”​ ​:​ ​PLACOS​ ​pendientes​ ​de​ ​transacciones​ ​/​ P
+​ LACOS​ ​pending​ ​from
+transactions​}
+get_user_balance
+Devuelve​ ​el​ ​saldo​ ​efectivo​ ​de​ ​la​ ​cuenta​ ​del​ ​jugador.
+Returns​ ​the​ ​player's​ ​account​ ​balance.
+Parámetros​ ​de​ ​entrada​ ​/​ ​Input​ ​parameters​:
+v​ ​:​ ​1
+i​ ​:​ ​Installation_Id
+p​ ​:​ ​JSON​ ​de
+“f”​ ​:​ ​“get_user_balance”
+“User_Id”​ ​:​ ​USER_ID
+“n”​ ​:​ ​nonce
+s​ ​:​ ​SHA256​ ​de​ ​JSON(p)​ ​+​ ​Sign
+Devuelve​ ​/​ ​returns​:
+{“result”​ ​:​ ​“success”,
+“balance”​ ​:​ ​PLACOS​ ​disponibles​ ​/​ ​PLACOS​ ​available​}
+send_to_user
+Envía​ ​de​ ​la​ ​cuenta​ ​del​ ​juego​ ​a​ ​la​ ​cuenta​ ​del​ ​cliente.
+Sending​ ​from​ ​the​ ​game​ ​account​ ​to​ ​the​ ​customer's​ ​account.
+Parámetros​ ​de​ ​entrada​ ​/​ ​Input​ ​parameters​:
+v​ ​:​ ​1
+i​ ​:​ ​Installation_Id
+p​ ​:​ ​JSON​ ​de
+“f”​ ​:​ ​“send_to_user”
+“User_Id”​ ​:​ ​USER_ID
+“amount”​ ​:​ ​Cantidad​ ​de​ ​PLACOS​ ​a​ ​enviar​ ​/​ A
+​ mount​ ​of​ ​PLACOS​ ​to​ ​send
+“message”​ ​:​ ​(opcional)​ ​Texto​ ​explicativo​ ​del​ ​envío​ ​/​ (​ optional)​ ​Explanatory​ ​text.
+s​ ​:​ ​SHA256​ ​de​ ​JSON(p)​ ​+​ ​Sign
+Devuelve​ ​/​ ​returns​:
+{“result”​ ​:​ ​“success”,
+“amount”​ ​:​ ​Cantidad​ ​de​ ​PLACOS​ ​transferida​ ​/​ ​Amount​ ​of​ ​PLACOS​ ​transfered​}
+receive_from_user
+Solicita​ ​un​ ​pago​ ​desde​ ​la​ ​cuenta​ ​del​ ​cliente.
+Request​ ​a​ ​payment​ ​from​ ​the​ ​customer's​ ​account.
+Parámetros​ ​de​ ​entrada​ ​/​ ​Input​ ​parameters​:
+v​ ​:​ ​1
+i​ ​:​ ​Installation_Id
+p​ ​:​ ​JSON​ ​de
+
+“f”​ ​:​ ​“receive_from_user”
+“User_Id”​ ​:​ ​USER_ID
+“amount”​ ​:​ ​Cantidad​ ​de​ ​PLACOS​ ​a​ ​recibir​ ​/​ ​Amount​ ​of​ ​PLACOS​ ​to​ ​receive
+“message”​ ​:​ ​(opcional)​ ​Texto​ ​explicativo​ ​de​ ​la​ ​solicitud​ ​/​ (​ optional)​ ​Explanatory​ ​text.
+s​ ​:​ ​SHA256​ ​de​ ​JSON(p)​ ​+​ ​Sign
+Devuelve​ ​/​ ​returns​:
+{“result”​ ​:​ ​“success”,
+“amount”​ ​:​ ​Cantidad​ ​de​ ​PLACOS​ ​transferida​ ​/​ ​Amount​ ​of​ ​PLACOS​ ​transfered​}
+user_to_user
+Solicita​ ​la​ ​transferencia​ ​de​ ​una​ ​cantidad​ ​de​ ​PLACOS​ ​de​ ​un​ ​usuario​ ​a​ ​otro​ ​y​ ​permite​ ​al
+gamedev​ ​aplicar​ ​un​ ​porcentaje​ ​de​ ​comisión​ ​si​ ​lo​ ​desea.
+It​ ​requests​ ​the​ ​transfer​ ​of​ ​a​ ​number​ ​of​ ​PLACOS​ ​from​ ​one​ ​user​ ​to​ ​another​ ​and​ ​allows
+gamedev​ ​to​ ​apply​ ​a​ ​percentage​ ​commission​ ​if​ ​desired.
+Parámetros​ ​de​ ​entrada​ ​/​ ​Input​ ​parameters​:
+v​ ​:​ ​1
+i​ ​:​ ​Installation_id
+p​ ​:​ ​JSON​ ​de
+“f”​ ​:​ ​“user_to_user”
+“User_Id_sender”​ ​:​ ​USER_ID​ d
+​ el​ ​cliente​ ​que​ ​emite​ ​la​ ​transferencia​ ​/​ ​USER_ID​ ​of​ ​the
+sender.
+“User_Id_receiver”​ ​:​ ​USER_ID​ ​del​ ​cliente​ ​que​ ​recibe​ ​la​ ​transferencia​ ​/​ ​USER_ID​ ​of
+the​ ​receiver.
+“amount”​ ​:​ ​Cantidad​ ​de​ ​PLACOS​ ​a​ ​transferir​ ​/​ ​Amount​ ​of​ ​PLACOS​ ​to​ ​tranfer
+“fee”​ ​:​ ​Porcentaje​ ​sobre​ ​la​ ​transacción​ ​que​ ​se​ ​enviará​ ​a​ ​la​ ​cuenta​ ​del​ ​juego​ ​/
+Percentage​ ​of​ ​the​ ​transaction​ ​that​ ​will​ ​be​ ​sent​ ​to​ ​the​ ​game​ ​account
+“message”​ ​:​ ​(opcional)​ ​Texto​ ​explicativo​ ​de​ ​la​ ​transferencia​ ​/​ ​(optional)​ ​Explanatory
+text
+s​ ​:​ ​SHA256​ ​de​ ​JSON(p)​ ​+​ ​Sign
+Devuelve​ ​/​ ​returns​:
+{“result”​ ​:​ ​“success”,
+“amount”​ ​:​ ​Cantidad​ ​de​ ​PLACOS​ ​transferida​ ​al​ ​receptor​ ​descontada​ ​la​ ​comisión​ ​para​ ​el
+juego​ ​/​ ​Amount​ ​of​ ​PLACOS​ ​transferred​ ​to​ ​the​ ​receiver​ ​minus​ ​commission​ ​for​ ​the​ ​game,​
+“fee_amount”​ ​:​ ​Cantidad​ ​de​ ​PLACOS​ ​transferida​ ​al​ ​juego​ ​/​ A
+​ mount​ ​of​ ​PLACOS​ ​transferred
+to​ ​the​ ​game​}
+
+

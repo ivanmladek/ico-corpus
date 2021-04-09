@@ -1,0 +1,997 @@
+THE ROOT
+INFRASTRUCTURE
+FRAMEWORK
+V 1.21
+
+Building the infrastructure for the next generation of
+distributed applications
+
+1
+
+Table of Contents
+
+Part I: Context and Vision
+
+5
+
+A message from our team
+
+5
+
+Background
+
+6
+
+Problem: The Growing pains of Blockchain technology
+
+7
+
+Smart Contract / Business Logic capabilities
+
+7
+
+Transaction Processing Volume (i.e. “The scaling issue”)
+
+8
+
+Difficulty of implementation for traditional developers, companies and end users
+
+8
+
+Why This Matters?
+
+8
+
+Proposed solution: The Root Infrastructure Framework Open Standard (‘RIFOS’)
+
+9
+
+The RIFOS in the context of Financial Inclusion
+
+10
+
+What we propose to deliver
+
+11
+
+RIFOS key components
+
+11
+
+The RIF Token utility and its coexistence with RSK’s Smart Bitcoin (‘RBTC’)
+
+13
+
+Why we chose the RSK Smart Protocol as Layer 1 of our framework?
+
+14
+
+Part II: RIF Labs
+
+16
+
+The role of RIF Labs
+
+16
+
+The role of RSK Labs
+
+16
+
+RIF Labs’ activities behind the RIFOS development
+
+17
+
+Part III: The Token Sale
+
+20
+
+The RIF Token
+
+20
+
+Token Sale Details
+
+20
+
+APPENDIX
+
+22
+
+RSK Labs’ History
+
+22
+
+RIF Labs’ Founding Team
+
+23
+
+2
+
+LEGAL DISCLAIMER
+This whitepaper is for information purposes only and may be subject to change. We cannot guarantee the accuracy
+of the statements made or conclusions reached in this whitepaper and we expressly disclaim all representations and
+warranties (whether express or implied by statute or otherwise) whatsoever, including but not limited to:
+●
+
+any representations or warranties relating to merchantability, fitness for a particular purpose, suitability,
+title or non-infringement;
+
+●
+
+that the contents of this document are accurate and free from any errors; and
+
+●
+
+that such contents do not infringe any third-party rights.
+
+We shall have no liability for losses or damages (whether direct, indirect, consequential or any other kind of loss or
+damage) arising out of the use, reference to or reliance on the contents of this whitepaper, even if advised of the
+possibility of damages arising.
+This whitepaper may contain references to third party data and industry publications. As far as we are aware, the
+information reproduced in this whitepaper is accurate and the estimates and assumptions contained herein are
+reasonable. However, we offer no assurances as to the accuracy or completeness of this data. Although information
+and data reproduced in this whitepaper are believed to have been obtained from reliable sources, we have not
+independently verified any of the information or data from third party sources referred to in this whitepaper or
+ascertained the underlying assumptions relied upon by such sources.
+As of the date of publication of this whitepaper, Tokens have no known or intended future use other than on the
+platform which is under development.
+No promises of future performance or value are or will be made with respect to Tokens, including no promise of
+inherent value, no promise of any payments, and no guarantee that Tokens will hold any particular value. Unless
+prospective contributors fully understand and accept the nature of our business and the potential risks associated
+with the acquisition, storage and transfer of ERC-20 compatible tokens, they should not participate in the token
+sale.
+Tokens are not being structured or sold as securities. Tokens hold no rights and confer no interests in the equity of
+the Company. Tokens are sold with an intended future use on the platform and all proceeds received during the
+token sale may be spent freely by the Company on the development of its business and the underlying technological
+infrastructure.
+This whitepaper does not constitute a prospectus or disclosure document and is not an offer to sell, nor the
+solicitation of any offer to buy any investment or financial instrument in any jurisdiction. Tokens should not be
+acquired for speculative or investment purposes with the expectation of making an investment return.
+No regulatory authority has examined or approved any of the information set out in this whitepaper. No such action
+has or will be taken under the laws, regulatory requirements or rules of any jurisdiction. The publication, distribution
+or dissemination of this whitepaper does not imply that applicable laws or regulatory requirements have been
+complied with.
+Participation in the token sale carries substantial risk and may involve special risks that could lead to a loss
+of all or a substantial portion of your contribution. Please ensure that you have read, understood and are
+prepared to accept the risks of participating in the token sale before sending a contribution to us.
+The token sale and/or Tokens could be impacted by regulatory action, including potential restrictions on the
+ownership, use, transferability or possession of such Tokens. Regulators or other competent authorities may demand
+that we revise the mechanics of the token sale and/or the functionality of Tokens in order to comply with regulatory
+requirements or other governmental or business obligations. Nevertheless, we believe we are taking commercially
+
+3
+
+reasonable steps to ensure that the token sale mechanics and issue of Tokens do not violate applicable laws and
+regulations.
+CAUTION REGARDING FORWARD-LOOKING STATEMENTS
+This whitepaper contains forward-looking statements or information (collectively “forward-looking statements”)
+that relate to our current expectations of future events. In some cases, these forward-looking statements can be
+identified by words or phrases such as “may”, “will”, “expect”, “anticipate”, “aim”, “estimate”, “intend”, “plan”,
+“seek”, “believe”, “potential”, “continue”, “is/are likely to” or the negative of these terms, or other similar
+expressions intended to identify forward-looking statements. We have based these forward-looking statements on
+current projections about future events and financial trends that we believe are relevant to our financial condition,
+results of operations, business strategy, financial needs, or the results of the token sale.
+In addition to statements relating to the matters set out here, this whitepaper contains forward-looking statements
+related to our proposed operating model. The model speaks to our objectives only, and is not a forecast, projection
+or prediction of future results of operations.
+Forward-looking statements are based on certain assumptions and analysis made by us in light of our experience and
+perception of historical trends, current conditions and expected future developments and other factors we believe are
+appropriate and are subject to risks and uncertainties. Although the forward-looking statements contained in this
+whitepaper are based upon what we believe are reasonable assumptions, there are risks, uncertainties, assumptions,
+and other factors which could cause our actual results, performances, achievements and/or experiences to differ
+materially from the expectations expressed, implied, or perceived in forward-looking statements. Given such risks,
+prospective participants in the token sale should not place undue reliance on these forward-looking statements.
+
+4
+
+Part I: Context and Vision
+A message from our team
+The document you’re about to read introduces The Root Infrastructure Framework Token (the ‘RIF
+Token’) and The Root Infrastructure Framework Open Standard (the ‘RIFOS’). As described in
+further detail below, the RIFOS aims to bridge the gap that exists today between Blockchain
+technologies and its mass-market adoption. It is also designed to help and enable existing and future
+Blockchain projects find the best way to really create solutions using decentralized applications.
+This document is not a technical whitepaper, but rather a summary of our vision and how we
+propose to implement it. We chose this approach because, aside from the value that can be attributed
+to technical whitepapers, we believe that showing a working product is an even more powerful
+statement of what we can achieve. RSK Labs’ reputation as a global pioneer in Blockchain
+technology speaks to that end.
+The first RSK technical whitepaper, published by our Chief Scientist Sergio Demian Lerner in
+November 2015 (the “RSK Technical Whitepaper”), described the first fully functional smart contract
+platform secured by the Bitcoin network using a side chain with merge-mining (the “RSK Smart
+Protocol”). This whitepaper is available for downloading here.
+Since November 2015, our team has continued to deliver on that initial vision, opening the Test-net
+version to the public in May 2017 and the beta Main-net version in January 2018. The latest
+information about the current state of the RSK Smart Protocol can be found at www.rsk.co.
+Today, the RSK Smart Protocol has become a global project, led by an international team that aims
+to serve the global community. We are in awe to see how far our initial vision has grown, and we are
+now focused on sharing our vision and motivations for launching this new phase, with the hope that
+our community will be inspired and will help us fulfil it. Our goal is ambitious, and in order to
+achieve it, we will build on and leverage the work done by RSK Labs. This is just the beginning of
+our journey, and we sincerely hope that we can continue to rely on the support and contribution of
+our amazing community around the world to help us take the adoption of Blockchain technologies to
+the next level.
+Sincerely,
+The RSK Labs & RIF Labs Team
+
+5
+
+Background
+Over the last 30 years, the world has seen transformational changes in the way humans,
+organizations and governments interact. Internet permeated the way we do business, the way we
+communicate with each other, the way we entertain ourselves and so forth. Yet, this “information
+revolution” has not been equal across the globe. According to PEW Internet, in 2016 the global
+median of Internet penetration was 67% but, as the graphic below shows, developed and emerging
+economies have been impacted in very different percentages:
+
+Mobile phones, and particularly smartphones, are helping close this gap fast, and within the next
+decade over 80% of the world’s population is expected to have access to the Internet through their
+smartphones.
+It is hard to fathom the incredible social and economic impact that equal access to information
+technology would have around the world.
+Yet, while the Internet has been revolutionary and transformative, it has not yet been as successful
+in allowing people from all over the world to exchange value so freely. Indeed, the exchange of value
+
+6
+
+is still controlled by a few organizations, namely banks, governments and other financial
+intermediaries.
+Open distributed consensus networks and Blockchain technology can change this. Since its creation
+in 2009, many projects have been using distributed consensus networks and Blockchain technologies
+to bring true access, not only to information and services, but also to the exchange of value through
+the Internet. For the first time, there’s a technological solution that allows the exchange of value
+among individuals and organizations without the intervention or interposition of a centralized
+authority, controlling entity or financial intermediary.
+
+Problem: The Growing pains of Blockchain technology
+Since 2009, we have seen Bitcoin and other mainstream Open distributed Blockchain ecosystems
+grow to become a global force of disruption in the technology space and in key industries such as
+Financial Services, Logistics and E-commerce to name just a few. The disruption is expected to be so
+extreme that many people believe the impact of Blockchain technologies in the next 10 years will be
+equivalent to the impact that the Internet had in the late 90’s. This potential for innovation and
+disruption has been the root cause for the exponential growth of the market value of Bitcoin (BTC),
+as a proxy of the value that may be created in the coming years.
+Yet, Bitcoin has shown some growing pains that are still preventing it from gaining widespread
+adoption and fully reaching a truly transformative scale. These growing pains can be summarized in
+the following 3 key areas:
+
+Smart Contract / Business Logic capabilities
+•
+
+The Ethereum Network and its underlying currency, Ether or ETH, originated due to the
+lack of availability and support within the Bitcoin Network to execute decentralized and rich
+business logic provided by Stateful Smart Contracts.
+
+•
+
+Since its inception, Ethereum’s market capitalization has increased from zero to around a
+$100 billion, at the moment reaching 50% of Bitcoin’s market value.
+
+•
+
+Yet, it is widely recognized that the Bitcoin Network has the largest infrastructure, most
+stable software, highest uptime, widest global adoption, highest market cap, largest
+liquidity, and access to knowledge and communication with a seemingly unstoppable
+
+7
+
+network effect. Bitcoin has today become the most secure and reliable decentralized network
+for the storage and transfer of value.
+
+Transaction Processing Volume (i.e. “The scaling issue”)
+•
+
+The Bitcoin Network has suffered several forks (some friendlier than others), most of which
+focussed on finding ways to scale its transaction processing volume.
+
+•
+
+Currently, Bitcoin's decentralized secure transaction settlement network has processing
+capabilities ranging between three to six transactions per second (TPS), or around one
+hundred million transactions per year.
+
+•
+
+At these speeds, the Bitcoin Network can only support payments for approximately ten
+million users.
+
+•
+
+The Ethereum Network has made some improvements on this front, but it can only triple the
+capacity of the Bitcoin Network, which is still not enough to support mass adoption of Open
+distributed Blockchain technologies.
+
+Difficulty of implementation for traditional developers, companies and
+end users
+•
+
+As a very young ecosystem, the Blockchain industry is just starting to show real use cases for
+the underlying technology. In part, this is due to how difficult it is for traditional developers
+and companies to deploy their solutions or ideas in a fast and trustworthy way on top of a
+Blockchain.
+
+•
+
+Collectively, our industry seems to represent a solution looking for a problem. We believe it
+should be much easier for people (especially developers and companies) coming from other
+technologies to embrace distributed Blockchain technology.
+
+•
+
+It is only when developers, companies and end users are able to use easy interfaces, which
+connect their current worlds with distributed Blockchain Networks, will we truly be on the
+path for mass adoption of this transformative technology.
+
+8
+
+Why This Matters?
+It matters because we believe that Bitcoin and its distributed Blockchain technology have the
+potential to be the foundation of a new decentralized and programmable network of networks for the
+store and transfer of value. An Internet of Value that could possibly change the lives of a billion
+people over the next decade.
+
+Proposed solution: The Root Infrastructure Framework Open
+Standard (‘RIFOS’)
+The combination of Bitcoin as a store of value and the RSK Smart Protocol as a smart-contract
+processing protocol opens up the possibility of running distributed applications on the Bitcoin
+Network, using the functionalities of general purpose (i.e. Turing-complete) smart contracts and the
+increased transaction speeds provided by the RSK Smart Protocol.
+Nonetheless, there were still several unanswered questions, such as: How can we leverage the RSK
+Smart Protocol’s smart contract and scalability capabilities to bring distributed Blockchain services
+to mass adoption? How can we solve some of the key friction points that are preventing developers
+from being able to leverage such an amazing technology to on-board millions of users to our
+ecosystem? What would need to be built to achieve all this?
+In mid-2017, these questions led us to start looking at ways to find that missing link between all the
+“core”, protocol-level technology we were building and the needs of developers around the world that
+may, or may not, know much about programming distributed applications.
+As a result of that analysis, which included open and candid conversations with our large developer
+communities worldwide, we decided to tackle the problem by developing and proposing a unified set
+of protocols, rules and interfaces for decentralized infrastructure services, including: Data Storage,
+Secure Certified Communications, Data Feeds (i.e. Oracles), Name Resolution and Payment
+Processing, among others, where:
+(i)
+
+most of these decentralized infrastructure services might be consumed utilizing a
+single token;
+
+(ii)
+
+the development stack could be open to anyone who wants to become a provider of
+these services; and
+
+(iii)
+
+all these components might run smoothly and integrated on top of the RSK Smart
+Protocol while protected by the security of the Bitcoin Network.
+9
+
+We called this solution The Root Infrastructure Framework Open Standard, or RIFOS, and the
+token used to unlock access to the services and functions within this framework was named The Root
+Infrastructure Framework Token, or RIF Token.
+Our solution is designed to promote a fair market for distributed infrastructure services, which can
+be provided by any third party wanting to benefit from the RIFOS and its growing user base, by
+reducing the friction for developers that want to create and deploy distributed applications but do
+not necessarily understand the underlying technology. If successful, this approach should
+significantly increase the adoption of distributed Blockchain technologies by application developers
+and, through them, end users.
+
+The RIFOS in the context of Financial Inclusion
+Financial inclusion is something that touches our hearts deeply and motivates us every day, in part
+because all of us come from corners of the world where we have experienced first-hand the
+challenges that successive economic crises and inefficient and incompetent governments present to
+the less-favoured. This picture is shared across most emerging economies around the world, where
+only a small fraction of the population has access to proper financial services, and consequently, the
+opportunity for improvement is massive and global.
+We believe that the functionality of smart contracts, combined with the security and broad network
+effect of the Bitcoin Network, can truly transform and improve the lives of millions financially
+excluded individuals around the world.
+Although the RIFOS is an open standard framework that could potentially be applied for many other
+purposes, we decided that our role as igniters and initial developers of the RIFOS should have a
+clearly defined scope in order to generate true impact and focus.
+For this reason, our priority as an organization will be to focus on use cases and applications that
+tackle financial inclusion problems. In this regard, our goal is to act as a beacon for the vision that
+distributed Blockchain technologies can (and should) improve the lives of millions of financially
+excluded people around the world. We know this is going to be a long and challenging journey, but
+we have full confidence in our team, our partners and our technology and we will count on the
+continuing support of our growing community.
+Having said this, we are aware that, as with any open standard protocol, there are no limits on use
+cases or other RIFOS compatible infrastructure services that may be integrated into the framework
+and offered to users. Our role will however be limited to ignite the vision and deliver the initial
+10
+
+version of the RIFOS as stated in this document. We believe that, as we achieve this goal and onboard more users and developers, others could add to the RIFOS architecture and potentially grow it
+in unexpected ways, making the RIFOS a true open standard protocol that could be used to deliver
+solutions for a very wide spectrum of problem sets, while leveraging the same underlying technology
+and ecosystem.
+
+What we propose to deliver
+The RIFOS will be designed as a multi-layered development stack aimed at making the deployment
+of applications using distributed Blockchain technology much easier and faster, and without the
+need to provision any infrastructure services ahead of time. We plan to accomplish this by designing
+an open standard protocol that allows developers to integrate their products and services seamlessly
+within the RIFOS ecosystem, provided they are compatible with the underlying architecture of the
+RIFOS protocols. Such infrastructure services may be run by the developers themselves, by third
+parties or by us. In addition to the technology stack, the individual components of the RIFOS will be
+designed to maximize the potential benefits for those who want to offer their infrastructure services
+within the protocols’ ecosystem. In particular, our protocols will include mechanisms to trigger
+network effects and economies of scale, with the hope that as more organizations form part of the
+RIFOS ecosystem, everyone benefits from that.
+At the centre of the RIFOS is a new utility token called the RIF Token. The RIF Token will be
+generated and distributed through a series of smart contracts running on the RSK Smart Protocol.
+(See “Part III: The Token Sale” for more details).
+
+RIFOS key components
+As with any open standard framework, one key feature of the RIFOS’ proposed design is to allow
+third party service providers, who might want to integrate and deploy their infrastructure services
+on the RIFOS, to offer such services to users and developers participating in our ecosystem.
+Furthermore, new infrastructure protocols may be added in the future, either by us or by any
+member of the RIFOS community, in order to enhance this open standard framework and offer
+greater functionality to the RIFOS user base.
+Any component (provided by us or any third party) that conforms to the RIFOS’ design principles
+should be able to seamlessly interoperate with other actors, draw on resources available within the
+ecosystem and fairly compete for users and business.
+
+11
+
+Our team has identified the following set of core components, which we believe are required to fulfil
+our goal of promoting and supporting distributed applications that target financial inclusion:
+-
+
+Secure business logic execution (Smart Contracts);
+
+-
+
+Scalable, high speed payment processing (on-chain and off-chain) protocol;
+
+-
+
+An alias system (Naming Services) protocol compliant with Zooko’s principle of decentralized,
+secure and human-meaningful 1;
+
+-
+
+Encrypted and redundant data storage protocol;
+
+-
+
+Secure Blockchain-certified P2P communications protocol;
+
+-
+
+Data gateways feed protocol;
+
+-
+
+Seamless integration of core apps and infrastructure for application developers through a
+standard API and development language libraries;
+
+-
+
+A functioning native token within the ecosystem to facilitate consumption of services (the
+RIF Token);
+
+-
+
+A fully integrated service (Naming Service / Directory Service) compatible with the RIFOS
+that will accept RIF Tokens as a means of consumption and give the initial utility to the RIF
+Token. This first infrastructure service will also act as a proof-of-concept and a model for
+third party developers, who may want to explore integrating their services with the RIFOS.
+
+In summary, we aim to create an open standard infrastructure framework, which consists of a set of
+protocols together with corresponding API documentation enabling third party developers to utilize
+such interfaces and introduce new components into the RIFOS ecosystem. This open standard
+framework will contain an initial working infrastructure service (i.e. the Naming Service / Directory
+Service referred to above) that will represent a proof-of-concept for how the protocol should work.
+Based on this scope, the RIFOS would look something like this:
+
+1
+
+https://www.linkedin.com/pulse/understanding-identity-blockchain-context-zookos-triangle-john-
+
+lilic/
+12
+
+Note: D1 refers to the Proof of Concept Naming Service / Directory Service that RIF Labs.
+
+The RIF Token utility and its coexistence with RSK’s Smart Bitcoin
+(‘RBTC’)
+As explained in the RSK Technical Whitepaper (referred to in Part I above), the RSK Smart Protocol
+uses a native token called Smart Bitcoin (‘RBTC’) as gas. This RBTC is pegged 1:1 to BTC, and it is
+the way RSK Smart Protocol miners are compensated for allocating their resources to the network.
+This underlying mechanism will remain unchanged after we implement the RIFOS, and RBTC will
+remain as the RSK Smart Protocol’s native token.
+On the other hand, the RIF Token may be used to consume all the RIFOS services built on top of (offchain) the RSK Smart Protocol (in the graph shown above, these services are depicted in grey text
+within the dark blue boxes which represent service protocols).
+In summary, RBTC will continue to be used to pay for the smart contract processing at the RSK
+Smart Protocol layer, the RIF Token may be used to consume all the infrastructure services
+
+13
+
+integrated with the RIFOS, and of course BTC will be used for transaction processing on the lower
+layers of the stack within the Bitcoin Network.
+
+Why we chose the RSK Smart Protocol as Layer 1 of our framework?
+A key component of the RIFOS is the Smart Contract layer, which will manage the relationship
+across all the protocols and services running on top of the open standard framework. We believe that
+using the RSK Smart Protocol as the first layer of our framework is both a significant advantage and
+also a strategic decision that will benefit the whole ecosystem due to the following unique
+characteristics:
+
+1. Bitcoin Friendly
+We believe in Bitcoin. We support the Bitcoin community and we want to continue the legacy of
+the Bitcoin pioneers. The lack of Turing-complete smart-contract capabilities has become an
+obstacle, preventing Bitcoin from growing to its full potential. As stated above, the RSK Smart
+Protocol is based on a 2-way peg smart layer that runs on top of the Bitcoin Network using RBTC
+as gas, which is pegged 1:1 with BTC. Therefore, the RSK Smart Protocol does not mint, nor does
+it have pre-mined coins, and will never do so. It has no speculative value and does not compete
+with Bitcoin. Rather, it is fully aligned with the larger Bitcoin community.
+
+2. Security first
+While it is impossible to maintain the same level of security in the upper layers of the protocol,
+we do care a lot about security. This is even more relevant when we are dealing with financial
+inclusion, since most of our users could not afford to lose the value they hold within our
+ecosystem. The RSK Smart Protocol is secured by merge-mining, which means it can achieve
+similar security levels as the Bitcoin Network in terms of double-spending prevention and
+settlement finality, provided that Bitcoin-only miners and Bitcoin/RSK merge-miners have
+aligned incentives. Although the 2-way peg security will initially rely on a federation holding
+custody of Bitcoins, we expect to move to an automatic peg as soon as the Bitcoin community
+accepts the security trade-offs.
+
+3. Scalability
+Scaling is a key aspect of making transactional costs affordable and suitable for performing dayto-day transactions. In its current state, the RSK Smart Protocol has already shown its ability to
+
+14
+
+scale far beyond the Bitcoin Network (up to 100 transactions per second, which is 20x that of the
+Bitcoin Network and at least 5x the Ethereum Blockchain’s current capacity), while also
+reducing storage and/or bandwidth usage.
+
+4. Instant Payments
+Being able to offer a fast, reliable and cheap payments system is crucial in order to provide
+meaningful decentralized services to the financially excluded. This can only be achieved by
+resolving the scaling issues that most blockchains experience today and is one of the reasons why
+solutions like the Lighting Network in Bitcoin and Raiden in Ethereum have generated so much
+attention.
+RSK Labs has been working on its own version of a Lighting-like network (the Lumino Payments
+Protocol), and the RSK Smart Protocol’s carefully chosen parameters and new theoretical
+protocols (such as DECOR+GHOST) allow blocks to be created, on average, at 10 to 30 second
+intervals, with a low stale block rate, and no additional centralization incentives. A fast block
+interval enables the dynamic creation of new payment channels when no route is available in the
+off-chain payment network, therefore making the user experience of the off-chain payment
+network satisfactory even under congestion. A lot still needs to be done in this space across our
+industry, but it is our belief that RSK Labs’ approach could eventually contribute to the
+successful resolution of this problem. At RIF Labs we propose to support the further development
+of the Lumino Payments Protocol and eventually integrate it into the RIFOS.
+
+5. Offering a viable alternative platform to DApp developers
+Finally, one big reason why we are such proponents of decentralized applications is that
+decentralization brings system resilience and freedom of choice. At the moment, DApp
+developers have very few alternative options for deploying a solution in a secure and reliable
+way. By using the RSK Smart Protocol as our underlying technology, we intend to help the entire
+ecosystem by creating a reliable alternative to the very few already established DApp networks.
+This is not a winner-takes-all business, and the industry should be better off if there are several
+strong blockchains and development ecosystems for developers to choose from.
+
+15
+
+Part II: RIF Labs
+The role of RIF Labs
+The RIF Token and RIFOS development and promotion will be managed by RIF Labs Limited (“RIF
+Labs”), a newly established Company Limited by Guarantee in Gibraltar which will be operated as a
+not for profit entity and shall have an independent advisory board to be established after the Token
+Sale.
+RIF Labs’ goal will be to build on the work already done by RSK Labs and further the growth of the
+RIFOS ecosystem. To ensure its long-term independence and focus, RIF Labs was set up as a nonprofit, purpose-based organization, and its stated purpose is:
+
+“promoting and developing new technologies and applications, especially in the fields of new open
+and decentralized software architectures. A dominating but not exclusive focus is set on the
+promotion and development of the so-called RSK Infrastructure Framework (“RIF”) Open Standard
+Protocols and the related technologies, the promotion and support of applications using the RIFOS
+protocols”.
+In addition to the creation of RIF Labs to manage and oversee the launch and development of the
+RIFOS project and ecosystem, we will also work to ensure that the most appropriate long-term
+governance structure is maintained or introduced to continue to assist the RIFOS vision being
+achieved.
+
+The role of RSK Labs
+As part of the launch of the RIFOS, and to ensure that RIF Labs can continue building on top of RSK
+Labs’ secure business logic execution component (the RSK Smart Protocol layer) and scalable highspeed payment processing (the Lumino Payments Protocol), RSK Labs has agreed to assign all its
+RSK-related IP, brands and knowledge to RIF Labs.
+Accordingly, RIF Labs will acquire all of RSK Labs’ assets and operations in exchange for a
+percentage of the total RIF Tokens to be created, which will include special lock-up provisions to
+incentivize the long term commitment of RSK Labs’ team to the RIFOS project.
+
+16
+
+RIF Labs’ activities behind the RIFOS development
+In addition to being the driving force behind the creation and development of the RIFOS, RIF Labs
+will use a significant portion of the resources raised in the Token Sale to promote the adoption of this
+framework on a global scale, establishing relationships with third party infrastructure service
+providers, supporting application developers that might want to integrate their specific solutions
+(with special emphasis on those aiming at solving financial inclusion problems), and generating
+global awareness about the RIFOS and its advantages.
+Our goal is to help integrate as many third-party infrastructure services and application providers to
+the RIFOS as possible, so that eventually the RIFOS may look more like this:
+
+Note: D1 refers to the Proof of Concept Naming Service / Directory Service that RIF Labs will launch, but note that there may be other similar
+service offerings from other infrastructure providers running within the same protocol within the RIFOS.
+
+17
+
+Since the RIFOS will be an open standard protocol and framework, RIF Labs cannot guarantee that
+the evolution or development of the protocol will materialize as shown in the chart above, as this is
+not under our control. We do not make any claims or promises, nor do we offer any assurances in
+relation to the proposed scope and development of the initial protocol components or the initial
+Directory Service. Neither these development initiatives nor the provision of the infrastructure,
+protocols or services set out above are specifically guaranteed by RIF Labs. On that basis, RIF
+Tokens should not be acquired in reliance on or based on an expectation that the RIFOS will develop
+as depicted in the chart above, which is simply provided as an example of the protocol’s possible
+future architecture.
+In addition to developing the RIFOS and the first infrastructure service (i.e. the Directory Service),
+RIF Labs expects to establish a network of institutions and developers who share our vision and
+want to become part of it. In order to build out this network, some of the strategies we might focus on
+are:
+●
+
+Fostering the creation of “Blossom networks 2” around the world in collaboration with local
+incubators, accelerators and universities, which are aimed at:
+-
+
+Supporting the creation of regional research and development hubs.
+
+-
+
+Setting up grants, bounties and prizes for the development of specific use cases that
+RIF Labs might want to promote.
+
+-
+
+Identifying and supporting developers and start-ups working on promising new
+technologies which are aligned with RIF Labs’ goals.
+
+●
+
+Expanding RIF Labs’ local presence in key regional markets and select financial innovation
+hubs to promote and support the RIFOS ecosystem.
+
+●
+
+Educating developers around the world (and also companies and the general public) about
+Blockchain technologies, the RSK Smart Protocol and the RIFOS, through a series of on/offline educational programmes run by either RIF Labs or training partners.
+
+●
+
+Building a global network of solution providers, including (but not necessarily limited to):
+integrators, training partners, software developers, legal & security advisors, who are
+familiar with and will promote the RIFOS ecosystem.
+
+●
+
+Fostering collaboration with financial institutions, governments and non-profit organizations
+to help develop solutions for the financially excluded around the globe.
+
+2
+
+A “Blossom Network” is a group of people and institutions that are helping promote and develop a thriving ecosystem for our
+
+platform.
+
+18
+
+●
+
+Developing and maintaining multilingual versions of all our protocols, APIs and other
+technologies that we might develop, making it easier for users from around the world to
+develop and deploy apps on the RIFOS and help it become a truly global network.
+
+●
+
+Investing in research and development initiatives, with an initial focus on the
+interoperability and scalability of decentralized networks.
+
+19
+
+Part III: The Token Sale
+The RIF Token
+The RIF Token is intended to be a utility token allowing any token holder to consume all of the
+services that are compatible with the architecture of and integrated to the RIFOS. Such services may
+include third party-developed infrastructure services, and any other apps that might be deployed on
+our protocol that agrees to accept RIF Tokens as a means of accessing/consuming the service or app.
+While we will not limit or prevent the possibility for third party service providers to accept tokens
+other than the RIF Token (for example their own native tokens or other cryptocurrencies), the
+integration with RIFOS will require such service providers to accept RIF Tokens, since we believe
+that having a common consumption token option across all services will benefit developers by
+simplifying their setup and avoiding distortions around pricing for the multiple infrastructure
+services that will be required to develop Blockchain-based applications. The RIFOS may also
+integrate tools and mechanisms to allow for incentive programmes (think bonus points or loyalty
+programmes) for companies and developers that choose to allow the consumption of or access to their
+services through the use of RIF Tokens. Such incentive programmes will be aimed at generating a
+positive network effect for the use of RIF Tokens within the ecosystem.
+
+Token Sale Details
+Initial allocation
+●
+
+A total of 1 billion RIF Tokens will be created by RIF Labs at the Token Generation Event.
+
+●
+
+Approximately 35%-40% will be allocated to the private sale contributors. The initial price of
+RIF Tokens will be set in BTC. Further details relating to the private sale will be disclosed in
+the relevant contribution agreements and associated documentation.
+
+●
+
+Approximately 40% will be kept by RIF Labs, unlocked at a rate 1/60th every month for 5
+years after the Token Sale and used primarily as a way to promote and increase the adoption
+of the RIFOS as indicated in this document.
+
+●
+
+20% will be distributed to RSK Labs’ shareholders, founders and management team as
+consideration for the acquisition of all RSK Labs’ assets and IP, and as a way to align the
+
+20
+
+team long term with the RIF project. These tokens will be unlocked at a rate of 1/48th every
+month for 4 years after the Token Sale ends, with an initial cliff of 6 months.
+●
+
+We plan to raise the equivalent of 20,000 BTC +/- 10%, but we reserve the right to conclude
+the Token Sale at any time after we reach 15,000 BTC or its equivalent in such other
+cryptocurrencies that we may decide to accept.
+
+●
+
+While we don’t plan to do a public sale of tokens, RIF Labs will initially earmark 21 million
+RIF Tokens for early adopters of the RIFOS through a set of bounty and early adoption
+incentive programmes.
+
+Long term sustainability of RIF Labs and the RIFOS and final thoughts
+As a purpose-based company, RIF Labs’ future earnings should be re-invested to benefit the growth
+of the RIFOS and its long term objectives. It is therefore important to assess potential sources of
+revenue for RIF Labs in the coming years, as the RIFOS is built up.
+We believe that as the adoption of the RIFOS increases, RIF Labs could potentially generate revenue
+from at least the following two sources:
+a. Revenue from the Smart Contract processing fees: The RSK Smart Protocol charges a small
+fee in RBTC as gas for processing and executing each Smart Contract deployed on the
+protocol. As part of the acquisition of RSK Labs’ assets and IP, RIF Labs will be entitled to a
+percentage of this revenue stream. While initially this number will be insignificant, as the
+volume of smart contract processing grows, this might become a steady source of income for
+RIF Labs.
+b. Ecosystem Partnerships: In connection with the promotional activities for the RIFOS
+ecosystem, RIF Labs plans to establish strategic partnerships in different parts of the world
+with start-up accelerators, incubators, education programme providers, event organisers, etc.
+These partnerships might provide additional revenue streams for RIF Labs.
+We believe that Blockchain-based applications can transform the way we exchange value in the
+coming decade. RIF Labs is therefore proposing to create the necessary infrastructure and partnerup with businesses and other institutions who will contribute to help our vision materialize.
+We hope you share this vision and join us!
+The RSK Labs & RIF Labs Team
+
+21
+
+APPENDIX
+RSK Labs’ History
+RSK Labs is the creator and current owner of the RSK Smart Protocol. RSK Labs was founded in
+2015 and is backed by top-tier investors that are deeply rooted in Bitcoin and the crypto space. Since
+its inception, RSK Labs has raised over $4 million in funding. In December 2016, RSK Labs
+announced the launch of the RSK side-chain protocol, the first fully functional smart contract
+platform secured by the Bitcoin network (the “RSK Smart Protocol”). The Test-net version was
+opened to the public in May 2017 and the beta Main-net version was released in January 2018. You
+can read about the Main-net launch here: https://media.rsk.co/bamboo-release-v0-3-0-is-here/ and a
+detailed whitepaper of the RSK Smart Protocol can be found here.
+Ginger is the public release of the RSK Smart Protocol’s open source Test-net network powered by
+the Bitcoin Network, the most secure distributed network in the world. Based on latest tests, users
+shall be able to run their smart contracts on a protocol that could potentially scale up to 2.000 TPS
+on-chain and 20.000 TPS off-chain, thereby providing the scalability needed for global financial
+solutions.
+The source code is available at https://github.com/RSKSmart
+You can also check network activity and tools here:
+●
+
+RSK Stats: https://stats.rsk.co
+
+●
+
+RSK Explorer: https://explorer.rsk.co
+
+●
+
+RSK Faucet: https://faucet.rsk.co
+
+●
+
+RSK Network status: https://twitter.com/RskSmartNetwork
+
+Here is a selection of the latest media coverage relating to the RSK Smart Protocol:
+●
+
+Bitcoin Based Ethereum Smart Contract and Sidechain Rival RSK Launches Today (Bitcoin
+News, 01/02/18)
+
+●
+
+Bitcoin Startup RSK to Launch Smart Contracts Sidechain in 2017 (Coindesk,11/06/17)
+
+●
+
+How to reward full nodes? (YouTube Video of Devcon presentation, 11/04/17)
+
+22
+
+RIF Labs’ Founding Team
+As a global project, RIF Labs has a growing team of collaborators spread all over the globe.
+Currently, we are over 30 team members led by a founding team, which is widely recognized by the
+Bitcoin and cryptocurrency communities as being at the forefront of the industry and actively
+leading some of the key innovations in the space since 2011. We have a proven track record of
+successfully delivering Blockchain technologies and highly complex products.
+The leadership of the RIF Labs team includes the following people:
+
+Sergio Demian Lerner, co-founder and Chief Scientist Officer
+Widely recognized as a leading security/cryptocurrency researcher and a serial entrepreneur, Sergio
+has co-founded 7 technology companies: RSK Labs, Coinspect, Coinfabrik, WayniLoans, ASICBoost,
+Identiva Security and Pentatek.
+In 2011, he joined the Bitcoin community and collaborated to strengthen the security of the Bitcoin
+Core by discovering and reporting 9 vulnerabilities. He also proposed more than 50 design
+improvements for greater privacy, interoperability, decentralization, scalability, and faster
+payments.
+Sergio is also an expert software and firmware developer and has programmed and led hi-tech
+interdisciplinary projects. He designed and developed several security systems with strong
+cryptography and more than 15 different neuro-medical products that were government-approved
+and sold in Latin America to more than 4000 clinics. He has vast experience in the development of
+real-time medical systems, data acquisition, digital signal analysis, and algorithm design.
+He holds a Computer Science degree (UBA, Argentina).
+
+Diego Gutierrez Zaldivar, co-founder and Chief Executive Officer
+A pioneer of web development in Argentina and Latin America since 1995, Diego was also one of the
+first persons to foster and develop Bitcoin and blockchain technology in Latin America, which he has
+done since 2012. In addition to RSK Labs, he also co-founded Koibanx, another blockchain company
+that is aiming to transform the potential of Bitcoin and blockchain technologies into real use cases,
+which serve as a driver for social and economic change. Diego is also co-founder of the Argentinian,
+with over 5,000 registered members on the meetups and 30,000 members on its online community
+
+23
+
+and the first Bitcoin Centre in Latam. He is also president and co-founder of the Latam Bitcoin
+NGOs, where he helped create a network of Bitcoin communities with presence in 9 countries of the
+region and hosts the longest running Bitcoin Conference in the world (www.labitconf.com).
+His extensive experience includes being part of the founding teams of some of the most well-known
+digital projects in Argentina and Latin America, including Clarín Digital (Argentina’s main
+newspaper website), Patagon.com (financial community sold to Banco Santander for 750M), Internet
+Argentina (first Argentinian ISP to provide ADSL) and Edunexo (provider of a SaaS platform to
+administer public and private educational institutions in Latin America and Spain). He also held the
+position of R&D head at ElSitio.com, where he led a team of 25 developers.
+
+Ruben Altman, co-founder and Chief Operating Officer
+With a long and prolific career as software developer and entrepreneur, Ruben previously co-founded
+software development company Kinetica.
+His experience includes developing the first virtual supermarket in Argentina and leading the
+development of a pay-per-click platform for a European company based in London, UK where he
+lived for 2 years.
+Ruben is a Professor of Computer Science at ORT University and holds a Computer Science degree
+(UBA, Argentina).
+
+Adrian Eidelman, co-founder and Chief Technology Officer
+With over 20 years of programming experience, Adrian was a co-founder of Kinetica (together with
+Ruben Altman) and was involved in the Blockchain Nimblecoin development. He also worked as a
+programming consultant for various companies (Disco, Tenaris, Microsoft, etc.) and was Process
+Improvement Consultant for Baufest.
+He was Assistant Lecturer in Administration and Control of Projects I classes at University of
+Buenos Aires (UBA) and was a founding member of the Agile Methodologies community in Argentina
+and Latin America.
+Adrian holds a degree in Computer Science (UBA, Argentina) and a postgraduate degree in
+Marketing (ITBA, Argentina),
+
+24
+
+Gabriel Kurman, co-founder
+A regular speaker at international Blockchain conferences with more than 20 years of experience in
+corporate finance and private equity. He has been involved in the crypto space since 2013 when he
+co-founded multiple for-profit and non-for profit Blockchain projects.
+In addition to RSK Labs, Gabriel is also the co-founder and CEO of Koibanx, a Blockchain services
+firm for banks and governments. Prior to that, he worked for Advent International in both Argentina
+and the United Kingdom where he raised a $1.65 billion fund for LATAM and acquired the LKM
+Laboratory. Before this, he also worked at and Monsanto in Argentina and USA.
+Gabriel holds a Cum Laude Bachelor of Science in Economics (UBA, Argentina) and has a
+postgraduate degree in Capital Markets and Financial Services (Buenos Aires Stock Exchange,
+Argentina).
+He is a member of Bitcoin Argentina and the Bitcoin Latin America Foundation where he co-founded
+La Bitcoineta project and Blockchain4Humanity, a global Blockchain social incubator.
+
+Ariel Muslera, Strategic Advisor for RIFOS
+Ariel has over 15 years of experience as a venture investor, advisor and entrepreneur in Argentina,
+Brazil and the US.
+In July 2017 Ariel joined the leadership team of RIF Labs as an advisor to help implement the vision
+of bringing Smart Contract functionality and scalability to the Bitcoin Blockchain and promote the
+use of distributed networks as a way to accelerate financial and social inclusion.
+Before RIF Labs, Ariel had an extensive career in Venture Capital and he still remains a board
+member of Properati (RE Tech) and Unleash (Inmuno oncolytic therapy), and an advisor in Venture
+Capital for the Latin American Venture Capital Association. In the past he also advised Santander
+Innoventures, the corporate VC arm of the Spanish banking giant which has a $200mm pool of
+capital and a global remit with a Fintech focus.
+Ariel holds an MBA with Honors from Columbia Business School and has a BA in Economics from
+Universidad Torcuato Di Tella. He has lived and worked in New York, São Paulo and Buenos Aires
+and is a fellow from the Kauffman Fellows Foundation, class 18.
+
+25
+
+Malcom Palle, Advisor and RIF Labs Director
+Malcolm Palle is Chairman and co-founder of Coinsilium Group, the NEX Exchange listed
+blockchain venture builder. He is a multi-disciplined entrepreneur and early technology adopter with
+25 years start-up experience and a background in the Mobile Communications and Travel
+Industries.
+Since 2007 Malcolm has been an active investor in the mining and exploration sector with a bias
+towards precious metals; it was this bias that led him towards bitcoin and the nascent blockchain
+industry in 2013.
+Malcolm is currently leading Coinsilium’s latest project, TerraStream, which will initially focus on
+developing a tokenized model to deliver alternative project funding solution for the mining and
+exploration industry. Malcolm is also the co-founder of well-established investor communications
+brand MiningMaven.
+
+Eddy Travia, Advisor
+Eddy Travia is a pioneer investor in blockchain technology startups and the CEO of Coinsilium, a
+London-quoted venture builder, accelerator and investor in early-stage blockchain technology
+companies (NEX:COIN).
+In July 2013, following several years as a private equity fund manager in Greater China, Eddy cofounded Seedcoin, the world’s first global incubator of digital currency startups and, in May 2014,
+was named among the ‘Top 3 Most Influential Investors’ at the Blockchain Awards.
+Eddy has led early-stage investments in 18 blockchain companies around the world (including
+Factom, RSK and Indorse) and has advised eleven ICOs which have collectively raised more than
+half a billion dollars. He also regularly delivers keynote speeches on Blockchain and advises
+corporates and regulators.
+
+Joey García, Advisor
+Joey Garcia is the financial services and fintech partner at ISOLAS LLP, Gibraltar’s longest
+established law firm (1892). He has co-chaired the Gibraltar Government working group on
+distributed ledger technology and Blockchain technology for a number of years and is ranked by
+Chamber and Partners as one of the top lawyers in the world in the space, as well as by the Legal
+
+26
+
+500 as an accomplished financial services expert in Gibraltar. The Gibraltar Financial Services
+Commission has recently introduced a new regulatory framework to cover operators in the
+Blockchain space and Joey has been involved in this process as part of the working group.
+In addition to being an advisor, Joey is also RSK’s ambassador for Gibraltar under the group’s
+ambassador program.
+
+Valeria Bystrowicz, Advisor
+As part of the Blockchain Technology & Digital Currency industry group at Perkins Coie, Valeria
+has been at the forefront of the legal and regulatory frameworks related to virtual currency and
+blockchain.
+A native of Argentina who received her LL.M. degree from New York University School of Law after
+graduating as an attorney from University of Buenos Aires School of Law, Valeria has remained
+closely involved in the Latin American ecosystem and spends part of her free time collaborating with
+entrepreneurs from emerging countries with the goal of contributing to the growth and
+strengthening of their entrepreneurial communities.
+
+Miguel Santos, Advisor
+Miguel is the founder and CEO of Technisys, a leading venture backed digital banking company. The
+company has offices in US, Canada, Brazil, Mexico, Costa Rica, Colombia, Chile, Uruguay and
+Argentina and serves more than 50 banks and fintechs touching more than 60 million end users.
+Miguel is also a well-known investor in technology-based ventures with high growth potential, where
+he can add value with his experience and network in the financial services industry in areas such as
+digital finance, crypto, security and fintech.
+
+Alex Aberg Cobo, Advisor and RIF Labs Director
+Before joining RIF Labs as a Director and Advisor, Alex was Managing Director Latin America at
+Minerva Project, overseeing outreach, strategic partnerships, media, and Government relations. Alex
+also founded his own financial advisory practice and served as a director at Deutsche Bank in New
+York and Buenos Aires. He has also worked at Morgan Stanley, initially in Capital Markets and
+M&A and later as VP in the Global High Yield Group in New York. Prior to relocating to the USA,
+
+27
+
+Aberg Cobo practiced law at Cardenas & Cassagne Law firm in Buenos Aires. Aberg Cobo earned his
+J.D. from Universidad Católica Argentina and his M.B.A. from Harvard Business School.
+
+Cesar Levene, Advisor
+Cesar Levene is managing partner of Estudio Levene, a legal & tax firm with offices in Argentina
+and Uruguay, advising Blockchain and crypto projects since 2014. Estudio Levene also represents
+companies from their start-up phase all the way to capital raising and M&A transactions. Mr.
+Levene has a master’s degree in international tax and trust Law in 2000, London School of
+Economics, UK, has advised several projects related with token generation events and is a founder of
+a Crypto Token Fund.
+
+28
+
+

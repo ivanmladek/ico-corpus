@@ -1,0 +1,947 @@
+Whitepaper by Dean van Dugteren <dean@nos.io>
+Public Release v1.5
+Published September 17th 2018
+Latest update: October 16th 2018
+Items in this whitepaper are subject to change
+
+https://nos.io
+contact@nos.io
+
+1
+
+Table of Contents
+
+Table of Contents................................................................................................... 2
+Problem ................................................................................................................. 3
+nOS – Blockchain-Powered Operating System ....................................................... 4
+1. Introduction .............................................................................................................. 4
+1.1. Abstract ............................................................................................................. 4
+1.2. Summary ........................................................................................................... 4
+2. Features .................................................................................................................... 5
+2.1. Isolated dApp environment .............................................................................. 5
+2.2. Decentralized Distribution of Applications ...................................................... 6
+2.3. Universal Smart Contracts (USC) .................................................................... 8
+2.4. Automatic Token Conversion ........................................................................... 8
+3. nOS Client and Developer Solutions ..................................................................... 10
+3.1. Client Menu .................................................................................................... 10
+3.2. Client Screenshots .......................................................................................... 11
+3.3. nos-local.......................................................................................................... 18
+3.4. create-nos-dapp ............................................................................................... 18
+3.5. nOSNet ........................................................................................................... 18
+nOS Utility Token (nOS) ..................................................................................... 18
+1. Incentive Model: Selective Supply Increase (SSI) ................................................ 18
+1.1. Introduction .................................................................................................... 18
+1.2. SSI Reward Factors ........................................................................................ 19
+1.3. SSI Diagram ................................................................................................... 20
+2. Decentralized Authority ......................................................................................... 21
+2.1. Introduction .................................................................................................... 21
+2.2. Benefits ........................................................................................................... 21
+2.3. Tiered Voting System ..................................................................................... 21
+2.4. Ranking Cycle ................................................................................................ 22
+3. Decentralized Filesystem ....................................................................................... 23
+4. Name Service ......................................................................................................... 23
+4.1. Introduction .................................................................................................... 23
+4.2. Vickrey Auction ............................................................................................. 24
+4.3. Domain Ownership Cycle .............................................................................. 24
+4.4. Partial Token Release ..................................................................................... 24
+4.5. Domain Auction/Ownership Flowchart.......................................................... 25
+5. Token Generation Event (TGE) ............................................................................. 26
+Progress and Roadmap ......................................................................................... 28
+1. Development Progress ........................................................................................... 28
+2. Development Roadmap .......................................................................................... 29
+Disclaimer ........................................................................................................... 29
+References ........................................................................................................... 30
+
+2
+
+Problem
+There is an inherent problem with applications that are hosted on the traditional internet.
+Usually, modern applications require closed-source server-side backends in order to
+maintain security, privacy, and functional efficiency. This leads to an inherent lack of
+transparency. End-users have no insight into what happens to their personal data nor any
+control over how it is used. This situation is being taken advantage of by corporations and
+applications of all sizes, who can implement intrusive data tracking methods for purposes
+of e.g. unauthorized monetization of user data or influencing political campaigns [1] [2].
+Blockchain technology introduces a new ability for projects to make key elements of
+their applications’ server-side backend code truly transparent, giving end-users complete
+insight into what happens to their data. Applications can also take advantage of new
+technologies that are provided by blockchain, such as smart contracts, verification of data
+legitimacy, self-sovereign digital identity, and tokenized digital assets. Applications that
+deeply integrate with blockchain technology are often referred to as decentralized
+applications, or dApps.
+Modern public blockchain platforms (such as NEO and Ethereum) are currently
+witnessing a sharp increase in development and distribution of new, ambitious dApps.
+To facilitate the anticipated growth in consumer-level adoption, dApps need to be as
+user-friendly as “traditional” internet services that regular consumers are familiar with.
+Currently this not the case:
+•
+
+•
+
+•
+
+dApps may introduce their own crypto-currency token (e.g. based on the NEO
+NEP-5 Standard [3] or the Ethereum ERC-20 Standard [4]) which often play an
+essential role in application functionalities. Therefore, users who wish to interact
+with multiple dApps must acquire different tokens through means of trading on
+crypto-currency exchanges. The activities required to purchase and manage
+these tokens are far too complicated for consumer-level end-users, and therefore
+act as a roadblock to mainstream adoption of decentralized applications.
+Many consumers are not aware of the various security considerations when using
+dApps. Many applications require interaction with user-owned crypto-currency
+wallets, which are secured by a private key. A typical phishing approach by
+hackers is to hijack the domain names of such applications. In these instances, a
+user may unknowingly give bad actors access to their crypto-currency wallet,
+leading to a loss of funds. Browser plug-ins such as Metamask [5] provide far
+more secure methods of interacting with web-based decentralized applications.
+However, as the EtherDelta and MyEtherWallet domain hijackings have shown
+[6] [7], a substantial amount of dApp users remain sensitive to unknowingly
+authorizing malicious transactions, even when using such browser plug-ins.
+Discoverability remains limited for dApps, creating a barrier to widespread
+adoption [8].
+3
+
+•
+
+The existing high difficulty of dApp development withholds many projects from
+achieving production-readiness [9].
+
+nOS – Blockchain-Powered Operating System
+1. Introduction
+Below you will find an abstract summary of nOS along with its associated benefit.
+
+1.1. Abstract
+nOS is a virtual operating system that introduces a new, decentralized internet. On this
+new internet user data is safe, and it only goes where the user wants it to go.
+nOS solves key issues surrounding dApp development, deployment, discovery, and
+interaction, allowing for true adoption of decentralized applications and blockchain
+technology.
+Because applications can choose to make their back-ends fully open-source and
+transparent, this new implementation of the World Wide Web is defined as the Open
+Internet.
+
+1.2. Summary
+On nOS, applications and websites can be deployed in a completely open and
+decentralized manner by integrating smart contracts, client-side code, and public-key
+cryptography.
+Unlike server-side backend code, smart contracts can be open for all to read, allowing
+users to review how their data will be transmitted before any final commitments to action.
+Client-side code and other frontend materials can be distributed via nOS Filesystem, a
+decentralized file sharing protocol that allows for secure and transparent distribution of
+static files.
+By serving both backend logic and frontend material in an open-source, decentralized
+manner, true transparency between user and application can be achieved.
+dApps that are deployed to nOS can be accessed through nOS Client [nOS Client] [10],
+a software solution for desktop and mobile that (among other features) introduces nOS
+Browser.
+nOS Browser functions as a web browser, with the added benefit that it integrates with
+the nOS Protocol, a blockchain-powered web protocol that facilitates secure and open
+accessibility of nOS dApps.
+
+4
+
+The nOS Protocol resolves domain names that exist on nOS Name Service, a
+blockchain-powered decentralized implementation of a Domain Name Service, and
+allows for dApps to register domain names which are discoverable on nOS (e.g. mydapp.neo or my-dapp.eth) [Name Service].
+The dApp Gateway [nOS Client: dApp Gateway] is a user-friendly dApp discovery
+platform (or “App Store” [11]) where rankings are decided in a completely decentralized
+manner via Decentralized Authority [Decentralized Authority].
+In order to achieve the features such as the ones described above, nOS is powered by the
+nOS Utility Token [nOS Utility Token].
+The nOS Utility Token employs various staking and reward utilities which are intended
+for developers who wish to deploy and maintain dApps on nOS, and for end-users who
+wish to practice governance by Decentralized Authority.
+nOS eliminates the need for end-users to manually exchange crypto-currencies in order to
+make use of various dApps. By integrating crypto-currency exchange APIs, nOS Client
+automatically converts primary blockchain platform currencies (e.g. NEO/GAS for
+NEO, ETH for Ethereum) into the required amount of application tokens that are needed
+to make specific transactions or invocations [Automatic Token Conversion].
+
+2. Features
+2.1. Isolated dApp environment
+dApps can choose to run inside an
+isolated environment within nOS Client
+[nOS dApp Infrastructure Diagram].
+Such dApps can send requests to the host
+(end-user client) to make transactions and
+smart contract invocations on various
+blockchain platforms1 all the while never
+requiring the user to expose their private
+keys to the dApp (or any third party for
+that matter).
+Upon emission of a transaction/invocation
+request, an authorization prompt appears
+for the end-user, allowing them to review,
+and approve or decline the request.
+Transaction Authorization Prompt
+1
+
+Currently the nOS dApp API supports interactions with the NEO blockchain. Support for the Ethereum blockchain is
+in development. Support for other various blockchain platforms may also be integrated in the future.
+
+5
+
+Example request code snippet from nOS API Documentation [12]:
+
+2.2. Decentralized Distribution of Applications
+For the nOS Client MVP, dApps can serve their frontend material (e.g. client-side code,
+static files, and data) to the end-user via GitHub repositories. In the future, content will
+be served via nOS Filesystem [Decentralized Filesystem].
+nOS Filesystem is a peer-to-peer protocol that allows for content to be distributed in a
+secure and decentralized manner. This content gains increased availability, transparency,
+and longevity compared to traditional data hosting solutions. Content integrity can be
+validated by looking up a file’s hash within nOS Filesystem, therefore increasing file
+verifiability.
+Content that resides on nOS Filesystem is served via the nOS Protocol, which also
+adopts nOS Name Service [Name Service] and the dApp Gateway [nOS Client: dApp
+Gateway] [nOS dApp Hosting Diagram].
+
+6
+
+2.2.1. nOS dApp Infrastructure Diagram
+
+7
+
+2.3. Universal Smart Contracts (USC)
+Universal Smart Contracts (or USCs) are smart contract templates that contain common
+behaviors for managing Identity, Tokens, and Storage. These smart contracts are built for
+various blockchain platforms and can be utilized by any nOS application.
+Apart from serving as templates, USCs can also serve as master smart contracts. A
+Master USC is already deployed to its blockchain platform. dApps can set up their
+storage structure with the Master USC, allowing for the hosting and manipulation of
+dApp storage items by calling the smart contract’s exposed functions. This eliminates the
+requirement for dApps to build and deploy their own smart contract.
+nOS USCs greatly simplify dApp development and deployment costs, and introduce the
+ability for a larger spectrum of dApps at various scales to be built, prototyped, and
+deployed.
+
+2.4. Automatic Token Conversion
+2.4.1. Description
+Automatic Token Conversion addresses the sharp increase in deployments of various
+virtual tokens, a phenomenon that causes severe inconvenience to users who wish to
+regularly engage with decentralized applications.
+With nOS, the primary crypto-currency of the dApp’s back-end blockchain platform (e.g.
+GAS for NEO or ETH for Ethereum) can be used for token-specific interactions, while
+still providing exchange liquidity to the dApp’s own virtual token. Users also have the
+option to configure their trading pair preferences (e.g. NEO/GAS for Ethereum dApps).
+The nOS Automatic Token Conversion process, for example using GAS as the primary
+exchange currency and a NEO NEP-5 token as the desired dApp token, is as follows:
+1. dApp makes an invocation request that requires a certain amount of a specific
+NEP-5 token (“Desired NEP-5 Token”).
+2. If the “GAS to Desired NEP-5 Token” trading pair has
+enough liquidity across integrated exchanges to safely
+make a purchase at market price, the user will receive
+a “Buy & Run” prompt to instantly exchange GAS
+for the required number of Desired NEP-5 Tokens.
+3. If the user approves the “Buy & Run” prompt, nOS
+will utilize integrated exchange APIs to exchange the
+user’s GAS for the Desired NEP-5 Tokens.
+4. When the desired tokens are purchased and settled in
+the users’ wallet, nOS will execute the requested
+smart contract invocation.
+5. The user has successfully made the invocation with
+GAS to NEP-5 Token
+the required amount of the Desired NEP-5 Tokens.
+Conversion Modal
+8
+
+2.4.2. Automatic Token Conversion Flowchart
+
+9
+
+3. nOS Client and Developer Solutions
+3.1. Client Menu
+The nOS Client MVP for Developers is live [9] and can be used to build nOS
+Decentralized Applications. Technical specifications of nOS Client can be found in the
+nOS Client Documentation [11].
+Users can log in to the client using their Encrypted Private Key or their Ledger device.
+Upon authorization, users are presented a User Interface.
+nOS Client’s User Interface includes:
+-
+
+Open Internet Browser
+
+Web browser that supports both HTTP and the nOS Protocol (nos://). Unlike HTTP,
+files served via the nOS Protocol are first obtained from nOS Filesystem, then
+stored to a local sandboxed environment on the end-user’s hard drive, finally to be
+served to the end-user from the client-side. This grants users complete control and
+insight over their interactions with nOS decentralized applications.
+-
+
+dApp Gateway
+
+Decentralized application discovery gateway, similar to app stores found in popular
+(mobile and desktop) operating systems (such as the Google Play Store [10]). The
+primary difference between the dApp Gateway and traditional app stores is that the
+rankings of applications on the dApp Gateway are controlled in an open,
+decentralized, and democratic manner, by employing Decentralized Authority
+[Decentralized Authority].
+-
+
+Crypto-currency & Token Wallet
+
+Wallet application for managing crypto-currency tokens and digital assets.
+-
+
+Exchange
+
+Crypto-currency exchange application, powered by existing high volume exchange
+platforms. The exchange application supports both simple and advanced trading of
+crypto-currencies.
+-
+
+Account Settings
+
+Allows for management of different blockchain platform accounts, wallets, and
+digital identities.
+-
+
+Client Settings
+
+Allows for management of blockchain network settings, client theme management,
+developer tools, and user preferences.
+
+10
+
+3.2. Client Screenshots
+Screenshots of the nOS Client MVP:
+
+Login Screen
+Not representative of final product design or UI.
+
+Client Login Screen
+Not representative of final product design or UI.
+
+11
+
+dApp Gateway
+Not representative of final product design or UI.
+
+12
+
+dApp View (VDT.Network) and Open Internet Browser
+Not representative of final product design or UI.
+
+13
+
+Wallet
+Not representative of final product design or UI.
+
+14
+
+Settings
+Not representative of final product design or UI.
+
+15
+
+Mobile dApp Gateway
+Not representative of final product design or UI.
+
+16
+
+Mobile dApp View (VDT.Network)
+Not representative of final product design or UI.
+
+17
+
+3.3. nos-local
+nOS introduces nos-local [13], a NEO-based development stack which serves as a oneclick solution for:
+•
+•
+•
+
+Installing the latest development version of the nOS Developer Client.
+Setting up a NEO private network.
+Establishing a bridge for easy interaction between nOS Client and the NEO
+private network.
+
+3.4. create-nos-dapp
+create-nos-dapp [14] is a command-line interface (CLI) tool that allows for easy
+bootstrapping of nOS dApps, using popular JavaScript frameworks (React, Vue, Angular)
+as starting points for dApp development.
+
+3.5. nOSNet
+nOSNet [15] is a live and public NEO Testnet powered by nOS, that allows for
+developers to publish dApps to a public testing environment. Anyone is able to interact
+with these published nOSNet applications using nOS Client.
+
+nOS Utility Token
+Individual topics below are each to be detailed in their respective documentation.
+The nOS Utility Token, also titled nOS token, nOS, or NOS, forms the backbone of key
+platform functionalities. Its utilities include native integration with nOS Filesystem
+[Decentralized Filesystem], nOS Name Service [Name Service], dApp Gateway, and
+Decentralized Authority [Decentralized Authority]. All described utilities of the nOS
+token are powered by staking mechanisms and Selective Supply Increase.
+
+1. Incentive Model: Selective Supply Increase (SSI)
+1.1. Introduction
+A common incentive model for network services (such as file hosting) is to directly
+transact value (e.g. currency) from consumer (application) to supplier (host). An example
+of this is cloud-based web hosting, where project owners pay web hosting providers
+periodically for online storage and computing power. This can be defined as a
+transactional (business) model.
+dApps, which due to their decentralized nature are often open-source, MIT licensed, and
+not for-profit, may not always implement business models that rely on a direct
+relationship between consumer (user) and supplier (application). Therefore, a
+transactional model for dApp hosting is inefficient as periodic hosting costs are directly
+correlated to application popularity.
+18
+
+Instead of adopting a transactional model, nOS implements a model that is beneficial to
+all quality participants of the ecosystem; including contributors, application owners, and
+end-users. This model is Selective Supply Increase.
+Selective Supply Increase (or SSI) introduces a periodic increase in the circulating
+supply2 of the nOS Utility Token. Tokens that are added to the circulating supply are only
+distributed to contributors to the ecosystem (applications, voters, and network/hosting
+nodes) as a means to incentivize qualitative participation in the network.
+
+1.2. SSI Reward Factors
+The number of tokens received by any contributor is collectively decided by four factors:
+•
+
+•
+
+•
+
+•
+
+Contributions to the network
+Practicing decentralized authority, participating as a filesystem/network node, and
+maintaining a good reputation are all factors that influence projected rewards via
+Selective Supply Increase.
+Amount of nOS tokens staked
+Network participants must stake3 nOS tokens in order to maintain eligibility for
+receiving tokens via Selective Supply Increase. The greater the number of staked
+tokens, the higher potential for SSI rewards.
+Staking duration
+Predefining a longer period to stake nOS tokens will increase the projected
+number of tokens received via Selective Supply Increase.
+Reputation
+Acquiring a high reputation by measured performance and Decentralized
+Authority [Decentralized Authority] will increase the potential for rewards by
+Selective Supply Increase.
+
+While entities that have made valuable contributions and attained good reputations are
+rewarded with Selective Supply Increase, entities that established a bad reputation may
+receive no tokens from the supply increase. Therefore, the means of incentives are no
+longer based on an exchange of goods for services (e.g. currency for hosting), but rather
+on active and valuable participation in the ecosystem.
+All mechanics that would label an entity as a contributor to the network (thus eligible to
+receive tokens by Selective Supply Increase) require the staking of tokens.
+
+Periodic token supply increase amounts and timeframe remain to be decided. The increase in circulating
+supply via SSI can never exceed 5% per year.
+3
+Staking is the action of making an amount of tokens non-transferrable. Staked tokens are to be released
+back to the owner when certain predefined conditions are met (such as the passing of an amount of time).
+2
+
+19
+
+1.3. SSI Diagram
+
+20
+
+2. Decentralized Authority
+2.1. Introduction
+End-users can stake nOS tokens to be granted Decentralized Authority.
+Decentralized Authority allows for users to rate applications based on quality and other
+relevant factors. The established ratings are then used for ranking applications on the
+dApp Gateway.
+Users are incentivized to vote responsibly by distribution of nOS tokens via Selective
+Supply Increase (SSI); those who vote more truthfully (in accordance to the eventual
+outcome) receive relatively more nOS tokens via SSI than those who don’t. Truthful
+voters also gain voting power, a factor that defines the user’s voting weight.
+Additionally, applications themselves are also rewarded via SSI for establishing a
+positive reputation.
+
+2.2. Benefits
+Decentralized Authority allows for a number of benefits, including:
+•
+
+•
+
+•
+
+Application revenue
+Applications can generate tokens as a form of revenue, simply by virtue of quality
+and by establishing and maintaining a positive reputation.
+Application exposure
+Applications with a positive reputation will gain increased discoverability on the
+dApp Gateway.
+Protection from bad reputation applications
+Applications that earn a bad reputation are made less discoverable on the dApp
+Gateway, and users may receive a warning before accessing such applications.
+This increases user protection from potentially dangerous applications.
+
+2.3. Tiered Voting System
+nOS implements a tiered voting system which assures truthful and realistic
+establishment of dApp reputations.
+After a dApp receives a certain number of votes and committed voting power, it is rated
+by a randomly selected council consisting of an uneven number of truthful voters (voters
+who established high voting power).
+The application’s eventual reputation is then decided by reaching a specific majority
+outcome amongst these voters, combined with the processed ratings of both the public
+vote and council vote.
+End-users with
+Decentralized
+Authority vote on
+application
+
+Randomly selected
+council of truthful
+voters vote on
+application
+21
+
+Application rating
+is established
+
+2.4. Ranking Cycle
+The tiered voting system is the first step in the application ranking cycle.
+Applications are rated and ranked using factors such as relative reputation and popularity.
+nOS employs a cyclical voting system to continuously re-evaluate applications based on
+current ecosystem sentiment.
+The cycle is as follows:
+
+New Voting
+Period
+
+Average
+Ranking
+Calculation
+
+Result & SSI
+Distribution
+
+1. New Voting Period
+A new period for voting on applications is initialized. Decentralized Authorities
+are able to rate applications using nOS Client’s Open Internet Browser.
+Previously established ratings are taken into account to prevent drastic changes in
+application rankings.
+2. Average Ranking Calculation
+After the voting period, a number of nOS Nodes calculate the final rankings offchain. Upon consensus, the final calculations are stored on the blockchain.
+3. Result and S.S.I. Distribution
+The final application rankings that resulted from the calculation are applied to the
+dApp Gateway for end-user discovery purposes, and for distributing tokens to
+network contributors via Selective Supply Increase (SSI).
+
+22
+
+3. Decentralized Filesystem
+Applications built on nOS can serve frontend materials (such as data, web pages, media,
+JavaScript, other static files) in a decentralized manner with nOS Filesystem. With that,
+client-side applications that utilize smart contracts for their back-end infrastructure are
+completely decentralized.
+To deploy files on nOS Filesystem, dApp owners must stake nOS tokens. The amount of
+filesystem resources available to the dApp is determined by:
+•
+
+•
+
+The quantity of nOS tokens staked by the dApp owner compared against the
+collective amount of all nOS tokens staked in exchange for use of nOS Filesystem
+resources.
+The amount of nOS Filesystem resources utilized collectively.
+
+Tokens staked in exchange for use of resources are not consumed and may be returned to
+the application owner at any point in time. This model allows for applications to easily
+scale their resource requirements, and forms the essence of an economic model that is
+beneficial to all valuable participants in the network.
+It is key that nOS Filesystem maintains a level of performance that is equal to (or
+exceeds) traditional cloud-based hosting solutions. As IPFS [16] and other distributed file
+sharing protocols are in their early stages of development, research and development into
+these technologies will be performed as indicated on the roadmap [Development
+Roadmap].
+Filesystem nodes that contribute to nOS Filesystem are rewarded via Selective Supply
+Increase (SSI). Good reputation applications are also rewarded via SSI. The earned nOS
+tokens can assist with scaling applications as they gain popularity.
+With this, both consumer (application) and supplier (host) are rewarded, instead of solely
+the supplier (which is the case with traditional cloud hosting services).
+
+4. Name Service
+4.1. Introduction
+In order for dApps to utilize the nOS Protocol, the dApp owner must first obtain a nOS
+Protocol domain name (domain for short) for their dApp. Application owners can
+reserve domains where the TLD (Top Level Domain) indicates their dApp’s utilized
+back-end blockchain platform (e.g. .neo for NEO and .eth for Ethereum).
+Example: nos://my-dapp.neo uses the NEO blockchain for its smart contract backend.
+nOS Name Service [17] employs a decentralized auction system for domain name
+acquirement. Additionally, instead of consuming nOS tokens (transactional model),
+domain ownership is granted by staking nOS tokens.
+23
+
+4.2. Vickrey Auction
+nOS Name Service (inspired by Ethereum’s EIP-162 [18]) adopts the sealed-bid Vickrey
+Auction System and is built as a smart contract on the NEO blockchain.
+“A Vickrey auction is a type of sealed-bid auction. Bidders submit written bids without
+knowing the bid of the other people in the auction. The highest bidder wins but the price
+paid is the second-highest bid. This type of auction is strategically similar to an English
+auction and gives bidders an incentive to bid their true value.”
+– Wikipedia.org: Vickrey Auction [19]
+
+4.3. Domain Ownership Cycle
+Upon conclusion of a nOS domain auction, ownership of the domain is awarded to the
+highest bidder (the winner). The winner stakes nOS tokens, equal to the 2nd highest bid
+made during the domain’s auction, for a pre-determined period4 into a staking smart
+contract. This is defined as one ownership cycle. The winner becomes the domain’s
+owner for the duration of the ownership cycle.
+By the end of an ownership cycle, the domain owner can choose to:
+•
+•
+•
+
+Retain the domain by keeping nOS tokens staked for another ownership cycle.
+Release the domain and take back all staked nOS tokens.
+Propose a partial release of staked nOS tokens while maintaining ownership of
+the domain.
+
+4.4. Partial Token Release
+If a partial token release is proposed, a period will begin where other parties may
+counter the proposal by making a contesting bid on the domain. The contesting bid must
+be larger than the number of nOS tokens that would remain staked after the partial token
+release.
+-
+
+-
+
+4
+
+If there is no contesting bid:
+The domain owner receives the number of nOS tokens that were proposed for
+release back into their account, while maintaining ownership of the domain for
+another ownership cycle.
+If there is a contesting bid, the domain owner can choose to:
+o Cancel the partial token release proposal and maintain ownership of the
+domain for another ownership cycle. No nOS tokens are released from the
+staking contract.
+o Release ownership of the domain name. All nOS tokens are released from
+the staking contract, and the highest contesting bid serves as the opening
+bid in a new auction.
+
+Final pre-determined ownership cycle period remains to be decided.
+24
+
+4.5. Domain Auction/Ownership Flowchart
+
+25
+
+5. Token Generation Event (TGE)
+Details below are subject to change.
+The nOS token is based on the NEO NEP-5 Standard [3] and is to be deployed to the
+NEO Blockchain. The tokens can be held on a NEO address, using any wallet software
+that supports the NEO blockchain protocol and NEP-5 tokens, including nOS Client
+[nOS Client].
+Note: Due to future technical requirements of nOS token utilities (Selective Supply Increase), nOS
+may hold a “token swap” event in the future. Users may be required to undertake specific steps in
+the future to acquire new tokens during the “token swap” event.
+
+Token Supply & Valuations
+Initial Circulating Supply
+
+132,500,000
+
+Initial Price Per Token ($USD)
+
+$0.10
+
+USD Value of Initial Circulating Supply
+
+$13,250,000
+
+Token Allocations
+Token Allocation
+
+Tokens
+
+Availability
+
+100,000,000
+
+Directly Available
+
+Instant Company Token Reserve
+
+10,000,000
+
+Directly Available
+
+NEO Council & NGC
+
+22,500,000
+
+Vested - 9 months
+
+Private Sale
+
+67,500,000
+
+Vested - 9 months
+
+Ecosystem Adoption Reserve
+
+50,000,000
+
+Vested - 1 Year
+
+Vested Company Reserve
+
+25,000,000
+
+Vested - 1 Year
+
+Locked Token Incentive & Reserve
+
+100,000,000
+
+Vested - 2 years
+
+Total
+
+375,000,000
+
+Public Sale
+
+Note: Due to Selective Supply Increase (SSI), the total token supply may increase periodically in the
+future. The SSI amounts and period may be adapted over time; however, it can never exceed 5% per
+year.
+
+9-Month Vesting Schedule
+
+1-Year Vesting Schedule
+
+Time after TGE Initialization % Distribution Time after TGE Initialization
+
+% Distribution
+
+Instant
+
+25
+
++3 Months
+
+25
+
++3 months
+
+25
+
++6 Months
+
+25
+
++6 months
+
+25
+
++9 Months
+
+25
+
++9 months
+
+25
+
++1 Year
+
+25
+
+26
+
+2-Year Vesting Schedule
+Time after TGE Initialization
+
+% Distribution
+
++1 Year
+
+25
+
+1 Year + 120 Days
+
+25
+
+1 Year + 240 Days
+
+25
+
++2 Years
+
+25
+
+The TGE has no soft cap. The public sale hard cap is $10,000,000 USD.
+NEO and ETH are accepted during all stages of the TGE.
+Further details regarding the public sale (such as start date, accepted crypto-currencies, and KYC
+procedure) will be announced on the official website (https://nos.io) and the official channels
+listed on the website.
+Users can only participate in the Token Generation Event via nOS Client, which can be
+downloaded at https://github.com/nos/client/releases. After successfully minting nOS tokens, the
+tokens will be transferred to the public NEO address that the user logged in to nOS Client with.
+All participants of the public sale and presale must complete a KYC procedure on
+https://my.nos.app. Users who signed up to https://my.nos.app and have agreed to receive the
+email newsletter will receive an email with more information before the KYC procedure begins.
+This information will also be published on the other official channels listed on the official website
+(https://nos.io).
+During the TGE, individual participants of the public sale and the presale can mint up to
+approximately 90,000 nOS tokens in total.
+Presale: Before the public sale, an exclusive presale will be held for selected members of the
+community. Eligible participants include:
+•
+•
+•
+•
+
+Users who have built qualified proof-of-concept nOS dApps.
+Users who have made qualified contributions to the nOS platform and its codebase.
+Winners and qualified participants of the nOS User Interface Design Competition.
+Users who subscribed to the VDT.Network Newsletter before April 14th 2018.
+
+Based on contribution quality, users selected for the presale are assigned an allocation tier,
+representing the number of tokens one can mint during the presale phase.
+The presale allocation tiers are as follows:
+•
+•
+•
+
+Tier 1: 90,000 nOS
+Tier 2: 45,000 nOS
+Tier 3: 25,000 nOS
+
+Due to NEO indivisibility, the number of tokens allocated to individuals in the public sale and
+presale is approximate and is to be adjusted so that they can be acquired with a round amount of
+NEO.
+
+27
+
+The tokens distributed during the presale are deducted from the number of tokens available to the
+public sale. For example, if 25,000,000 nOS are distributed in the presale, then the number of
+tokens remaining for the public sale is 100,000,000 – 25,000,000 = 75,000,000 nOS.
+Public sale: The public sale will be held after the presale and will consist of multiple contribution
+phases. All participants of the presale will also have access to the public sale. Other participants
+for the public sale will be selected by means such as valid KYC data after the KYC submission
+period. Additional details are to be announced on official channels.
+After the Token Generation Event, any unsold tokens that remain will be added to the Company
+Token Reserve.
+Discounts/bonuses: No bonuses or discounts are applied to any stages of the nOS Token
+Generation Event with the exception of the angel allocation (NEO Global Capital). The angel
+allocation entails a 20% discount on tokens purchased and a 20% vested bonus on the amount
+paid pre-discount. The angel allocation is vested following the Private Sale Distribution Model,
+and the bonus for the angel allocation is vested following the Locked Token Incentive & Reserve
+Distribution Model.
+
+Progress and Roadmap
+Below you will find the current state of nOS development:
+
+1. Development Progress
+•
+
+•
+
+•
+
+•
+
+•
+•
+•
+
+nOS Client is available for download and dApp development [9]. Developers can
+compile the source code, launch the client, and build compatible applications
+using the integrated nOS JavaScript libraries [11]. Consumers can download a
+pre-compiled solution for using applications on the nOSNet and my.nos.app.
+my.nos.app is available and under active development. my.nos.app is a web
+application exclusively available on nOS Client that allows for the management of
+dApps and Codebase Contributions for development rewards, as well as
+KYC/TGE Management for participants of the nOS Token Generation Event.
+nOS Name Service smart contract and API server (registrar-middleware) are
+under active development. Its current specifications are made to fit the
+requirements of the nOSNet release.
+nos-local [12] is live and undergoing active development. Developers can use the
+solution to easily deploy a NEO Private net and launch the latest version of nOS
+Client.
+create-nos-dapp is live and can be used to easily set up a new bootstrap nOS
+dApp and kickstart dApp development [13].
+nOSNet is live and can be used to easily deploy and use applications in a live
+Testnet environment.
+Over 70 dApps have been deployed to nOSNet by the nOS developer community.
+
+28
+
+2. Development Roadmap
+Q3/Q4 2018:
+•
+•
+•
+•
+
+Release of nOS Client v0.3
+nOS Token Generation Event (TGE).
+Establishing of initial technical and strategic partnerships with both blockchainbased and traditional projects and companies.
+Cooperative application development with project partners and third parties.
+
+Q4 2018:
+•
+
+•
+
+•
+•
+
+nOS Ecosystem Adoption Fund: nOS will launch its Ecosystem Adoption Fund, a
+fund aimed towards improving adoption and development of Decentralized
+Applications on the nOS Platform.
+Decentralized Filesystem Research: nOS will initiate Research & Development on
+Peer-to-Peer Data File Sharing Initiatives, with the goal of building a completely
+decentralized Open Internet.
+Initial Development of nOS Mobile Client.
+Initial Research & Development for supporting Ethereum dApps and other
+platforms based on their respective popularity and adoptability.
+
+2019:
+•
+
+nOS 1.0: nOS plans to release its 1.0 Client, officially launching the nOS Open
+Internet 1.0.
+
+Disclaimer
+The author of this Whitepaper is Daan Jan van Dugteren, founder and CEO of nOS Limited (Malta
+Company Registration No. C87299).
+The Token Sale Terms of Service are to be located at https://my.nos.app/terms and are subject to change
+before the launch of the Token Generation Event’s presale phase. Any participants in the nOS TGE
+understand and agree that the TGE terms may be changed and adjusted, and is to pay attention to the terms
+at their own discretion and responsibility.
+
+29
+
+References
+1. C-SPAN - Facebook CEO Mark Zuckerberg Hearing on Data Privacy and Protection: https://www.cspan.org/video/?443543-1/facebook-ceo-mark-zuckerberg-testifies-data-protection
+2. Telegraph - Twitter caught up in Cambridge Analytica data scandal:
+https://www.telegraph.co.uk/technology/2018/04/28/twitter-caught-cambridge-analytica-data-scandal/
+3. GitHub (NEO) - NEO NEP-5 Token Standard: https://github.com/neoproject/proposals/blob/master/nep-5.mediawiki
+4. The Ethereum Wiki - Ethereum ERC-20 Token Standard:
+https://theethereum.wiki/w/index.php/ERC20_Token_Standard
+5. Metamask: https://metamask.io/
+6. CCN - The EtherDelta hack hurts, but it could have been worse:
+https://www.ccn.com/the-etherdelta-hack-hurts-but-it-could-have-been-worse/
+7. Darknet.org.uk - MyEtherWallet DNS Hack Causes 17 Million USD User Loss:
+https://www.darknet.org.uk/2018/04/myetherwallet-dns-hack-causes-17-million-usd-user-loss/
+8. CryptoSonic YouTube – nOS NEO London Presentation (06:55, Dean van Dugteren speaks about
+adoption): https://youtu.be/0cfCn9ziNwg?t=415
+9. Neo News Today - Meet Asif Raza – Creator of SmartT: a nOS dApp that utilizes the MCT token:
+https://neonewstoday.com/general/meet-asif-raza-developer-of-smartt-a-nos-dapp-that-uses-mct/
+10. GitHub (nOS) – nOS Client: https://github.com/nos/client
+11. Google Play Store: https://play.google.com/store/apps
+12. nOS API Documentation: https://docs.nos.io
+13. GitHub (nOS) – nos-local https://github.com/nos/nos-local
+14. GitHub (nOS) – create-nos-dapp: https://github.com/nos/create-nos-dapp
+15. Medium (nOS) – Announcing nOSNet:
+https://medium.com/nos-io/announcing-the-nosnet-live-testnet-for-nos-dapps-26d23db2a099
+16. IPFS: InterPlanetary File System - https://ipfs.io/
+17. GitHub (nOS) – nOS Name Service: https://github.com/nos/name-service
+18. GitHub (Ethereum) – EIP-162: Initial ENS Registrar Specification:
+https://github.com/ethereum/EIPs/issues/162
+19. Wikipedia – Vickrey Auction: https://en.wikipedia.org/wiki/Vickrey_auction
+
+30
+
+

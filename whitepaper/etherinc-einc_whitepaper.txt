@@ -1,0 +1,833 @@
+White Paper
+v2.0
+
+May 1​st​ , 2018
+Blockchain based Organizations
+
+1
+
+Table of Contents
+DISCLAIMER
+Project Risk and Risk Management
+
+3
+3
+
+Abstract
+
+5
+
+Introduction
+
+5
+
+Rationale for Forking Ethereum
+
+9
+
+EtherInc dApps
+
+9
+
+eInc dApp
+eInc WorkFlow
+eInc Proposal Types
+Subsidiary/Multilevel eInc
+eInc ABI
+eInc Name Service (eIncNS)
+eInc Marketplace
+
+10
+10
+12
+13
+13
+14
+15
+
+EtherInc Blockchain Nodes
+
+15
+
+Use of ETI Coins
+
+16
+
+EtherInc Layers
+
+17
+
+EtherInc Mineable Coins
+
+18
+
+EtherInc Fork Changes
+
+19
+
+EtherInc Coinsale
+
+20
+
+EtherInc Coin Distribution
+
+21
+
+Roadmap
+
+23
+
+EtherInc Api
+
+25
+
+Wallet
+
+26
+
+Team & Advisors
+
+27
+
+2
+
+DISCLAIMER
+The eInc white paper has been prepared by the eInc team for the sole purpose of
+introducing the technical aspects of the eInc and its associated platform and underlying
+Blockchain protocol. This document does not constitute any offer, solicitation,
+recommendation or invitation for, or in relation to, the securities of any company described
+herein.
+The white paper is not an offering document, memorandum, or prospectus, and is not
+intended to provide the basis of any investment decision or contract. The information
+presented in this white paper is of a technical engineering nature only, and has not been
+subject to independent audit, verification or analysis by any professional legal, accounting,
+engineering or financial advisers.
+The white paper does not purport to include information that a buyer of ETI coins might
+require to form any purchase decision, and, in particular, does not comprehensively address
+the risks associated with buying and selling of ETI, which are numerous and significant.
+eInc (along with its directors, officers and employees), does not assume any liability or
+responsibility whatsoever for the accuracy or completeness of information contained in this
+white paper, or for correcting any errors herein. Furthermore, should you choose to
+participate in the Coinsale or Pre-sale of eInc, eInc does not assume any liability or
+responsibility whatsoever for any loss of market value of eInc.
+You are also aware of the risk that due to a lack of public interest, ​einc.io could remain
+commercially unsuccessful or shut down for lack of interest, regulatory or other reasons. You,
+therefore, understand and accept that the funding of ​einc.io and the creation of ​einc.io
+carries significant financial, regulatory and/or reputational risks (including the complete loss
+of value of created Coins).
+The contents of the white paper include technical information and requires a familiarity with
+distributed ledger technologies in order to comprehend the eInc framework and its
+associated engineering risks. Recipients of this document are encouraged to seek external
+advice, and are solely responsible for making their own assessment of the matters herein,
+including assessment of risks, and consulting their own technical and professional advisors.
+For any questions/queries, feel free to reach out to us on ​info@einc.io​.
+
+Project Risk and Risk Management
+A. ​Regulatory
+
+risk
+
+At present, although some governments, such as Japan, hold a positive attitude towards
+Blockchain technology and cryptocurrency, and have established favorable policy to support
+the growth of the industry, there are still many uncertainties at the regulatory level due to
+conflicts between the decentralized nature of public Blockchains and the policies of existing
+centralized governments. Governments adverse to the proliferation of the use of
+cryptocurrencies in local commerce could issue laws and regulation deeming the use of
+cryptocurrencies a regulated activity. e.g. In recent months, countries such as China have
+issued regulations or statements prohibiting token sales, while other countries like the U.S.
+have sought to bring the sale of tokens within the same regulatory oversight as securities
+offerings. This could render holders of ETI incapable of using their coins in the future without
+further regulatory compliance.
+
+3
+
+The management team will use the following ways to mitigate the regulatory risks:
+• The team will set up a separate Public Relations department that will actively communicate
+with relevant government authorities and industry practitioners, so as to design and carry out
+its digital asset issuance, trading, Blockchain finance, Blockchain applications, and other
+businesses under existing legal framework.
+B. ​Market
+
+risk
+
+The ultimate goal of eInc is to enable organizations and individuals to run businesses on the
+Blockchain. However, since the Blockchain industry is still in its infancy, the project will face a
+variety of market risks in the future.
+The Operations team will use the following ways to mitigate the market risks:
+• eInc Operations team will attend industry meetings regularly and hold press releases on
+project progress from time to time to communicate and discuss with relevant businesses
+regarding current market needs and prospects. This can ensure that the project is able to
+promptly respond to queries of the community and the market.
+C. ​Technical
+
+risk
+
+The goal of eInc is to establish a platform to run organizations on the Blockchain, which is a
+challenging task in terms of technology development. Therefore, the project puts a high
+demand on top-notch technical talent and requires extensive research involvement and
+engagement.
+The Operations team will use the following ways to mitigate the technical risks:
+• Work closely with top developer communities and research institutions to focus on the
+development of the ecosystem.
+• The eInc team will also regularly allocate funds to support the construction of eInc
+community and carry out in-depth collaboration with other Blockchain and crypto
+communities, so as to ensure that the technical risks of the project are manageable.
+D. ​Financial
+
+risk
+
+Financial risk refers to the significant loss of investment raised through Coinsale and Pre-sale.
+For example, hackers or other malicious groups or organizations may attempt to interfere
+with eInc distribution or eInc Blockchain in a variety of ways, including, but not limited to,
+malware attacks, denial of service attacks, consensus-based attacks, Sybil attacks, smurfing
+and spoofing.
+The Operations team will use the following ways to mitigate the financial risk:
+• All the digital currencies raised through Coinsale or Pre-sale are stored in multi-signature
+wallets with cold storage and managed by the eInc team.
+• Using 3/5 multisignature, the risk of project funds being subject to expropriation and/or
+theft can be effectively reduced.
+
+4
+
+Abstract
+The intent of EtherInc is to create an alternative protocol for running decentralized
+organizations and building decentralized applications, providing a different set of trade-offs
+that we believe will be very useful for a large class of decentralized applications, with
+particular emphasis on situations where rapid development time, security for small and rarely
+used applications, and the ability of different applications to very efficiently interact, are
+important. EtherInc does this by building what is essentially the ultimate abstract
+foundational layer: ​a Blockchain with a built-in Turing-complete programming language​,
+allowing anyone to write smart contracts and decentralized applications where they can
+create their own arbitrary rules for ownership, transaction formats, and state transition
+functions. A bare-bones version of Namecoin can be developed by writing two lines of code,
+and other protocols like currencies and reputation systems can be built in under twenty.
+Smart contracts, cryptographic "boxes" that contain value and unlock only if certain
+conditions are met, can also be built on top of the platform, with more power than that
+offered by Bitcoin scripting because of the added powers of Turing-completeness,
+value-awareness, Blockchain-awareness, and state.
+
+Introduction
+EtherInc (also referred to as eInc in short) is making DAOs a reality. eInc organizations are
+borderless and decentralized, just like Bitcoin, that are not limited by geographies,
+intermediaries and, other such artificial restrictions.
+
+The concept of distributed teams collaborating from all over the world, has gained
+momentum over the past few years. Working as distributed teams opens up new possibilities
+and avenues.
+The existing organizational system work reasonably when all the parties are a part of and
+governed by a common organizational framework which is regulated by regulatory bodies of
+one jurisdiction, and are located in one jurisdiction. However, this is not the direction where
+the future of organizations is headed.
+Traditional businesses are being replaced by resilient startup organizations where teams are
+no longer shackled by geographies and jurisdictions.
+According to a report published by Global Entrepreneurship Monitor, there are more than
+300 million entrepreneurs launching 150 million startups globally, each year. While this
+
+5
+
+number may seem impressive, only a third of these startups i.e. 50 million actually
+materialize, and hence benefit society in one or more ways.
+Inspecting the reasons behind the failures of these new organizations, insufficient capital
+stands out as the most prominent factor. Organizations which fail, usually do not have the
+capital investment to sustain themselves for even six months, let alone the idea of turning
+into successful ventures.
+
+Common roadblocks faced by these new age organizations are:
+●
+
+Different country specific compliances and regulations create friction
+
+Ever changing compliances and regulations which must be adhered to if you wish to avoid
+penalties which can scale up to as much as $50,000 in establishing your organization. These
+regulations tend to cause major friction for startups and deter brilliant minds from all across
+the globe from collaborating.
+For example, if you are from Australia and your friend, let’s say, from Ukraine, wish to
+collaborate and start a company together, then there are multiple documentations and
+country specific regulations (of both Ukraine and Australia) which you must adhere to achieve
+compliance with both jurisdictions.
+You will also be required to hire legal practitioners who will charge a hefty fee for the
+documentation of contracts, payroll etc., apart from bank charges, transfer fee etc., which
+you will encounter during the running time of your organization.
+●
+
+Heavy incorporation costs, prohibitive legal fees, high transaction charges, etc.
+
+Incorporating an organization involves a lot of paperwork as well as legal back and forth
+which are a burden on startups, which haven’t even started generating revenue to
+break-even, let alone making profits.
+1
+
+For example, in incorporating a company in the U.S . there are the incorporation costs, EIN
+number costs, state taxes, tax filing charges, insurance etc. which has been estimated to cost
+a startup upwards of $7500+.
+And this is just the cost encountered by organizations who have citizens of the U.S., as
+founders. If you have founders from places other than the U.S., then the costs can even rise
+further..
+
+1
+
+https://slidebean.com/blog/startups/us-corporation-costs
+
+6
+
+●
+
+Costs involved in updating, managing and safeguarding company finances
+
+More costs are encountered in establishing a financial management system with a financial
+consultant or a CFO heading all these operations. You will also be required to hire a
+Chartered Accountant for managing your ledger, calculating profits, reducing costs, and
+disbursing funds, when and where required.
+●
+
+Difficult procedure of conflict resolution
+
+A company in its initial stages, encounters a lot of disagreements and conflicts among its
+founders, as there are times when their opinions and thought-processes do not match.
+While the differences in ‘vision’ might get resolved before company incorporation, there are
+other issues which arise as friction between founders with respect to resource utilization or
+how to proceed further. Such situations demand a system of conflict resolution which ensures
+that a company’s future is not put in jeopardy, simply because a decision could not be
+arrived at.
+●
+
+Complicated process of partner inclusion or exclusion
+
+Working in a new startup organization, one is always prone to the risk of disagreements
+which eventually lead to one of the partners or stakeholders backing out, and hence, leaving
+the future of the company and other partners/collaborators in jeopardy.
+Legal documentation and regulation-compliance take years to iron out and bring balance
+back to organizations, giving stakeholders a chance to find loopholes within the system,
+which they can exploit for their singular benefit.
+●
+
+Angel Investors And VC’s have become discerning, while mechanisms like
+Crowdfunding and ICOs have earned a bad name due to numerous scams
+
+As witnesses to a major market-crash at the end of dotcom boom, and those that followed it,
+investors have turned skeptical to projects they invest in. Now the chances of a startup
+2
+securing funding from a VC or an Angel Investor is 1 in 400 .
+While there are other ways of securing funds like crowdfunding, ICOs, etc., these methods of
+3
+raising money have got a bad name due to numerous scams , happening across the globe,
+leaving the investors at huge risk.
+In short, startups face trust issues because of the high costs of setting up a multi-national
+organization, which might not be necessary, or financially feasible during the early stages of
+the project.
+Lack of organizational framework may result in disputes on various grounds like, distribution
+of profits, reaching consensus through voting, raising capital from external sources, bringing
+new members to the organization, and transfer of stakes etc. Involving mediation/arbitration
+in case of disputes are expensive, are an unnecessary nuisance, and are often impractical.
+
+2
+3
+
+https://fi.co/insight/funding-options-for-every-stage-of-your-startup
+https://techcrunch.com/2017/11/21/company-raises-347k-ico-vanishes
+
+7
+
+There is a need:
+●
+
+To ​transform the startup sector, which currently has more than ​305 million
+companies registered, and is growing at the rate of 100 million companies globally
+annually.
+
+●
+
+To ​prop up/support almost 100 million startups which close down every year due to
+any of the reasons outlined above; inadequate cash reserves being the second
+highest reason.
+
+●
+
+To encourage more than 5 million entrepreneurs, who are not funded by VCs and
+Angel Investors, to take their ideas off the drawing board by helping them raise
+funds via crowdsale, with confidence.
+
+●
+
+To ​shape a world where people around the globe can work together​, as a single
+organization, based on cryptographic proof instead of trust, and operate borderless,
+permissionless, democratically, and transparently, with the consensus of its
+shareholders, without the need of a trusted third party and/or costly intermediaries.
+
+To summarize, ​eInc empowers teams around the world to create, manage, and operate
+decentralized democratic organizations that are more resilient and trusted​. This enables
+efficient creation of value without borders, restrictions, and costly intermediaries or a trusted
+third party. This is something akin to what Bitcoin achieved in the payment space.
+eInc Organizations that run with the consensus of its shareholders and operate
+democratically, will protect the interests of the majority of the shareholders and boost
+investor confidence.
+
+8
+
+Rationale for Forking Ethereum
+eInc began as a dApp (​https://www.stateofthedapps.com/dapps/einc​ ) on the Ethereum
+Blockchain. After launch, the eInc platform received several feedbacks, which revealed the
+inadequacies of the existing Ethereum framework more than that of the eInc dApp. For mass
+adoption, there were issues such as, transaction speed on ethereum was very low, gas price
+was too high etc., for all dApps in general, on the Ethereum Blockchain. Moreover, the
+scalability solutions that purported themselves as the alternatives were available at the cost
+of reduced decentralization. So eInc evaluated other trusted Blockchains which included
+Ethereum Classic and NEO among others, but eInc needed a Blockchain which had a wide
+range of support available to allow the user to interact with the eInc dApp easily & the
+developers can contribute to the eInc governance ecosystem. Moreover, NEO Blockchain
+operates on Proof-of-Stake (PoS) consensus mechanism using Delegated Byzantine Fault
+Tolerance (dBFT) which is not decentralized when compared to the Bitcoin and Ethereum
+Blockchains. The need for a purely decentralized architecture where organisations can run
+and flourish without any intermediaries led eInc to commence the EtherInc Blockchain.
+EtherInc Blockchain offers both, decentralization as well as, higher bandwidth needed to run
+global organizations.
+
+EtherInc dApps
+EtherInc Blockchain-based dApps will be the same as Ethereum-based dApps and any
+Ethereum dApp can be deployed on the EtherInc Blockchain.
+
+We have created the eInc dApp which is the core dApp for all eInc
+organisations.
+
+9
+
+eInc dApp
+eInc dApp is a smart contract with inbuilt protocols to run a organization. Every eInc
+organization is actually a smart contract on EtherInc Blockchain.
+
+eInc controlled by its members
+
+Example of eInc
+View Ether eInc. on etherinc.org (einc organization explorer)
+https://etherinc.org/company/0x5862acea137fc7ba78a6b1798e4c7d412e6a5/5c2
+
+eInc WorkFlow
+In eInc organisation everything is proposal-based. if you need to send ETI to another
+address, you need to create a proposal, which when passed, automatically transfers the to
+the beneficiary's ETI wallet address.
+
+10
+
+11
+
+eInc Grades
+Grade is the representation of power on the eInc platform, ​lower is the the grade, higher is
+the power.
+By Default, the minimum Grade for a member role is "1" which is assigned to "CEO". Grade
+"1" cannot be assigned to any other role and "CEO" grade cannot be changed.
+Every organization can have different roles and grades, "10000" will be the Default grade for
+all unassigned roles.
+Grades are divided into two parts:
+●
+
+Grades from 1-1000​ can add new proposals and execute "Grade Based Proposals"
+proposals of higher grades than their grades.
+
+●
+
+Grades over 1000​ cannot add new proposals or execute "Grade Based Proposals".
+
+eInc Proposal Types
+There are a total of 17 types of proposals possible in a eInc smart contract which are further
+divided into two categories:
+
+Voting Based Proposals
+Voting based proposals can be executed/passed by voting on proposal only. A proposal is
+passed when the positive votes become greater than the "Quorum Voting Percentage" of
+the total voting power,
+or e.g. If a organization has 100,000 total voting power and "Quorum Voting Percentage"
+for that organization is 51% then in order to pass the proposal, the number of votes required
+is at least 51000 votes.
+Proposals List:
+● Issue Shares
+● Investment
+● Assign Shares
+● Sell Shares
+● Appoint CEO
+● Fire CEO
+● Payment/Salary
+● Change Legal name
+● Voting Rules
+● Operational Proposal
+● Close eInc
+● Vote on Proposal (Remote eInc)
+● Execute Proposal (Remote eInc)
+
+Grade Based Proposals
+Grade based proposals are slightly different from voting based proposals. In order to pass a
+grade based proposal you need to have a higher grade than the proposal grade.
+For e.g. If a organization member with "CTO" role (Grade 5) wants to add a new member
+than he/she can only execute that proposal if the new member has a role which has higher
+grade than 5. In Grade-based proposals there is no need for voting to pass the proposal.
+
+12
+
+Proposals List:
+● Add Member
+● Remove Member
+● Change Member Role
+● Add New Role
+
+Subsidiary/Multilevel eInc
+eInc smart contract has inbuilt protocols to allow cross-organization communications with
+other eInc organizations which have communicating eInc as a member.
+
+eInc controlled by its member/another eInc
+
+eInc ABI
+
+13
+
+Anyone can Interect with eInc organization using eInc ABI here​:
+https://etherinc.freshdesk.com/support/solutions/articles/35000029608-i-need-abi-for-ei
+nc-contract
+
+eInc Name Service (eIncNS)
+
+4
+
+eIncNS is works same like WHOIS where every eInc organization will be registered with
+their contract address and other metadata of that eInc organization.
+eIncNS will launch in Q3, 2018​. The main purpose of eIncNS is to make eInc organizations
+more decentralized so that trustless systems can be built truly, instead of the EtherInc
+company acting as the trust company.
+How does eIncNS work ?
+eIncNS is a singular smart contract which contains the eInc organization's metadata like: eInc
+organization name, contract address, renewal data, registrar etc. where people can register
+as registrar and can register new eInc or renew eInc on eIncNS by sending transactions to
+eIncNS smart contract.
+What is the need of eIncNS ?
+In the world of decentralized applications no one wants to/should have to trust a single
+entity. Since the eInc organization's name will be unique worldwide and the need for a
+process of registering and renew eInc transparent we started creating eIncNS smart contract
+which will allow anyone to check eInc organizations and because all details will be in
+Blockchain so that even EtherInc cannot manipulate any data.
+
+4
+
+​https://en.wikipedia.org/wiki/WHOIS
+
+14
+
+eInc Marketplace
+eInc Marketplace will consist of dApps, which will give eInc organizations a wide range of
+applications to run their eInc as and how they want. One example of Marketplace dApps is
+the ​Payroll dApp​ which allows eInc owners to manage their employees and pay their salaries
+automatically, without the need of passing multiple proposals.
+
+eInc marketplace dApps
+
+EtherInc Blockchain Nodes
+EtherInc has officially launched its Mainnet and Ropsten (TEST) Networks (on ​Tue, 13 Feb
+2018 16:21:28 +0000​) and, during Coinsale event, we will give users Mainnet ETI coins. We
+have launched a total of 7 nodes in Mainnet and 3 nodes in Ropsten which are mentioned as
+5
+recommended in the Official EtherInc Github GETH protocol.
+Mainnet Nodes:
+Official EtherInc Mainnet network bootnodes:
+{
+// Etherinc Mainnet, Go Bootnodes
+"enode://519db130d32d64a56379d8c93ade07bfe1355b5b1164d4b1e38bee20feedc1686c8f7c7
+2fbb308f030f140f3a3e02ce805e7a04984a93fb8d0fa64e1099f9f2d@13.228.232.99:30103"​,
+"enode://2a5b293371e6a1813351de15b5d7a210e3259e74b2db3a356e298b301fbe9dc20e0720
+689820e4ca96444fa9fa4a61a75d7280b70fceff2399853f543d58536c@13.229.171.102:30103"​,
+"enode://27df34f774a5d4e74c4cafcef15a2fe4a07ee86b22a741bd260b6b23201c8a8b4d9d76b12
+9c80f284b11948a90cc9673ae096c0880357871012992af81a7ebc1@13.250.151.92:30103"​,
+"enode://23c049cfc57345656e1fc9924a121859723a6cc3adea62e6ddd5c15f4b04b8ed044a29cd
+188d7c26d798da93aa828b911d65e37914935c34f92c9d6f671b3e7b@13.229.1.39:30103"​,
+"enode://93b386fa167f9b87d06e34546e5cb9cd3f153c47c432eb8161c81b0db01ff55be4f6d4fc0
+72e5784c16106968be24b1ec25741b026917103e3db981bd8a13c35@54.153.196.155:30103"​,
+"enode://0d6a4d6f9864c8baced942536204dec865464a91b5b9d4fe6642c7eb934b4419524a5f69
+360922ae8a7e029a351b0ee06db8dfec2ce7e2ff60a1092a19f9cadf@54.252.194.96:30103"​,
+"enode://3e82df78848c0380023cae171a3c80337cfd0248b8301e536f4a4e746535fb2e6c7985001
+7751376eabeaa9afe86965da5f9fa53ff13116e802d1ced4f105bd4@13.55.88.217:30103"
+
+}
+5
+
+https://github.com/etherinc/go-etherinc
+
+15
+
+IP address of Mainnet Nodes:
+● 13.228.232.99
+● 13.229.171.102
+● 13.250.151.92
+● 13.229.1.39
+● 54.153.196.155
+● 54.252.194.96
+● 13.55.88.217
+Default Port for EtherInc Mainnet network Nodes will be 30103
+Ropsten (TEST Network) Nodes:
+Official EtherInc Ropsten network bootnodes:
+{
+// Etherinc Ropsten, Go Bootnodes
+"enode://
+425c5aea21effeaad0fae8296625cb0d38671618cb8f6f63990fd67c12114db89ad0ffde7a739bc27b4
+d085469bd7d236b6d505aab50d08cd034496ebf118fd2@13.250.220.4:30103​"​,
+"enode://
+ed921763675e39249426a1741804a778b195a974da420c49dbfe54113528bb81f2736b535ee7481f
+d0d1155aa401016577011c0c780f21693baaff8ecc55a9c1@54.153.222.128:30103​"​,
+"enode://
+5673d1da98c59d515b6ca8c6ef7ede3bb12601e7e01a738afef1ac0c02af9c4fa4ff6eeb6c6ce7c42db
+d63b3877ba0dd66db67c1d41c7c5eace4c5f4ef41000@13.211.100.173:30103​"
+
+}
+IP address of Ropsten Nodes:
+● 13.250.220.4
+● 54.153.222.128
+● 13.211.100.173
+Default Port for EtherInc Ropsten network Nodes will be 30103
+
+Use of ETI Coins
+The crypto-fuel for the EtherInc Blockchain, ETI coins, which form the transactional backbone
+of the EtherInc Blockchain can be used in many ways.
+
+16
+
+EtherInc Layers
+
+The different layers of the eInc Platform
+EtherInc Blockchain
+EtherInc Blockchain was created as a fork of Ethereum on block 5078585. ETI (EtherInc)
+Coins are the driving facilitators of EtherInc, and are used to pay transaction fees.
+EtherInc Protocol
+Peer-to-peer communications between nodes running eInc clients run using the underlying
+eInc Protocol.
+eInc dOrg + Utility dApps
+eInc dOrg lets you create and implement DAOs on the “eInc framework”. One can use other
+utility dApps or create their own dApps on top of it, for example, HR Bot dApp, Payroll
+dApp, etc.
+Web3.js
+Web3.js is a collection of libraries which allows one to interact with a local or remote eInc
+Blockchain node.
+eInc UI
+eInc Organization Explorer (​etherinc.org​) lets a user manage eInc, create proposals, take
+actions on the eInc Organization, and keep a record of all the transactions.
+
+17
+
+EtherInc Mineable Coins
+EtherInc Blockchain which was started on ​Tue, 13 Feb 2018 16:21:28 +0000​ has a fixed time
+for last block reward which is ​Fri, 07 Feb 2042 16:21:28 +0000. ​After this time, no block
+reward will be awarded to miners.
+
+In Bitcoin, 21M BTC can be mined over time by miners but no one can be certain when the
+last block reward will be generated. On the other hand, in EtherInc we took another route for
+this, instead of fixing supply we fixed time for last block reward which will be before or on
+Fri, 07 Feb 2042 16:21:28 +0000.
+Below is the graph to represent block reward over time.
+
+18
+
+EtherInc (ETI) block reward is 3 ETI and it will halves every 1095 days (~3 years) till ​Fri, 07 Feb
+2042 16:21:28 +0000. ​Total of ~ 94,238,438 ETI can be mined over ~ 24 years.
+
+* ​There will be no Uncle reward in EtherInc Blockchain.
+
+EtherInc Fork Changes
+EtherInc Blockchain was created as a fork of the Ethereum Blockchain, with replay protection,
+and hence, has all the capabilities of the Ethereum Blockchain with some of our own
+enhancements, and powerful inbuilt dApps that run on this Blockchain.
+We improved the Ethereum Blockchain in the following ways
+:
+● Reduced block time from 15s to 6s which improved:
+o Network transaction per second by 2.5x
+o Transaction confirmation speed by 2.5x
+o Miner reward by 2.5x
+● Removed uncle reward
+● Implemented finite supply for mineable coins
+
+19
+
+EtherInc Coinsale
+Coin name
+
+EtherInc Coin
+
+Coin symbol
+
+ETI
+
+Blockchain
+
+EtherInc
+
+Total coin supply
+
+997,528,142 ETI
+
+Total coins in coinsale
+
+450,000,000 ETI
+
+Price of ETI
+
+$0.10
+
+Soft cap
+
+$ 1,000,000
+
+Hard cap
+
+$ 22,000,000
+
+Pre ICO sale starts
+
+07 June 2018
+
+Pre ICO sale ends
+
+15 June 2018
+
+ICO sale starts
+
+25 June 2018
+
+ICO sale ends
+
+25 July 2018
+
+20
+
+EtherInc Coin Distribution
+
+Total Coins: 997,528,142 ETI
+●
+
+97,528,142 ETI​ ​will be distributed to Ethereum holders who had ETH in their wallet
+balance at the time of the fork in the ratio 1:1.
+
+●
+
+100,000,000 ETI coins have been set aside for ​EtherInc Startup Fund ​to support
+startups that register their organization on​ ​einc.io
+
+●
+
+450,000,000 ETI coins will be available for sale in the eInc Coinsale.
+
+●
+
+100,000,000 ETI coins have be allocated for Strategic Partnerships such as
+partnership with other Wallet partners to include ETI and for partnerships that help
+further build and foster the ETI ecosystem.
+
+●
+
+Only 150,000,000 ETI coins have been allocated for eInc Community. These coins
+will be used to reward the founders, team members, advisors, and fund the product
+development, marketing, promotion, awareness, airdrop, bounty and referral
+campaigns for the EtherInc platform, (30,000,000 ETI) will be company reserve for
+miscellaneous operations.
+
+●
+
+100,000,000 ETI coins will be assigned for EtherInc future development and will be
+vested for 5 years (​33.33% released in Year 3, 4 and 5​) .
+
+21
+
+Community Total Coins: 150,000,000 ETI
+●
+
+60,000,000 ETI coins will be available for development of EtherInc.
+
+●
+
+37,500,000 ETI coins will be available for Team (will be vested for 6 months post
+crowdsale).
+
+●
+
+30,000,000 ETI will be company reserve for miscellaneous operations.
+
+●
+
+15,000,000 ETI coins will be available for marketing, bounty and airdrops.
+
+●
+
+7,500,000 ETI coins will be available for advisors.
+
+22
+
+Roadmap
+
+23
+
+24
+
+EtherInc Api
+Name
+
+Endpoint
+
+Type
+
+Chain ID
+
+ETI (Mainnet)
+
+https://api.einc.io/jsonrpc/mainnet
+
+GETH
+
+101
+
+ETI (Ropsten)
+
+https://api.einc.io/jsonrpc/ropsten
+
+GETH
+
+103
+
+25
+
+Wallet
+eInc offers two wallet options by forking existing open-source code of MEW (MyEtherWallet)
+and MetaMask. We implemented​ ​EtherInc Blockchain configuration and launched a web
+wallet (https://wallet.einc.io) and a chrome-based browser extension eIncMeta
+(https://chrome.google.com/webstore/detail/eincmeta/lghmfnfghfcjoblchpmlghkigcgakoag),
+eInc chose to use the open source code of MEW and Metamask because users already know
+how to interact with MEW and MetaMask and they do not need to get accustomed to a new
+software in order to send/receive ETI.
+
+EtherInc Wallet, https://wallet.einc.io
+
+26
+
+EtherInc wallet chrome extension, eIncMeta
+https://chrome.google.com/webstore/detail/eincmeta/lghmfnfghfcjoblchpmlghkigcgakoag
+
+Team & Advisors
+The ​EtherInc​ has a proven history of technical achievements and offers unmatched passion
+for technology. In past our team has worked for:
+
+27
+
+28
+
+The Future of Organizations is on Blockchain
+
+email : info@einc.io
+Wallet: https://wallet.einc.io/
+Community: https://community.einc.io/
+Organisation Explorer (Mainnet): https://etherinc.org/
+Organisation Explorer (Rosten Testnet): https://ropsten.etherinc.org/
+Block Explorer (Mainnet): https://explorer.einc.io/
+Block Explorer (Rosten Testnet): https://ropstenexplorer.einc.io/
+Network (Mainnet): https://network.einc.io/
+Network (Rosten Testnet): https://ropstennetwork.einc.io/
+eIncMeta: https://chrome.google.com/webstore/detail/lghmfnfghfcjoblchpmlghkigcgakoag
+Blog: https://medium.com/einc
+Telegram: https://t.me/eIncHQ
+Facebook: https://www.facebook.com/pg/eincofficial
+Twitter: https://twitter.com/eIncHQ
+Reddit: https://www.reddit.com/r/eincofficial/
+
+29
+
+

@@ -1,0 +1,331 @@
+ShadowCash: Zero­knowledge Anonymous Distributed E­Cash
+via Traceable Ring Signatures
+Rynomster and Tecnovert
+http://www.shadow.cash
+sdcoin@sdcoin.co
+
+Abstract­We introduce Shadowcash, an anonymous cryptographic transaction protocol: Anonymous
+transactions are implemented using traceable ring signatures[5], which utilise a non­interactive zero
+knowledge proof[6].
+
+1.
+
+INTRODUCTION
+We believe privacy is a human right ­ as enshrined in article 12 of the Universal Declaration of
+Human Rights of the United Nations. Transactions of value are an essential part of our daily lives.
+As such we strive to provide you with tools to transact in confidence[1].
+E­cash systems, or virtual currencies[2], have become a very common way to transact due to the
+many benefits they hold over traditional methods of exchange. One of the largest problems for
+virtual currencies is preventing double­spending, where a currency holder sends the same coins to
+multiple recipients. Bitcoin solves this problem using the blockchain, a public record of all
+transactions in the system. By viewing the blockchain, all participants in the currency can see the
+current state of the system at the same time, thus the double­spending problem is solved. However,
+adding the blockchain causes a severe reduction of the anonymity and privacy of the participants in
+the currency[3]. As the blockchain is public, anyone can see the transactions and total holdings of
+participants, unless suitable precautions are taken.
+
+2.
+
+Overview
+In this paper we will present our anonymous cryptographic transaction protocol which utilises:
+dual­key stealth addresses, traceable ring signatures and non­interactive zero knowledge proofs.
+We prove how our scheme introduces a much higher level of privacy and anonymity to the network
+while still preserving the core principles of trustless decentralization, unforgeability and
+double­spend prevention. We will also present performance data of our scheme which includes
+proof sizes, signature generation times and verification times.
+Finally, we will present planned future improvements to the current scheme. We present this paper
+as a first draft towards receiving peer review.
+
+3.
+
+Decentralized E­Cash
+3.1.
+Trustless
+3.1.1.
+
+3.2.
+
+3.3.
+
+Our system functions on the same core principles from which Bitcoin was founded.
+There is no central authority or bank mechanism that controls the flow of
+transactions. Furthermore, our scheme does not require the initial trusted
+parameter setup which is present in the Zerocoin and Zerocash scheme.
+
+Unforgeability
+3.2.1.
+
+In order to transact anonymously, we have introduced an anonymous token[8],
+which we will refer to as Shadow. Shadow can be minted, which will destroy SDC
+(ShadowCash), and will output a group of Shadow tokens totaling the same value
+(minus the transaction fee) of the destroyed SDC.
+
+3.2.2.
+
+Shadow tokens take the form of outputs on the ShadowCash chain. Shadow tokens
+are spendable only by providing a traceable ring signature to prove ownership of
+the token..
+
+Anonymity
+3.3.1.
+
+The ring signature consists of the public key of the token being spent, plus the
+public keys from 3 to 200 other tokens of the same value as the token being spent.
+The nature of ring signatures makes it impossible to discover which of the member
+coins in the ring signature is being spent, and transactions are no longer traceable.
+
+3.4.
+
+3.3.2.
+
+It is not possible to determine which tokens have been spent, so all tokens remain
+in the blockchain as spendable outputs available as members of ring signatures for
+other token spends.
+
+3.3.3.
+
+To increase the pool of outputs available for ring signatures, the SDC value is
+broken up into separate Shadow tokens for each decimal place of the total value.
+The tokens are further broken up to values of 1, 3, 4 and 5. For example 1.7 sdc
+would become 3 tokens of values 1.0, 0.3 and 0.4.
+
+Double­Spend Prevention
+3.4.1.
+
+4.
+
+The ring signature tags (keyImage) of the spent Shadow tokens are embedded in
+the blockchain to prevent double spends. Each tag is unique to the Shadow token,
+regardless of the other members of the ring signature.
+
+Spending Shadow
+There are two ways in which Shadow tokens can be spent: they can be sent as Shadow tokens or
+redeemed as SDC.
+1.
+
+When sent as Shadow tokens, new tokens are minted for the recipient to the value of the
+input Shadow minus the transaction fee.
+
+2.
+
+When redeemed as SDC, new SDC is created to the value of the input Shadow minus the
+transaction fee.
+
+In both cases the input tokens become unspendable.
+The transaction fee for spending Shadow is 100x greater than the fee for standard transactions. This
+is to cover the cost of the extra activity required by the network to transmit, verify and store shadow
+transactions, which are larger and require more processing than standard transactions.
+In order to spend Shadow, we use ring signatures to sign the transaction[5][6]. Our scheme consists
+of three functions, generateRingSignature, generateKeyImage, verifyRingSignature.
+For efficiency’s sake, when spending Shadow, we get a list of all anonymous outputs in the system,
+then we remove coins that don't have enough same value outputs in the system, then we choose
+the smallest coin or least number of smallest coins that can cover the amount + transaction fee.
+Each Shadow coin has its own private key, so when spending Shadow, each coin or anonymous
+input, will need to have its own ring signature generated, and will then have to be verified.
+❖
+
+generateRingSignature
+➢ Executed by the sender / signer, when spending Shadow.
+➢ After executing generateRingSignature, the ring signature will have to be verified.
+➢ Takes an input­output / reference to the keyImage, the transaction hash, the ring size,
+the secret key offset, the secret key for signing the transaction, a list of public keys for
+all the coins or outputs in the ring signature and the ring signature, and a hash of the
+transaction in which the signature is included (preimage).
+
+❖
+
+generateKeyImage
+➢ Executed by the receiver, when receiving Shadow
+
+➢ The key image is revealed to the network to prevent a token from being spent more
+than once.
+❖
+
+4.1.
+
+verifyRingSignature
+➢ Executed by each node, when connecting the inputs of anonymous / Shadow
+transactions.
+➢ A preimage is calculated for the transaction and verified against the ring signature.
+➢ The public key of each input token in the transaction is extracted and is looked up in the
+blockchain to ensure it refers to an existing, valid token.
+➢ The blockchain is searched for the provided keyImage, if one is found the transaction is
+considered a double­spend attempt and denied.
+➢ Takes an input­output / reference to the keyImage, the transaction hash, the ring size,
+the a list of public keys for all the coins or outputs in the ring signature and the ring
+signature.
+
+Prover
+Signing protocol : To sign message m ∈ {0, 1}
+
+4.1.1.
+
+To sign message m ∈ {0, 1} ∗ with respect to tag L = (issue, pk N ), using the
+secret­key ski, proceed as follows:
+1.
+2.
+3.
+4.
+
+5.
+
+4.2.
+
+Compute h = H(L) and σ i = hXi , using xi∈ Zq .
+σ
+Set A0 = H ′(L, m) and A1 = (A0i )1/i
+For all j≠i, compute σj = A0Aj1∈G. Notice that every (j, logh (σj)) is on the
+line defined by (0, logh(A0)) and (i, xi), where xi = logh(σi).
+Generate signature (cN, zN) on (L, m) , based on a (non­interactive)
+zero­knowledge proof of knowledge for the relation derived from language
+ι≜{(L, h, σN))| ∃i′ ∈ N such that logg(yi′) = logh(σi′).},
+where σN = (σ1, ..., σn), as follows:
+a. Pick up random wi←Zq and set ai = gwi, bi = hwi ∈G.
+b. Pick up at random zj, cj←Zq, and set aj = gzjyicj, bj = hzjσjcj∈ for every
+j≠i.
+c. Set c = H ′′(L, A0, A1, aN, bN) where aN = (a1, ..., an) and bN = (b1, ..., bn).
+d. Set ci = c − Σj≠icj(mod q) and zi = wi − cixi(mod q). Return (cN, zN),
+where cN = (c1, ..., cn ) and zN(z1, ..., zn), as a proof of ι .
+Output = (A1, cN, zN) as the signature on (L, m) .
+
+Verifier
+4.2.1.
+
+Verification protocol: To verify signature σ = (A1, cN, zN) on message m with
+respect to tag L , check the following:
+1. Parse L as (issue, pkN) . Check g, A1∈G , ci, zi∈ℤq and yi∈G for all i ∈N . Set
+h = H (L) and A0 = H ′(L, m) , and compute σi = A0Aii∈G for all i∈N .
+2. Compute ai = gziyici and bi = hziσizi for all i∈N .
+3. Check that H ′′(L, m, A0, A1, aN, bN) ≡Σi∈Nci (mod q) , where aN = (a1, ... aN) and
+bN = (b1, ..., bN) .
+4.
+
+If all the above checks are successfully completed, accept, otherwise reject.
+
+5.
+
+Performance
+5.1.
+Proof Sizes
+The affine coordinates are 64 bytes per ring member per coin value.
+We store the public key or keyImage, which is 33 bytes
+That leaves us with ~97 bytes / ring member / input
+
+5.2.
+
+Benchmarks
+The following benchmarks were done on an Intel(R) Core(TM) i7­3537U CPU @ 2.00GHz
+with 8GB of RAM, using the average times out of 300000 iterations:
+
+6.
+
+Algorithm
+
+Ring members
+
+Average Time
+
+Average time / ring member
+
+Signing
+
+200
+
+449ms
+
+2.25ms
+
+Verification
+
+200
+
+440ms
+
+2.2ms
+
+Future work and Improvements
+6.1.
+By extending the “PRF made public” paradigm by Bellare and Gold­wasser (BG), we could
+have a simple, general, and unified construction for a unique ring signature. The signature
+scheme simply uses a combination of pseudorandom function (PRF) and non­interactive
+zero­knowledge (NIZK) proof system (where the PRF key is committed). Using the unique
+ring signature framework would not only help explain prior constructions for linkable ring
+signatures and traceable ring signatures, but give refined constructions with simpler and
+more intuitive design and improved efficiency[9].
+6.1.1.
+Unique Ring Signature Model
+We begin by recalling the definition of a ring signature scheme RS = (RK, RS, RV) that consists of
+three algorithms:
+❖
+❖
+
+❖
+
+RK (1λ) . The randomized user key generation algorithm takes as input the security
+parameter λ and outputs a public key pk and a secret key sk.
+RS (sk, R, m) . The probabilistic ring signing algorithm takes as input a user secret key sk, a
+ring R that is a set of public keys (such that pk ∈ R ), and a message m to return a
+signature σ on m with respect to the ring R .
+RV (R, m, σ) . The deterministic ring verification algorithm takes as input a ring R, a
+message m , and a signature σ for m to return a single bit b .
+
+The following correctness condition is required: for any security parameter λ , any integer n , any
+{(pki, ski)}1n ← RK(1λ) (where now R = {pki}1n , any i ∈ [n] , and any m , it holds that
+RV (R, m, RS(R, skim)) = 1 .
+Unique ring signature from the DDH assumption in the random oracle model:
+❖
+
+Setup (1λ) . The setup algorithm takes as input the security parameter λ and outputs a
+multiplicative group G of prime order q and a randomly chosen generator g of G . It also
+provides two hash functions H ′ : {0, 1} * → ℤq . It outputs the public parameters as
+pp = (λ, q, G, H, H ′) .
+
+RG (1λ), pp). The key generation algorithm for user i takes as input the parameter pp and
+selects an element xi ← ℤq and computes yi ← gxi . It outputs the public key as pki = (pp, yi)
+and the secret key as ski = (pp, xi) .
+❖ RS (sk, R, m) . To sign the message m in the ring R = (pk1, ..., pkn) , the signer i with the
+secret key ski = xi generates the signature in the following way:
+1. For j ∈ [n] and j =/ i, select cj, tj ← ℤq and compute aj ← gtjyjcj
+and bj ← H (m||R)tj(H(m||R)xi)cj .
+2. For j = i , select ri ← ℤq and compute ai ← gri and bi ← H (m||R)ri .
+3. Let ci ← H ′(m, R, {aj, bj}1n) − Σj=i/ cjmod q and ti ← ri − cixi mod q .
+4. Return (R, m, H(m||R)xi, c1, t1, ..., cn, tn) .
+❖ RV (R, m, σ) . On receiving the signature (R, m, σ) , the verification algorithm first parses
+σ as (r, c1, t1, ..., cn, tn) and checks if Σ1ncj = H ′(m, R, {Gtjyjcj, H (m||R)tjrcj}1n) .
+❖
+
+7.
+
+Conclusion
+In this paper we have presented our approach to securing financial privacy through our combination
+of unique ring signatures, stealth addresses and non­interactive zero knowledge proofs. We’ve
+shown how our approach achieves the highest level of financial anonymity available at the time of
+publication without compromising the integrity of the Satoshi network’s core principles:
+Unforgeability, Double­Spend prevention and trustless decentralization.
+
+References
+[1] S. Nakamoto, “Bitcoin: A Peer‐to‐Peer Electronic Cash System”
+http://bitcoin.org/bitcoin.pdf, 2008
+[2] “The Universal Declaration of Human Rights”
+http://www.un.org/en/documents/udhr/index.shtml, 1948
+[3] Reuters – Emily Flitter, Stella Dawson, and Mark Hosenball, “U.S. to let spy
+agencies scour Americans' finances”
+http://www.reuters.com/article/2013/03/13/usa­banks­spying­idINDEE92C0EH20130313
+, 2013
+[4] The Wall Street Journal – Sionhan Gorman, Devlin Barrett and Jennifer
+Valentino­Devries, “CIA's Financial Spying Bags Data on Americans”
+http://www.wsj.com/articles/SB10001424052702303559504579198370113163530,
+2014
+[5] Ronald L. Rivest, Adi Shamir, and Yael Tauman “How to Leak a Secret”
+http://people.csail.mit.edu/rivest/pubs/RST01.pdf, 2001
+[6] Eiichiro Fujisaki and Koutarou Suzuki, “Traceable Ring Signature *”
+https://eprint.iacr.org/2006/389.pdf, 2006
+[7] Nicolas van Saberhagen, “CryptoNote v 2.0” http://cryptonote.org/whitepaper.pdf,
+2013
+[8] Ian Miers, Christina Garman, Matthew Green and Aviel D. Rubin, “Zerocoin:
+Anonymous Distributed E­Cash from Bitcoin”
+http://zerocoin.org/media/pdf/ZerocoinOakland.pdf, 2013
+[9] Matthew Franklin and Haibin Zhang, “A Framework for Unique Ring Signatures”,
+https://eprint.iacr.org/2012/577, 2012
+
+

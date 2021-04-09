@@ -1,0 +1,1773 @@
+Six Domain Chain
+Technical Whitepaper
+
+Draft for open community review and subject to change.
+
+-1-
+
+Table of Contents
+
+Abstract........................................................................................... - 8 1. Background and Significance of this Project......................... - 14 1.1 Issues and Solutions for IoT Development.................... - 14 1.2 Application Analysis of Blockchain and IoT Combination- 17 2. SDChain’s Design Objectives and Applications...................... - 22 2.1 Concepts of Design and Construction Objectives..........- 22 2.2 Business Model and Application Scenarios................... - 23 2.3 DApp Practical Applications: Agricultural IoT............. - 24 3. SDChain’s Architecture and Technical Solutions.................... - 32 3.1 P2P Communication....................................................... - 34 3.2 Encryption Algorithm..................................................... - 35 3.3 Consensus Algorithm......................................................- 36 3.4 Smart Contract................................................................ - 38 3.5 Decentralised DApp........................................................- 39 3.6 Issuance of IoT digital assets..........................................- 41 3.7 Cross Chain Smart Contract Model................................- 41 4. Ecosystem Roadmap & Community Management Architecture- 43 4.1 SDChain’s Ecosystem Roadmap.................................... - 43 4.2 SDChain’s Ecosystem Business Model..........................- 44 4.3 SDChain's Community Management Architecture........ - 44 4.4 Foundation auditing........................................................ - 55 5. Roadmap................................................................................. - 55 6. Risk Warning.......................................................................... - 57 -
+
+-2-
+
+NOTICE
+NOTHING IN THIS WHITEPAPER CONSTITUTES LEGAL,
+FINANCIAL, BUSINESS OR TAX ADVICE AND YOU SHOULD
+CONSULT YOUR OWN LEGAL, FINANCIAL, TAX OR OTHER
+PROFESSIONAL ADVISER BEFORE ENGAGING IN ANY
+ACTIVITY
+
+IN
+
+CONNECTION
+
+SIXDOMAINCHAIN
+
+HEREWITH.
+
+FOUNDATION
+
+PTE.
+
+NEITHER
+
+LTD.
+
+(THE
+
+FOUNDATION), ANY OF THE PROJECT TEAM MEMBERS WHO
+HAVE WORKED ON THE SDCHAIN PLATFORM (AS DEFINED
+HEREIN)
+
+OR
+
+PROJECT
+
+TO
+
+DEVELOP
+
+THE
+
+SDCHAIN
+
+PLATFORM IN ANY WAY WHATSOEVER (THE SDCHAIN
+TEAM) NOR ANY SERVICE PROVIDER SHALL BE LIABLE FOR
+ANY KIND OF DIRECT OR INDIRECT DAMAGE OR LOSS
+WHATSOEVER WHICH YOU MAY SUFFER IN CONNECTION
+WITH
+
+ACCESSING
+
+THIS
+
+WHITEPAPER,
+
+MATERIALS
+
+PRODUCED BY THE FOUNDATION, OR ACCESSING THE
+WEBSITE
+
+AT
+
+HTTPS://SDCHAIN.IO/
+
+OR
+
+ANY
+
+OTHER
+
+MATERIALS PUBLISHED BY THE FOUNDATION.
+All contributions will be applied towards the Foundation's objects,
+including without limitation promoting the research, design and
+development of, and advocacy for the combination of IOT
+
+technology and developments in blockchain technology to
+establish an efficient coordination mechanism between users and
+-3-
+
+objects in the physical world and digital asset resources, to create a
+new infrastructure of all things in general, thereby promoting
+efficiency and bringing benefits to various industries.
+This Whitepaper is intended for general informational purposes only
+and does not constitute a prospectus, an offer document, an offer of
+securities, a solicitation for investment, or any offer to sell any product,
+item or asset (whether digital or otherwise). The information herein
+below may not be exhaustive and does not imply any elements of a
+contractual relationship. There is no assurance as to the accuracy or
+completeness of such information and no representation, warranty or
+undertaking is or purported to be provided as to the accuracy or
+completeness of such information. Where this Whitepaper includes
+information that has been obtained from third party sources, the
+Foundation and/or the SDChain team have not independently verified
+the accuracy or completion of such information.
+This Whitepaper does not constitute any offer by the Foundation or the
+SDChain team to sell any SDA (as defined herein) nor shall it or any
+part of it nor the fact of its presentation form the basis of, or be relied
+upon in connection with, any contract or investment decision. Nothing
+contained in this Whitepaper is or may be relied upon as a promise,
+representation or undertaking as to the future performance of the
+SDChain Platform. The agreement between the Foundation (or its
+affiliate) and you, in relation to any sale and purchase of SDA is to be
+-4-
+
+governed by only the separate terms and conditions of such agreement.
+By accessing this Whitepaper or any part thereof, you represent and
+warrant to the Foundation, its affiliates and the SDChain team as
+follows:
+(a) you acknowledge, understand and agree that SDA may have no
+value, there is no guarantee or representation of value or liquidity for
+SDA, and SDA is not for speculative investment;
+(b) none of the Foundation, its affiliates, and/or the SDChain team
+members shall be responsible for or liable for the value of SDA, the
+transferability and/or liquidity of SDA and/or the availability of any
+market for SDA through third parties or otherwise;
+(c) in any decision to purchase any SDA, you have not relied on any
+statement set out in this Whitepaper;
+(d) you will and shall at your own expense ensure compliance with all
+laws, regulatory requirements and restrictions applicable to you (as
+the case may be); and
+(e) you acknowledge, understand and agree that you are not eligible to
+purchase any SDA if you are a citizen, national, resident (tax or
+otherwise), domiciliary and/or green card holder of a geographic
+area or country (i) in which access to or participation in the SDA
+token sale or the SDChain Platform is prohibited by applicable law,
+decree, regulation, treaty, or administrative act, and/or (ii) where it is
+likely that the sale of SDA would be construed as the sale of a
+-5-
+
+security (howsoever named) or investment product (including
+without limitation the U.S., People's Republic of China and the
+Republic of Korea).
+The Foundation and the SDChain team do not and do not purport to
+make, and hereby disclaims, all representations, warranties or
+undertaking to any entity or person. Prospective purchasers of SDA
+should carefully consider and evaluate all risks and uncertainties
+(including financial and legal risks and uncertainties) associated with
+the SDA token sale, the Foundation and the SDChain team.
+The information set out in this Whitepaper is for community discussion
+only and is not legally binding. The agreement for sale and purchase of
+SDA shall be governed by a separate Token Purchase Agreement
+setting out the terms and conditions of such agreement (the Token
+Purchase Agreement), which shall be separately provided to you or
+made available at https://sdchain.io/ prior to the sale of any SDA. In the
+event of any inconsistencies between the Token Purchase Agreement
+and this Whitepaper, the Token Purchase Agreement shall prevail.
+All statements contained in this Whitepaper, statements made in press
+releases or in any place accessible by the public and oral statements that
+may be made by the Foundation and/or the SDChain team may
+constitute forward-looking statements (including statements regarding
+intent, belief or current expectations with respect to market conditions,
+business strategy and plans, financial condition, specific provisions and
+-6-
+
+risk management practices). You are cautioned not to place undue
+reliance on these forward-looking statements given that these
+statements involve known and unknown risks, uncertainties and other
+factors that may cause the actual future results to be materially different
+from that described by such forward-looking statements. These
+forward-looking statements are applicable only as of the date of this
+Whitepaper and the Foundation and the SDChain team expressly
+disclaims any responsibility (whether express or implied) to release any
+revisions to these forward-looking statements to reflect events after
+such date.
+This Whitepaper may be translated into a language other than English
+and in the event of conflict or ambiguity between the English language
+version and translated versions of this Whitepaper, the English
+language version shall prevail. You acknowledge that you have read
+and understood the English language version of this Whitepaper.
+No part of this Whitepaper is to be copied, reproduced, distributed or
+disseminated in any way without the prior written consent of the
+Foundation.
+
+-7-
+
+Abstract
+Since the birth of Bitcoin, blockchain and cryptocurrencies have
+been flourishing vigorously. However, most current blockchain projects
+are still on the basic level of token issuance and exchange of virtual
+information - there are very few digital assets which have real value to
+be widely used to establish a practical business ecosystem. In other
+words, especially there lacks an effective symbiotic mechanism
+between the physical world and digital world. Future development of
+the blockchain ecosystem inevitably requires mutually beneficial
+situations of symbiosis between the physical and digital economy.
+IoT (Internet of Things) will be a major connection of both the
+physical world and also the digital world. On one hand, IoT can
+establish an efficient coordination mechanism between users and
+objects in the physical world, thus promoting efficiency and bringing
+benefits to various industries, in addition to a new “Wisdom
+Revolution”. On the other hand, with a potential size of tens of billion
+possibilities and a high concurrency for transactions; IoT has the
+potential to create huge, high-value and steady streams of digital asset
+resources for blockchain. Meanwhile, this connection need of both
+physical and digital worlds will promote the establishment of a value
+system of digital assets and network credit, in order to achieve
+multilateral prosperity of both digital and physical ecosystems. The
+-8-
+
+combination of IoT and blockchain will create a new infrastructure of
+all things in general.
+SixDomainChain Platform is the world's first decentralised public
+blockchain ecosystem for data exchange that integrates international
+standards of IoT Six-Domain Model and reference architecture
+standards for distributed blockchain (SDChain Platform), which
+would operate on its own native blockchain (SDChain).
+The design of SDChain gives full consideration to IoT
+characteristics and requirements of business ecosystem construction. In
+specific fields like issuance of digital assets, management of users’
+credits and identities, P2P communication, encryption algorithm,
+consensus algorithm, smart contracts, cross-chain smart contract model,
+market
+
+consensus
+
+incentives,
+
+decentralised
+
+DApp
+
+(Distributed
+
+Applications) and fast access to new businesses, SDChain optimises
+current blockchain infrastructure in depth. By seamlessly implementing
+the underlying SDChain blockchain infrastructure and IoT Application
+ecosystem, the SDChain Platform will create a business ecosystem with
+benign, rapid and sustainable development, enabling SDChain Platform
+to have a coexistence of tokens, blockchain and industrial IoT. A
+reliable blockchain ecosystem based on IoT digital assets will be
+established, and an efficient way to realise the circulation and value
+transformation of reliable digital assets will be formed as well. In this
+manner, SDChain will become a global benchmark for the integration
+-9-
+
+of IoT and blockchain ecosystem.
+Core Business of SDChain includes:
+1）
+
+Regarding application requirements of a specific industry, and
+based on IoT Six-Domain Model reference architecture, SDChain
+will enable the establishment of business ecosystem and DApps
+thereon for agricultural IoT, industrial IoT, energy IoT and
+applicable verticals. It will also provide issuance of digital assets
+for different DApps, as well as services of credit identity
+registration and management, data storage, verification and
+inquiry on blockchain, smart contract setup, trigger and
+automatic account division for various IoT users and equipment
+subjects on SDChain. SDChain will ensure the consistency,
+authenticity and non-manipulation of the data and establish ACM
+(Asymmetric Credit Mechanism) between people and objects to
+guarantee the safety, efficiency and value of data assets
+interconnection.
+
+2）
+
+SDA (Six Domain Assets) is the native digital asset token to be
+used on the SDChain Platform. SDA will be issued based on a
+predetermined quota. SDA is intended to be utilised solely on the
+SDChain Platform (when fully completed and deployed), as a
+unit of exchange for consumption of services and payment for
+transactions on the SDChain Platform, as well as the incentive
+which will encourage participants to establish consensus for
+- 10 -
+
+digital assets on SDChain, thereby contributing and maintaining
+the ecosystem on the SDChain Platform.
+SDA does not in any way represent any shareholding,
+participation, right, title, or interest in the Foundation, its
+affiliates, or any other company, enterprise or undertaking, nor
+will SDA entitle token holders to any promise of fees, revenue,
+profits or investment returns, and are not intended to constitute
+securities in Singapore or any relevant jurisdiction. SDA may
+only be utilised on the SDChain Platform, and ownership of SDA
+carries no rights, express or implied, other than the right to use
+SDA as a means to enable usage of and interaction with the
+SDChain Platform.
+In particular, you understand and accept that SDA:
+(a) is non-refundable cannot be exchanged for cash (or its
+equivalent value in any other virtual currency) or any payment
+obligation by the Foundation or any affiliate;
+(b) does not represent or confer on you any right of any form with
+respect to the Foundation (or any of its affiliates) or its
+revenues or assets, including without limitation any right to
+receive future revenue, shares, ownership right or stake, share
+or security, any voting, distribution, redemption, liquidation,
+proprietary (including all forms of intellectual property), or
+other financial or legal rights or equivalent rights, or
+- 11 -
+
+intellectual property rights or any other form of participation
+in or relating to the SDChain Platform, the Foundation and/or
+its service providers;
+(c) is not intended to be a representation of money (including
+electronic
+
+money),
+
+security,
+
+commodity,
+
+bond,
+
+debt
+
+instrument or any other kind of financial instrument or
+investment;
+(d) is not a loan to the Foundation or any of its affiliates, is not
+intended to represent a debt owed by the Foundation or any of
+its affiliates, and there is no expectation of profit; and
+(e) does not provide you with any ownership or other interest in
+the Foundation or any of its affiliates.
+The contributions in the token sale will be held by the Foundation
+(or its affiliate) after the token sale, and contributors will have no
+economic or legal right over or beneficial interest in these
+contributions or the assets of that entity after the token sale.
+To the extent a secondary market or exchange for trading SDA
+does develop, it would be run and operated wholly independently
+of the Foundation, the sale of SDA and the SDChain Platform.
+The Foundation will not create such secondary markets nor will it
+act as an exchange for SDA.
+3）
+
+Based on many encrypted blockchain digital assets resources on
+the SDChain Platform, it is convenient to establish multilateral
+- 12 -
+
+cooperation with new business ecosystems, find potential venues
+for co-operation, incubate innovative applications, and drive the
+coordinated
+
+development
+
+of
+
+IoT
+
+technology,
+
+artificial
+
+intelligence innovations, IoT financial service innovations,
+services of supply chain traceability, and other market service
+innovations with high efficiency.
+
+- 13 -
+
+1. Background and Significance of this Project
+1.1 Issues and Solutions for IoT Development
+IoT is the information technology for the new generation, and its
+value and significance has been widely recognised by the society.
+Currently, the IoT industry has completed the initial phase of
+development, with the groundwork for large-scale applications rapidly
+laid, with the development of the entire industry at a critical point.
+However, due to the complexity of IOT and its difficulty of integrating
+with other industries, there remain challenges for implementing IoT, as
+well as various security and privacy issues. Currently, the IoT industry
+mainly focuses on infrastructure construction and localised innovations,
+the great potential and value of integration with various industries has
+not been explored in depth.
+Specifically: First, IoT involves chips, modules, equipment,
+network, platforms, applications, data and other parts of the chain, in
+addition to complex technical fields. Market channels have not been
+opened yet, therefore the transfer of value is very slow. Second, current
+systems for interactions and cooperation among all types of users,
+objects, conception control equipment, service platforms, regulation
+platforms, third-party resources platforms, credit and value systems are
+not mature; this increases the difficulty of IoT integration with various
+industries. Third, most centralised IoT platforms for manufacturers and
+- 14 -
+
+services providers collect and analyze users’ data and control users’
+devices without permission or authorisation from these users; such
+situation poses a great threat to users’ own privacy and security.
+In addition, due to the complexity of integration of IoT with
+traditional industries, where the lack of market operation coupled with
+closed business modes, the development of IoT is relatively slow. To
+solve this issue, the first thing to do is to create a system framework
+capable of integrating traditional industry with IoT. More importantly,
+there is a need to ensure the legal identity of IoT devices as well as the
+validity, authenticity, consistency, tamper-resistance of data, which will
+determine whether IoT can be applied as a key part in areas such as
+agricultural production, supply chain traceability services, finance and
+insurance innovations.
+The breakthrough solution for this issue would be a complete
+integration of IoT system and a blockchain distributed ecosystem. On
+one hand, based on the guidance provided by the “Six-Domain Model”
+IoT framework standard (ISO/IEC 30141 DIS, GB/T33474-2016), it is
+planned that an IoT operation service system would be set up on the
+SDChain Platform, thus ensuring the effectiveness, and sustainability of
+the system (as it shows in Figure 1). On the other hand, blockchain
+technology is used as an underlying operation platform of this
+decentralised ecosystem, which enables the construction of IoT credit
+system and value system (as it shows in Figure 2).
+- 15 -
+
+Figure 1. Agricultural IoT Framework based on Six-Domain Model (Example)
+
+Figure 2. The Framework of IoT and blockchain integration
+
+IoT “Six-Domain Model” reference architecture systematically sorts
+out correlational factors of complex IoT applications, makes analysis
+- 16 -
+
+from different angles, and sets up major rules regarding different
+business functions. Specifically, it sets up rules for six main areas as
+follows: IoT User Domain (definition of user and demand), Target
+Domain (ensuring the correlation with “objects”), Sensing Control
+Domain (setting up schemes for sensing and control, namely correlation
+between different “objects”), Service Domain (processing original and
+semi-original data for corresponding users), Operation and Governance
+Domain (managing security, reliability, stability and precision from
+both technical level and system level), and Resources Exchange
+Domain (establishing a closed loop IoT business model by achieving
+sharing and exchange between single IoT application system and
+external system of information and resources from the market).
+Furthermore, these domains will be connected to one another by the
+business logic of this network, therefore forming an individual IoT
+industrial ecosystem. A single industrial IoT ecosystem can then form a
+new collaborative system with other industries by their respective
+domains of resources exchanged.
+1.2 Application Analysis of Blockchain and IoT Combination
+By applying blockchain technology to the device’s identity
+permission management, smart contract mechanism, data security,
+privacy protection and data resources transaction mechanisms, there
+have been many breakthroughs so far. This will support integration with
+- 17 -
+
+other users of IoT, as well as various financial and insurance resources
+available on the network. By doing so, it will reshape online and offline
+open value system and credit system, which may further expand the
+space of IoT add-on services and industry in general. IoT will play
+important roles in fields of agriculture, industry, medicine, health,
+environment protection, transportation, security, finance, insurance,
+object traceability, supply chain, smart city, and others. As a result, a
+big transition from general information on the Internet to value
+information on IoT may be achieved.
+Experiments into the application of blockchain technology to IoT
+have started around 2015. Currently some domestic and international
+corporations and research institutions have looked into this field, and
+have applied blockchain technology into many sub-fields of IoT.
+For example, the Bluemix project (October 2016) has incorporated
+blockchain services based on IoT with a blockchain solution for truck
+tracking. There is also the Blocklet project, which connects all
+electronic devices on the blockchain to build an IoT system, which
+adopts blockchain technology to ensure that the accuracy of agricultural
+data from smart farms is not tampered with. In September 2016,
+Wanxiang Holdings released a plan to invest 200 billion RMB in
+“Wanxiang Innovation Hub”, which includes blockchain, IoT, artificial
+intelligence, microelectronics, and other latest technologies to
+implement a new decentralised energy trading and management system.
+- 18 -
+
+Yet another example is AgriLedger, which provides free or low-cost
+smart phones for individual farmers and agricultural corporations, and
+each smart phone contains an agricultural production management
+blockchain application. This application first records all relevant
+information onto the blockchain, and then helps individual farmers to
+enjoy economies of scale from joint production and sales. Also, this
+application makes the crop supply chain more transparent, and reduces
+corruption, theft and other negative incidents.
+Due to the complexity of cross-boundary and cross-industry issues,
+most of current projects which focus on the integration of blockchain
+and IoT are still in the early stages of their individual private chain or
+consortium chain. There are some public chain IoT projects, which are
+still at the preliminary stages of token issuance or simple application
+business support. On the other hand, IoT applications in different
+industries have common references for design, and also resource
+sharing and collaboration needs. Therefore, considering characteristics
+of the IoT ecosystem, it is necessary to establish a public blockchain
+infrastructure, which is able to provide comprehensive support services.
+Taking the agricultural industry as an example, currently, there are
+significant challenges facing both agricultural development and food
+quality. On one hand, agricultural resources are widely dispersed but
+isolated, farming facilities and services are quite weak, it is not easy to
+direct technological and financial resources to agriculture industry,
+- 19 -
+
+while income for most farmers are low. As a result, there is an urgent
+need to increase the quality and efficiency of the current
+agriculture industry. On the other hand, current food safety still
+remains an issue. The supply chain is too long and the credit system is
+weak, thus it is difficult for consumers to effectively identify and find
+safe and high-quality food. Therefore, there is also an urgent need to
+improve the current food quality assurance practice.
+Current centralised and localised solutions are not able to control
+and track all steps of the journey of agricultural products from the
+farmland to the dining table, and to realise a complete upgrade of
+existing food quality assurance practice, because the current ecosystem
+(i.e. information service platform, e-commerce agricultural equipment,
+product merchants, logistics and fintech resources) is still disperse. The
+core issue lies in the failure to create substantial economies of scale
+for agriculture and the difficulty in establishing cooperative credit
+system for agricultural supply chain. The solution to this issue will
+come through various levels. On one hand, IoT may be applied to
+agricultural production and circulation, in order to improve traditional
+operational efficiency, raise the level of food quality, unleash
+agriculture potential and create economies of scale. On the other hand,
+blockchain technology and its decentralised model will link agricultural
+digital assets from IoT, to establish a complete credit cooperation
+system, and solve current pain points of agricultural transition and
+- 20 -
+
+agricultural consumption upgrade. By doing so, this can bring more
+income for farmers and guarantee food security and quality for
+consumers. Meanwhile, IoT will create a good amount of digital assets
+resources for blockchain. Its future potential of economic value and
+social values are huge as well; the combination of both IoT and
+blockchain will bring in a smart revolution in agricultural industry as a
+result.
+
+- 21 -
+
+2. SDChain’s Design Objectives and Applications
+2.1 Concepts of Design and Construction Objectives
+IoT “Six-Domain Model” international standard framework
+provides an important reference point for IoT applications in different
+industries and establishment of a closed business loop; it will be
+conducive to the development of IoT industry, especially for
+optimisation of division of labor and application ecosystem of the
+industry. However, on the construction of a credit and value system,
+this framework still requires integration and support from the
+decentralised blockchain technology.
+SDChain is designed to address the various requirements and
+business needs from different companies and users with the IoT
+Six-Domain Model, such as IoT business users, IoT device users, IoT
+service platform users, IoT operation, regulatory platform users,
+third-party business cooperation users, property owner users and others.
+It will optimise in depth for current blockchain technology, specifically
+in sub-fields of digital assets issuance, credit of user identity
+management, P2P communication, encryption algorithm, consensus
+algorithm, smart contracts, cross-chain smart contract models, market
+consensus incentives, decentralised DApps and fast access to new
+business, to ensure the benign, fast and sustainable development of
+SDChain ecosystem. By doing so, it will promote the coexistence of
+- 22 -
+
+token, blockchain and IoT technologies, achieve efficient circulation
+and transition of digital assets credit, therefore SDChain will become a
+universal benchmark to promote the real social development through
+the combination of IoT and Blockchain.
+2.2 Business Model and Application Scenarios
+Core business of SDChain includes:
+1）
+
+According to application requirements of the particular industry
+and IoT Six-Domain Model for referential framework, DApps
+will be established by operators from each industry, such as
+agricultural IoT, industrial IoT, energy IoT. SDChain will
+provide digital assets issuance for each DApp, and also provide
+different users with digital credit identity registration and
+management on SDChain, allowing recording of data onto
+blockchain, authorisation and search for data, smart contract
+set-up and trigger, automatic split as well as other services. It will
+ensure the consistency, authenticity and tamper-resistance of data,
+and establish the asymmetric credit mechanism between people
+and objects (ACM), to guarantee the safe and effective
+interconnection of data assets.
+
+2）
+
+Issuance of SDA by distribution schedule – SDA will be used as
+the unit of exchange for facilitating digital assets transactions and
+payment for services / transactions on the SDChain Platform, as
+- 23 -
+
+well as the incentive which would be consumed to encourage
+participants to establish ledger consensus for digital assets on
+SDChain, thereby contributing and maintaining the ecosystem on
+the SDChain Platform. SDA may also be used by the Foundation
+for purposes of application ecosystem incubation, community
+construction, business cooperation and promotion of SDChain
+Platform. The continued development of the SDChain Platform,
+blockchain industry and IoT, will generate value for the entire
+industry at the same time.
+3）
+
+Based on large encrypted blockchain data resources on
+blockchain, the SDChain Platform is intended to create a
+mutually beneficial ecosystem to tap potential values, incubate
+innovative applications and drive IoT technology to grow
+efficiently with artificial intelligence innovations, IoT financial
+service innovations, supply chain traceable service innovations
+and market service innovations.
+
+2.3 DApp Practical Applications: Agricultural IoT
+The SDChain Platform, when completed, will focus on one of the
+primary needs of society – namely upgrading the food consumption
+chain, by developing the first agricultural IoT system based on
+SDChain – agricultural IoT DApp. The SDChain Platform will use look
+towards applying IoT to the fishing business as a market entry point,
+- 24 -
+
+because it is relatively mature and has a high level of data openness. By
+establishing system models and integrating with primary plantations
+(such as those for grain, oil, fruit, vegetables, tea leaves), livestock
+(such as chicken, pig, cattle, sheep) and other agricultural IoT
+applications, the
+
+SDChain Platform will promote agricultural
+
+production and circulation as well as continuous improvement in digital
+credit system of consumption. Thus, on one hand, the SDChain
+Platform will provide IoT and financing resources for agricultural
+producers and supply chain, with an increase of agricultural benefits as
+a result. On the other hand, the SDChain Platform will increase the
+add-on value of agricultural brand to ensure that consumers can have a
+safe, healthy and efficient supply of food. The SDChain Platform is
+designed to gradually establish a prosperous, collaborative modern
+agriculture blockchain ecosystem, which can be a model mechanism for
+other IoT application or DApp within the SDChain Platform (Such as
+textile IoT, energy IoT, healthcare IoT, smart home, smart parking,
+smart fire prevention, smart environment protections and so on). The
+SDChain Platform will establish the important foundation for the
+widespread adoption of a decentralised ecosystem of value.
+Looking to the agricultural industry as an example, its application
+scenarios mainly includes IoT supervision of agricultural service
+operation, agricultural e-commerce transaction services, agricultural
+e-commerce transaction and brand services, agricultural, fintech and
+- 25 -
+
+insurance services. Meanwhile, the SDChain Platform will further
+support
+
+development
+
+in
+
+agricultural
+
+innovation
+
+research
+
+and
+
+development (such as seed coverage, forage, fertilizer, pharmacy,
+biology, equipment), agricultural devices research and development,
+issuance of digital assets, market analysis of agricultural products, price
+index
+
+of
+
+agricultural
+
+materials
+
+and
+
+products,
+
+credit
+
+scores,
+
+crowd-funding transactions of agricultural resource use, equipment
+rental, logistics resource sharing, agriculture tourism services,
+agricultural travel live stream, social events, rankings, brand
+advertisement, training, agricultural innovation space and other
+development of innovation applications.
+ Agricultural IoT operational supervision services: Data gathered
+from agricultural IoT equipment will be synchronised onto
+blockchain, and provide identity authentication for both devices
+and users, data verification, data upload to blockchain, data inquiry
+and smart contract services. By doing so, the SDChain Platform
+will constantly create new agricultural data assets.
+ Agricultural supply chain traceability and e-commerce transaction
+services: Data regarding agricultural material transactions will be
+uploaded completely on blockchain, to guarantee quality and utility
+of the traceability services; meanwhile, smart contract set-up, smart
+contract trigger and automatic accounting services will also be
+provided.
+- 26 -
+
+ Agricultural products traceable e-commerce transaction and brand
+services: Data of agricultural transitions will be recorded on the
+blockchain for the whole process, making quality and transaction
+identity traceable at all times; meanwhile, smart contract set-up,
+smart contract trigger and automatic accounting services will also
+be provided.
+ Agricultural IoT finance and insurance services: the SDChain
+Platform will support provision of technology credit loans and
+technology insurance to finance, insurance, third-party technology
+service platforms, farmers, supply chain by smart contract services.
+This will simplify current valuation and business procedures.
+ Issuance of new agricultural digital assets: By providing new
+agricultural digital assets issuance platforms through the SDChain
+Platform, the whole digital token ecosystem will be enriched and
+SDChain will become a bedrock blockchain operation platform for
+agriculture.
+ Agricultural research services: Through the gathering of big data
+information by the SDChain Platform, it can provide blockchain
+data inquiry services for seed, forage, fertilizer, pharmacy, biology
+and facilities.
+ Agricultural IoT and system research and development services:
+Based on framework standards of SDChain and IoT Six-Domain
+Model, the SDChain Platform will support agricultural IoT
+- 27 -
+
+standard construction, which includes research and development of
+international IoT and blockchain standard at levels of device,
+platform, system, data and services.
+ Market analysis of agricultural products: Based on distributed
+market resources connected to the SDChain Platform, it can support
+big data market analysis of agricultural products, as well as
+blockchain data inquiry services.
+ Price index for agricultural materials and products: Based on
+agricultural material and products data linked to the SDChain
+Platform, a price index for agriculture may be set up to provide data
+inquiry services for enterprises on the agricultural chain, farmers,
+commodity transactions, consumer organisations and individuals. It
+can be used to support business innovations as well.
+ Agricultural credit score: Based on the analysis of various types of
+business in the network on the SDchain Platform, a credit score
+may be assigned for different types of users on blockchain, which
+can further activate potential digital asset resources.
+ Crowd-funding of the right of use for agricultural resources: The
+right of use can be uploaded on blockchain and then can be
+crowd-funded for plantation, farms, fishing pools and other
+agricultural resources. The SDChain Platform would allow
+participants to set up smart contracts for industrial co-operation, in
+addition to various other services.
+- 28 -
+
+ Agricultural device rental: By promoting expensive or important
+agricultural devices and other digital assets on SDChain, financing
+and rental services through the usage of SDA can be realised as a
+result.
+ Logistics resources sharing: Based on service requests from
+agricultural products logistics information linked via the SDChain
+Platform, the sharing and allocation of logistics resources can be
+maximised. It can significantly optimise logistic resources sharing
+and allocation. As a result, it will be more efficient to undertake
+business, transportation and use SDA for settlement.
+ Agriculture tourism services: Based on the SDChain Platform,
+and consumer resources, evaluation, inquiry payment and other
+agriculture tourism services can be provided as well.
+ Agricultural live stream: Due to the linking via the SDChain
+Platform of agricultural products and resources from agricultural
+tourism bases, objective and live stream can be promoted, in
+addition to relevant video-on-demand, with settlement to be made
+in SDA.
+ Social network: Based on participant interests and subject matter
+notified to and linked via the SDChain Platform, various social
+events may be organised to promote multi-culture development,
+such as meet-ups, meetings, exhibition, and these may all use SDA
+as participatory notes.
+- 29 -
+
+ Ranking: based on different types of data accumulated by SDChain,
+various rankings based on agricultural material, agricultural
+products, technology, consumption can be established, thus
+promoting the benign development of the ecosystem.
+ Brand advertisement: Based on large-scale consumer and user
+groups linked via the SDChain Platform, targeted advertisement
+may be introduced to users of the SDChain Platform, in addition to
+creating collaborative value of agricultural products brand, with
+SDA to be used as payment by advertisers.
+ Training: Based on expert resources and data resources linked via
+the SDChain Platform, various types of training and experience
+sharing sessions can be held, with training providers receiving SDA
+as an incentive for participating.
+ Agricultural Innovation Space: Based on extensive resources linked
+via the SDChain Platform, it can provide relevant services for
+agricultural innovation space in different regions, and different
+types of resources can be obtained or opened through various
+channels on the SDChain Platform.
+ Innovation application development: Based on resources linked via
+the SDChain Platform, SDChain users can rapidly disseminate their
+development
+
+requirements.
+
+Also,
+
+SDChain
+
+can
+
+provide
+
+development resources for developers and allow these developers
+to monetize their applications.
+- 30 -
+
+Agricultural IoT Dapp on the SDChain Platform is one of the
+agricultural IoT sub-applications under the Six-Domain IoT framework.
+It establishes a distributed blockchain ecosystem to deal with credit
+digital assets during the agricultural production process, including:
+registration, storage, authorisation, transaction and services of these
+digital assets. Through the construction and operation of collaborative
+systems on the SDChain Platform, more innovations from agriculture,
+forestry, animal husbandry and fishery will continuously emerge, thus
+promoting agricultural production, circulation and improvement of
+digital credit system in consumption fields. On one hand, it will bring
+resources and power of IoT and financial services for agricultural
+producers and supply chain, thereby increasing agricultural profits. On
+the other hand, by increasing the add-on values for brands of
+agricultural products, consumers will have better opportunities to access
+safe and high-quality food supply. Meanwhile, billions of potential
+terminals of agricultural IoT with highly concurrent transactions will
+create huge amount of digital assets on SDChain, providing the most
+powerful support for the continuous growth and development of the
+SDChain Platform ecosystem.
+
+- 31 -
+
+3. SDChain’s Architecture and Technical Solutions
+Based on IoT Six-Domain Model system, SDChain is designed to
+be able to efficiently categorise its users, which mainly include
+individuals, enterprises, government agencies, property owners, IoT
+operation providers, IoT devices, and various operators on the industrial
+chain, such as: equipment providers, online e-commerce businesses,
+financial institutions, logistics companies. According to characteristics
+of its users and the users’ blockchain businesses, SDChain will
+modularize its infrastructure, in order to provide multi-dimensional and
+multi-role protection, data privacy, confidentiality, distributed data
+storage, credible data access and transactions by SDChain’s strong
+underlying security.
+To learn more about the composition of this blockchain system, it
+is necessary to look at the function view of SDChain’s reference
+framework. This function view describes typical functional components
+of SDChain system through the hierarchical structure by “four
+horizontal and four vertical levels”, as it shows in Figure 3. This figure
+includes user layer, service layer, core layer, and base layer with
+additional cross-layer functionalities.
+
+- 32 -
+
+Figure 3 Functional Components of Blockchain Reference Framework
+
+The user layer is designed to address users’ needs for portal
+entrance. Through this portal entrance, execution and client related
+management functions could be activated, in addition to maintenance
+and use of blockchain services. Users may also use blockchain services
+to transfer the output to provide support for cross-layer blockchain
+services.
+The service layer provides unified access and node management
+services.
+The core layer is core functional layer of the blockchain system,
+which includes the consensus mechanism, time-sequence services,
+privacy protection, encryption, summary and digital signatures and
+many other modules. Further, according to different application
+scenarios, users may add automatic executable smart contract modules
+by default logic.
+The base layer provides necessary operation environment and
+components for the blockchain system, such as data storage, operation
+container, communication network and others.
+Meanwhile, in response to the needs of blockchain research and
+- 33 -
+
+development, this function view also includes a “development,
+operation, security, auditing” four cross-layer system. Functional
+components
+
+in
+
+the
+
+four
+
+cross-layer
+
+system
+
+interact
+
+with
+
+abovementioned three layers of components and provide support for the
+entire system in general.
+The following is a brief description of core functions of the base
+layer of SDChain:
+3.1 P2P Communication
+P2P communication is the core of blockchain. It has all the
+characteristic of decentralisation, scalability, privacy and high
+performance. The efficiency of P2P network communication is very
+important to the overall performance of blockchain, especially the
+speed of the whole blockchain network. Designed specifically for IoT
+devices and users connected on the SDChain Platform, SDChain will
+optimise in depth for areas of communication maintenance, address
+confirmation, communication mechanism and storage plans. By
+specifying associated physical configuration and size of clients and
+consensus nodes, SDChain will adopt sharding mechanism and
+high-speed Internet connection, to decrease the burden of consensus
+communication, calculation and storage, therefore further improve
+transactional performance of the blockchain, and so to achieve
+maximum performance of IoT devices. This also guarantees IoT
+- 34 -
+
+devices registration, digitalisation and authorisation in the future.
+3.2 Encryption Algorithm
+Encryption is a key part of blockchain, in particular, the hash
+function and asymmetric encryption algorithm.
+1) Hash function: Currently, there are many algorithms for hash
+function such as SHA and MD5, as well as series and parallel
+use of the algorithm. Since most commercial applications focus
+more on performance, SDChain will adopt SHA256 as its basic
+algorithm.
+2) Asymmetric encryption algorithm: This includes RSA, DSA,
+elliptic curve algorithm and others. Blockchain mainly adopts
+elliptic curve algorithm like ECDSA and SCHONORR. Since
+SCHNORR has a faster signature verification speed compared
+to ECDSA, its signature has a smaller size and is supportive of
+native multiple signature. SCHNORR is in accordance with the
+small volume size of IoT; therefore SDChain would be
+adopting its own version of SDSCHNORR based on
+SCHNORR.
+Meanwhile,
+
+the
+
+modular
+
+design
+
+of
+
+SDChain
+
+allows
+
+interchangeability of multiple algorithms. Because there are various
+forms and different types of use case scenarios, security requirements
+are not always consistent. Therefore, SDChain supports algorithms such
+- 35 -
+
+as Chinese National Standard encryption algorithms (SM2 elliptic curve
+public key cryptographic algorithm, SM3 cryptographic hash algorithm,
+SM4 block cipher algorithm) and others based on demand. As a result,
+SDChain abstracts the underlying encryption algorithm and alternative
+channels of different algorithms to meet various algorithm and security
+requirements of different IoT applications. The name of wallet and
+address can be interchangeable.
+3.3 Consensus Algorithm
+The consensus mechanism is a set of mechanism designed to
+ensure the accuracy and consistency of information stored in the
+distributed ledger, which is mainly determined by business and
+performance requirements. IoT is a comprehensive and complex
+heterogeneous system, which covers multiple industries and a wide
+range of transactions. Because there are many types of communication
+protocols, IoT has high safety and performance requirements for the
+underlying blockchain. With the abovementioned characteristics in
+mind, SDChain innovatively proposes SDFT algorithm, which
+integrates high consistency RAFT and high concurrency PBFT
+algorithms, thus solving security, high performance and trust issues at
+the same time. It is planned that SDFT will have the following features:
+1) Select one or a number of master nodes (Master node) from the
+full network authentication nodes (Validate node) with
+- 36 -
+
+SD-RAFT to balance the computing load that is accessed by the
+client. The master node is responsible for the collection of the
+new transaction accounting request and the generation of the
+transaction list in the whole network within a fixed period (10
+seconds).
+2) Each verification node will broadcast the transaction record that
+sent from the client to the entire network. The major node will
+collect transactions that will be put into new blocks by
+sequence and store them into
+
+transaction list and then
+
+broadcast this list to the entire network.
+3) When each node receives the transaction list, it will execute
+these
+
+transactions by sequence. When all transactions are
+
+excuted, each node will broadcast to the entire network based
+on the calculation of hash summaries of new blocks.
+4) If a node receives 3f (f is the number for tolerable SDC nodes)
+summaries from other nodes to request to equalise with itself, a
+commit message will be broadcasted to the entire network.
+5) If a node receives 3f+1 commit messages, it can submit new
+block and its transactions to local blockchain and its status
+database.
+Please find below a performance comparison of SDChain with other
+blockchain platforms：
+- 37 -
+
+Blockchain Platform
+
+Consensus Algorithm
+
+Transaction
+Confirmation Time
+
+Bitcoin
+
+POW
+
+60 min
+
+Ethereum
+
+POS
+
+17 sec
+
+SDChain
+
+SDFT
+
+3~5 sec
+
+3.4 Smart Contract
+Each IoT device connected to the Internet has a global identity on
+blockchain, and this will be the only identifiable global identity, which
+can be used for credit identification. The credit status of each IoT
+device is visible to other devices on the SDChain Platform. The
+corresponding key is used to sign data which records transactions sent
+from this address, and it is only visible to the device owner.
+Additionally, the SDChain Platform will set up a wallet for that device,
+which aims to improve the security of IoT devices by preventing attacks.
+Each time an IoT device records a data transaction, the action will result
+in the generation (and/or consumption) of gas. Each smart contract is
+similar to a common wallet, which has a unique public key address. The
+difference is that the private key of the smart contract is discarded when
+smart contract is created; therefore no one can send digital assets
+towards smart contract except by way of the consensus mechanism. In
+response to monitoring demands for IoT, namely IoT device holders can
+set up smart contract, path of data storage and amount of charge to the
+- 38 -
+
+account beforehand, and then broadcast to the entire network and stored
+as digital records. When an emergency happens, blockchain regulations
+will activate, the smart contract on the SDChain Platform will require
+enforceability, promptness and automatic trigger. The triggering
+conditions are also recorded as data on the blockchain and is subject to
+the related protection. This type of data is accurate, safe and reliable,
+and cannot be tampered with.
+3.5 Decentralised DApp
+The existing incubation of development projects is relatively
+centralised with inefficiency, opacity and unfriendliness, which affects
+developer’s creativity and activities. Comparatively, under the incentive
+of
+
+DIP
+
+protocol,
+
+the
+
+SDChain
+
+Platform
+
+will
+
+promote
+
+the
+
+decentralisation of community ecosystem incubation through a positive
+feedback mechanism. With the development of the ecosystem on the
+SDChain Platform, there will be more and more information accessible
+on blockchain. The key result is to provide this information in a simple
+and effective way, which is conducive for further processing. It is
+expected that there will be more phenomenal DApps to emerge in the
+future. As it shows in Figure 4.
+
+- 39 -
+
+Figure 4. The Framework for SDChain Developers
+
+Enterprise and individual developers can each create an
+account for IoT devices, obtain asset digitalisation, get information
+about block height, create and request trading information on the
+chain and receive real-time notifications on SDChain. Currently by
+SDK, SDChain can realise the value of access, information privacy
+protection, value transmission, BaaS services on voucher, in order
+to create value for accessible data, and make accessible data flow,
+transformation trustworthy. SDChain has made in-depth analysis in
+Internet applications, IoT applications and financial applications.
+Meanwhile, SDChain has established a number of SDK in
+accordance to different languages, such as C++ SDK for IoT, Java
+and Node SDK for Internet. Doing so will satisfy different
+application platform access requirements for the entire ecosystem.
+
+- 40 -
+
+3.6 Issuance of IoT digital assets
+
+There are four basic elements of an SDChain smart contract:
+{code, status, [code], balance}. The code is generated by users; the
+status contains all current internal information of the smart contract;
+the balance is the cryptocurrency in balance of the smart contract,
+which also stores a history of transactions. According to user’s
+requirements for issuance of new digital assets from different IoT
+application platforms, token distribution can be realised by a smart
+contract on the SDChain Platform, which is also supportive of
+distribution of other cryptocurrencies by SDA as the underlying
+asset.
+3.7 Cross Chain Smart Contract Model
+SDChain has real value for both lightweight participants (such as
+IoT devices) and computation-intensive participants (such as IoT
+platforms). There always exists a huge imbalance between these two
+types of participants. Since the development of blockchain is still in an
+early age, current blockchain technology has various issues such as
+problems with upgrades, cross-chain compatibility with different
+blockchains, and splits in user groups. In order to solve the
+abovementioned issues, SDChain will introduce the solution of layered
+consensus stack technology, namely SDCC (SD Cross-Chain). SDCC is
+- 41 -
+
+incubated from SDChain, which is a smart contract module on
+blockchain, and it can provide following content features:
+1）
+
+Layered configuration structure: functional modules can be
+replaced from multiple dimensions.
+
+2)
+
+In response to the situation that Bitcoin cannot issue digital
+
+assets by itself and the objective shortcomings of Ethereum’s smart
+contract focus, SDCC provides support for various types of transactions,
+smart contracts and distribution of self-defined digital assets.
+3)
+
+A variety of data storage forms can be replaced, which
+
+supports MySQL, PostgreSQL, Oracle and other relational databases, as
+well as RocksDB, Redis and other non-relational databases.
+4） The consensus node can be configured to support multiple
+consensus protocols, besides SAFT in the system, SDChain is
+supportive of PoW, PoS and other consensus protocols used by other
+IoT blockchain.
+5）SDCC supports pluggable authentication schemes and injection
+user protocols, which can deploy existing consensus nodes to integrate
+new blockchain more easily.
+6 ） For participants with small processing capacity, they can still
+participate in node verification.
+7) Using SDCC’s internal split-flow scheme to improve
+communication and storage performance of IoT devices connected: As
+it shows in Figure 5.
+- 42 -
+
+Figure 5. Cross Chain Work Model
+
+4. Ecosystem Roadmap & Community Management
+Architecture
+4.1 SDChain’s Ecosystem Roadmap
+SDChain will combine international strengths to build a universal
+community ecosystem. The management of its ecosystem will be led by
+SDChain
+
+Foundation
+
+in
+
+addition
+
+to
+
+international
+
+community
+
+management agencies. SDChain will make full use of blockchain and
+IoT innovations, in addition to promoting to IoT enterprises and users.
+Meanwhile, SDChain will continuously explore the innovation
+business within six domains, and establish a global ecosystem of
+blockchain and IoT under the supervision of community and relevant
+- 43 -
+
+regulatory agencies. As an open platform, SDChain upholds principles
+of openness, inclusiveness, mutual cooperation and benefits, and will
+establish ecosystem-wide cooperation throughout the industry.
+4.2 SDChain’s Ecosystem Business Model
+
+The development of the SDChain ecosystem depends on two
+parts. On one hand, based on SDChain, the whole industry supply
+chain and users can generate value through various innovative
+services. On the other hand, a large number of high-value digital
+assets on SDChain will support large volumes of high-frequency
+digital assets transactions, thus promoting the increasing added
+value of the ecosystem on the entire SDChain Platform, and drive
+SDA to expand to even more transaction processes. Further,
+projects built on SDChain’s public chain capabilities would have
+high levels of scalability – the relevant business teams may utilise
+SDChain to develop their own DApps, distribute relevant tokens
+and enhance the ecosystem on the SDChain Platform. By
+connecting businesses to resources, the SDChain Platform will
+grow more robust and diverse.
+4.3 SDChain's Community Management Architecture
+The SDChain community will be guided by the Foundation, which
+is based in Singapore. The Foundation’s views on the technical
+- 44 -
+
+development, business promotion and community operation of the SD
+Chain Platform will be influential, but ultimately it will not have
+control over the actions of the SDChain community, which is
+spontaneously formed and is open, decentralized and admission-free to
+join, comprising various users, participants, developers, supporters,
+SDA holders worldwide, who are not connected with the Foundation in
+any manner. In order to ensure the efficient development of the
+SDChain Platform and ecosystem thereon based on the principles of
+openness and transparency, there will be various Committees set up by
+the Foundation:
+Board of Directors – It is the highest decision-making body of the
+Foundation and will manage various executive agencies (Committees).
+It has the right to decide, use, freeze, and reward SDA, and conduct
+punitive measures on behalf of the Foundation, as well as other
+activities. The Board of Directors will be selected by the members of
+the Foundation.
+The term of each director in the Board of Directors is 2 years, and
+new members will be selected upon expiry of the term.
+
+Under the Board of Directors, there are 6 Committees:
+
+- 45 -
+
+Steering Committee – Its function is to advise the Board of
+Directors on the overall direction and development of the project to
+develop SDChain and the SDChain Platform, the promotion of the
+ecosystem, community operation, and on all major board decisions.
+Business Committee – It will be in charge of business promotion,
+business development and ecosystem construction of the SDChain
+Platform. Its members are generally chosen from representatives from
+the industry.
+Technology Committee – It will be in charge of technical
+development of SDChain and the SDChain Platform, open source code
+management, Github open source code maintenance, and updated
+evaluation of technology in community. Its members are generally
+selected from an international blockchain expert pool.
+Community Committee – It will be in charge of global community
+operations and management, community events planning, resources
+integration, and community rewards distribution. Its members are
+mainly selected from active community members.
+- 46 -
+
+Public Relations Committee – It will be in charge of project
+progress updates, public relations issues, external publicity and other
+issues relating to the development of the SDChain Platform. Its
+members are generally selected from an international pool of marketing
+executives and representatives of public relations companies.
+Human Resources and Finance Committee – It will be in charge of
+payments and allowances to the staff of the Foundation, normal
+financial expenditure for the development of the SDChain Platform,
+volunteer recruitment and other types of work.
+Heads of each Committee – the Board of Directors will appoint
+heads of Committees, and such persons shall be responsible for the
+operation management in their committees, in addition to work and
+coordination among other Committees. The head of each Committee
+needs to report to the Board of Directors on a regular basis.
+Steering Committee：
+The Steering Committee members will be selected from
+well-known blockchain and IoT industry experts. A brief introduction of
+the growing list of members, is as follows:
+
+1. Dr. Jie Shen, Co-Chairman
+Dr. Jie Shen obtained Ph.D from Chinese Academy of Sciences
+after receiving bachelor degree from Zhejiang University, and was a
+visiting scholar at University of California at San Diego (UCSD). He is
+- 47 -
+
+an authoritative international experts on IoT, with 15 Years of IoT
+experience and 3 Years of blockchain research experience, and had
+participated in developing the worlds’ first international Internet of
+Things Reference Architecture (IoT RA) ISO / IEC 30141 on behalf of
+Chinese Leaders. He is also the proposer and chief editor of the
+"Six-Domain Model" of IoT, sponsor of Joint Laboratory for
+Six-Domain Blockchain, founder of Qingyu Tang, and part-time
+professor of Fudan University. Since 2011, he has been the general team
+leader of the National IoT Basic Standard Working Team and promoted
+development of dozens of basic standards and application standards for
+Internet of Things jointly with the Ministry of Public Security, Ministry
+of Agriculture, Ministry of Transport, Ministry of Environmental
+Protection, State Forestry Administration, National Health and Family
+Planning Commission and China National Textile and Apparel Council.
+He was once the vice president of Wuxi Internet of Things Industry
+Research Institute, vice director of National Research Center for Sensor
+Network Engineering Technology of Ministry of Science and
+Technology, and vice chairman of the CCSA TC10. He has presided
+over 10+ state-level scientific research projects related to IoT and 10+
+international and national standards, and was awarded the first prize of
+Shanghai Science and Technology Advances, the second prize of China
+Standard Innovation and the Advanced Individual of the National
+Information Security Standardization Technical Committee.
+- 48 -
+
+2. David Pan, Co-Chairman
+David joined the Foundation with 20 years of industry
+experience serving North American and Asian technology and
+investment companies in IoT, semiconductor, software, electronics
+manufacturing and telecom sectors. Prior to joining the Foundation,
+David served as the Director of IoT Asia Marketing at Arm, growing
+and supporting Arm’s IoT developer ecosystem and partnerships in Asia.
+Prior to Arm, David served as the President of Ayaris 9 with sell-side
+mandates in IoT, clean tech and e-commerce sectors, as well as
+managing buy-side venture capital specialised in pre-IPO projects.
+David graduated from Harvard with a Masters in Finance, Golden Gate
+with Masters in Enterprise Systems, and UC Berkeley with BA in
+Architecture.
+
+3.
+
+Richard Zhou, Co-Chairman
+Richard is currently the President of Green Panda Marketing Inc. in
+
+Toronto, Canada, Advisor to multiple Fortune 500 companies and
+Nasdaq-listed companies, and Advisor to China Canada Angel Alliance.
+Formerly, Richard served as an Independent Board Director of Internet
+of Things Inc. (TSX.v-ITT), Assistant Director of Ontario Ministry of
+Tourism, Culture and Sports, Canada, Co-Chair of TIFF China Internet
+Film and Television Development Forum, President of Canada
+- 49 -
+
+Evergreen Association, and Founding Director of Chinese Cabinet of
+Toronto Sick Kids Foundation, one of the largest charity organisations
+in Canada. Richard has 20 years of industry experience in information
+technology, Internet, IoT, energy, serving at EMC, Siemens, and
+Apotex.
+
+Core Team Members：
+1、
+
+David Pan
+David joined the Foundation with 20 years of industry
+
+experience serving North American and Asian technology and
+investment companies in IoT, semiconductor, software, electronics
+manufacturing and telecom sectors. Prior to joining the Foundation,
+David served as the Director of IoT Asia Marketing at Arm, growing
+and supporting Arm’s IoT developer ecosystem and partnerships in Asia.
+Prior to Arm, David served as the President of Ayaris 9 with sell-side
+mandates in IoT, clean tech and e-commerce sectors, as well as
+managing buy-side venture capital specialised in pre-IPO projects.
+David graduated from Harvard with a Masters in Finance, Golden Gate
+with Masters in Enterprise Systems, and UC Berkeley with BA in
+Architecture.
+
+2、
+
+Faud A. Khan
+
+Apart from his leadership role at the Foundation, Faud is the Chair
+- 50 -
+
+of Canada International Organisation for Standardisation (ISO / IEC
+SC27), Convenor of IOT Special Working Group, International
+Convener of ISO / IEC SC41, CEO and Security Analyst of TwelveDot
+Labs, delivering network security solutions to customers worldwide. He
+has over 21 years experience in cybersecurity industry.
+
+3、
+
+Dr. Yue Gao
+
+Apart from his leadership role at SDChain, Yue Gao is a Reader in
+Antennas and Signal Processing, and Director of Whitespace Machine
+Communication (WMC) Lab in the School of Electronic Engineering
+and Computer Science at Queen Mary University of London (QMUL).
+He worked as Research Assistant, Lecturer (Assistant Professor) and
+Senior Lecturer (Associate Professor) at QMUL after his PhD degrees
+from
+
+QMUL
+
+in
+
+2007.
+
+He
+
+is
+
+currently
+
+leading
+
+a
+
+team
+
+developing theoretical research into practice in the interdisciplinary area
+among smart antennas, signal processing, spectrum sharing and internet
+of
+
+things
+
+(IoT)
+
+applications.
+
+He
+
+has
+
+published
+
+over
+
+120
+
+peer-reviewed journal and conference papers, 2 patents, and 2 book
+chapters. He is a co-recipient of the EU Horizon Prize Award on
+Collaborative
+
+Spectrum
+
+Sharing
+
+in
+
+2016,
+
+and
+
+Research
+
+Performance Award from Faulty of Science and Engineering at QMUL
+in 2017. He is an Editor for the IEEE Transactions on Vehicular
+Technology,
+
+IEEE
+
+Wireless
+
+Communication
+- 51 -
+
+Letter
+
+and
+
+China Communications. He is serving as Cognitive Radio Symposium
+Co-Chair of the IEEE GLOBECOM 2017. He has served as the Signal
+Processing for Communications Symposium Co-Chair for IEEE ICCC
+2016, Publicity Co-Chair for IEEE GLOBECOM 2016, and General
+Chair of the IEEE WoWMoM and iWEM 2017. He is a Senior Member
+of
+
+IEEE,
+
+a
+
+Secretary
+
+of
+
+the
+
+IEEE
+
+Technical
+
+Committee
+
+on Cognitive Networks, and an IEEE Vehicular Technology Society
+Distinguished Lecturer.
+
+4、
+
+Wenbo Xu
+
+Wenbo holds Master of Software Engineering from Fudan
+University, with 8 years of experience in C + + server-side software
+development and architecture design and 4 years of experience in R&D
+team management. Wenbo was responsible for the development of
+Shanghai Telecom "Game Frontier" platform, precision location-based
+services (PC LBS), Internet users portrait and data mining, centralised
+batch stamp inspection for Bank of Suzhou and electronic stamp
+inspection for other banks. Recently, he has led the blockchain module
+package development on Arm mbed OS. Wenbo has valuable
+blockchain IoT project development and implementation experience,
+and rich software security system development capabilities.
+
+- 52 -
+
+The Foundation’s Advisory Board
+
+1、
+
+Dr. Lirong Zheng
+
+Lirong is a professor of Royal Institute of Technology, Sweden,
+Dean of School of Information Science and Technology, Fudan
+University, Executive Vice President of New Rural Development
+Institute, Fudan University and Distinguished Professor of China’s
+National "Thousand Talents Program".
+
+2、
+
+Eduard Molla
+
+Eduard is Economic Counselor of Albania in China.
+
+3、
+
+Qiang Yin
+
+Qiang holds EMBA from Donghua University, Vice President of
+Circulation Branch of China National Textile And Apparel Council,
+Deputy Director of IoT standard working group for textile industry, and
+GM of CNTEX.
+4、
+
+Xuming He
+
+Xuming is the Chairman of the Organising Committee of World
+Internet of Things Convention, Chairman of World Chinese Business
+Alliance Federation, President of World Chinese Entrepreneurs Alliance
+Group, Executive Chairman of Chinese Entrepreneurs Alliance,
+- 53 -
+
+Chairman of Warner Fund (Beijing), Chairman of World Chinese
+Business Alliance Investment Fund Management Company, and
+formerly served as Executive Officer of Chinese Chamber of
+Commerce in China, CEO of Warner Investment Group (US),
+Executive Officer of Promotion Association of Chinese Chamber of
+Commerce, and Executive Secretary General of Chinese Business
+Alliance Federation.
+
+5、
+
+Bingxian Liang
+Bingxian is the Chairman of Taiwan Internet of Things
+
+Association, Chairman of Flowring, Dean of the Cross-Strait
+Intelligence Service Industry Institute of Nanjing University of Posts
+and Telecommunications, Vice Chairman of IOTCC, China Electronics
+Chamber of Commerce, MIIT, Executive Chairman of Alliance of
+Sensing China, Executive Director of Jiangsu Innovation Center for
+Internet of Things Technology and Application Synergy, Vice Chairman
+of Zhejiang Technology Innovation Association for Automotive
+Industry, Vice Chairman of Wuxi Cross-Strait Technology and Financial
+Services Center, Member of Technical Expert Committee of Cloud
+Computing and IoT Association in Taiwan (CIAT), and Member of
+Cloud Computing and IoT Committee of Taiwan Electrical and
+Electronic Manufacturers Association.
+- 54 -
+
+4.4 Foundation auditing
+In order to achieve open and transparent governance, the
+Foundation’s Finance and HR Committee will hire professional
+auditor(s) and published its auditing results.
+
+5. Roadmap
+May 2017
+Development of SDChain Platform Planning Kickoff.
+
+Exploration: May 2017 - October 2018
+The Beta Version of SDChain is launched during this time, inviting
+selective community members to participate in internal testing groups
+to test, modify and optimise the SDChain Platform.
+- 55 -
+
+
+
+December 2017 – June 2018
+
+Application Layer Development: iOS and Android client, account
+creation and SDA transfer.
+Service Layer Development: Account creation, storage release, SDA,
+SDChain Node Incentives.
+Core Layer Development: Call functions of SDChain Node Small
+Contract, client connection.
+Infrastructure Development: Index and caching, storage.
+
+
+July 2018 – October 2018
+
+Application Layer Development: Community presentation, IoT-OS
+access.
+Service Layer Development: Community Creation, Community
+motivation.
+Core Layer Development: SDChain Node security verification.
+Infrastructure Development: Storage optimisation, task scheduling,
+service flow.
+
+Expansion: October 2018 - December 2018
+Release of the SDChain Platform online, fully open to users and
+officially start operation.
+
+2018.10 – 2018.12
+Application Layer Development: Browser plug-in, setting of value
+- 56 -
+
+flows.
+Service Layer Development: Community integration, setting of value
+flows, credit valuation.
+Core Layer Development: SDChain Node External Service
+Connection.
+Infrastructure Layer Development: Storage optimisation, schedule
+transfer optimisation.
+
+Evolution: December 2018 - May 2019
+Connect partners on the SDChain Platform and expand the scope of
+partners to form the ecosystem with account namespace, account
+binding, tripartite-link SDK, public API, identity authentication. Help
+partners get connected and continue to expand.
+
+6. Risk Warning
+There are various risks associated with the purchase of SDA.
+Potential purchasers should carefully evaluate these risks based on their
+own risk tolerance.
+1. Risks associated with markets for SDA
+There is no prior market for SDA and the SDA token sale may not
+result in an active or liquid market for SDA. SDA is designed to be used
+solely within the ecosystem on the SDChain Platform, hence there may
+- 57 -
+
+be illiquidity risk with respect to the SDA you hold. SDA is not a
+currency issued by any central bank or national, supra-national or
+quasi-national organisation, nor is it backed by any hard assets or other
+credit nor is it a "commodity" in the usual and traditional sense of that
+word. We are not responsible for, nor do we pursue, the circulation and
+trading of SDA on any market. Trading of SDA will merely depend on
+the consensus on its value between the relevant market participants. No
+one is obliged to purchase any SDA from any holder of SDA, including
+the purchasers, nor does anyone guarantee the liquidity or market price
+of SDA to any extent at any time. Furthermore, SDA may not be resold
+to purchasers where the purchase of SDA may be in violation of
+applicable laws. Accordingly, we cannot ensure that there will be any
+demand or market for SDA, or that the price you pay for SDA is
+indicative of any market valuation or market price for SDA.
+Even if secondary trading of SDA is facilitated by third party
+exchanges, such exchanges may be relatively new and subject to little
+or no regulatory oversight, making them more susceptible to fraud or
+manipulation. Furthermore, to the extent that third parties do ascribe an
+external exchange value to SDA (e.g., as denominated in a digital or fiat
+currency), such value may be extremely volatile, decline below the
+price which you have paid for SDA, and/or diminish to zero.
+
+2. Regulatory Risks
+- 58 -
+
+The blockchain industry is still at its early stage of development,
+not only China but also the rest of the world do not have relevant legal
+documents regarding pre-ICO requirements, transaction requirement,
+information disclosure requirement, lock-up requirements. Also, it is
+not clear how current policies will be implemented, which may
+negatively impact SDA and the SDChain Platform. Since blockchain
+technology has become the major target of regulation in most countries,
+if regulatory agencies intervene or influence the blockchain industry in
+general, SDA and applications on the SDChain Platform may be
+affected as a result. Such intervention may include, without limitation,
+legal restriction on the use and sales of token, restrictions on
+applications on the SDChain Platform and the usage of SDA.
+3. Competition Risks
+With the development of information technology and mobile
+internet, digital assets represented by “Bitcoin” have emerged, and
+various kinds of decentralised applications have continued to emerge,
+competition in this industry has become increasingly fierce. However,
+with the proliferation and expansion of other application platforms, the
+community will face continuously operational pressure and certain
+market competition risks.
+4. Risks of Loss of Staff
+The Foundation has gathered a team of experienced technical and
+consultant experts with respective professional advantages and rich
+- 59 -
+
+experience, which include professionals engaged in blockchain industry
+for a long term, in addition to experienced internet product development
+and operation core team members. The stability of core team and
+advisory resources is important for the continued development of
+SDChain and the SDChain Platform. The loss of core staff or advisory
+board consultant may affect the stability of the platform or adversely
+affect future development.
+5. Risks due to lack of funds
+If the price of the tokens contributed for development is greatly
+decreased, or development time is much longer than expected, or any
+other relevant reasons, it is likely to lead to a shortage of funds,
+resulting in certain development goals being unrealised.
+6. Risks of losing private keys
+After investors transfer SDA to their own digital wallet addresses,
+the only way to keep the contents of operation address is the relevant
+encrypted key purchasers have (namely the private key or wallet
+password). The user is responsible for protecting relevant keys and use
+them to sign transactions which can prove asset ownership. Users
+should understand and accept that if the private key or wallet password
+is lost or stolen, then acquired SDA associated with the user account
+(address) or password will not be restored and will be permanently lost.
+The best way to store a login credential is to separate the key into one
+or several local security stores, preferably not on a public computer.
+- 60 -
+
+7. Risks of being hacked or stolen
+Some hackers, or certain organisation, countries may attempt to
+interrupt the operation of SDA and the SDChain Platform, which
+include but not limited to denial of service attack, Sybil attack, gaming
+attack, malware attacks or consistency attack.
+8. Risks of uninsured loss
+Unlike bank accounts or accounts of other financial institutions,
+there is usually no insurance for data stored on SDChain or in the
+ecosystem on the SDChain Platform. In any event of loss, there will not
+have any public or individual organisations to cover the loss.
+9. Risks associated with core protocols
+Currently SDChain and the SDChain Platform is developed based
+on the Ethereum protocol. If there is a fault or similar incident with the
+Ethereum protocol, unexpected functional problems or attacks are likely
+to cause interruptions to the usage of SDA or the SDChain Platform, or
+certain reduced functionalities.
+10. Systematic Risks
+The risk of a fatal flaw in an open source software or a massive
+failure of global network infrastructure will cause risks as well.
+Although some of these risks are greatly reduced over time, such as
+repairing of loopholes and breakthrough of calculation bottleneck.
+However, some other parts are still unpredictable, such as political
+factors or natural disasters causing global Internet interruptions.
+- 61 -
+
+11. Risks
+
+of
+
+vulnerability
+
+or
+
+acceleration
+
+development
+
+of
+
+cryptography
+The accelerated development of cryptography or the development
+of technology like quantum computing, will bring risks of decoding
+SDChain, which may lead to the loss of SDA.
+12. Risks of lack of attention towards application
+The SDChain Platform may have risks of not being used by a large
+number of individuals or organisation, which means the public has little
+interest to develop DApps on the SDChain Platform, which might
+adversely affect SDA and the SDChain Platform.
+13. The risks of not being recognised or lack of users
+SDA should not be treated as an investment. Where it is not
+recognised by the market or not widely used, its value may be very
+small. Possibly, for any reason, including but not limited to commercial
+relations or failures in marketing strategy, the SDChain Platform and all
+subsequent marketing sales might be unsuccessful. If it happens, there
+will be no such platform or little follow-ups. This will be very
+detrimental to this project.
+14. Default risks of Applications
+The SDChain Platform may not be able to provide services due to
+various reasons, such as during large-scale node downtime, which may
+result in loss of SDA for users.
+15. Risks of applications or product not reaching its own or
+- 62 -
+
+purchaser’s expectations
+The SDChain Platform is still in the developmental stage, hence
+there may be large changes to the final design before the official version
+is released, therefore, a purchaser of SDA may find that it does not meet
+previous expectation of SDChain Application or SDA’s functionalities
+or forms. Any wrong analysis or a change in design might lead to such
+situation.
+16. Other unexpected risks
+Digital tokens (such as SDA) based on cryptography are a brand
+new and untested technology, besides risks mentioned in this
+whitepaper, there might be other risks the founding team has not
+anticipated or not mentioned. Additionally, some other risks might arise
+suddenly, or in a combination of the abovementioned risks.
+
+- 63 -
+
+

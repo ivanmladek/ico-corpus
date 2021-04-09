@@ -1,0 +1,1860 @@
+0xcert protocol
+Whitepaper 0.6
+
+Authors: Kristijan Sedlak, Jure Zih, Mitja Pirc, Urban Osvald
+Date: July 9th, 2019
+Version: 0xcert Whitepaper 0.61
+
+1
+
+​This version and its contents are current as of 2019-07-09​ ​and supersede all previous versions of this Whitepaper or any public
+statements made about 0xcert and the ZXC Token Sale which are available upon request sent to info@0xcert.org. This English
+version is to be relied upon as the most accurate and updated as other language translations may have mistranslations and be
+outdated. Starting with this version, the 0xcert Whitepaper will be updated and renewed with the latest data every 6 months.
+
+Abstract
+Create, own, and validate unique assets on the blockchain with 0xcert - ​the first​ ​open
+protocol​ built to support the future of digital assets, powered by non-fungible tokens
+(NFTs).
+The 0xcert protocol offers ​tools for building powerful decentralized applications
+(dapps)​, aimed at easy authentication and management of digital or real-world tangible
+assets (such as ID, educational certificate, in-game item or a house) on the blockchain.
+In addition to common functions for transferring and managing standard non-fungible
+tokens, the 0xcert protocol provides ​another layer of conventions for creating
+certified non-fungible tokens for unique assets​. These tokens are called Xcerts and
+are created through a custom minting process. Xcerts represent opinionated
+non-fungible tokens, which also hold an imprint of an asset. With 0xcert protocol, we
+can validate a proof of existence, authenticity, and ownership of these digital assets
+without third-party involvement.
+Due to the complexity of low-level blockchain solutions, the broad adoption of
+non-fungible tokens and blockchain, in general, is slower than it could be. The lack of
+conventions prevents interoperability among applications. Developers trying to
+develop their decentralized application using non-fungible tokens face long
+development time and massive risk in their development process and security, lowering
+the overall efficiency and adoption rate. The resulting ecosystem of digital assets is
+under risk of being fragmented, with non-interoperable dapps and underlying data.
+One of the major problems in the future may not be the technological barrier to issuing
+ownership rights of different unique assets on the blockchain, but rather the
+authenticity of issuing entities. Currently, there is no mechanism to attest credible NFT
+issuers.
+The vision of 0xcert is to provide an ​open protocol for standardized and certified
+non-fungible tokens to a wider tech audience​. With 0xcert, you can build on top of the
+non-fungible token standard, employing a ​complete toolset, development framework,
+and a set of conventions for various use cases​. This results in shorter development
+time, lower risk, and cuts of the cost associated with developing blockchain solutions. A
+wide range of decentralized applications and business models can be supported, giving
+companies the power to utilize the potential of the blockchain technology fully. 0xcert
+1
+
+has built an open-source 0xcert protocol that translates one-of-a-kind digital or
+real-world assets into non-fungible tokens (NFTs) as a unique proof of ownership
+available from the blockchain.
+Moreover, 0xcert has developed a framework with a set of on-chain and off-chain rules
+for managing Xcerts and other standard non-fungible tokens. Our mission is to equip
+application developers with a secure blockchain-agnostic platform, powerful tools, and
+community-embraced conventions for managing non-fungible tokens. The 0xcert
+Framework is a pluggable settlement with an advanced integration layer for different
+dapps and relay applications. This enables developers to focus on the application layer
+and quickly build applications for issuing university certificates, KYC applications,
+applications for loyalty programs, warranties, badges, credits or even a decentralized
+non-fungible exchange.
+The ZXC utility tokens play a vital role in the 0xcert infrastructure. These are fungible
+tokens that are compliant with the Ethereum’s ERC-20 standard. The ZXC token will be
+utilized to support dapps built on top of the 0xcert protocol with minimum possible
+fees. Since 0xcert is an open-source project that strives to be community-driven,
+decentralized governance model could be introduced, as well.
+We recognize that one of the fundamental problems within the blockchain space may
+become the authenticity of issuers in the future. A decentralized issuer verification
+registry may be an acceptable and self-sustaining solution to the problem. The
+community would have an option to either verify or reject new Xcert issuers through a
+staking and rewarding mechanism based on the ZXC token.
+Furthermore, 0xcert is also building out a whole ecosystem of parties involved in the
+non-fungible space, as well as specific application developers, companies from various
+verticals, researchers, organizations, and communities. Planned growth activities will
+not only positively impact and extend further adoption of technologies developed by
+0xcert but also expand the scientific horizon of non-fungible tokens in general.
+
+Disclaimer
+This Whitepaper was issued by 0xcert d.o.o. (the “Company”) and should be read in
+conjunction with the Company’s Terms and conditions (the “Terms”).
+
+2
+
+The purpose of this Whitepaper is to provide potential purchasers with the information
+on the Company’s project to allow the prospective purchasers to make their own
+decision as to whether or not they wish to proceed to purchase a ZXC token. This
+Whitepaper does not constitute an offer or invitation, sale or purchase of shares,
+securities, or any of the assets of the Company.
+As of the date of this Whitepaper, the information contained herein is accurate to the
+best of the management team’s knowledge and there are no other ommised facts which
+would make any misleading statements in this Whitepaper. No representation,
+warranty, assurance or undertaking is made as to its continued accuracy after such
+date. The information contained in this Whitepaper may be subject to modification,
+supplementation, and amendment at any time moving forward and would be
+documented accordingly. In addition, new information might be added in the future.
+This Whitepaper describes the Company’s business objectives and the issue by the
+Company of ZXC tokens. It has not been reviewed, verified, approved, or authorized by
+any regulatory or supervisory authority.
+The publication of this Whitepaper and the offering of ZXC tokens may be restricted in
+certain jurisdictions. It is the responsibility of any person in possession of this
+Whitepaper and any persons wishing to make an application for ZXC tokens (pursuant
+to the Terms) to inform themselves of and to observe any and all laws and regulations
+that may apply to them.
+This Whitepaper does not constitute an offer or solicitation to anyone in any
+jurisdiction in which such offer or solicitation is not lawful or in which the person
+making such offer or solicitation is not qualified to do so.
+Prospective purchasers of ZXC tokens should inform themselves as to the legal
+requirements and consequences of purchasing, holding and disposing of ZXC tokens
+and any applicable exchange control regulations and taxes in the countries of their
+respective citizenship, residence and/or domicile.
+Prospective purchasers of ZXC tokens are wholly responsible for ensuring that all
+aspects of this Whitepaper and the Terms are acceptable to them. The purchase of ZXC
+tokens may involve special risks that could lead to a loss of a substantial portion or a
+loss of the entire purchase amount. The purchase of ZXC tokens is considered
+speculative in nature, and it involves a high degree of risk. The Company does not
+represent, warrant, undertake, or assure that the ZXC tokens are defect/virus free or
+3
+
+will meet any specific requirements of a prospective purchaser. You should only
+purchase ZXC tokens if you can afford a complete loss. Unless you fully understand and
+accept the nature of and the potential risks inherent in the purchase of ZXC tokens, you
+should not purchase ZXC tokens.
+The purchase of ZXC tokens is only possible after the prospective purchaser has read,
+understood, and accepted the Terms. Each prospective purchaser will be required to
+acknowledge that they made an independent decision to purchase the ZXC tokens and
+that they are not relying, in any manner whatsoever, on the Company, the management
+team or any other person or entity (other than such purchaser’s advisers). Prospective
+purchasers are urged to consult their own legal, tax or other advisors before
+purchasing ZXC tokens.
+The Company and the management team does not provide any advice or
+recommendations with respect to the ZXC tokens, endorse such tokens, nor do they
+accept any responsibility or liability for any use of this Whitepaper by any person which
+is in breach of any local regulatory requirements with regard to the distribution of this
+Whitepaper or any applicable rules pertaining to the offer of ZXC tokens.
+To the maximum extent permitted by the applicable laws, regulations, and rules, the
+Company, its founders, team members and any third parties involved in the Company’s
+project shall not be liable for any indirect, special, incidental, consequential or other
+losses of any kind. Furthermore, in tort, contract or otherwise (including but not limited
+to loss of revenue, income or profits and loss of use or data), arising out of or in
+connection with any acceptance of or reliance on this Whitepaper.
+All statements regarding the Company’s financial position, business strategies, plans,
+and prospects of the industry the Company is in are forward-looking statements.
+Neither the Company, its founders, team members or any third parties involved in the
+Company’s project nor any other persons represent, warrant, undertake that the actual
+future results, performance or achievements of the Company will be as discussed in
+these forward-looking statements.
+This Whitepaper includes market and industry information and forecasts, which the
+Company obtained from internal surveys, reports and studies where appropriate, as
+well as market research, publicly available information and industry publications. Such
+surveys, reports, studies, market research, publicly available information and
+publications state that the information that they contain has come from sources
+4
+
+deemed reliable; there is no assurance as to the accuracy or completeness of such
+included information.
+The Company does not make or purport to make any disclaims, any representation,
+warranty, or undertaking in any form whatsoever to any entity or person. Including any
+representation, warranty or undertaking about the truth, accuracy, and completeness
+of any of the information set out in this Whitepaper.
+Statements made in this Whitepaper are based on the law and practice currently in
+force in Slovenia, which is a country in the European Union, and are subject to changes
+in accordance with said laws.
+
+5
+
+Table of Contents
+Abstract
+
+1
+
+Disclaimer
+
+2
+
+Table of Contents
+
+6
+
+1. Introduction and Vision
+
+8
+
+2. Opportunity
+
+10
+
+3. Solution
+
+12
+
+4. 0xcert Protocol
+4.1 Overview
+4.1.1 Fungibility
+4.1.2 Decentralization
+4.2 Specification
+4.3 Xcert
+4.4 Framework
+4.4.1 Devkit (SDK)
+4.4.2 Decentralized exchange
+4.4.3 Decentralized minter
+4.4.4 Continuous integration
+
+15
+15
+17
+18
+19
+20
+20
+21
+21
+22
+22
+
+5. Use cases
+5.1 KYC
+5.2 Academic credentials
+5.3 Art
+5.4 Collectibles
+
+23
+23
+23
+24
+25
+
+6. Ecosystem
+6.1 Participants
+6.2 Promotion & Growth
+6.3 Partnerships
+6.4 Ecosystem Growth Pool
+
+27
+28
+29
+29
+30
+
+7. Token economy
+7.1 Token purpose and use cases
+7.1.1 ZXC within dapps
+
+31
+31
+31
+6
+
+7.1.2 Decentralized governance
+7.1.3 Issuer Verification Registry (IVR)
+7.2 Implementation
+
+32
+32
+33
+
+8. Structure
+8.1 Corporation Structure
+8.2 Governance
+8.3 Token
+8.4 Exchanges
+8.5 Voting
+
+34
+34
+34
+35
+36
+36
+
+9. The business side of things
+9.1 Business model
+9.2 Go-to-market strategy
+9.3 Competitive landscape
+
+37
+37
+37
+38
+
+10. Timeline
+10.1 Development roadmap
+10.2 Milestones
+
+39
+39
+40
+
+11. Token distribution event
+11.1 Token and crowdsale info
+11.2 Token distribution
+11.3 Distribution schedule
+11.4 Participation in the token sale
+11.5 Funds allocation
+
+41
+41
+42
+43
+44
+44
+
+12. Team
+12.1 Team
+12.2 Advisors
+
+46
+46
+46
+
+Disclaimer
+
+49
+
+7
+
+1. Introduction and Vision
+We are living in one of the most exciting times since the beginning of the Internet. The
+advent of blockchain has redefined technology and set a course for the future of
+everything. Banking, insurance, advertising, as well as many other industries are
+adopting this new paradigm of governance through a new concept introduced by
+Satoshi Nakamoto back in 2007.
+Although blockchain’s utility has expanded to numerous use cases, the core value of
+the technology remains. It is a tamper-proof, transparent, and secure decentralized
+ledger that maintains a list of records that cannot be altered retroactively. Blockchain
+was first built for financial capital; now, it is ready to take on social and professional
+capital: achievements, qualifications, accreditations, credentials, and certification.
+But the really exciting paradigm shift comes with blockchain’s ability to tap into the
+physical world.​ With the introduction of unique decentralized assets presented as
+non-fungible tokens2, the idea of decentralized storing of intangible assets such as
+copyrights, patents, and goodwill, as well as tangible assets such as property,
+equipment, and inventory is now possible like never before.
+With the emergence of different business opportunities related to the tokenization of
+physical assets, also surged a ​growing need for standardization and a base protocol
+that would allow for simple proof-validation of existence, authenticity, and
+ownership of such tokens. ​Furthermore, the future of a new technology of this
+magnitude should be made available to everyone.
+The vision of 0xcert is to provide an open protocol for non-fungible tokens to a wider
+tech audience. With its help, we can drastically shorten development time, decrease
+risk, and cut costs associated with developing blockchain solutions.​ A wide range of
+decentralized applications (dapps) and business models can be supported, giving
+companies the power to fully utilize the potential of the blockchain technology.
+Non-blockchain companies will be able to make use of a decentralized and distributed
+ledger to easily incorporate the non-fungible technological features into their
+applications while not requiring their development team to be proficient in low-level
+blockchain programming.
+
+2
+
+​E.g., ERC-721 standard on the Ethereum blockchain.
+
+8
+
+Blockchain is moving faster than anyone dared to predict. With the 0xcert protocol, we
+are opening the door for all to this important time in history, where everything you own,
+not just financial assets, will now have a way to exist securely in your digital wallet.
+
+9
+
+2. Opportunity
+The most common tokens of today's crypto economy follow the Ethereum's ERC-20
+specification. These tokens are used for a specifically defined utility within predefined
+systems and thus carry value. Tokens that are issued by the same source are identical
+and mutually interchangeable. This characteristic is called fungibility; hence, these
+tokens are called fungible tokens. Token holders can buy and sell these tokens on
+exchanges, which is also the primary mechanism of their price valuation.
+
+Recently, another form of tokens, called ​non-fungible tokens (NFTs​), started getting
+attention in the crypto community. Non-fungible digital assets represent the next stage
+in the blockchain evolution. The first good use case for NFTs was introduced with
+CryptoKitties. These were one of the first popular crypto-collectibles: assets that were
+unique and could be stored in your Ethereum wallet. You could buy, sell, trade, and
+even breed them. Later on, the Ethereum implementation proposal 721 (EIP-721) got
+introduced and confirmed as an Ethereum standard (ERC-721) in March 2018.
+NFTs have the potential to improve many applications and enhance existing business
+models. ​For the first time, users are actually able to hold distinguishable tokens that
+carry not only value but also unique information in their blockchain wallet.
+Numerous companies from different verticals are looking into this new technology as a
+solution for what was previously not possible on the blockchain. According to OpenSea3
+,​ three new companies a day start working on implementation with the NFTs. NFT use
+cases range from identities (KYC), collectibles, to education certificates, and more.
+However, there are four major challenges we see that hinder the development and
+adoption of NFTs as well as the possibility for a greater technological and business
+impact:
+3
+
+​Source: Keynote from OpenSea, 3/23/2018 at the event Explore 721 Dallas
+
+10
+
+1. Low speed of development: ​due to the lack of a pluggable framework, the
+development of dapps can take months and therefore severely increase the
+go-to-market time, which results in much slower adoption and higher
+competitive risks.
+2. Lack of conventions and interoperability:​ different verticals require different
+conventions which are currently missing to ensure interoperability. Equally
+important is the gap of interoperability between applications, which needs to be
+addressed in order to maximize adoption and business impact.
+3. Missing registry of verified issuers: ​a big missing part is a registry of issuers of
+NFTs, which would serve for authentication and validity of the issuers. Creating a
+common registry will reduce verification time as well as reduce business risks.
+4. Limited open-source and blockchain-agnostic solutions:​ current NFT
+applications are siloed for specific purposes and currently Ethereum-focused,
+but with opportunities emerging in other blockchains (EOS, NEO), too. The
+opportunity to have an open-source and blockchain-agnostic protocol will open
+far greater opportunities for dapps and usage of NFTs.
+Furthermore, there is a need for a unifying technological layer connecting these
+assets through a higher-level standardization model. ​Building on top of the existing
+low-level technology would mean that each development team builds its own
+framework from scratch. The work gets repeated every time, and each solution has to
+perform a separate audit. There are currently no processes and rules in place that
+would allow for a faster, secure, and interoperable issuance and verification of these
+assets, consequently hindering the potential for wider adoption.
+The year 2018 is frequently called the year of NFTs, and the timing for the 0xcert
+protocol is now. With the ERC-721 standard in place, we believe that there is a solid
+foundation for NFTs, which results in an increased demand for a quickly deployable and
+effective development environment. We believe that the need for the 0xcert protocol
+will be driven on both the demand and supply side, notably for:
+a) End users who will require at least parts of the blockchain and NFT functionality
+b) Developers and service providers who will require faster and more secure
+development tools to remain competitive in the market.
+
+11
+
+3. Solution
+The 0xcert protocol utilizes the blockchain network, a distributed ledger technology
+that was first built to support the Bitcoin cryptocurrency. Blockchain can be best
+described as a distributed ledger that maintains a list of records called blocks. Each
+block has a timestamp and is built on top of an already existing block, preventing any
+data from being altered retroactively.
+Blockchain offers a unique way of solving the problem of secure online transactions
+and double spending. Due to its transparency and distribution of information to many
+decentralized blockchain nodes, it is nearly impossible to manipulate or duplicate
+existing data records, making it potentially suitable for recording events, records,
+identities, certificates, transactions, and other documentation.
+0xcert provides a framework with a set of on- and off-chain rules for managing
+Xcerts, standardized and certified non-fungible tokens. Our mission is to equip
+application developers with a secure blockchain settlement, powerful tools, and
+community-embraced conventions for managing the NFTs.
+Key characteristics of the 0xcert protocol can be outlined in four larger dimensions:
+
+1. Pluggable settlement for faster development
+The 0xcert protocol is a solid pluggable settlement which supports numerous
+business models. It clears away the low-level blockchain complexity thanks to its
+solid and flexible infrastructure that ensures interoperability between dapps by
+default.
+Using a plug-and-play framework shortens the development time from
+months to days. ​Readily available APIs and SDKs in Python, Ruby, NodeJS, and
+JavaScript will allow traditional developers to start building blockchain
+applications right away.
+12
+
+2. Conventions for data interoperability and standardization
+The 0xcert protocol provides conventions for minting certified non-fungible
+tokens for unique assets. ​With the use of the protocol, proof of an asset can be
+written into the token directly. These proofs are built following the
+industry-specific conventions and enable data interoperability among various
+applications.
+With the help of the community, we are structurally establishing a minimum
+standard that prevents data-siloing and poor user experience with future
+implementations.
+
+3. Decentralized verification registry through curated registries
+An important piece of the proposed protocol will be authenticating and assuring
+the validity of issuers building with the 0xcert protocol. Each NFT issued
+requires a deployed main (token) contract and a mechanism that will attest the
+validity and the issuer’s identity.
+We are proposing a token curated registry to pursue a decentralized approach
+in validating the issuers of NFTs​. Ultimately, a new issuer would stake a portion
+of tokens to get listed, while the existing holders will have the ability to approve
+or challenge the listing.
+
+13
+
+4. Open-source and blockchain-agnostic
+0xcert is an open-source and community-driven project. Its first implementation
+is built on the Ethereum blockchain; the subsequent version included the
+support of the Wanchain blockchain. Due to the blockchain-agnostic nature of
+the protocol, further expansion to other blockchains is possible.
+The protocol may also include decentralized governance (DAO) mechanism to
+allow the community to vote for further improvements. Because the project is
+open-source, the community will also be able to rely on industry experts for
+specific conventions in particular verticals. This, in turn, may positively impact
+the growth of new business models built on top of the protocol.
+
+14
+
+4. 0xcert Protocol
+0xcert is an open-source permissionless protocol for non-fungible tokens on the
+blockchain. These tokens are stored in cryptographic wallets and are owned by users.
+In addition to various common functions for transferring and managing standard
+non-fungible tokens, the 0xcert protocol provides an additional layer of conventions
+for creating non-fungible tokens from unique assets. These tokens are called Xcerts
+and are created through a custom minting process.
+Xcerts represent standard non-fungible tokens, which also hold an imprint of an asset.
+With the 0xcert protocol, we can further validate a proof of existence, authenticity and
+ownership of these assets without third-party involvement.
+As opposed to Xcerts, which are non-fungible tokens, the 0xcert protocol also makes
+use of a fungible ERC-20 utility token, called ZXC. Xcerts are all unique tokens that
+carry certain information, whereas ZXC tokens are uniform and are used for various
+utilities described later in the document.
+The first implementation of the 0xcert protocol is focusing on the Ethereum
+blockchain. The 0xcert protocol is designed to be blockchain agnostic, has been
+upgraded for the Wanchain blockchain, and supports building on other blockchains, as
+well.
+In this section, we will provide an overview of the basic principles of the 0xcert protocol
+with a focus on non-fungibles and decentralization. This is followed by a specification of
+the 0xcert protocol and the 0xcert framework. The section concludes with a
+description of the parts of the framework: Devkit, decentralized exchange, and
+decentralized miner.
+
+4.1 Overview
+The advent of the blockchain has redefined the technology and set a course for the
+future of everything. But despite being a very potent technology, it is also very complex
+in nature. Writing and deploying smart contracts is difficult and can be a very perilous
+task. This fact prevents many people from adopting blockchain technology and building
+their decentralized applications on top of it.
+15
+
+Our mission is to equip application developers with a secure blockchain settlement,
+powerful tools, and community-embraced conventions for managing non-fungible
+tokens. The 0xcert protocol extends the non-fungible paradigm with an opinionated
+certification and standardization layer for unique assets, which is based on the 0xcert
+conventions. All this allows for creating certified non-fungible tokens on the
+blockchain, which also carry an imprint of a unique real-world (tangible or digital) asset.
+The protocol supports a wide range of use cases where non-fungible assets and
+ownership play a role. Because the data is stored in decentralized blocks, the
+information can be fully trusted and verified by anyone and anywhere.
+The 0xcert protocol is an open-source project so anyone can use the fully functional
+0xcert protocol with no limitations. Developers have the ability to manually mint, burn,
+verify, and transfer Xcerts. The protocol uses a publicly accessible network of digital
+wallets and smart contracts on the blockchain, making it extensible through third-party
+modules and a variety of dapps.
+
+Figure 1: 0xcert protocol can act as an intermediary between parties
+0xcert is an opinionated framework and supports numerous business models used by
+third-party dapps. These applications sit on top of the protocol and can use the
+protocol tokens as a fuel for their service.
+16
+
+The dapps form a network of public and private services for unique assets and offer
+higher-level features that simplify and automate the process of creating and managing
+non-fungible tokens, provide public and private listings, rewarding mechanisms,
+integration gateways and more.
+
+4.1.1 Fungibility
+The most common tokens of today’s crypto economy follow the Ethereum’s ERC-20
+specification. These tokens are so-called fungible tokens because tokens of the same
+kind can be mutually interchangeable. If we make an analogy with fiat currency, a dollar
+bill can be exchanged for any other dollar bill, which does not create any difference in
+value for the holder.
+Recently, another kind of token called non-fungible token started getting attention in
+the crypto community. Though we knew non-fungible tokens before, it actually all
+started with Crypto Kitties - tradable collectibles that set the foundation for the
+currently accepted ERC-721 standard. Unlike the ERC-20 identical tokens, the
+non-fungible tokens are unique in nature and carry data.
+The 0xcert protocol goes even further and introduces an Xcert as a standardized and
+certified non-fungible token based on the ERC-721 standard and 0xcert conventions
+that carries information about a particular unique asset. This mechanism is unique to
+the 0xcert protocol and is described in later sections.
+ERC-721 has given us an incredibly powerful standard on the Ethereum network non-fungible tokens. The 0xcert protocol extends this standard and makes it
+opinionated. This will drastically shorten development time. For example, think about
+what Rails did for Ruby. 0xcert is dealing with the application layer, where developers
+need to act fast and agile. In order to ensure interoperability among applications in the
+future, Xcerts follow specific conventions. This will prevent incompatibility on a higher
+level, which might happen if every NFT issuer deploys their own version of an industry
+standard. Having this level of standardization built on top of the strong ERC-721
+standard prevents high-level fragmentation and safeguards long-term sustainability.
+
+17
+
+4.1.2 Decentralization
+The protocol utilizes the blockchain network, a distributed ledger technology that was
+first built to support the Bitcoin cryptocurrency. Blockchain is best described as a
+distributed ledger that maintains a list of records called blocks. Each block has a
+timestamp and is built on top of an already existing block, preventing any data from
+being altered retroactively.
+Blockchain offers a unique solution to the problem of secure online transactions. Due
+to its transparency and distribution of information to many decentralized blockchain
+nodes, it is nearly impossible to manipulate existing data records, making it potentially
+suitable for recording events, data records, identities, certificates, transactions, and
+other documentation.
+
+Figure 2: 0xcert protocol uses blockchain to enable decentralization
+18
+
+By storing hashed data on the blockchain, individuals, companies, and institutions can
+keep a decentralized record of their asset proofs, while maintaining sensitive data
+completely private. At the same time, all certified records, their issuers, and owners can
+be easily authenticated and referenced.
+
+4.2 Specification
+0xcert provides a framework with a set of on-chain and off-chain rules for managing
+Xcerts and other non-fungible tokens. In addition, the 0xcert protocol is a pluggable
+settlement with an advanced integration layer for different dapps and relay
+applications.
+
+Figure 3: Users can interact with the protocol manually or through higher-level dapps
+19
+
+4.3 Xcert
+Digital assets on the blockchain as non-fungible tokens represent a new paradigm
+which enables application developers to build advanced and secure applications for
+managing real-world assets. Users hold asset ownership rights in their cryptographic
+wallets. They are able to exchange tokens between wallets and have control over the
+tokens they own.
+The 0xcert protocol records unique assets on the blockchain as non-fungible tokens.
+These tokens are called Xcerts and exist on the blockchain as an item of a specifically
+designed smart contract.
+Xcerts are items of a specifically designed smart contract which implements the
+non-fungible functionality. An Xcert is identified by an ID which is unique per Xcert
+smart contract and is always assigned to a cryptographic wallet. Besides the unique ID,
+a token can carry proof of a digital asset, arbitrary on-chain data, and a URI to
+additional off-chain data.
+An Xcert smart contract is an extended non-fungible token smart contract. It follows
+the Ethereum’s ERC-721 specification making it compliant with the non-fungible token
+standard. Furthermore, an Xcert smart contract holds assets of a particular 0xcert
+convention. This makes the contract opinionated and forces predictable data.
+The process of converting unique asset data into a cryptographic proof is called
+"certification". Tokens that hold these cryptographic proofs are thus called certified
+tokens.
+
+4.4 Framework
+In general, software frameworks provide a standard way to build and deploy
+applications. The goal is to simplify the development process and allow programmers
+to avoid low-level details altogether by providing a working system - a framework.
+Better known frameworks include Rails (Ruby), Django (Python), Laravel (PHP) and
+Sails.js (Node.js).
+The 0xcert framework consists of multiple parts, which enable application developers
+to build secure decentralized applications with the support for custom business
+models. The 0xcert protocol is an opinionated all-in-one framework. It is
+20
+
+blockchain-agnostic, provides conventions, and includes powerful tools for building
+decentralized non-fungible applications.
+In addition to the raw protocol logic, the 0xcert framework includes libraries and a set
+of smart contracts already installed on the blockchain. The 0xcert framework is a
+pluggable settlement with an advanced integration layer for different dapps and relay
+applications.
+
+Figure 4: Dapps on top of the 0xcert protocol form a network of interoperable
+non-fungible services
+
+4.4.1 Devkit (SDK)
+The framework tries to hide away the complex blockchain layer, thereby wrapping the
+0xcert protocol features into an easy-to-use SDK. This empowers developers with
+powerful decentralized tools that they can use as a standard API library.
+The 0xcert protocol can, therefore, be easily integrated into existing systems.
+Applications don't have to struggle with the low-level blockchain complexity and can
+immediately start using a solid, secure, and flexible non-fungible infrastructure that
+ensures interoperability between dapps by default.
+
+4.4.2 Decentralized exchange
+Decentralized exchange (DEX) is one of the key supporting components within the
+0xcert framework. DEX represents a set of smart contracts installed on the blockchain
+which allow for a trustless exchange of multiple different types of fungible and
+non-fungible tokens as single atomic operations.
+21
+
+DEX consists of multiple contracts. To make it upgradeable, the smart contracts
+communicate through proxy smart contracts. This way, we can upgrade the core DEX
+contracts while the data is kept untouched.
+A proxy is best explained as a smart contract that allows or rejects access to some key
+functionality and is controlled by a multisig wallet or a DAO. This way, proxies can be
+trusted since they only allow access to smart contracts that were approved through the
+DAO process.
+
+4.4.3 Decentralized minter
+Decentralized minter (DXM) is another important component of the 0xcert framework.
+It allows for the trustless minting of Xcert tokens directly to recipients.
+The DXM can mint and exchange Xcert tokens for other fungible and non-fungible
+tokens in a single atomic operation. It also enables an issuer to delegate the mint
+execution and payment of blockchain fees to the recipient.
+DXM consists of multiple contracts. To make it upgradeable, the smart contracts
+communicate through proxy smart contracts. This way, we can upgrade the core DXM
+contracts while the data is kept untouched.
+
+4.4.4 Continuous integration
+A smart contract cannot be changed after it has been deployed onto the blockchain.
+Changes can be applied only by deploying a new contract at a new address.
+The protocol may include decentralized governance (DAO) mechanism to allow the
+community to vote for improvements and possibly fork the protocol into multiple
+versions. The contracts may use protocol tokens to securely drive a decentralized
+continuous integration of updates with no disruption, while also protecting all the
+parties and stakeholders.
+
+22
+
+5. Use cases
+The 0xcert protocol is best described as the underlying technological base layer upon
+which new use cases can be built. Developers will no longer need to have advanced
+Solidity skills to create blockchain-based solutions for unique assets. The
+simple-to-use libraries allow for fast and safe production, which in turn allow for more
+creativity and flexibility with subsequent solutions.
+Below are some examples of use cases where the 0xcert protocol might prove to be
+useful. It is worth pointing out that this is not a final list of future implementations, but
+rather a quick overview of potential verticals that can benefit from the non-fungible
+technology.
+
+5.1 KYC
+As the “Know Your Customer” procedure becomes more and more important for ICOs
+and banks, there is a growing demand for simple, cost-effective, and secure solutions.
+Currently, there are many KYC providers on the market, but none of them utilizes the
+power of ERC-721 standard for non-fungible tokens.
+With the help of the new standard, users can obtain a reusable KYC token which can be
+stored and used for every subsequent KYC request. Users simply submit personal data
+to their KYC provider from which a secure hash is generated. This hashed information
+can then be sent in the form of an Xcert to their Ethereum wallet. By interacting with a
+dapp (e. g. through MetaMask), ICOs will be able to whitelist wallets that have
+previously passed the KYC procedure and hold a valid KYC Xcert token.
+
+5.2 Academic credentials
+Although technology has helped to improve the education and academic sector
+immensely, it has not solved major pain points: certification fraud, interoperability, and
+credentials verification remain unsolved questions that in turn delegitimize
+certification institutions, impair international mobility and incur huge costs for all
+parties involved. The authentication and verification process can benefit greatly from
+the blockchain technology.
+23
+
+By storing records of achievements, accomplishments, certifications, and education
+degrees on the blockchain, users can keep a decentralized record of their certificates
+from both academic institutions and professional certifying bodies that can be easily
+attested.
+There are three major parties in the academic credentials space: issuers (universities,
+MOOCs, etc.), holders (students that completed a degree or course) and verifiers
+(parties that need to verify the authenticity of an academic credential, e. g. employers
+or LinkedIn).
+With the help of the 0xcert protocol, issuers can seamlessly issue academic credentials
+to the holder’s digital wallet. From each academic achievement, a hash string can be
+created and stored as an Xcert. The non-fungible token that carries the hash string is
+sent to the holder’s wallet and stored as proof for future use. As opposed to previous
+solutions where the hash string was stored directly on the blockchain as a transaction,
+users now receive an actual unique digital asset.
+Xcerts provide a much more flexible solution than a simple transaction on the
+blockchain. They can be reissued, have an expiry date, and be easily verified. Imagine
+that an error was made when issuing an academic degree which is then forever stored
+on the blockchain. Having the flexibility to reissue it allows for a small margin of error.
+Certain continuing professional development accreditations (CPDs) also need to be
+renewed and often come with an expiry date. Their digital management would be
+extremely problematic without non-fungible tokens. Having the flexibility of setting an
+expiry date to a certificate opens up a whole new space for new verticals and business
+models.
+
+5.3 Art
+Artworks are an important part of our cultural tradition; we could even say that it
+makes us human. Unfortunately, artworks are often the target of forgery, scams, and
+fraud. Cases of finding entire collections to be forged are plentiful, and have been a
+repetitive pattern throughout history.
+The art industry is one of the largest unregulated markets; therefore, investigating
+authenticity is strongly advised for buyers prior to purchase. First, by performing
+extensive due diligence with the help of independent third parties. Second, with
+24
+
+provenance investigation or history of ownership, the details about previous owners
+can be tracked in documents or other sources.4
+For the first time in history, the art world has a chance to transfer ownership rights
+onto a medium, which cannot be altered and falsified. Provenance can easily be traced
+and viewed for the entire history of each work of art.
+The process can be easily achieved with the 0xcert protocol. Data about an asset, e. g.
+Certificate of Authenticity (COA)5, is digitized using a specific convention, stored in
+cryptographic wallets and owned by their users. The detailed data itself can be
+accessed only by the owners. However, its existence, authenticity, and ownership can,
+in turn, be examined and validated by the interested public without any third-party
+involvement.
+This opens up a whole new space for artists. Not only thanks to provenance and forgery
+prevention, but the blockchain technology opens a whole new concept of fractional
+ownership.
+
+5.4 Collectibles
+From sports cards to Crypto Kitties, these are just a few forms of collectibles. When
+talking about collectible cards in the physical world, many different options come to
+mind: baseball cards, airplane cards, tradable collectible games (TCG), etc.
+Whatever the case may be, serious collectors are interested in vintage cards. Among
+those, the highest values are attributed to rookie cards, inserts, sets, and unopened
+sets. Other major factors collectors would consider when determining a card’s value are
+its age, origin, condition, scarcity, and of course, the featured player. The rarest cards
+usually come from limited editions and are among the oldest on the market. Values of
+these cards span from a few dollars to a few million dollars.
+In order for a collector to get the most accurate price estimation, several sources of
+examination and grading are required. Major sports cards grading and autograph
+authentication authorities, such as Beckett6, PSA7, and Collectors Universe8, now base
+4
+
+​https://medium.com/0xcert/millions-art-fakes-and-blockchain-7a7cb80a52a
+http://www.artbusiness.com/certaut.html
+6
+https://www.beckett.com/
+7
+https://www.psacard.com/
+8
+https://www.collectorsuniverse.com/
+5
+
+25
+
+their grading business mostly on online demand, while several guides for pricing are
+issued by Price Guide9 and Krause Publications10, editing Tuff Stuff11 magazine and
+Sports Collectors Digest12.
+In addition, collectors also need to account for various aspects like the total amount of
+specific cards on the market, the number of collectors, amount of available ownership
+data, card provenance and of course the price.
+Projects like CryptoKitties are basically digitizing the very essence of the card
+collectors hobby, which is the joy of owning something unique and the thrill of
+comparing or even trading it with others. Even though card editions are issued in many
+hundreds of (equal) pieces, as soon as they land into the hands of a new owner, their
+value cannot be measured as a static feature.
+With help from the 0xcert protocol, we can now easily translate real-world asset
+ownership to the blockchain. In the sports cards collecting field, the authenticity could
+be traced to the card’s manufacturer creating a digital imprint of each card issued.
+Therefore, when a buyer or collector finds a special insert in the set, they could trace its
+origins back to the issuer and verify it using a smart contract, without having to rely on
+third-party authentication institution.
+When interested in such an asset, collectors could check and verify every single
+transaction recorded in its data imprint, making it easier for them to evaluate the card
+before purchase. After acquiring it, they would be able to tokenize it on the blockchain
+and/or store it in their digital wallet, with ownership and management decisions solely
+in their hands, giving them the freedom to sell, transfer, burn, or just store it until a
+good opportunity for trading arises.13
+
+9
+
+https://www.priceguide.cards/en
+http://www.collect.com/
+11
+http://www.tuffstuff.com/
+12
+http://www.sportscollectorsdigest.com/
+13
+https://medium.com/0xcert/erc-721-hitting-a-home-run-77d6b4fca33d
+10
+
+26
+
+6. Ecosystem
+The 0xcert team is determined to continuously bring value to the open-source
+community. Our mission is to empower developers with powerful tools and useful
+applications of non-fungible tokens.
+In addition to the 0xcert protocol development, the purpose of the 0xcert team, as the
+core team behind the 0xcert protocol, is to provide a foundation for trustless, certified,
+non-fungible tokens on the blockchain and to manage and unify the community by
+connecting individuals and groups working in the area of non-fungibility and to provide
+resources and support for the related community-driven incentives.
+The 0xcert ecosystem consists of various stakeholders with different roles. Due to the
+nature of the project, a wide spectre of groups will be involved, ranging from research
+and development, all the way to for-profit companies. In a generalized sense, the
+0xcert ecosystem is made up of four major components: 0xcert Labs, 0xcert Protocol
+Development, 0xcert Protocol Users, and the Non-Fungible Alliance.
+
+Figure 5: The 0xcert ecosystem
+
+27
+
+1. 0xcert Labs
+We believe that we can only understand developers, the blockchain technology, and
+decentralization if the community uses the protocol and builds on top of it. We formed
+0xcert Labs as the 0xcert discovery group, which will work on the latest innovations in
+the space of non-fungibility, decentralization, and the blockchain technology. Research
+and development are core pillars that will advance the frontiers of blockchain usability
+and ultimately drive adoption.
+2. 0xcert Protocol Development
+Since the 0xcert protocol is an open-source project, we strongly believe that its future
+development should be community-driven. Down the line, we might implement a full
+DAO for protocol governance, which would further empower the developer community.
+3. 0xcert Protocol Users
+Adoption is key. A great amount of our time, energy, and resources will be directed
+toward instilling the adoption of 0xcert technology. This idea is also completely in line
+with why we are not just developing a protocol, but rather a full framework with
+extended tools for fast adoption. The blockchain space at large has to be driven by
+wider adoption, which cannot happen if each new project has to develop their smart
+contracts from scratch. New blockchain projects, as well as traditional non-blockchain
+companies, will be a key driving force in the future years.
+4. Non-Fungible Alliance
+As the space of unique digital assets begins to grow, it makes sense to have a
+collaboration space where all participants can come together. The NFT Alliance is a
+collaborative hub for building real-life applications with non-fungible tokens
+technology. It is an association of corporations, service providers, and developers that
+closely collaborate on the implementation of unique assets on the blockchain.
+
+6.1 Participants
+The 0xcert ecosystem consists of a large set of different parties that have come
+together in order to create and shape the non-fungible space.
+
+28
+
+0xcert Ecosystem
+components
+
+0xcert
+Labs
+
+0xcert Protocol
+Development
+
+0xcert Protocol
+Users
+
+Non-Fungible
+Alliance
+
+0xcert Ecosystem
+participants
+
+Developer
+community
+
+Developer
+community
+
+Partnerships
+
+Researchers
+
+Partnerships
+
+Existing NFT
+projects and
+companies
+
+Partnerships
+
+Developers
+Projects
+ICOs
+Companies
+
+6.2 Promotion & Growth
+Each of the four segments described above may have accompanying promotional and
+growth activities. These range from events and meetups to more comprehensive
+hackathons and implementation seminars. The 0xcert project is built with large scale
+adoption in mind; hence, growth strategies are also planned.
+
+6.3 Partnerships
+The 0xcert protocol is a concept that brings together various actors from different
+segments and organizations. Establishing mutually beneficial partnerships will be one
+of the key progress drivers for the organization. Building strategic alliances with
+complementary organizations, companies, and individuals can increase the value of the
+0xcert protocol and widen its integrational scope even further.
+0xcert is building partnerships with stakeholders, which are relevant for its success
+both in the short-run, as well as in the long-run. Some of the entities we have already
+established partnerships with are world leading advisory firms to enable us operational
+compliance as well as leading institutions promoting blockchain-based certification and
+the benefits it provides.
+Currently, we are cooperating with various blockchain organizations and startups, as
+well as being in talks to make our cooperation public. Future partnerships will be
+announced on a rolling basis. We will strive to create meaningful and impactful
+
+29
+
+relations with key players that can further improve the protocol or can assist in various
+verticals where key players specialize.
+PARTNERS
+
+PROJECTS BUILDING ON 0xcert
+To date, hundreds of projects and developers have built on the 0xcert Framework and
+other solutions. 0xcert is committed to providing useful tools to the developer
+community with open-source code published on ​GitHub​.
+Developers and projects built upon the 0xcert Framework may refer to the ​GitHub
+Issue #442​ to provide feedback on code, usability, and applications.
+To support everyone dealing with the 0xcert Framework and building decentralized
+applications on it, we have established a dedicated ​Framework Gitter channel​ where
+our developers interact with their peers daily.
+
+6.4 Ecosystem Growth Pool
+As pointed out, the 0xcert ecosystem is a large structure of various parties and
+activities. We have dedicated a large amount of the token pool, as well as funds raised
+to the growth and promotion of the whole ecosystem. In total, 12% of the entire token
+supply (Community pool) and 10% of funds raised (Ecosystem) will go towards the
+growth of the 0xcert ecosystem.
+
+30
+
+7. Token economy
+According to William Mougayar, author of "The business blockchain", a token is "a unit
+of value that an organization creates to self-govern its business model and empower its
+users to interact with its products while facilitating the distribution and sharing of
+rewards and benefits to all of its stakeholders." In this section, we present the 0xcert
+token purpose and characterization, token use cases, and their implementation.
+
+7.1 Token purpose and use cases
+The ZXC token is a protocol token and is introduced to align issuing parties with dapps
+and the community. With the infrastructure built around a system of smart contracts,
+its primary role is to provide the incentive mechanisms and to support the ecosystem
+with minimum possible fees.
+
+Figure 7: ZXC token is a native utility token of the 0xcert protocol
+The ZXC token is also a part of the extended 0xcert ecosystem that spans beyond the
+protocol itself. We envision its usage on a few layers, which further decentralize
+important elements of the corresponding ecosystem.
+
+7.1.1 ZXC within dapps
+Dapps developed by 0xcert (e. g. KYC and Academia pilot projects) may use the ZXC
+token as the basic liquid asset for these dapps to operate on the protocol. Similar to
+gas on the Ethereum blockchain, the protocol token may play a role in all sorts of
+protocol and dapp activities. The following use cases are foreseen, but not limited to,
+within a wide variety of dapps:
+- Medium of exchange (payment utility for fees and other costs within dapp
+ecosystems)
+31
+
+-
+
+Staking ZXC tokens within dapps that would require it
+Bidding ZXC tokens for accessing services and/or verification
+Granting access to certain features of the dapp
+Reward and loyalty mechanisms
+
+7.1.2 Decentralized governance
+Over time, decentralized governance may be introduced to strengthen the 0xcert
+community further . As stated above, 0xcert aims to be a community-driven project.
+Various stakeholders come together to co-create an ecosystem around the protocol
+itself in an effort to cast an even wider net. In this light, the decentralized governance
+model may be introduced in the future to drive protocol-level development updates,
+conventions, and update integration.
+Token purpose
+The protocol token may play a key role when creating a decentralized autonomous
+organization. The protocol token may not only be used as a rewarding mechanism, but
+also as a distributed voting mechanism.
+
+7.1.3 Issuer Verification Registry (IVR)
+It is becoming apparent that one of the major problems in the future may not be the
+technological barrier to issuing ownership rights of different unique assets on the
+blockchain, but rather the authenticity of issuing entities. The underlying objective is to
+create a self-sustaining curation ecosystem which could exist without a centralized
+authority or even the creators themselves.
+Currently, the authenticity of issuers is ensured through centralized authorities. For
+example, higher education institutions have to go through a quality assurance process,
+which is carried out by an external body to verify if certain standards are met. This is
+called higher education accreditation that can also be viewed as a curated list or
+registry of quality educational institutions.
+The 0xcert ecosystem may introduce an Issuer Verification Registry (IVR), which would
+be a form of a token curated registry as proposed by Mike Goldin. This would represent
+a step toward further decentralization of the whole non-fungible assets space on the
+blockchain.
+As pointed out above, one of the fundamental future problems in the blockchain space
+may become the authenticity of issuers. This is an issue that touches upon everyone
+32
+
+involved in the ecosystem. End-users aspire to have only legitimate issuers while
+issuers want to be recognized as legitimate entities.
+Due to the fact that the 0xcert protocol with its corresponding libraries is completely
+open-source, there is a chance that these tools may be used by entities with ill intent.
+For example, if a recognized education provider (e. g. Stanford) wants to issue
+academic credentials on the blockchain, they can do so using freely available tools.
+Since this education provider may be a well known and respected institution, there is
+no objection to them issuing tokenized academic credentials. An issue may arise if a
+diploma mill poses itself as said education provider (e. g. Stanford). It could go ahead
+and start issuing tokenized academic credentials that may look the same as the
+originals. This is, in fact, a scenario that happens in real life and can be detrimental to
+the educational institution, and it can cause a substantial and unnecessary economic
+cost. End-users and issuers are both affected by this matter. In order to prevent this
+from happening, a decentralized issuer verification registry may be introduced.
+Token purpose
+At the moment, there is no strong incentive that would award fairness and honesty in
+the blockchain space. A self-sustaining verification registry which would use staking
+and rewarding mechanisms based on the 0xcert protocol token may answer many open
+questions in this relation. The Issuer Verification Registry (IVR) may use the ZXC token
+to give curation rights that correspond to the relative token weight of token holders.
+This is a floating ecosystem which has to be decoupled from price fluctuations of other
+cryptographic currencies or tokens. Only independent supply and demand of ZXC will
+create a feedback mechanism that ultimately encourages token holders to maintain
+and curate a list of authentic NFT issuers.
+
+7.2 Implementation
+The ZXC tokens are the native utility tokens of the 0xcert protocol. They are fungible
+tokens and are compliant with the Ethereum's ERC-20 standard.
+
+33
+
+8. Structure
+0xcert project is and will be structuring its operations and delivery on its goals and
+roadmap via different elements, which include: corporation structure, governance,
+token rules, exchanges, and voting rules.
+
+8.1 Corporation Structure
+0xcert is currently and at the time of the token sale organized as a company, registered
+in Slovenia (European Union), and the token generated and the funds collected will
+belong to this company. The Company is set up according to the EU laws and
+regulations.
+For future development and roadmap, the following legal entities will enable the project
+to deliver on the planned roadmap:
+a) The 0xcert Protocol Foundation:​ it will manage the 0xcert as a protocol and will
+use a proportion of tokens for supporting the development of the protocol
+developers’ and projects’ community. Expected time to set up the foundation is
+in late Q3 2018 or Q4 2018.
+b) The 0xcert-for-profit (existing Company):​ it will function as a service provider to
+the 0xcert Foundation (initial development and handover of code) and will be
+funded by the funds generated by the token sale to develop the 0xcert protocol
+and initial two pilot cases (Academia and KYC). More information in the
+Roadmap.
+c) For the purpose of better organisation and legal purposes, both a) and (b)
+entities can set up additional entities within planned or new jurisdictions.
+
+8.2 Governance
+Both 0xcert Protocol Foundation and 0xcert-for-profit will be governed
+organizationally at three levels:
+a) Board of Directors:​ The purpose is the overall supervision of the project
+progress. It consists of some of the current 0xcert advisors and Management
+team members, as well as potentially some new members. The number of
+members is limited to five (5). The Board of Directors will be set up within three
+
+34
+
+(3) months after the token sale or, in the case of foundation, at the time of
+setting up the foundation. Meetings will be scheduled on a quarterly basis.
+b) Advisory Board:​ The purpose is advisory for strategic decision making. Consists
+of some of the current 0xcert advisors, as well as potentially some new
+members. The number of members is not limited per se. The advisory boards will
+be set up within three (3) months after the token sale or, in the case of
+foundation, at the time of setting up the foundation. Meetings will be scheduled
+on a quarterly basis.
+c) Management Board:​ The purpose is daily operations, operational decisions, and
+execution. Consists of some of the current management as well as potential new
+members. The number of members is limited to five (5). The management board
+will be set up within 1 month after the token sale. For the foundation, it will be set
+up at the time of setting up the foundation.
+In addition, 0xcert will continue producing ​quarterly reports​. Quarterly reports will be
+produced for each of the entities by the Management Board and confirmed by the
+Board of Directors and will be publicly available on communications channels and
+webpage(s). The first report has been published in the first full quarter after setting up
+the foundation.
+We continue inviting interested ​stakeholders to contribute​ with their ​suggestions​ and
+comments on our progress and thus engage developers, users, as well as business
+partners. The suggestions are not going to be binding; however, they will be taken into
+consideration as valuable input from a wider ecosystem. The team will continue
+utilizing the existing and future communications channels (e. g. Telegram) to interact
+with stakeholders, as well as to hold regular ask-me-anything (AMA) sessions, if
+needed, in addition to other interaction opportunities when deemed appropriate. The
+team is already and will also in the future be actively engaging in conferences and
+meetups with various stakeholders to exchange opinions and obtain feedback on work
+and progress.
+
+8.3 Token
+The 0xcert token ZXC and the protocol will be managed by the 0xcert Foundation. The
+number of tokens will be fixed and cannot be additionally minted. Any changes to the
+token design will be governed by the 0xcert Foundation and its Board of Directors. The
+token holders will not have voting rights, but the Management Board and Board of
+Directors can consult with a wider stakeholder ecosystem: developers, partners, token
+holders as well as other existing and future stakeholders.
+35
+
+8.4 Exchanges
+0xcert will strive to provide as many diverse opportunities for users to purchase or sell
+tokens. We will actively engage in partnerships with both centralized and decentralized
+exchanges. When looking for partner exchanges, we will apply the criteria of legal fit as
+well as acceptable commercial conditions.
+The reach-out to exchanges has been done prior to the token sale event; however, due
+to the nature of business practices of exchanges, any announcements were only made
+after the token sale had finished. The 0xcert team can announce and talk about the
+exchanges only after the official confirmation of both sides (this is suggested by legal
+partners and exchanges).
+We must understand the role exchanges play in the project and how the team views
+exchange partnerships. Exchanges are partners of the project in terms of enabling the
+users of the protocol to exchange the tokens in order to use and interact with the
+protocol.
+
+8.5 Voting
+Initially, token holders will not have any voting rights. The governance of both entities
+is in the hands of the Board of Directors and the Management Board for both 0xcert
+Foundation and 0xcert-for-profit.
+In the future, the 0xcert Foundation can introduce voting rights for token holders in the
+sense of DAO. This decision and the rules are solely in the hands of the Board of
+Directors of the 0xcert Foundation.
+
+36
+
+9. The business side of things
+0xcert company is raising funds through token sales to fund the development of the
+0xcert protocol and the establishment of the 0xcert Foundation, which will manage the
+ZXC token and the protocol. However, the 0xcert for-profit company also needs a
+stable business model and a go-to-market strategy for long-term growth and
+development.
+
+9.1 Business model
+As 0xcert-for-profit will have an in-depth knowledge of 0xcert as a protocol, we will
+arrange our future revenue streams as follows:
+- Advisory to startups and corporations in implementing NFTs in their business
+models and applying the 0xcert protocol. Advisory may include, among other
+services: development, operational processes, and legal support. In the event the
+knowledge or experience is not available in-house, we will partner with others to
+provide it. Both advisory fees or equity are options as remuneration.
+- Educational programs (training) and professional conferences for both startups
+and corporations.
+- Development of our own dapps on top of the 0xcert protocol and their
+establishment as separate business units under the (partial) ownership of
+0xcert-for-profit.
+
+9.2 Go-to-market strategy
+For-profit advisory and educational programs will be based on acquiring and
+maintaining relationships with startups and corporations. We will have a dedicated
+sales unit which will reach out to new and existing startup and corporate clients and
+help them address their challenges related to NFT implementations and solutions.
+Being the creators of 0xcert protocol, we will leverage our brand and our contacts to
+enable a steady sales funnel flow.
+Based on our overall understanding of market opportunities and challenges, we may
+decide to enter a specific vertical in order to apply NFTs. We will make sure that we do
+not enter into a conflict of interest situations with our advisory and educational
+revenue streams. For each of the identified verticals, the for-profit can fund the initial
+set-up and solution development; however, the vertical dapp will be carved out as a
+separate business unit with its management, operations and development team.
+37
+
+9.3 Competitive landscape
+The non-fungible token space is just the beginning. The ERC-721 standard has shown
+us that the immense capabilities of the blockchain technology lie in front of us and
+have not really been tapped into. Placing unique assets on the blockchain will spur a
+whole new plethora of ideas, projects, and companies leveraging situations previously
+impossible and unimaginable.
+0xcert is dealing primarily with the application layer of things: giving developers tools
+to build applications more effectively on top of this new standard. Developers can build
+dapps based on the protocol, while end users can use their solutions to prove
+authenticity, authorship or ownership of their assets (such as collectibles, university
+degrees, identity/KYC, in-game items or a house), making them secure and available
+while they are certified on the blockchain.
+At the moment of writing this Whitepaper, we were unable to identify a competitor that
+would be focusing on developing a unifying developer framework with conventions on
+top of ERC-721. However, there are competitors in various niches where the 0xcert
+protocol and higher-level dapps built with the 0xcert protocol can be used. These span
+from art, collectibles, education credentials, identity, and more, all the way to real
+estate and car ownership.
+The 0xcert protocol is a building block for everyone to use. In that light, most of the
+companies that on first glance may appear as competitors, we rather see as potential
+partners and protocol adopters. Using unique digital assets in many cases is a superior
+solution, hence we expect to see their wider adoption in the future. 0xcert is merely
+going to provide the underlying infrastructure for all these projects to use and build
+upon.
+The purpose of the 0xcert organization, as well as the core team behind the 0xcert
+protocol, is to provide a foundation for trustless, certified, non-fungible tokens on the
+blockchain and unify the community to the fullest. We intend to bring value to the
+open-source community engaged with the 0xcert protocol, to connect individuals and
+groups working in the area of non-fungibility or certification and to provide resources
+and support for the related community-driven incentives.
+
+38
+
+10. Timeline
+The inception of 0xcert was in 2017. After the first MVPs were created and tested, a
+more rigorous and detailed development roadmap was laid out. Although we are on
+track, there is still a long way to go. Below is a detailed roadmap, which is followed by
+milestones14.
+
+10.1 Development roadmap
+
+14
+
+Q3 2017
+
+- First proposal of the blockchain certification technology
+- First MVP for deployment and verification of certificates
+
+Q4 2017
+
+- Shift towards open-source
+- Explore wider adoption and a protocol approach
+- Xcert smart contract draft
+- Technical paper draft
+
+Q1 2018
+
+- Pivot towards ERC-721 for assets on the blockchain
+- Proof of protocol concept
+- DEX draft implementation
+
+Q2 2018
+
+- Joining forces with ERC-721 standard lead author, William Entriken
+- ERC-721 complete implementation with bounty program
+- Xcert complete implementation with bounty program
+- DEX alpha implementation
+- Xcert minter alpha implementation
+- 0xcert scanner alpha dapp
+- Technical paper 1.0
+
+Q3 2018
+
+- Whitelist/KYC certificate dapp (another PoC for crowdsale)
+- Crowdsale PoC certificates used
+- Protocol draft on Ethereum mainnet (limited)
+- DEX alpha dapp
+
+Q4 2018
+
+- Protocol 1.0 (Ethereum) - Odin
+- Framework 1.0 (protocol features, application layer)
+- DEX 1.0 dapp
+- Minter 1.0 dapp
+
+2019 Q1+Q2
+
+- Protocol 2.0 (Ethereum, second chain) - Aragorn
+
+2019 Q3+Q4
+
+- Framework 2.0 (notification system, community-requested features)
+- Pilot dapp for selected vertical 1
+- Pilot dapp for selected vertical 2
+- Curated registry
+
+​The timeline and milestones may be susceptible to change due to unforeseen events, complications and interruptions.
+
+39
+
+10.2 Milestones
+
+MVP
+
+Beta
+
+Odin
+(protocol v1)
+
+✔
+
+✔
+
+✔
+
+✔
+
+✔
+
+✔
+
+✔
+
+✔
+
+Alpha
+
+Aragorn
+(protocol v2)
+
+Protocol
+Xcert
+
+X (proof of
+protocol
+concept)
+
+Conventions
+
+Framework
+Devkit (SDK)
+
+✔
+
+DEX
+implementation
+
+✔
+
+✔
+
+✔
+
+✔
+
+DXM
+implementation
+
+✔
+
+✔
+
+0xcert Labs
+ERC-721
+implementation
+
+✔
+
+✔
+
+✔
+
+Scanner dapp
+
+✔
+
+✔
+
+✔
+
+Identity dapp
+
+✔
+
+✔
+
+X
+
+DEX dapp
+
+✔
+
+DXM dapp
+
+✔
+
+IVR
+
+X
+
+40
+
+11. Token distribution event
+The 0xcert Token Distribution Event has taken place during the months of June and
+July in 2018. In this section, we present the information about the 0xcert token,
+crowdsale, token distribution, and funds allocation.
+
+11.1 Token and crowdsale info
+Token name: ​ZXC (ERC-20)
+Price of token: ​0.0001 ETH, 1 ETH = 10,000 ZXC
+Max presale bonus:​ 20%
+Hard cap: ~​20,000 ETH (estimated based on bonus distribution)
+Soft cap:​ 5,000 ETH
+Token Supply:​ 500,000,000 (fixed, no future minting)
+Circulating supply:​ 250,000,000
+Percentage of tokens going to contributors in all token sale stages: ​50%, 250
+Mio ZXC tokens.
+
+The 0xcert token sale consisted of four stages: Pre-ICO (early buyers), Private Presale
+(larger buyers), Public Presale (10% discount) and a Public Crowdsale. Details about
+each stage can be found in the table below. In case the allocated number of tokens for
+each stage would not have been sold in the allocated stage, it would have been rolled to
+the next stage. If there had been tokens planned for sale left after the final stage, they
+would have been burnt.
+
+41
+
+Stage
+
+Date
+
+Tokens Allocation
+
+Max bonus
+
+% Total tokens
+
+Pre-ICO
+
+Closed
+
+15,000,000
+
+40%
+
+3%
+
+Until June 20th, 2018
+
+120,000,000
+
+15-20%
+
+24%
+
+July 2 - July 4, 2018
+
+71,157,402
+
+10%
+
+14%
+
+July 4 - July 18, 2018
+
+43,842,597
+
+5% (first 24 hrs)
+
+9%
+
+Private Presale
+Min. participation 200 ETH
+
+Public Presale
+Min. participation 1 ETH
+
+Crowdsale
+
+11.2 Token distribution
+The 0xcert token distribution is found in the table below. 50% of all tokens were
+reserved to be sold in different stages of the crowdsale. The remaining was reserved for
+the team, current and future stakeholders, and future reserves.
+Token distribution
+Pre-ICO
+
+% total tokens
+
+Purpose
+
+3.00%
+
+Token sale
+
+Token sale (crowdsale)
+
+47.00%
+
+Token sale
+
+Founders and team
+
+15.00%
+
+Incentives alignment
+
+Advisors (& legal)
+
+6.00%
+
+Incentives alignment
+
+Liquidity pool
+
+5.00%
+
+Supporting token liquidity
+
+Community pool
+
+12.00%
+
+Bounties
+
+2.00%
+
+Reserves
+
+10.00%
+
+Supporting the development of protocol community,
+allocated to Foundation
+Bug bounties, allocated to Foundation
+Future development fund
+
+42
+
+Distributed tokens differed in their lock-up period. The Founders, Team, and Advisors
+have tokens locked-up in different periods. The buyers do not have tokens locked-up.
+Lock-Up for Buyers: None
+Lock-up for Founders: Locked for 6 months then 12.5% and 12.5% every three months.
+Lock-up for Team: 20% released at ICO and 15% every three months after ICO.
+Lock-up for Advisors: 20% at ICO, 40% in three months, 40% in six months
+Lock-up for Reserves: 2 years
+
+11.3 Distribution schedule
+The distribution of tokens has been done via the crowdsale smart contract, with the
+following design:
+a) The Pre-ICO and Private Presale buyers received their purchased ZXC tokens to
+the ETH wallet address they have provided to 0xcert.
+b) The Public Presale and the Crowdsale buyers received their purchased ZXC
+tokens to the originating ETH wallet address from where the ETH funds to
+purchase ZXC token have been sent.
+c) All token buyers received their ZXC token the latest 7 days after the final date of
+the public crowdsale.
+43
+
+d) The unsold tokens allocated to the token sale were burnt within 7 days after the
+final end date of the public crowdsale.
+e) The remaining 50% of tokens (not allocated to token sale) were distributed to
+their respective ETH wallet addresses within 7 days after the final end date of
+the public crowdsale.
+All the distributed tokens were locked up until 7 days after the final end date of the
+public crowdsale. Once the tokens had been unlocked, the buyers were able to move
+them. This timeline was based on the Ethereum network functioning normally and
+provided there were no lags.
+
+11.4 Participation in the token sale
+The participation in the token sale event required buyers to:
+a) Have ETH (Ethereum) cryptocurrency
+b) Have an ETH wallet address
+c) Do a KYC required for the purchasing of the token
+d) Be a citizen of countries that are eligible for their citizens to participate in the
+token sale (more details in the Token Sale Terms and Conditions).
+In addition to the conditions above:
+e) In order to participate in the private presale, there was a minimum of 200 ETH of
+the purchase amount.
+f) Only whitelisted buyers could participate in Public Presale. The public presale
+whitelist was closed before the beginning of the public presale. In the public
+presale, 1 ETH was the minimum purchase amount.
+g) During the public crowdsale, the token sale was open to all (respecting condition
+a) to d)). There was no minimum purchase amount in the public crowdsale.
+
+11.5 Funds allocation
+The funds collected in the token sale were allocated as follows:
+
+Funds allocation
+
+% of all funds
+
+Development
+
+50.00%
+
+Marketing
+
+15.00%
+
+44
+
+Legal
+
+10.00%
+
+Operations
+
+10.00%
+
+Setting up the Foundation
+
+5.00%
+
+Foundation funds
+
+10.00%
+
+The last two allocation areas are aimed at setting up the 0xcert foundation as a
+separate legal entity as well as at transferring a part of funds to the Foundation to
+enable the immediate start of foundation operations.
+
+45
+
+12. Team
+The 0xcert team is a fully dedicated group of highly skilled individuals. At the moment,
+the team consists of 9 members that operate in all crucial areas to support both the
+long-term strategy as well as the short-term execution. In contrast to many other
+projects and companies, the vast majority of resources are in-house.
+
+12.1 Team
+Operations
+Kristijan Sedlak, CEO
+Urban Osvald, CSO
+Tomaž Erjavec, Co-founder
+Jure Pučko, Co-founder
+Anja Pukl, CFO
+Development
+Tadej Vengust, Lead Blockchain Developer
+David Ličen, Lead Front-end Engineer
+Leon Panjtar, Full-stack Developer
+Anže Mur, Full-stack Developer
+Marketing
+Lenka Tušar, Head of content
+
+12.2 Advisors
+William Entriken, ERC-721 main author
+www.linkedin.com/in/fulldecent/​, ​https://github.com/fulldecent​, ​https://phor.net/
+William Entriken is the lead author of the ERC-721 standard. He is an active computer
+science researcher who has contributed tremendous amounts of open-source projects
+to the community. In his non-blockchain life, Will is the General manager of Pacific
+Medical Training, a company that creates interactive medical training courses.
+Moe Levin, Blockchain pioneer
+www.linkedin.com/in/moelevin/
+46
+
+Moe Levin is a blockchain evangelist and pioneer. He is the CEO of Keynote, a company
+focusing on creating blockchain events all over the world. Moe is also an Executive
+committee member of the Global Blockchain Council and the founder of the North
+American Bitcoin Conference.
+Mark Pui, MW Partners advisor
+https://www.linkedin.com/in/mark-pui-b9ab3046/
+Mark Pui has up to recently been the Executive Director at PwC in Kuala Lumpur,
+Malaysia. He draws his skills and experience from a long and successful career in
+management consulting, corporate finance, consulting, and advising. Mark is also a
+seed investor in early-stage companies like 0x, Bancor, EOS, QTUM, Tezos, and many
+others. Within the blockchain space, his focus lies in​ blockchain interoperability,
+tokenization of financial and non-financial assets, privacy protocols, stablecoins, and
+Enterprise-oriented use cases.
+Dr. Draško Veselinović, multi CEO experience
+www.linkedin.com/in/draskoveselinovic/
+Assoc. Prof. Dr. Draško Veselinović is the President and CEO of SEBRA - Slovenian
+Business and Research Association. In his career, he held many top executive positions
+and has more notably co-founded the Yugoslavian Stock Exchange as well as the
+Slovenian Stock Exchange. To this day, he remains a well-respected authority in the
+field of business, finance, and education.
+Simon Belak, tech entrepreneur
+www.linkedin.com/in/simonbelak/
+Simon is a tech entrepreneur, highly proficient in data analytics, and currently working
+as a Mad scientist with Metabase. He is able to juxtapose philosophical views and
+concepts with advanced science and technology - a unique perspective rarely found.
+Dr. Daithí Ó Murchú, President RCEEDAO Ireland
+https://www.linkedin.com/in/dr-daith%C3%AD-%C3%B3-murch%C3%BA-5722862
+4/
+Dr. Daithí Ó Murchú is the President of RCEEDAO Ireland and is under EU parliament
+and Commission Appointment. He is also a founding member at the International
+Fellow Academy of Ubiquitous Communication Educators International. He has vast
+47
+
+experience from the education segment as well as in technology, innovation, business,
+and management.
+
+48
+
+Disclaimer
+“This paper is for information purposes only, and no part of it is intended to create legal
+relations between a recipient of this paper or to be legally binding or enforceable by
+such recipient against the company that owns the project. An updated version of this
+paper may be published on a date to be determined and announced by the company
+that owns the project in course. The company that owns the project makes no
+warranties or representations as to the successful development or implementation of
+such technologies and innovations, or achievement of any other activities noted in the
+paper, and disclaims any warranties implied by law or otherwise, to the extent
+permitted by law.”
+RISK FACTORS
+THIS SECTION ON RISK FACTORS IS NOT AND DOES NOT PURPORT TO BE A COMPLETE
+ENUMERATION OR EXPLANATION OF THE RISKS INVOLVED WITH THE PURCHASE OF ZXC Token.
+THERE MAY BE ADDITIONAL MATERIAL RISKS THAT THE DIRECTORS DO NOT CURRENTLY
+CONSIDER TO BE MATERIAL OR OF WHICH THE DIRECTORS ARE NOT AWARE. THE FOLLOWING
+THEREFORE HIGHLIGHTS CERTAIN RISKS TO WHICH THE COMPANY IS SUBJECT TO AND WHICH THE
+COMPANY WISHES TO ENCOURAGE PURCHASER TO DISCUSS WITH THEIR OWN PROFESSIONAL
+ADVISORS.
+Prospective ZXC Token purchasers should conduct such independent investigation and analysis
+regarding this Company, the ZXC Token, and all other relevant market and economic factors as they
+deem appropriate to fully evaluate the merits and risk of their purchase.
+The Company and its Directors disclaim any responsibility to advise purchasers of ZXC Token of the risk
+and considerations associated with the purchase of ZXC Token as they exist at the date hereof or from
+time to time hereinafter.
+Each prospective purchaser of any ZXC Token must determine, based on his/her own independent
+review and such professional advice (including, without limitation, tax, accounting, credit, legal and
+regulatory advice) as it deems appropriate, that the purchase of ZXC Token is appropriate and suitable
+for it, notwithstanding the clear and substantial risks inherent with the purchase of ZXC Token.
+You should consult with your own legal, regulatory, tax, business, investment, financial and accounting
+professional advisors to the extent that you deem it necessary, and make your own decisions including
+decisions regarding the suitability of this purchase based upon your own judgement and upon advice
+from such professional advisors as you deem necessary and not upon any view expressed by any party
+mentioned in this Whitepaper.
+The purchaser of a ZXC Token should be capable of evaluating the merits and risks of such a purchase
+and should have sufficient resources to be able to bear any losses (which may be equal to the whole
+
+49
+
+purchased amount) that may result from such a purchase. Prospective purchasers of ZXC Token should
+be aware that the value of ZXC Token may go down as well as up and that they may not be able to realise
+their purchase amount on the secondary market (if there is any).
+Forward-looking statements
+Certain statements in this Whitepaper constitute “forward-looking statements” that are used on the
+beliefs of the Directors and reflect their current expectations. When used in this Whitepaper or in any of
+the Company’s material, the words “estimate”, “project”, “believe”, “anticipate”, “intend”, “expect”,
+“plan”, “predict”, “may”, “might”, “could”, “should”, “would”, “will”, the negative of these words or such
+other variations thereon or comparable terminology are intended to identify forward-looking statements.
+Such statements reflect the views of the Directors at the time the statements are made with respect to
+future events based on information available at that time and are subject to risks and uncertainties that
+could cause actual results to differ materially from those contemplated in those forward-looking
+statements. The Directors assume no obligation to update or revise these statements to reflect current
+information, events, or circumstances, including changes in any risks or uncertainties that may impact
+them.
+Management Risk
+If any of the directors or officers of the Company cease to participate in the operation of the Company,
+the operations, objectives, and activities of the Company may be adversely affected.
+Liquidity of ZXC Token
+As of the date of this Whitepaper, there is no active secondary market for the ZXC Token. Whilst the
+Directors hope that the success of the Company will lead to a secondary market developing, there is no
+guarantee or assurance that a public market will ever develop. There is often no assurance that a
+purchaser of the ZXC Token will be able to sell or dispose of the ZXC Token.
+Changes in Applicable Law and Regulation
+The Directors believe that it is possible that emergency intervention by certain Governments may take
+place in the future in respect of ICOs. Such intervention may be implemented on an “emergency” basis,
+subjecting market participants without notice to a set of regulations which in some cases may be unclear
+in scope and in application.
+Should any relevant laws or regulations change, the legal requirements to which the Company and the
+ZXC Token may be subject could differ materially from current requirements. No assurance can be given
+that future legislation, administrative rulings, or court decisions will not adversely affect the Company
+and the ZXC Token.
+The Company may be subject to a number of unusual risks, including contradictory legislation,
+incomplete, unclear and changing laws, ignorance or breaches of regulations on the part of other market
+participants, lack of established or effective avenues for legal redress, lack of standard practices and
+confidentiality customs characteristic of developed markets and lack of enforcement of existing
+regulations.
+
+50
+
+Early-Stage Companies
+The Company is a start-up and has no operating history against which purchasers of the ZXC Token may
+consider the appropriateness of purchasing the ZXC Token.
+Many risks and uncertainties affect start-up and early-stage companies, which often have a very limited
+operating history, profits, or cash flow. There can be no assurance of the success of such enterprises.
+Their potential must be considered in light of the problems, expenses, difficulties, complications, and
+delays frequently encountered in connection with new or developing businesses, including technology
+risks, unproven business models, untested plans, uncertain market acceptance, competition and lack of
+revenues and financing.
+The technological fields and markets that many start-up and early stage companies address have
+undergone and are expected to continue to undergo rapid and significant change. Rapid technological
+developments may result in the technology of companies becoming obsolete, uneconomical, or
+uncompetitive before any commercial success or financial return can be achieved. Numerous other risks
+may affect developing companies and ventures, including risks that products or services will be found to
+be ineffective, unreliable, unsafe or uncompetitive and risks that such companies' technologies, products
+or service will not achieve market acceptance or penetration. Market acceptance of new products,
+services, or technologies depends on many factors and uncertainties and cannot be assured.
+Start-up and early-stage companies may compete with entities that have established businesses,
+relationships and positions in the market and that have much more substantial financial, business,
+technological, marketing and distribution assets, operations and resources. There can be no assurance
+that any developing company will be able to compete successfully with more established companies.
+These companies may be overly dependent on the vision, skill, and leadership of a single or limited
+number of executives. In a start-up business, the loss or disability of a key person(s) can result in
+significant financial hardship, in some cases, the failure of the company.
+Any projections, forecasts, plans or other forward-looking statements are subject to numerous risks,
+uncertainties, changing circumstances and other factors that could cause actual results, performance,
+plans, prospects, operations, and opportunities to differ materially from any forward-looking statements,
+including competition, inability to identify and do business with appropriate customers, existing and
+future law and regulations, liabilities under the securities laws, inability to hire, retain or qualify sufficient
+management and staff, general economic conditions, rapid technological change, cost overruns, delays in
+bringing products or services to market, marketing failures, difficulty in penetrating markets, delays or
+failures in developing anticipated capabilities, products or services, failure to obtain necessary
+regulatory approvals, insufficient funding, lack of availability of capital, rates of economic growth, levels
+of consumer and business spending, conditions in the technology and financial industries, dependence
+on strategic partners and business relationships, unproven business models, adverse developments
+affecting customers and end-users, fluctuations in securities markets and valuations, limited marketing,
+expansion risks, losses and costs, uncertain revenues and profitability, conditions in particular industries,
+accounting problems, costs, delays and liabilities arising from legal proceedings, failure to obtain and
+maintain intellectual property or proprietary rights and management failures.
+Banking and custody arrangements
+
+51
+
+The Company’s cash will be held by a bank. The Company acknowledges that any such deposits are not
+guaranteed by the bank and are exposed to losses incurred in the event of the insolvency or failure of the
+bank. The Company will take credit risk against any party, which is holding its cash. The Company will,
+therefore, rank as a general unsecured creditor in the event of the insolvency or failure of the bank with
+which deposits or instruments have been placed.
+Regulatory Supervision
+The Company and the ZXC Token are not regulated by the EU or Slovenian Financial Services
+Commission or any other regulatory or supervisory authority. The EU or Slovenian Financial Services
+Commission does not vouch for the financial soundness of the Company, the ZXC Token or for the
+correctness of any statements made, or opinions expressed with regards to it.
+Cybersecurity
+Cybersecurity threats are present within the realms of cryptocurrencies. There is a risk of loss of funds,
+including a total loss, should an unauthorised intrusion or theft occur.
+Whilst the Company has considered its cybersecurity, risks related to software weakness, human error,
+external attacks, and others, continue to exist and pose a material risk to the Company and the value of
+the ZXC Token.
+Advances in cryptography, or technical advances such as the development of quantum computers, may
+present risks for crypto-currencies, which could result in the theft or loss of ZXC.
+Hackers or other malicious or criminal groups or organizations may attempt to interfere with the Token
+Sale, the ecosystem or the availability of ZXC in several ways including, but not limited to, denial of
+service attacks, Sybil attacks, mystification, phishing, attacks, smurfing, malware attacks, or
+consensus-based attacks.
+Ethereum Network
+The ZXC Token is a part of the Ethereum network. If problems related to the Ethereum network normal
+functionality arise, this may affect the ZXC Token functionality and may adversely affect the Company
+and the value of the ZXC Token. Therefore, any malfunction, unplanned function, or unexpected
+operation of the Ethereum protocol may cause the ZXC ecosystem or ZXC to malfunction or operate in a
+way that is not expected. Ether, the native Ethereum Protocol account unit may itself lose value in a
+similar way to ZXC, and also in other ways. For more information on the Ethereum protocol, see
+http://www.ethereum.org. Any error in the smart contract may lead to the loss​.
+As with other decentralized cryptographic tokens and crypto-currencies, the Ethereum blockchain used
+for the ecosystem is vulnerable to mining attacks, including but not limited to, dual-expense attacks,
+powerful mining attacks, selfish mining attacks, and critical competition attacks. Any successful attack
+poses a risk to the software and the expected performance and sequencing of Ethereum contract
+calculations. Despite the best efforts of the team, the risk of known or new mining attacks exists.
+
+52
+
+Crypto-currencies and cryptographic tokens represent a cutting-edge, untested technology. In addition
+to the risks stipulated above, there are other risks that the 0xcert team cannot predict. Risks may also
+occur as unanticipated combinations or as changes in the risks stipulated herein.
+THE FOREGOING RISK FACTORS DO NOT PURPORT TO BE A COMPLETE EXPLANATION OF THE
+RISKS INVOLVED WITH THE COMPANY AND THE ZXC TOKEN.
+
+53
+
+

@@ -1,0 +1,2884 @@
+The Bitcoin Backbone Protocol
+Against Quantum Adversaries
+Alexandru Cojocaru? , Juan Garay?? , Aggelos Kiayias? ? ? , Fang Song† , Petros Wallden‡
+
+Abstract. Bitcoin and its underlying blockchain protocol have received
+recently significant attention in the context of building distributed systems as well as from the perspective of the foundations of the consensus
+problem. At the same time, the rapid development of quantum technologies brings the possibility of quantum computing devices from a theoretical concept to an emerging technology. Motivated by this, in this
+work we revisit the formal security of the core of the Bitcoin protocol,
+called the Bitcoin backbone, under the assumption that the adversary
+has access to a scalable quantum computer. We prove that the protocol’s essential properties stand in the post-quantum setting assuming a
+suitably bounded Quantum adversary in the Quantum Random Oracle
+(QRO) model. Specifically, our results imply that security can be shown
+by bounding the quantum queries so that each quantum query is worth
+O(p−1/2 ) classical ones and that the wait time for safe settlement is expanded by a multiplicative factor of O(p−1/6 ), where p is the probability
+of success of a single classical query to the protocol’s underlying hash
+function.
+
+1
+
+Introduction
+
+Bitcoin [35] and its underlying blockchain protocol structure have received substantial attention in recent years both due to its potential for various applications
+as well as due to the possibility of using it to solve fundamental distributed computing questions in alternative and novel threat models. In [21], an abstraction
+of Bitcoin’s underlying protocol, termed the “Bitcoin backbone” was presented
+and analyzed assuming a fixed (albeit unknown) number of parties (“miners”), a
+fraction of which may behave arbitrarily as controlled by an adversary. This was
+followed by [36, 22, 6] who further refined the model and its security analysis.
+At a high level, the protocol relies on a concept known as a proof of work
+(PoW) [18], which, intuitively, enables a party to convince others that he has
+invested some effort for solving a task—specifically, finding a value (“witness”)
+such that a hash function (SHA-256) applied to that value together with (the
+hash of) the last block and new transactions yields an output that is less than
+?
+??
+???
+†
+‡
+
+University of Edinburgh. a.d.cojocaru@sms.ed.ac.uk
+Texas A&M University. garay@cse.tamu.edu
+University of Edinburgh and IOHK. akiayias@inf.ed.ac.uk
+Texas A&M University. fang.song@tamu.edu
+University of Edinburgh. petros.wallden@ed.ac.uk
+
+a certain target value. A party that is successful in producing a PoW gets to
+add a new block to the blockchain (and is rewarded). In the abstraction, the
+hash function is modelled as a random oracle (RO) [9], and it assumes a uniform
+configuration, meaning that parties are endowed with the same computational
+power, as measured by the allowed number of queries to the RO per round.
+A number of desired properties for the blockchain thus constructed—namely,
+common prefix and chain quality —were introduced and shown sufficient for the
+realization of applications, notably a robust public transaction ledger (a.k.a.
+“Nakamoto consensus”), assuming an honest majority of computational power
+(or equivalently, in the uniform configuration setting mentioned above, that the
+number of honest parties exceed the number of malicious ones).
+The model of [21] as well as that in all subsequent papers [36, 22, 6] follows [24, 15], and as such parties are “classical” and modelled as polynomially
+bounded Interactive Turing Machines (ITMs), and protocol properties such as
+the ones above can be expressed as predicates over random variables quantifying
+over all possible adversaries.
+In summary, the above works put forth elegant modeling and analyses and
+constitute an important step forward in our understanding of the capabilities of
+this emerging technology, but quantum computing, which equips attackers with
+unprecedented power and is changing the landscape of cryptography, “is coming”
+with the known devastating consequences: Shor’s quantum algorithm [40] solves
+factorization and discrete logarithm efficiently, and hence breaks popular publickey cryptosystems based on them. The mere capability of collecting side information in a quantum register sometimes compromises information-theoretically
+secure schemes, such as randomness extractors for privacy amplification [23]. In
+fact, the unique features of quantum information, such as intrinsic randomness
+and no-cloning, render many classical security analysis obsolete (e.g., rewinding [45, 47]), and even the right modeling of security in the presence of quantum
+attacks can be elusive [46, 20, 42, 43, 26, 11, 2, 3].
+A core ingredient of the Bitcoin blockchain is proofs of work (PoW) [17], and
+the dynamic construction of a blockchain can be seen as sequential compositions
+of it. The analysis relies critically on generic properties of cryptographic hash
+functions, modeled as a random oracle (RO) [8] and only given oracle access.
+When quantum attackers are present, Boneh et al. [10] argued the need for
+granting the attackers querying the random oracle in quantum-superposition,
+which gives the quantum random oracle (QRO) model.
+Quantum superposition attacks also turn out to be devastating, even to
+symmetric-key cryptosystems which are usually considered less vulnerable to
+quantum attacks (for example, several practical authentication schemes using
+block ciphers are broken in this strong attack model [30, 38]). Roughly speaking, the PoW used in blockchain protocols corresponds to solving some search
+problem by making quantum-superposition queries to a (random) hash function,
+which at first sight is reminiscent to some standard problems studied in quantum
+query complexity. However, existing results and techniques for proving quantum
+query lower bounds do not immediately translate to the cryptographic setting.
+2
+
+This is because in cryptography we are interested in average-case complexity
+as opposed to the typical worst-case complexity; also, standard quantum query
+lower bounds usually apply to quantum algorithms with high success probability
+only, whereas an attacker with small but noticeable chance of breaking a scheme
+is still relevant. In fact, an attacker may take advantage of some complicated
+composition of PoWs, and as a result its query complexity seems to require
+considerable extension of known techniques (such as composition theorems for
+quantum query complexity [32]).
+As an important first step in understanding Bitcoin’s vulnerabilities against
+quantum attacks, Aggarwal et al. [1] investigated the quantum threats to Bitcoin,
+taking into account detailed resource estimations (e.g., quantum error correction)
+and the prospect of the physical implementation of quantum computers. They
+asserted that the elliptic-curve-based signature scheme used in Bitcoin would be
+completely broken by a quantum computer as early as 2027 and hence switching
+to post-quantum signatures is critical. On the other hand, they observed that the
+stand-alone search problem induced by PoW is relatively resistant to near-term
+quantum computations due to their slow clock speed and large overhead of quantum error correction. However, the security implications for the Bitcoin backbone are still not clear. Given the complex workings of a blockchain, quantum
+attackers could employ sophisticated strategies beyond solving the stand-alone
+search problem. Thus, a comprehensive analysis of the security of a PoW-based
+blockchain against quantum attacks remains a pressing issue.
+Our contributions. In this paper we analyze the Bitcoin backbone protocol [21]
+under the assumption that the adversary has access to devices able to perform
+universal quantum computing. As mentioned above, the two main properties that
+are required in [21] are common prefix (honest parties always agree on truncated
+local chains) and chain quality (expressing the ratio of honest/adversarial blocks
+and guaranteeing that at least a certain fraction of the blocks are generated by
+honest parties). As a result of our analysis, we are able to ensure that the common prefix and chain quality properties can still be satisfied against quantum
+attackers, provided some bounds on the quantum computational hashing power
+hold. The “honest majority” condition1 we get is that the total number of quantum queries Q of the attacker has to be less than the total number of classical
+queries of all the honest parties divided by an extra O(p−1/2 ) factor, where p is
+the probability of success of a single query and, informally, represents the difficulty level of the PoW. This extra factor is the main difference from the classical
+analysis and is due to the quadratic quantum speed-up of (generalized) search
+algorithms. Moreover, the common prefix and chain quality properties hold except with negligible probability, and this negligible probability is achieved after
+a number of rounds s. Our analysis indicates that to achieve the same negligible
+probability against a quantum attacker, the new required number of rounds sq
+is the same with the classical s multiplied by an extra O(p−1/6 ) factor. This has
+1
+
+Necessary (and sufficient) for the properties to be satisfied in [21]’s uniform configuration with respect to hashing power.
+
+3
+
+the implication that the number of “block confirmations” necessary for a transaction to be accepted has to be increased accordingly for post-quantum security
+in order to protect against double-spending based on our results.
+Having proven that the common prefix and chain quality properties hold
+against quantum attackers, we can build applications (such as consensus [a.k.a.
+Byzantine agreement [31]] and a public transaction ledger [i.e., Bitcoin]) as exactly shown in [21]. Now, these applications require digital signatures and it is
+well known that a quantum attacker can compromise some of the digital signature schemes (including ECDSA, used in Bitcoin). Therefore, in order for our
+analysis of the Bitcoin backbone protocol to carry over to the above applications
+we need to ensure that a post-quantum secure digital signature scheme is used
+(see also [1] where different post-quantum signature schemes were compared for
+their suitability for Bitcoin).
+To summarize, our contributions are as follows:
+We model the quantum attackers in the context of the backbone protocol.
+We extract from [21] sufficient conditions imposed on the number of PoWs
+an adversary can solve within s rounds in order for the common prefix and
+chain quality properties to hold.
+Using our model we are able to obtain bounds on the expected number of
+PoWs within s rounds that any quantum adversary can achieve. This is then
+used to get an “honest majority” condition.
+We derive new concentration theorems (extending Chernoff bound and proving a generalised version of Azuma’s inequality). These results are of independent interest.
+Finally, using (old and new) concentration results applied to our model for
+quantum attackers, we complete the analysis of the Bitcoin backbone protocol by giving a tight characterization of the overwhelming probabilities that
+the properties hold with.
+Overview of our results. In our setting (see Section 2 for more details) we model
+the computational power of honest parties as a number of q queries per party to a
+random oracle (RO). In the classical setting, the adversary is assumed to benefit
+from the joint computational effort of the parties under his control. Accordingly,
+and to simplify the analysis we assume that there is a single quantum adversary with a total computational power of Q queries per round—to a Quantum
+Random Oracle (QRO) [10].
+In Section 3 we extract from the original reference the quantities and constraints, between variables of the honest parties and adversaries, that are sufficient to ensure the common prefix and chain quality properties. Since we assume
+that honest parties do not have quantum computing power, all the analysis involving the variables of honest parties remains unchanged from [21]. Thus, the
+main quantity of interest is the variables of the adversaries, i.e, the number of
+blocks that the quantum adversary can achieve within a certain number s of
+rounds. Solving a PoW is modeled as a quantum search problem, where the
+role of the Grover Oracle is played by the QRO. In other words, the adversary
+4
+
+prepares an equal superposition and then using the QRO and quantum-search
+type algorithm, amplifies the probability of finding a PoW. To actually solve one
+such PoW, the adversary needs to perform a measurement, and by doing this he
+either solves the PoW or has now destroyed the amplification of the probability
+and needs to start from scratch. The probability of succeeding in such a process
+is bounded by known bounds on quantum search algorithms.
+Importantly, the quantum adversary is allowed to use the quantum queries
+of a round trying to solve a specific PoW but instead of measuring at the end
+of the round he can carry over the output quantum state to the next round and
+continue trying to solve the same problem. This is not the same as transferring
+his quantum queries to the next round, since the problem (and instance of the
+QRO) trying to solve was defined in the first round. On the other hand, the
+fact that the adversary receives in the next round a state that somehow has
+information about the problem one tries to solve, differs from the classical case,
+where each query (and thus different rounds) is completely independent from the
+previous. Unlike the classical case, where one can perform one query after another
+and every time check if the query solved a PoW, to get a Grover-type speedup the quantum adversary needs to apply the QRO queries on top of previous
+queries without making a measurement. Therefore, the main free choice that the
+quantum adversary has, is to decide when each quantum measurement is made.
+For each such measurement, the adversary can solve at most a single PoW. We
+divide the analysis we perform into three steps, as follows.
+1.
+
+Honest majority. By analyzing the maximum expected blocks that the
+quantum adversary can achieve, we are able to determine a relation between the honest hashing power (classical queries per round) and the maximum adversarial quantum hashing power (quantum queries per round).
+Akin to the classical setting, this sets an “honest majority” condition that
+is essential for the protocol to be secure.
+
+2.
+
+Concentration results. In order to see how quickly the desired properties
+are satisfied, on top of bounding the average number of adversary’s blocks,
+we need to also bound the tails of the corresponding distribution. This will
+tell us how long we need to wait (protocol rounds) to know that the average
+advantage of the honest parties translates to an actual longer chain with
+probability as high as requested by the security level.
+
+3.
+
+Bitcoin backbone properties. Combining the results from [21] for the honest parties with our results for the quantum adversary and using the new
+conditions derived in Section 3, we obtain the conditions and parameters
+under which the main backbone protocol properties hold.
+
+To perform this analysis for the most general adversary of our model we first
+consider two restricted classes. The first class, that is also physically motivated,
+is the “noisy quantum storage” where the adversary while he has a quantum
+computer, the quantum memory of the device is imperfect (noisy) and therefore
+has to make a measurement at the end of the round, since he cannot carry over
+the quantum state to the next round. On top of the physical motivation, the
+5
+
+techniques used to prove the honest majority and concentration results are very
+similar with the ones used for stronger adversaries and thus it is instructive to
+examine this early. The second class is the “non-adaptive” where the adversary
+has quantum memory (can transfer quantum states from round to round) but
+needs to decide when he will perform measurements independently of the previous measurement outcomes. Again the motivation for looking this class comes
+from the use of the techniques (and some results) for the analysis of the most
+general case. For each class we go through all the three steps given above.
+Noisy quantum storage. The adversary gets a quadratic speed-up per round Q ≤
+√
+O( qn) and no further advantage. With a suitable limit on the quantum hashing
+power, the probability for solving a PoW within one round is smaller than that
+of honest parties and since they cannot transfer quantum states between rounds,
+the classical analysis carries over (different rounds can be treated as independent
+variables).
+Non-adaptive adversary. We prove here that as far as the expected number of
+blocks are concerned, non-adaptive adversaries are optimal. This illustrates the
+importance of this class, since the maximum expected value (and thus the “honest majority” condition) for the general adversary coincides with that of the
+Non-adaptive. Specifically, the best strategy is to use queries from multiple
+rounds such that they are deterministically certain that they can obtain a PoW.
+This happens for Kmax = O(p−1/2 ) queries, and thus the honest majority is
+Q = O(qnp1/2 ) i.e. has an extra factor of p1/2 . Again, by imposing a constraint
+on the quantum hashing power, one can satisfy the requirements for the Bitcoin backbone protocol. To bound the tails of the distributions we note that the
+corresponding random variables are independent, something that is guaranteed
+because of the non-adaptive nature of this type of adversary, and leads to good
+concentration results using a refined version of Chernoff’s inequality.
+Finally, we consider the most general type of quantum adversary in our
+model, where the choice to perform a measurement can be made adaptively.
+General adversary. The “honest majority” condition is the same as in the nonadaptive case as stated above. Bounding the tails of the distribution, however,
+turns out to be challenging, as existing concentration theorems (cf. [5], [39])
+applied to our case give very weak bounds. For this reason, we formulate and
+prove a new concentration theorem for non-independent variables that is specifically suited for our case. This might be of independent interest, and uses the
+variances of the individual (non-independent) variables corresponding to different measurements. The fact that the adversary is quantum is used to bound
+the number of those variables that have variance above a threshold. Applied to
+the Bitcoin backbone setting, we are able to obtain a concentration result that
+scales considerably better (having a factor of ∼ p1/6 in the exponential decay,
+compared to the ∼ p1/2 given by the original Azuma inequality).
+Other related works. On top of the challenges against superposition attacks,
+quantum random oracle model has proven arduous to deal with. Many proof techniques in classical RO become ill-formed in QRO. Thankfully, many have been
+6
+
+salvaged (at least partially) in QRO over the years. We can simulate a quantum
+random oracle [49, 51, 41], program it under a variety of circumstances [19, 44],
+establish generic security of hash functions [29, 7, 27, 33], and even paradoxically record quantum queries by Zhandry’s recent work [52]. These developments
+enable proving quantum security of many cryptographic schemes in QRO, such
+as CCA-secure public-key encryption and the general Fiat-Shamir approach to
+construting digital signatures [28, 37, 4, 34, 16].
+Organization of the paper. The rest of the paper is organized as follows. In Section 2 we present our model and in Section 3 we extract the essential results from
+[21] reducing the security analysis of the Bitcoin backbone protocol to a number
+of conditions that the (quantum) adversaries power should satisfy. In Section 4
+we analyze the simplest adversarial model, where the attacker has noisy quantum memory. In Section 5 we proceed with analyzing non-adaptive adversaries,
+where we first prove that expectation-wise these adversaries are optimal (and
+thus they give the same “honest majority” bound as general adversaries), and
+then perform the backbone analysis by also obtaining the bounds on the tails. In
+Section 6 we turn to the most general (in our model) adversary that is allowed
+to make adaptive measurements. To bound the tails of the distribution we need
+to model the variables using martingales and derive new concentration inequalities. We conclude in Section 7 with a comparison of our results for the different
+adversaries and with the classical Bitcoin backbone protocol, as well as giving
+future directions.
+
+2
+
+Model and Definitions
+
+We will analyze our post-quantum version of the Bitcoin backbone protocol in
+the network model considered in [21], namely, a synchronous communication
+network which is based on Canetti’s formulation of “real world” execution for
+multi-party cryptographic protocols [13, 14]). As such, the protocol execution
+proceeds in rounds with inputs provided by an environment program denoted
+by Z to parties that execute the protocol. The execution is assumed to have a
+polynomial time bound. Message delivery is provided by a “diffusion” mechanism
+that is guaranteed to deliver all messages, without however preserving their order
+and allowing the adversary to arbitrarily inject its own messages. Importantly,
+the parties are not guaranteed to have the same view of the messages delivered
+in each round, except for the fact that all honest messages from the previous
+round are delivered. Furthermore, we have a single adversary, which has quantum
+computing power and is formally defined later and is allowed to change the source
+information on every message (i.e., communication is not authenticated).
+The Bitcoin backbone protocol. First, we introduce some blockchain notation, following [21]. A block is any triple of the form B = hs, x, ctri where s ∈ {0, 1}κ , x ∈
+{0, 1}∗ , ctr ∈ N are such that satisfy predicate validblockD
+q (B) defined as
+(H(ctr, G(s, x)) < D) ∧ (ctr ≤ q),
+7
+
+(2.1)
+
+where H, G are cryptographic hash functions (e.g., SHA-256) modelled as random oracles. The parameter D ∈ N is also called the block’s difficulty level. We
+then define p = D/2κ to be the probability that a single classical query solves a
+PoW. The parameter q ∈ N is a bound that in the Bitcoin implementation determines the size of the register ctr; in our treatment we allow this to be arbitrary,
+and use it to denote the maximum allowed number of hash queries performed
+by the (classical) parties in a round.
+A blockchain, or simply a chain is a sequence of blocks. The rightmost block
+is the head of the chain, denoted head(C). Note that the empty string ε is also a
+chain; by convention we set head(ε) = ε. A chain C with head(C) = hs0 , x0 , ctr0 i
+can be extended to a longer chain by appending a valid block B = hs, x, ctri
+that satisfies s = H(ctr0 , G(s0 , x0 )). In case C = ε, by convention any valid
+block of the form hs, x, ctri may extend it. In either case we have an extended
+chain Cnew = CB that satisfies head(Cnew ) = B. Consider a chain C of length
+m (written as len(C) = m) and any nonnegative integer k. We denote by C dk
+the chain resulting from the “pruning” of the k rightmost blocks. Note that for
+k ≥ len(C), C dk = ε. If C1 is a prefix of C2 we write C1  C2 .
+The Bitcoin backbone protocol is executed by an arbitrary number of parties
+over an unauthenticated network, as described above. It is assumed in [21] that
+the number of parties running the protocol is fixed however, parties need not be
+aware of this number when they execute the protocol. In our analysis we will
+have n honest parties and a single quantum adversary. Also as mentioned above,
+communication over the network is achieved by utilizing a send-to-all Diffuse
+functionality that is available to all parties (and may be abused by the adversary
+in the sense of delivering different messages to different parties).
+Each party maintains a blockchain, as defined above, starting from the empty
+chain and mining a block that contains the value s = 0 (by convention this is the
+“genesis block”). If in a given round, a party is successful in generating a PoW
+(i.e., satisfying conjunction 2.1), it diffuses it to the network. At each round, each
+party chooses the longest chain amongst the one he has received, and tries to
+extend it by computing (mining) another block. In such a process, each party’s
+chain may be different, but under certain well-defined conditions, it is shown
+in [21] that the chains of honest parties will share a large common prefix (see
+below).
+In the backbone protocol, the type of values that parties try to insert in
+the chain is intentionally left unspecified, as well as the type of chain validation they perform (beyond checking for its structural properties with respect to
+the hash functions G(·), H(·)), and the way they interpret the chain. Instead,
+these actions are abstracted by the external functions V (·) (the content validation predicate), I(·) (the input contribution function), and R(·) (the chain
+reading function), which are specified by the application that runs “on top” of
+the backbone protocol (e.g., a transaction ledger).
+Basic security properties of the blockchain. It is shown in [21] that the blockchain
+data structure built by the Bitcoin backbone protocol satisfies a number of basic
+properties. At a high level, the first property, called common prefix, has to do
+8
+
+with the existence, as well as persistence in time, of a common prefix of blocks
+among the chains of honest parties.
+Definition 1 (Common Prefix). The common prefix property with parameter
+k ∈ N, states that for any pair of honest players P1 , P2 adopting chains C1 , C2
+at rounds r1 ≤ r2 , it holds that C1k  C2 (the chain resulting from pruning the k
+rightmost blocks of C1 is a prefix of C2 ).
+The next property relates to the proportion of honest blocks in any portion
+of some honest partys chain.
+Definition 2 (Chain Quality). The chain quality property with parameters
+µ ∈ R and l ∈ N, states that for any honest party P with chain C, it holds that
+for any l consecutive blocks of C, the ratio of blocks created by honest players is
+at least µ.
+Relevant random variables. Following [21], we use the following two random
+variables: Xi : if at round i an honest party obtains a PoW, then Xi = 1, otherwise Xi = 0; Yi : if at round i exactly an honest party obtains a POW, then
+Yi = 1, otherwise
+Yi = 0. For
+P
+P a set of consecutive rounds S of size s, we denote
+X(s) = i∈S Xi , Y (s) = i∈S Yi . Additionally, we denote by Z(s) the number
+of PoWs obtained by a (quantum in our case) adversary within s consecutive
+rounds. The security of the Bitcoin backbone protocol can be reduced to certain
+relations among these variables (see Section 3).
+We let f = E[Xi ], a parameter with respect to which all the other quantities
+are expressed (in the Bitcoin system, f is about 2 − 3%) and  denote the
+quality of concentration of random variables. We require 3(f + ) < 1, implying
+that f,  < 31 . Following [21], we have the following bounds on these quantities:
+(1 − f )pqn < f < pqn and E[Yi ] = pqn · (1 − p)q(n−1) > pqn(1 − pqn) ≥ f (1 − f ).
+Which then give us the following concentration results for the random variables
+X(s) and Y (s):
+Lemma 1 ([21]). For any s ≥ 2/f rounds, we have that with probability 1 −
+2
+e−Ω( sf ) , the following hold:
+(1 − )f s < X(s) < (1 + )f s
+(1 − )E[Y (s)] < Y (s)
+
+(2.2)
+
+(1 − )f (1 − f )s < Y (s)
+The quantum adversary model. We will assume that the quantum adversary has
+a number Q of quantum queries to H per round. The adversary can access the
+cryptographic hash functions in a general quantum state (superposition) and
+receive the corresponding quantum output. This is modeled with Q queries per
+round to a Quantum Random Oracle (QRO) [10]. As in the classical case, the
+adversary cannot carry over the queries to a different round (attempting to solve
+a block at a later stage with more queries). What the adversary can do though is
+to transfer a quantum state that is the output of queries to the QRO of one round,
+9
+
+to the next round. This possibility, on the one hand, enables the adversary to
+continue amplifying his probability of success (with the corresponding quantum
+speed-up) for more queries than those within one round. On the other hand, the
+transfer of quantum states makes the analysis more complicated since we can no
+longer assume that queries in different rounds are independent.
+Further, for a quantum adversary even to define a classical random variable
+(such as Z(s)) is not straightforward, since strictly speaking we can do this only
+once a measurement is performed. In other words, the quantum state received
+from the QRO after one query does not give any classical information unless a
+measurement is performed. In the general case the QRO is used to amplify the
+probability, multiple queries are used before a single measurement is performed,
+making hard to even know the number of classical random variables.
+We will call the most general type of quantum adversaries we will consider
+Time Measurement Strategies. This family captures the fact that the adversary
+during a fixed number of rounds s, has a total fixed number of N queries to
+the QRO, and his strategy is determined by the way he decides to use these
+queries. This means that the main degree of freedom he has is the number of
+quantum queries he makes before each quantum measurement he performs. More
+specifically, given that in order to create a new block, the adversary needs to
+solve a PoW (which corresponds to a search problem) and given the optimality of Grover’s search algorithm [48], the question becomes how many Grover
+iterations (queries) he wants to make to amplify his probability of solving the
+PoW, before performing a measurement and starting over again—either trying
+to create the next block if he was successful or trying to solve again the same
+PoW. While we can define random variables when measurements happen, for
+notational simplicity we assume that there are N variables, where the variables
+that do not really correspond to measurements will be treated as variables with
+0 probability of success, using 0 queries.
+En route to the general quantum adversary analysis, we will analyze two restricted classes of adversaries, starting with the noisy quantum storage model Section 4, where the adversary’s quantum memory degrades with time and after a
+fixed amount of time it needs to be reset. We model this degrading effect with
+enforcing the adversary to perform a measurement at the end of each round
+(forbidding the adversary from transferring quantum states from one round to
+the other). Second is the non-adaptive quantum adversary, where the adversary
+can carry over quantum states, but the decision of how many queries to use before each measurement is independent from his previous measurement outcomes.
+This model simplifies the analysis resulting to independent variables, and still
+give us relevant results for general adversaries.
+We define N = sQ to be the total number of queries to the QRO in s rounds;
+Ki the number of queries to the QRO used for the ith measurement (i.e. the
+quantum state measured in the ith round has passed Ki -times from the QRO);
+PKi the corresponding probability of success of the ith measurement, and wi the
+ith measurement outcome (1 if a block is created, 0 otherwise).
+10
+
+Randomized quantum search. Our analysis relies on a tight quantum query
+bound for solving a randomized search problem.
+Theorem 1 ([29]). Let f : {0, 1}κ → {0, 1} be a function such that for any
+x ∈ {0, 1}κ , f (x) = 1 with probability λ. Then, for any quantum algorithm A,
+the probability to find a solution for f using q quantum queries is upper bounded
+by:
+P rf [f (x) = 1 | x ← Af ()] ≤ 8λ(q + 1)2
+(2.3)
+This bound is tight due to Grover’s quantum search algorithm.
+Theorem 2 ([25, 12]). Let f : X → {0, 1} be an oracle function and let Xf =
+{x ∈ X : f (x) = 1}. Then there is a quantum algorithm with q queries that finds
+|X |
+an x ∈ Xf with success probability Ω(q 2 |Xf| ).
+In our analysis, we assume that the optimal success probability to solve a
+PoW using K queries to the QRO is determined by the expression:
+PK = cpK 2 , where c is a constant.
+
+(2.4)
+
+Concentration bounds. Our analysis also uses (and extends) some standard concentration results, which can be found in Appendix A.
+
+3
+
+The Backbone Protocol Properties, Revisited
+
+To ensure the two main properties common prefix and chain quality hold as in
+the as in the classical adversary scenario [21], we need to satisfy two conditions.
+In [21] these conditions are referred to as requirements of a “typical execution”.
+The first condition requires that some events regarding the hash function H occur with exponentially small probability. Specifically, these events are defined as
+follows: An insertion occurs when, given a chain C with two consecutive blocks B
+and B 0 , a block B ∗ created after B 0 is such that B, B ∗ , B 0 form three consecutive
+blocks of a valid chain. A copy occurs if the same block exists in two different
+positions. A prediction occurs when a block extends one which was computed at
+a later round.
+As proven in [21] (Theorem 10), these events imply finding a collision for the
+hash function H. However, for the collision finding problem, it is known that the
+κ
+best quantum algorithms require O(2 3 ) queries (which is optimal as proven in
+κ
+[50]) compared to the O(2 2 ) in the classical case. Therefore, the same analysis
+showing that these events hold with negligible probability in the quantum adversaries case is sufficient.
+The second condition refers to bounding the number of adversarial PoWs
+within a number s of consecutive rounds. More specifically, to ensure that the
+common prefix property holds with the same parameter as in the classical adversary scenario, [21], for any type of adversary, it is sufficient to impose two
+11
+
+restrictions on Z(s): with respect to X(s) and Y (s), respectively. These restrictions, will then imply upper bounds on the quantum adversarial hasing power
+Q, which in turn will also give us the parameter of the chain quality property.
+From now on in this section and in the remaining of the paper, as for the first
+condition, the probabilities of the H-related events is negligible in the security
+parameter κ, we will focus only on the probabilities for which the number of
+adversarial blocks Z(s) is bounded, and will denote these latter probabilities
+as the ones under which the security (the two main properties) of the Bitcoin
+backbone protocol hold.
+Lemma 2. The common prefix property of the Bitcoin backbone protocol holds
+with parameter k ≥ 2sf , for any s ≥ f2 consecutive rounds, against any quantum
+adversary A if the following condition holds:
+ZA (s)
+< (1 − )f (1 − f )
+(3.1)
+s
+Proof. Following exactly the lines of the proofs from [21], we must first ensure
+that: any k ≥ 2f s ≥ 4 consecutive blocks of a chain have been computed in
+k
+s ≥ 2f
+consecutive rounds.
+Which by following the proof by contradiction of Lemma 13 ([21]), imposes the
+condition: For any quantum adversary A and for any s ≥ f2 , we have:
+X(s) + ZA (s) < 2f s
+
+(3.2)
+
+Secondly, the condition between ZA (s) and Y (s) comes from the proof of the
+following result, which then implies the common prefix property:
+Lemma 3 (GKL15). Consider two chains C1 and C2 . If C1 is adopted by an
+honest player at round r and C2 is either adopted by an honest party at round r
+dk
+dk
+or diffused at round r and has len(C2 ) ≥ len(C1 ), then C1  C2 and C2  C1
+for k ≥ 2f s and s ≥ f2 .
+For the proof of this lemma, what we must guarantee is that for any quantum
+adversary A and for s ≥ f2 , we have: ZA (s) < Y (s). Therefore, in order to prove
+that the common prefix property holds with parameter k ≥ 2sf , it is sufficient
+to impose on the quantum adversary the following two conditions for any s ≥ f2
+consecutive rounds:
+X(s) + Z(s) < 2f s ; Z(s) < Y (s)
+
+(3.3)
+
+Which using the bounds on the honest players variables X(s) and Y (s) from
+Lemma 1, the sufficient conditions become:
+Z(s)
+Z(s)
+< (1 − )f ;
+< (1 − )f (1 − f )
+(3.4)
+s
+s
+Which given that min{(1 − )f (1 − f ), (1 − )f } = (1 − )f (1 − f ) leads to:
+Z(s)
+< (1 − )f (1 − f )
+s
+
+12
+
+(3.5)
+
+Lemma 4. The chain quality property of the Bitcoin backbone protocol holds
+with parameter l ≥ 2sf and ratio of honest blocks µ, where µ is determined by
+the condition:
+Z(s) < (1 − µ)X(s)
+(3.6)
+Proof. Follows directly from the proof of chain quality in Theorem 16 ([21]).
+Moreover, if we ensure µ > 0, then this proves that for any s ≥ f2 :
+Corollary 1. Any 2sf consecutive blocks in the chain of an honest party contain
+at least one honest block.
+Crucially, besides obtaining restrictions on Q, depending on the type of the
+adversary, we must specify with what probability the common prefix property
+holds, which is the reason to seek the tightest concentration result possible.
+
+4
+
+Noisy Quantum Storage Adversaries
+
+In the noisy quantum storage model the adversary’s quantum memory is degrading in time and after a fixed amount of time needs to be reset. This constrained
+model implies that the adversary cannot continue the Grover iterations as long
+as it wants, and instead it is forced to make a measurement at the end of each
+round. We will denote this adversary as Anoisy .
+4.1
+
+Maximum Expectation of Noisy Quantum Storage Strategies
+
+Theorem 3. For any Noisy Quantum Storage adversary Anoisy , the maximum
+expected number of POWs, given any number of rounds s, is:
+B := max E[ZAnoisy (s)] = cpsQ2
+
+(4.1)
+
+Proof. We start with a simplifying scenario, where we assume that Anoisy performs a single measurement per round (at the end of the round). Using Theorem 2, the expected number of adversarial blocks created in any round i (probability that the single PoW is solved) can be bounded by E[ZAnoisy ] ≤ cpQ2 . In
+this model we can compute E[ZAnoisy (s)] for a number of rounds s as:
+E[ZAnoisy (s)] =
+
+s
+X
+
+E[ZAnoisy ] = s · E[ZAnoisy ] ≤ cpsQ2
+
+(4.2)
+
+i=1
+
+However, while the adversary because of the noisy memory, is obliged to make
+a measurement at the end of each round, within a round he could decide to
+split the Q queries he has into multiple measurements, either attempting to
+solve multiple different PoWs (to, in principle, extend his chain by more than
+one block) or he may wish to try solving the same PoW (if he fails in earlier
+attempts). We generalize, and consider that Anoisy can perform in each round a
+variable number of measurements t, and for each measurement uses Ki queries
+13
+
+Pt
+before performing the corresponding measurement ( i=1 Ki = Q). We can make
+the convention that the number of measurements is t = Q, where since there
+are Q queries in total, t = Q is the maximum possible within a round, and we
+can always consider that the last chunk sizes are 0 (e.g. if adversary performs
+m1 < Q measurements, we will have Km2 = 0 ∀ m2 > m1 ).
+We can assume that the adversary, in the first measurement, is trying to solve
+one particular PoW (either to extend a previously generated adversarial chain, or
+starting from one existing honest chain). If successful, the second measurement
+tries to build a block solving a new PoW that extends the chain of which block he
+just generated. If he was unsuccessful, the adversary in his second measurement,
+tries to solve again the same problem.
+Then, if we denote by PAnoisy (i) the probability of obtaining i PoWs (out of
+Q possible PoWs), the expected number of adversarial blocks obtained by Anoisy
+in any round i, can be described as:
+
+E[ZAnoisy ] =
+
+Q
+X
+i=1
+
+i · PAnoisy (i) =
+
+Q
+X
+i=1
+
+
+X
+
+
+i·
+
+
+ 
+Y
+
+
+
+I⊆{1,2,...,Q}
+|I|=i
+
+cp · Kj2  · 
+
+j∈I
+
+Y
+
+l∈{1,··· ,Q}−I
+
+
+
+ 
+1 − cp · Kl2 
+
+
+(4.3)
+However, we notice that ZAnoisy is defined as the number of successes in a sequence of Q independent measurements with outcome success or failure, each of
+the measurements having success probability PK1 , PK2 , · · · , PKQ , then ZAnoisy
+is a Poisson Binomial distribution. Therefore, as ZAnoisy is a Poisson Binomial
+distribution, its mean is equal to the sum of the Q Bernoulli distributions:
+E[ZAnoisy ] =
+
+Q
+X
+
+PKi = cp ·
+
+i=1
+
+Q
+X
+
+Ki2
+
+(4.4)
+
+i=1
+
+Then, we need to find the maximum of E[ZAnoisy ] over all possible K1 , ..., KQ ∈
+PQ
+{0, 1, · · · , Q} subject to the constraint
+i=1 Ki = Q. As each Ki ≤ Q, we
+can rewrite the chunk sizes as: Ki = χi Q, where χi ∈ [0, 1]. The constraint
+PQ
+PQ
+i=1 Ki = Q becomes
+i=1 χi = 1. The expectation value can be rewritten as:
+2
+
+E[ZAnoisy ] = cpQ ·
+
+Q
+X
+
+χ2i
+
+(4.5)
+
+i=1
+
+Since χi ∈ [0, 1], we have χ2i ≤ χi , which leads to:
+E[ZAnoisy ] = cpQ2 ·
+
+Q
+X
+
+χ2i ≤ cpQ2 ·
+
+i=1
+
+Q
+X
+
+χi = cpQ2
+
+(4.6)
+
+i=1
+
+Therefore, we have determined that the maximum value on the expected number
+of blocks obtained by Anoisy is
+max E[ZAnoisy ] = cpQ2 = B.
+14
+
+(4.7)
+
+We can also observe that this maximum value is obtained when the adversary
+uses a single measurement with all Q queries: K1 = Q, Ki = 0 ∀ i 6= 1 since
+E[ZAnoisy ] = cp(Q2 + 0 + · · · + 0) = cpQ2 = B. This indicates, that it is optimal
+(w.r.t. the average number of adversarial blocks) for Anoisy to perform a single
+measurement (with Q queries) per round.
+4.2
+
+Concentration Result of Noisy Quantum Storage Adversaries
+
+To complete the analysis, it is not sufficient to know what is the maximum blocks
+the adversary achieves on average, but we also need to know how concentrated
+around this average value are the actual measured adversarial blocks. In this
+first simplified analysis, since the best expectation is achieved with a single
+measurement, we assume that the adversary sticks with this and makes a single
+measurement in each round. The full case (where neither the quantum memory
+has limitations nor we make this restriction on the number of measurements)
+will be dealt afterwards in Section 6.
+With these assumptions, for Anoisy adversary, it is not hard to obtain a concentration result, since Zi ’s, corresponding
+to different rounds, are independent
+Ps
+random variables. Since Z(s) = i=1 Zi , we could apply either Chernoff or Hoeffding inequalities, however the former cannot be directly applied since we can
+only bound the maximum expectation of ZAnoisy (s), while the former gives a
+very weak bound (see the problem with Azuma inequality in Section 6).
+Instead, we derive our own bound on the probability of ZAnoisy (s) that involves the value B (and not E[ZAnoisy (s)]). This newly derived Chernoff-type of
+inequality, proved in Appendix B, is stated as below:
+Lemma 5. Let X1 , · · · Xn be n independent random variables, taking values 0
+or 1. Let X = X1 + · · · + Xn . Then, for any M > 0, such that E[X] ≤ M and
+for any  > 0, we have:
+
+
+(3 + 2)
+·M
+(4.8)
+P r[X > (1 + )M ] < exp −
+2(2 + )
+In our setting, we use n = s, Xi = wi (where wi = 1 if i-th measurement
+succeeded, and 0 otherwise), X = ZAnoisy (s), M = B. Hence, we obtain:
+
+
+(3 + 2)
+P r[ZAnoisy (s) > (1 + )B] < exp −
+·B ∀ >0
+2(2 + )
+
+(4.9)
+
+Combining this concentration result together with Theorem 3, gives us the
+following bound on the number of adversarial POWs:
+Theorem 4. For any Noisy Quantum Storage adversary Anoisy , with probability
+2
+1 − exp(− (3+2)
+2(2+) cpQ s) and for any  > 0, it holds that:
+ZAnoisy (s) < (1 + )cpQ2 s
+15
+
+(4.10)
+
+4.3
+
+Backbone Protocol Analysis for Noisy Quantum Storage
+
+As explained in Section 3, we now need to determine the conditions on the
+hashing power of the adversary such that the properties of the Bitcoin backbone
+protocol are satisfied.
+Theorem 5. The common prefix property is satisfied with parameter k ≥ 2sf ,
+for any s ≥ f2 consecutive rounds against any Noisy Quantum Storage Adversary,
+with probability 1 − exp(−g0 ()cpQ2 s), as long as:
+s
+1 −  f (1 − f )
+Q<
+·
+(4.11)
+1+
+cp
+Proof. Using Lemma 2 and the concentration result from Theorem 4, the condition of the adversary’s hashing power Q becomes:
+(1 + )cpQ2 < (1 − )f (1 − f )
+The proof follows from Eq. (4.12) and Theorem 4, where g0 () :=
+
+(4.12)
+(3+2)
+2(2+) .
+
+Theorem 6. The chain quality property is satisfied with parameter l ≥ 2sf , and
+µ = f for any s ≥ f2 consecutive rounds against any Noisy Quantum Storage
+Adversary, with probability 1 − exp(−g0 ()cpQ2 s).
+Corollary 2. Under the above restrictions on Q, the probability under which
+the common prefix and chain quality are satisfied becomes:
+Pnoisy = 1 − exp(−g1 () · f (1 − f ) · s)
+where g1 () = g0 () ·
+
+5
+
+(4.13)
+
+1−
+1+ .
+
+Non-Adaptive Adversaries
+
+The most general adversaries we consider (see next section) allow for the adversary to decide how many queries he uses trying to break one particular PoW
+depending on how successful he was in his previous attempts to break a PoW
+(previous quantum searches). This “adaptivity” makes the analysis considerably
+more complicated. A much simpler scenario, which we call “non-adaptive”, occurs when the adversary does not take into account the history of successes,
+meaning that the number of queries Ki used before each measurement, are independent of the previous measurement outcomes. Therefore, we can assume that
+the adversary decides in advance how to split his N total queries, before the s
+rounds start.
+In the Bitcoin backbone protocol, the relevant figure that an adversary wants
+to optimise is the length of sequence of PoWs. Interestingly, these restricted nonadaptive strategies, can achieve the best (longer) sequences of PoWs on average,
+as we prove below.
+16
+
+This is by no means sufficient to complete the analysis. The most general
+(adaptive) adversaries, while they cannot beat this expectation value, they may
+be able to have higher probabilities in the “tails” of the distributions (see next
+section) and more generally one cannot use Chernoff inequalities to bound the
+general adversary’s tails when the variables are dependent. However, given Theorem 7 we will now focus on the non-adaptive case in order to provide a bound on
+the expectation value of the most general adversaries. In the following sections,
+we will denote this family of strategies by Anonad .
+5.1
+
+Non-Adaptive Expectation Optimal Among All Adversaries
+
+As the total number of available queries is N , we consider that there are N
+variables corresponding toPmeasurements performed by the adversary, with Ki
+N
+queries per measurement i=1 Ki = N = s · Q, where if the actual number of
+measurements is t we define Ki = 0 ∀ i > t.
+Let PAnonad (i) be the probability of solving i PoWs for non-adaptive adveraries, then the expected number of PoWs can be computed as:
+ 
+
+
+Y
+Y
+X
+ PKj  · 
+(1 − PKl ) for 1 ≤ i ≤ N
+PAnonad (i) =
+I⊆{1,2,...,N },|I|=i
+
+E[ZAnonad (s)] =
+
+N
+X
+
+j∈I
+
+l∈{1,2,...,N }−I
+
+PAnonad (i) · i
+
+(5.1)
+
+i=1
+
+Theorem 7. The Non-adaptive adversaries are optimal with respect to the expected number of adversarial blocks.
+Proof. Suppose the optimal general strategy Agen . Agen initially decides the first
+chunk size K1 for the first measurement, where this decision (size of K1 ) is fixed
+since it does not depend on any measurement outcome. Then, for the remaining
+measurements, the chunk-sizes Ki are determined as a function of the remaining
+queries and the history of successes/failures in obtaining a POW (measurement
+outcomes [w1 , · · · , wi−1 ]): Ki = f (N −(K1 +· · ·+Ki−1 ), [w1 , · · · , wi−1 ]). Hence,
+Agen can be described as follows:
+Agen = (K1 , f (N − K1 , [w1 ]), · · · , f (N − (K1 + · · · + Ki−1 ), [w1 , · · · , wi−1 ]). · · · )
+(5.2)
+In particular, the size of K2 depends on the first measurement outcome w1 only.
+To each of the two measurement outcomes corresponds an adversarial strategy
+with w1 is fixed (here K2 is also fixed). These two strategies are denoted Aw1 =1
+and Aw1 =0 . Then, we compute the following two values:
+e1 = E[ZAad (s) | w1 = 1] − 1 ; e0 = E[ZAad (s) | w1 = 0]
+
+(5.3)
+
+This value expresses which of the two strategies Aw1 =1 , Aw1 =0 have greater
+expectation value in the remaining measurements (i.e. excluding the first measurement outcome). Let w¯1 be the outcome for which the above is maximised
+17
+
+(i.e. w¯1 = 1 if e1 ≥ e0 while w¯1 = 0 if e1 < e0 ). We define A2 to be a new
+strategy that has the same K1 as our initial strategy, but then the remaining
+strategy is fixed as if the first measurement outcome was w¯1 irrespective of the
+actual measurement outcome. Then, for this strategy A2 , we have:
+A2 = (K1 , K2 := f (N − K1 , [w¯1 ]), f (N − (K1 + K2 ), [w¯1 , w2 ]), · · · ,
+f (N − (K1 + · · · + Ki−1 ), [w¯1 , · · · , wi−1 ]), · · · )
+
+(5.4)
+
+It is clear that for A2 , both chunks K1 and K2 are fixed, (while the rest are picked
+adaptively but having fixed the dependency on the first measurement outcome).
+By construction, the expected number of adversarial blocks is at least as big as
+the expected number of adversarial blocks of the initial strategy Aad , since we
+chose w¯1 to be the measurement outcome that maximises the expectation of the
+remaining N − K1 strategies.
+We then proceed iteratively in the same manner until we construct a strategy
+AN , such that all N measurement chunks are fixed, AN = (K1 , · · · , KN ). But,
+then AN is a Non-Adaptive strategy with expected number of adversarial blocks
+at least as large as Agen ’s value, which concludes the proof.
+5.2
+
+Maximum Expectation of Non-Adaptive Strategies
+
+Theorem 8. For any non-adaptive quantum adversary Anonad , the maximum
+1
+expected number of POWs, given any number of rounds s ≥ √cpQ
+, is:
+E := max E[ZAnonad (s)] =
+
+√
+
+cp · s · Q, for any s ≥ √
+
+1
+cpQ
+
+(5.5)
+
+Proof. First, let us define Kmax , the number of quantum queries required to
+create a block with probability one:
+1
+2
+cpKmax
+= 1 ; Kmax = √
+cp
+
+(5.6)
+
+This implies that for each measurement we also have Ki ≤ Kmax = √1cp (as an
+optimal adversary would not waste more than Kmax queries per measurement),
+thus we can rewrite Ki as:
+Ki = ξi Kmax , where 0 ≤ ξi ≤ 1 ∀i ∈ {1, .., N }
+
+(5.7)
+
+Therefore, to compute the optimal expected number of adversarial blocks, we
+need to determine the variables ξi which maximize E[ZAnonad (s)]. Then using
+Theorem 2, the success probability per each measurement i becomes:
+PKi = cpKi2 = cp(ξi Kmax )2 = cpξi 2
+18
+
+1
+= ξi 2 ∀i ∈ {1, .., N }
+cp
+
+(5.8)
+
+Then, using Eq. (5.1), we can compute the expected number of blocks created
+during s consecutive rounds Anonad as:
+
+
+E[ZAnonad (s)] =
+
+N
+X
+i=1
+
+PAnonad (i)·i =
+
+N
+X
+
+i·
+
+i=1
+
+X
+
+Y
+
+I⊆{1,2,··· ,N } j∈I
+|I|=i
+
+ξj2 ·
+
+Y
+l∈{1,··· ,N }−I
+
+
+1 − ξl2 
+
+(5.9)
+
+Which, as we showed in Eq. (4.3) and Eq. (4.4), can be rewritten as:
+E[ZAnonad (s)] =
+
+N
+X
+
+ξi2
+
+(5.10)
+
+i=1
+
+PN
+PN
+From the total number of queries condition i=1 Ki = N , we also have i=1 ξi =
+PN
+√
+N
+cp · sQ. Therefore, we want to maximize i=1 ξi2 subject to the conKmax =
+PN
+√
+straint i=1 ξi = cp · sQ and 0 ≤ ξi ≤ 1. However we have ξi2 ≤ ξi ≤ 1 which
+leads to:
+N
+N
+X
+X
+√
+(5.11)
+E[ZAnonad (s)] =
+ξi2 ≤
+ξi = cp · sQ
+i=1
+
+i=1
+
+We can also easily see that there exists an optimal Non-Adaptive strategy which
+√
+achieves this maximum value E = cp · sQ. We define a Non-Adaptive strategy
+N
+which uses Kmax measurements and for each of these measurement use the same
+number of Ki = Kmax queries, while there are no queries for the remaining
+N
+variables. For this strategy, using Eq. (5.7) we have ξi = 1 ∀i ≤ Kmax
+and
+N
+N
+ξj = 0 ∀ j > Kmax . Then, by using Eq. (5.10) we get: E[ZAnonad (s)] = Kmax =
+√
+√
+√
+N cp = cpsQ. This concludes the proof that E = cp · sQ is the maximum
+expected number of adversarial blocks, achieved by Non-Adaptive strategies and
+is in fact achieved when the adversary spends enough queries per measurement
+to deterministically solve a PoW.
+The analysis for Non-Adaptive adversaries when the total number of rounds
+is sufficiently small (less than Q√1 cp ) is presented in Appendix C. Note however,
+that in this case, the number of rounds is too small and even the honest parties
+will not produce more than one block, therefore is less relevant for the analysis
+of the Bitcoin backbone protocol.
+5.3
+
+Concentration Result of Non-Adaptive Adversaries
+
+We now turn on the issue of how concentrated around the average value is the
+number of actual measured adversarial blocks. For the Non-Adaptive Adversary,
+we have an independent search problem after each measurement, which has
+outcome wi 0 or 1, irrespective of how many solutions have been found earlier.
+We can therefore use Chernoff bounds to approximate the number of adversarial
+blocks using the expectation value:
+2
+
+P r[ZAnonad (s) < (1 + )E[ZAnonad (s)] ≥ 1 − e− 2+ ·E[ZAnonad (s)]
+19
+
+(5.12)
+
+Unfortunately, as we only know the maximum value E that the expectation can
+achieve, we cannot use directly the Chernoff inequality (again using Hoeffding
+inequality would give a much weaker bound). Instead, we need to derive our
+own bound on the probability of ZAnonad (s) to exceed the value E, probability
+which can be expressed as a function of E (and not E[ZAnonad (s)]). In order to
+use this new derived Chernoff type of inequality, stated in Lemma 5 (and proved
+in Appendix B), we make the following choice of variables: n = N , Xi = wi
+(where wi = 1 if i-th measurement succeeded, and 0 otherwise), X = ZAnonad (s),
+M = E. This gives us the following concentration result:
+
+
+(3 + 2)
+·E ∀ >0
+(5.13)
+P r[ZAnonad (s) > (1 + )E] < exp −
+2(2 + )
+Combining this concentration result together with Theorem 8, gives us the following bound on the number of adversarial PoWs:
+Theorem 9. For any Non-Adaptive adversary Anonad , with probability
+√
+1
+cpQs) and for any s ≥ √cpQ
+1 − exp(− (3+2)
+and any  > 0, it holds that:
+2(2+)
+√
+ZAnonad (s) < (1 + ) cp · sQ
+5.4
+
+(5.14)
+
+Backbone Protocol Analysis for Non-Adaptive Strategies
+
+Now we need to determine the conditions on the hashing power of the adversary
+such that the properties of the Bitcoin backbone protocol are satisfied.
+Theorem 10. The common prefix property is satisfied with parameter k ≥ 2sf ,
+for any s ≥ f2 consecutive rounds against any Non-Adaptive Adversary, with
+√
+probability 1 − exp(−g0 () cpQs), as long as:
+Q<
+
+1 −  f (1 − f )
+· √
+1+
+cp
+
+(5.15)
+
+Proof. Using Lemma 2 and the concentration result from Theorem 9, the condition of the adversary’s hashing power Q becomes:
+√
+(1 + ) cpQ < (1 − )f (1 − f )
+(5.16)
+The proof follows from the above and Theorem 9, where g0 () =
+
+(3+2)
+2(2+)
+
+Theorem 11. The chain quality property is satisfied with parameter l ≥ 2sf ,
+and µ = f for any s ≥ f2 consecutive rounds against any Non-Adaptive Adver√
+sary, with probability 1 − exp(−g0 () cpQs).
+Corollary 3. Under the above restrictions on Q, the probability under which
+the common prefix and chain quality are satisfied becomes:
+Pnonad = Pnoisy = 1 − exp(−g1 () · f (1 − f ) · s)
+20
+
+(5.17)
+
+6
+
+General Adversaries
+
+In the previous section we have examined non-adaptive adversaries, who choose
+how to split the queries for all the next s rounds independently from the outcomes
+of measurement. A general adversary is not of this type. Instead, a general
+adversary adaptively decides how to use the remaining queries depending on how
+successful the previous attempts (to solve a PoW) were. Because of Theorem 7
+we know that in terms of expectation, the Non-Adaptive adversaries are optimal.
+However, this does not mean that these adversaries are better always as we will
+illustrate with two examples.
+
+Example 1: Imagine a scenario that the expected length of the honest chain is
+longer than that of the adversary. The strategy that maximises the expected
+length of the adversarial chain is deterministic, since as proven earlier, the adversary runs quantum search until he is (w.h.p.) certain that he will solve the
+PoW. This strategy has zero probability of getting more (or less) than the expected number (is a very concentrated distribution). It is therefore obvious that
+any other strategy (preferably with longer tails), non-adaptive or adaptive, that
+is non-deterministic should be better.
+
+Example 2: Assume that there is an Non-Adaptive strategy aiming to generate
+a chain of M blocks (or more), by separating the queries sQ to chunks of sQ/M .
+This strategy will only succeed if all M searches are successful, meaning that a
+single failed search makes the strategy unsuccessful and the remaining queries
+wasted. It is evident that an adaptive strategy can do better. An adversary
+can start with the same strategy measuring after sQ/M queries, as long as the
+searches are successful. In case one search is unsuccessful, any strategy that has
+one more measurement than the Non-Adaptive (which now would have failed)
+would be more promising.
+The point here is that both the length but also the shape of the tails of the
+distribution can be different for, non-optimal in terms of expectation, adaptive
+strategies. Therefore to bound the probabilities of the tails in the most general
+(within our security model) adaptive strategy we need to be more careful. We will
+model the corresponding random variables using martingales. Unfortunately, the
+standard concentration results (Azuma) for our setting provide very weak bounds
+on the probabilities. This implies that an unreasonably long time (number of
+rounds) is required to achieve a given security parameter (when compared with
+classical or noisy-storage or Non-Adaptive analysis). In the remaining section we
+will demonstrate this issue, derive some novel concentration inequalities suitable
+for our purpose and get much improved bounds. We will then conclude with the
+analysis of the bitcoin backbone protocol with this concentration result (while
+we use from Theorem 7 the bound for the expectation). In the following sections,
+we will denote these adversaries by Agen .
+21
+
+6.1
+
+A Martingale Modelling of General Adversaries
+
+In the general strategies scenario, we cannot assume the independence of the
+variables corresponding to different measurements, and therefore we cannot use
+Chernoff inequalities to bound the tails of the distribution as was done in the
+classical, the noisy storage and the Non-Adaptive cases. To bound the observed
+number of adversarial PoWs using the maximal expectation value we need to
+use an alternative concentration theorem.
+We will then define the number of successful PoWs as a martingale. This
+would then allows us to get a concentration result by applying the AzumaHoeffding Inequality. The first step, is to use the Doob Martingale construction.
+We start from the sequence of random variables {Wi }i - where Wi = 1 if the
+i-th measurement after using Ki queries was successful and Wi = 0 otherwise.
+We consider the total number of variables Wi to be N , denoting that there are
+at most N measurements, and if in the actual strategy there are less measurements, let’s say m measurements, then Km+1 = · · · = KN = 0 and consequently
+Wm+1 = · · · = WN = 0. As seen in Definition 5, we need to define a function f ,
+which in our case will be f (W1 , W2 , ..., WN ) = W1 + · · · + WN , i.e. the number of
+successful measurements using the chunk splits K1 , ..., KN . Then, we have the
+following martingale sequence:
+Vi = E[f (W1 , W2 , ..., WN )|W1 , W2 , ..., Wi ]
+
+(6.1)
+
+In order to apply the Azuma inequality (Lemma 9), we must first upper bound
+the difference (determine ci such that):
+|Di | = |Vi − Vi−1 | = | E[f |W1 , W2 , ..., Wi ] − E[f |W1 , W2 , ..., Wi−1 ] | ≤ ci (6.2)
+6.2
+
+Bounds from the Standard Azuma Inequality
+
+As each measurement cannot change the expected number of adversarial blocks
+by more than 1, we get immediately that |Di | ≤ 1. Using Lemma 9 we get:
+!
+α2 N 2
+(6.3)
+P r(VN − V0 ≥ αN ) ≤ exp − PN
+2 i=1 Di2
+For any α > 0. Noting that
+VN = E[f (W1 , W2 , ..., WN )|W1 , ..., WN ] = f (W1 , W2 , ..., WN ),
+V0 = E[f (W1 , W2 , ..., WN )]
+
+(6.4)
+
+we get the following concentration result:
+Lemma 6 (Concentration from Standard Azuma). For any General quantum adversary Agen and for any α ≥ 0, we have:
+
+
+
+α2 N
+(6.5)
+Pr ZAgen (s) − E[ZAgen (s)] ≥ αN ≤ exp −
+2
+22
+
+We want a concentration result which bounds the difference ZAgen (s) −
+E[ZAgen (s)] by E[ZAgen (s)] (as in the classical analysis), so we choose α =
+√
+
+N max E[ZAgen (s)] =  cp, which leads to:
+ 2
+
+ cpsQ
+P r(ZAgen (s) − E[ZAgen (s)] ≥ E[ZAgen (s)]) ≤ exp −
+(6.6)
+2
+If we keep s as a variable, and we use the upper bound for E[ZAgen (s)] ≤
+√
+sQ/Kmax = sQ cp, we obtain:
+ZAgen (s) ≤ (1 + )E[ZAgen (s)]
+(6.7)
+ 2 √
+
+1
+with probability at least 1 − exp − 2 sQ cp · Kmax
+. Here we can immediately
+see that this is very similar with the classical and other earlier results with the
+crucial difference that in the exponent of the tail of the distribution, there is a
+1
+Kmax factor. Given that Kmax  1 this means that this probability becomes
+small (where small is fixed by the security parameter) after many rounds, when
+the expected blocks exceed Kmax ∼ 1/p1/2 . The mathematical reason for this
+weak bound, is that while the difference Di is bounded by one, “expected”
+difference is very small something that cannot be captured unless the variance
+of the variables also is included. Trying to use other known versions of Azuma’s
+inequality such as the one defined in [39] also gives equally weak bound (see
+Appendix D). Instead we derive our own version of Azuma’s inequality that
+when applied to the Bitcoin backbone gives a tighter bound.
+6.3
+
+An Azuma Generalization
+
+Following up to a point steps of the proof from [39], we derive our own version
+of Azuma’s inequality, and apply it to our problem. We begin by introducing
+the random variable σi (which will use the quantum problem-specific bounds),
+defined as: σi2 := E[(Vi − Vi−1 )2 | W1 , · · · , Wi−1 ].
+Consider two non-negative constants γ1 < γ2 . Now, let us consider that for
+N1 of the i’s we have σi2 ≤ γ1 and for the remaining N2 = N − N1 the variance is
+larger but smaller than γ2 , i.e. γ1 < σi2 ≤ γ2 , and we denote Γ1 the set of indices
+that have smaller variance and Γ2 the set of indices that have greater variance.
+Note, that in [39] a unique number σ was used to bound all the variances, while
+we split the variances to two set: one with very small variance and one with
+larger variance. We can now derive the following concentration result:
+Theorem 12 (Alternative concentration result). Let {Vi }N
+i=0 be a martingale with respect to the sequence W1 , W2 , · · · WN such that |Vi − Vi−1 | ≤ 1.
+Consider σi2 := E[(Vi − Vi−1 )2 | W1 , · · · , Wi−1 ] and assume for some constants
+0 < γ1 < γ2 , the following hold: σi2 ≤ γ1 ∀ i ∈ Γ1 where |Γ1 | = N1 and
+γ1 < σj2 ≤ γ2 ∀ j ∈ Γ2 where |Γ2 | = N − N1 . Then for any t > 0, α > 0, we
+have:
+P r[|VN − V0 | ≥ α · N ] ≤
+
+N 
+N −N1 (6.8)
+exp (−tγ1 ) + γ1 exp(t) 1
+exp (−tγ2 ) + γ2 exp(t)
+e−αN t ·
+·
+1 + γ1
+1 + γ2
+23
+
+Note that this gives a bound for this probability for any choice of t. In principle, given other constraints (regarding the values of γ1 , γ2 and the cardinalities
+of the sets Γ1 , Γ2 ), one can find the suitable/optimal choice of t that minimises
+the tail in this inequality. The proof is similar to the first steps of [39], and we
+give the details in Appendix E.
+6.4
+
+Stronger Bound from the Alternative Concentration Inequality
+
+Having obtained this new concentration inequality of Eq. (6.8), we return to the
+analysis of the Bitcoin backbone trying to bound the tails of the distribution of
+the variable Z(s). Using the martingale defined in the beginning of the section,
+we see that Di2 ≤ 1, and also σi2 = E[Di2 | W1 , · · · , Wi−1 ] ≤ 1. Therefore, we can
+choose γ2 = 1 and use the notation γ := γ1 and use Eq. (6.8).
+Lemma 7 (Concentration from alternative inequality). For any general
+quantum adversary Agen and for any t > 0 , α ≥ 0 and 1 ≥ γ ≥ 0, we have:
+P r[ZAgen (s) − E[ZAgen (s)] ≥ α · N ] ≤ AN1 · B N −N1 where,
+A :=
+
+(6.9)
+
+exp(t(1 − α)) + exp(−t(1 + α))
+γ exp(t(1 − α)) + exp(−t(γ + α))
+; B :=
+(6.10)
+1+γ
+2
+
+To get a good bound, we need to make some choices for the various parameters in Eq. (6.9). The most important choice is the relation between the value γ
+of “small-variance” variable and the size of the corresponding set |Γ1 | = N1 . It is
+not hard to see that the bigger the set Γ1 , the better the bound, since variables
+with smaller variance contribute less in the tail of the distribution. Therefore we
+would like to lower bound the value of N1 .
+Lemma 8. For all quantum adversaries, in the setting of the Bitcoin backbone
+protocol, the number of individual random variables that have variance greater
+N
+than γ is bounded by Kmax
+, i.e.
+γ 1/2
+N − N1 ≤
+
+N
+
+√
+Kmax γ
+
+
+; N1 ≥ N
+
+1−
+
+1
+
+√
+Kmax γ
+
+
+(6.11)
+
+Proof. For Bernoulli variables, the variance σi2 is bounded by the average probability pi . We want to obtain (a bound on) the maximum number of variables
+that can have variance greater than γ. Therefore σi2 ≥ γ implies pi ≥ γ. HowK2
+ever, pi = K 2 i since this is a quantum strategy also means that for every
+max
+variable i that belongs to Γ2 , the corresponding queries to the QRO are at
+Pleast
+√
+Ki ≥ Kmax γ ∀ i ∈ Γ2 . Given that the total number of queries is N = i Ki ,
+N√
+the set Γ2 can have no more than Kmax
+γ elements.
+Using the optimality of the Non-Adaptive strategies with respect to the expectation (Theorem 7), and their maximum expectation value (Theorem 8)
+√
+E = cp · s · Q, leads to the following main result regarding general adversaries:
+24
+
+1/3
+
+Theorem 13. Given the choice of parameters: γ = α2/3 and t = α 4 , α =
+
+Kmax where 0 <  ≤ 1/3, for any Adversarial strategy, we have the concentration
+result:
+
+
+E
+1/3
+P r(ZAgen (s) − E[ZAgen (s)] ≥ E) . exp − 1/3 ·
+(7 − 1)
+Kmax 32
+
+(6.12)
+
+Sketch Proof (full proof in Appendix F). Assuming that all parameters γ, t, α 
+1 are small, Eq. (6.10) becomes:
+
+A . exp
+which using γ = α2/3 , t =
+
+
+ 
+
+t
+γt2
+− αt ; B ≤ exp t
+−α
+2
+2
+
+α1/3
+4
+
+7α4/3
+A . exp −
+32
+
+
+(6.13)
+
+is:
+
+
+
+; B ≤ exp
+
+α2/3
+4
+
+
+
+1
+− α2/3
+8
+
+
+(6.14)
+
+Using the lower bound on N1 from Eq. (6.11) and plugging these into Eq. (6.9):
+
+
+7α4/3
+α1/3 N
+P r(ZAgen (s) − E[ZAgen (s)] ≥ αN ) . exp −
+N+
+32
+32 Kmax
+By choosing α =
+
+
+Kmax
+
+and noting that E ≤
+
+N
+Kmax
+
+(6.15)
+
+we get:
+
+
+
+1/3
+N
+N
+) . exp − 4/3 ·
+(7 − 1)
+Kmax
+Kmax 32
+
+
+E
+1/3
+P r(ZAgen (s) − E[ZAgen (s)] ≥ E) . exp − 1/3 ·
+(7 − 1) (6.16)
+Kmax 32
+
+P r(ZAgen (s) − E[ZAgen (s)] ≥ 
+
+We can see immediately that this is a much better bound than the ones
+obtained from Lemma 6 and Lemma 12, since on these lemmas the exponential
+1/3
+decay was divided by a term Kmax , while here is divided by Kmax . In other
+words, this probability becomes negligible as the expectation of the length of the
+honest parties chain (which exceeds the expectation of the adversary’s) becomes
+1/3
+larger than Kmax ∼ 1/p1/6 . While this is worse than classical, depending on
+parameters, does not require exceedingly large s to achieve.
+The choices of the parameters in Theorem 13 lead to a bound, that is not
+only much better than the results using Azuma inequalities, but is also very
+close to the optimal bound obtained with this approach (see Appendix G).
+25
+
+6.5
+
+Backbone Protocol Analysis for General Strategies
+
+Finally, we determine the conditions on the hashing power of the General adversary such that the properties of the Bitcoin backbone protocol are satisfied.
+Theorem 14. The common prefix property is satisfied with parameter k ≥ 2sf ,
+for any s ≥ f2 consecutive rounds against any General Adversary, with probability
+2
+
+1 − exp(−g2 () · (cp) 3 · Q · s), as long as:
+Q<
+
+1 −  f (1 − f )
+· √
+.
+1+
+cp
+
+(6.17)
+
+Proof. Using Lemma 2 and the concentration result from Theorem 13, the condition of the adversary’s hashing power Q becomes:
+√
+(1 + ) cpQ < (1 − )f (1 − f )
+
+(6.18)
+1
+
+The proof follows from the above and Theorem 13, where g2 () :=
+
+ 3 (7−1)
+.
+32
+
+Theorem 15. The chain quality property is satisfied with parameter l ≥ 2sf ,
+and µ = f for any s ≥ f2 consecutive rounds against any General Adversary,
+2
+
+with probability 1 − exp(−g2 () · (cp) 3 · Q · s).
+Corollary 4. Under the above restrictions on Q, the probability under which
+the common prefix and chain quality are satisfied becomes:
+
+
+1
+Pgen = 1 − exp −g3 () · f (1 − f ) · (cp) 6 · s
+(6.19)
+where g3 () = g2 () ·
+
+7
+
+1−
+1+ .
+
+Summary and Future Directions
+
+In this section we provide a comparison between the analysis of the Bitcoin
+backbone protocol against classical adversaries of [21] and our analysis against
+the three types of quantum adversary (noisy quantum storage, non-adaptive and
+general). In Table 1 and in the following analysis we compare four main aspects:
+– “Honest Majority” which expresses the relation between the honest hashing
+power and the (classical or quantum) adversary’s hashing power.
+– The expected number of adversarial blocks within a sufficiently large number
+of consecutive rounds.
+– The probability of a “typical execution,” referring to the probability that
+the required bounds on the number of adversarial queries hold.
+– The number of rounds required for each type of adversary to reach the same
+level of security.
+26
+
+Honest
+Majority
+Max Exp
+Adv. PoWs
+
+Aclassical
+<
+1 − 3(f + )
+t
+n−t
+
+Anoisy
+Anonad
+Agen
+q
+f
+(1−f
+)
+f
+(1−f
+)
+)
+√
+· cp Q < 1−
+· √cp
+· f (1−f
+Q < 1−
+Q < 1−
+1+
+1+
+1+
+cp
+
+pqt · s
+
+cpQ2 · s
+
+√
+cp · Q · s
+
+√
+
+Prob.
+Concentr.
+
+Pclassical = 1−
+2
+e−Ω( f s)
+
+Pnoisy = 1−
+e−g1 ()f (1−f )s
+
+Pnonad =
+Pnoisy
+
+Pgen = 1−
+
+Number
+rounds
+
+sclassical
+
+snoisy = O(sclassical ) snonad = snoisy
+
+cp · Q · s
+1
+
+e−g3 ()f (1−f )(cp) 6 s
+sgen =
+sclassical O(p−1/6 )
+
+Table 1. Comparison between adversaries
+1
+3
+
+(3+2)
+1−  (7−1)
+where g1 () = 1−
+.
+1+ · 2(2+) and g3 () = 1+ ·
+32
+The expressions in Table 1 use the parameter f that denotes the probability
+that at least one honest party computes a PoW at round i. To directly relate the
+hashing power of the honest players qn with the hashing power of the adversary
+Q, we use f = 1 − (1 − p)qn .
+For Anoisy , applying the Bernoulli inequality and assuming that pqn is much
+smaller than 1 we can approximate 1−pqn
+1+pqn by 1 and we obtain the condition Q ≤
+√
+O( qn), indicating that for the Noisy Quantum Storage adversary, the quantum
+adversarial hashing power must be of order square root of the hashing power of
+the honest players. This is a very intuitive result, as we expect a quadratic
+quantum speed-up within a single round. Because of the assumption of noisy
+quantum storage, different rounds do not admit any “joint” quantum attack, so
+the classical analysis (in terms of concentration and other issues) carries over
+with only difference the quadratic speed-up occurring within each round.
+For Agen and Anonad , applying the Bernoulli inequality, and again approxi√
+mating 1−pqn
+1+pqn with 1 we obtain the condition Q ≤ qnO( p), indicating that for
+the Non-Adaptive and more importantly for General adversaries, the quantum
+adversarial hashing power must be of order the honest hasing power multiplied
+by the square root of the probability of success of a single query. Again we can
+see that there is a quantum speed-up that leads to requiring stronger constraints
+on the adversarial hashing power. One, naively, could imagine that the speedup and the separation between classical and quantum power (being quadratic)
+would keep growing with the number of queries (and thus rounds). This is not
+what happens, since the quadratic speed-up reaches a maximum, when one uses
+sufficient queries such that the probability of solving a PoW becomes unity. This
+happens when one uses Kmax = (cp)−1/2 queries. Therefore, the overall quantum speed-up means that the honest (classical) hashing power should be Kmax
+times greater than the adversarial quantum hashing power.
+Finally, from relating the probabilities Pclassical , Pnoisy , Pnonad , Pgen , under
+which the properties of the backbone Protocol hold (common prefix and chain
+quality) we can relate the number of rounds required for different adversaries
+to achieve same accuracy. We denote sclassical the number of necessarry rounds
+in the analysis against classical adversaries to achieve a given accuracy (de-
+
+27
+
+termined by the security parameter). Similarly, snoisy , snonad and sgen are the
+corresponding rounds for Noisy Quantum Storage, Non-Adaptive and General
+adversaries. Using the same approximations as earlier in this section, we get
+snoisy = snonad = O(sclassical ), while sgen = sclassical O(p−1/6 ). This indicates that
+for the most general quantum adversary to achieve the same negligible probability for a non-typical execution, we need more rounds but this extra overhead
+is relatively small as it scales with the sixth root of p−1 .
+Regarding directions for future work, there are a few generalizations of our
+analysis that one can consider. Our analysis of the backbone protocol considers
+a model with a fixed number of parties and difficulty. The first generalization
+to consider is the Bitcoin backbone protocol with variable difficulty [22]. The
+second is to consider multiple quantum adversaries. Having multiple classical
+adversaries that are controlled by a single party, is relatively straight forward,
+as we can assume that the single party has access to the sum of the individual
+queries. This assumption is not easy to make in the quantum case. Having more
+parallel quantum computation power is not the same as having sequential, and to
+obtain the quantum search speed-up, the queries need to be applied sequentially
+(since the output quantum state of the one query from the QRO needs to be fed
+back to the next query). Therefore a more accurate modelling would be required
+to truly capture the scenario of multiple quantum attackers.
+The third generalization would be to consider the possibility of hybrid classicalquantum adversaries. i.e. adversaries having a number of classical queries and on
+top of this a number of quantum queries too (the quantum queries can always
+be used as classical queries but not the converse).
+Finally a fourth and potentially the more substantial generalization to the
+analysis of the Bitcoin backbone protocol in the quantum era, is to allow (at
+least some of the) honest parties to have quantum hashing power.
+
+8
+
+Acknowledgements
+
+A.C. and P.W. would like to thank Giorgos Panagiotakos for helpful discussions.
+F.S. thanks Robin Kothari for helpful discussion. The work of the third author
+was partly supported by H2020 project Priviledge #780477.
+
+References
+1. D. Aggarwal, G. Brennen, T. Lee, M. Santha, and M. Tomamichel. Quantum
+attacks on bitcoin, and how to protect against them. Ledger, 3(0), 2018.
+2. G. Alagic, A. Broadbent, B. Fefferman, T. Gagliardoni, C. Schaffner, and M. S.
+Jules. Computational security of quantum encryption. In International Conference
+on Information Theoretic Security, pages 47–71. Springer, 2016.
+3. G. Alagic, T. Gagliardoni, and C. Majenz. Unforgeable quantum encryption. In
+Advances in Cryptology – EUROCRYPT 2018, pages 489–519. Springer, 2018.
+4. A. Ambainis, M. Hamburg, and D. Unruh. Quantum security proofs using semiclassical oracles. In Anvances in Cryptology – CRYPTO 2019, pages 269–295.
+Springer, 2019.
+
+28
+
+5. K. Azuma. Weighted sums of certain dependent random variables. Tohoku Math.
+J. (2), 19(3):357–367, 1967.
+6. C. Badertscher, U. Maurer, D. Tschudi, and V. Zikas. Bitcoin as a transaction
+ledger: A composable treatment. In J. Katz and H. Shacham, editors, Advances in
+Cryptology – CRYPTO 2017, pages 324–356, Cham, 2017. Springer International
+Publishing.
+7. M. Balogh, E. Eaton, and F. Song. Quantum collision-finding in non-uniform
+random functions. In Post-Quantum Cryptography - 9th International Conference,
+PQCrypto 2018, pages 467–486, 2018.
+8. M. Bellare and P. Rogaway. Random oracles are practical: A paradigm for designing
+efficient protocols. In CCS ’93, pages 62–73, 1993.
+9. M. Bellare and P. Rogaway. The exact security of digital signatures-how to sign
+with rsa and rabin. In International Conference on the Theory and Applications
+of Cryptographic Techniques, pages 399–416. Springer, 1996.
+10. D. Boneh, Ö. Dagdelen, M. Fischlin, A. Lehmann, C. Schaffner, and M. Zhandry.
+Random oracles in a quantum world. In Advances in Cryptology – ASIACRYPT
+2011, pages 41–69. Springer, 2011.
+11. D. Boneh and M. Zhandry. Quantum-secure message authentication codes. In
+Advances in Cryptology – EUROCRYPT 2013, pages 592–608. Springer, 2013.
+12. M. Boyer, G. Brassard, P. Høyer, and A. Tapp. Tight bounds on quantum searching. arXiv:quant-ph/9605034, 1996.
+13. R. Canetti. Security and composition of multiparty cryptographic protocols. J.
+Cryptology, 13(1):143–202, 2000.
+14. R. Canetti. Universally composable security: A new paradigm for cryptographic
+protocols. IACR Cryptology ePrint Archive, 2000:67, 2000.
+15. R. Canetti. Universally composable security: A new paradigm for cryptographic
+protocols. In 42nd Annual Symposium on Foundations of Computer Science, FOCS
+2001, 14-17 October 2001, Las Vegas, Nevada, USA, pages 136–145. IEEE Computer Society, 2001.
+16. J. Don, S. Fehr, C. Majenz, and C. Schaffner. Security of the fiat-shamir transformation in the quantum random-oracle model. In Advances in Cryptology –
+CRYPTO 2019, pages 356–383. Springer, 2019.
+17. C. Dwork and M. Naor. Pricing via processing or combatting junk mail. In E. F.
+Brickell, editor, CRYPTO, volume 740 of Lecture Notes in Computer Science, pages
+139–147. Springer, 1992.
+18. C. Dwork and M. Naor. Pricing via processing or combatting junk mail. CRYPTO
+’92, pages 139–147, London, UK, UK, 1993. Springer-Verlag.
+19. E. Eaton and F. Song. Making existential-unforgeable signatures strongly unforgeable in the quantum random-oracle model. In 10th Conference on the Theory of
+Quantum Computation, Communication and Cryptography, TQC 2015, volume 44
+of LIPIcs, pages 147–162. Schloss Dagstuhl, 2015.
+20. S. Fehr and C. Schaffner. Composing quantum protocols in a classical environment.
+In Theory of Cryptography Conference, pages 350–367. Springer, 2009.
+21. J. A. Garay, A. Kiayias, and N. Leonardos. The Bitcoin Backbone Protocol: Analysis and Applications. In Advances in Cryptology - EUROCRYPT 2015, 2015.
+22. J. A. Garay, A. Kiayias, and N. Leonardos. The bitcoin backbone protocol with
+chains of variable difficulty. In CRYPTO, pages 291–323. Springer, 2017.
+23. D. Gavinsky, J. Kempe, I. Kerenidis, R. Raz, and R. De Wolf. Exponential separations for one-way quantum communication complexity, with applications to cryptography. In Proceedings of the thirty-ninth annual ACM symposium on Theory of
+computing, pages 516–525. ACM, 2007.
+
+29
+
+24. O. Goldreich. The Foundations of Cryptography - Volume 1, Basic Techniques.
+Cambridge University Press, 2001.
+25. L. K. Grover. A fast quantum mechanical algorithm for database search. In
+Proceedings of the twenty-eighth annual ACM symposium on Theory of computing,
+pages 212–219. ACM, 1996.
+26. S. Hallgren, A. Smith, and F. Song. Classical cryptographic protocols in a quantum world. International Journal of Quantum Information, 13(04):1550028, 2015.
+Preliminary version in Crypto’11.
+27. B. Hamlin and F. Song. Quantum security of hash functions and propertypreservation of iterated hashing. In 10th International Conference on PostQuantum Cryptography (PQCrypto 2019). Springer, 2019.
+28. D. Hofheinz, K. Hövelmanns, and E. Kiltz. A modular analysis of the fujisakiokamoto transformation. In Theory of Cryptography Conference, pages 341–371.
+Springer, 2017.
+29. A. Hülsing, J. Rijneveld, and F. Song. Mitigating multi-target attacks in hashbased signatures. In Proceedings, Part I, of the 19th IACR International Conference on Public-Key Cryptography — PKC 2016 - Volume 9614, pages 387–416,
+Berlin, Heidelberg, 2016. Springer-Verlag.
+30. M. Kaplan, G. Leurent, A. Leverrier, and M. Naya-Plasencia. Breaking symmetric cryptosystems using quantum period finding. In Advances in Cryptology –
+CRYPTO 2016, pages 207–237. Springer, 2016.
+31. L. Lamport, R. E. Shostak, and M. C. Pease. The byzantine generals problem.
+ACM Trans. Program. Lang. Syst., 4(3):382–401, 1982.
+32. T. Lee, R. Mittal, B. W. Reichardt, R. Špalek, and M. Szegedy. Quantum query
+complexity of state conversion. In 2011 IEEE 52nd Annual Symposium on Foundations of Computer Science, pages 344–353. IEEE, 2011.
+33. Q. Liu and M. Zhandry. On finding quantum multi-collisions. In Advances in
+Cryptology – EUROCRYPT 2019, pages 189–218. Springer, 2019.
+34. Q. Liu and M. Zhandry. Revisiting post-quantum fiat-shamir. In Advances in
+Cryptology – CRYPTO 2019, pages 326–355. Springer, 2019.
+35. S. Nakamoto.
+Bitcoin open source implementation of p2p currency.
+http://p2pfoundation.ning.com/forum/topics/bitcoin-open-source,
+February
+2009.
+36. R. Pass, L. Seeman, and A. Shelat. Analysis of the blockchain protocol in asynchronous networks. In J. Coron and J. B. Nielsen, editors, Advances in Cryptology
+- EUROCRYPT 2017, volume 10211 of Lecture Notes in Computer Science, 2017.
+37. T. Saito, K. Xagawa, and T. Yamakawa. Tightly-secure key-encapsulation mechanism in the quantum random oracle model. In Advances in Cryptography – EUROCRYPT 2018, pages 520–551. Springer, 2018.
+38. T. Santoli and C. Schaffner. Using simon’s algorithm to attack symmetric-key
+cryptographic primitives. Quantum Information and Computation, 17(1&2):65–
+78, 2017.
+39. I. Sason. On refined versions of the Azuma-Hoeffding inequality with applications
+in information theory, 2011. arXiv:1111.1977.
+40. P. W. Shor. Polynomial-time algorithms for prime factorization and discrete logarithms on a quantum computer. SIAM Journal on Computing, 26(5):1484–1509,
+1997.
+41. F. Song and A. Yun. Quantum security of NMAC and related constructions - PRF
+domain extension against quantum attacks. In Advances in Cryptology - CRYPTO
+2017, pages 283–309. Springer, 2017.
+
+30
+
+42. D. Unruh. Universally composable quantum multi-party computation. In Advances
+in Cryptology – EUROCRYPT 2010, pages 486–505. Springer, 2010.
+43. D. Unruh. Quantum proofs of knowledge. In Advances in Cryptology – EUROCRYPT 2012, pages 135–152. Springer, 2012.
+44. D. Unruh. Non-interactive zero-knowledge proofs in the quantum random oracle
+model. In Advances in Cryptology – EUROCRYPT 2015, pages 755–784. Springer,
+2015.
+45. J. van de Graaf. Towards a formal definition of security for quantum protocols.
+PhD thesis, Universit’e de Montr’eal, 1997.
+46. J. Watrous. Limits on the power of quantum statistical zero-knowledge. In The 43rd
+Annual IEEE Symposium on Foundations of Computer Science, 2002. Proceedings.,
+pages 459–468. IEEE, 2002.
+47. J. Watrous. Zero-knowledge against quantum attacks. SIAM Journal on Computing, 39(1):25–58, 2009.
+48. C. Zalka. Grover’s quantum searching algorithm is optimal. Physical Review A,
+60(4):2746, 1999.
+49. M. Zhandry. How to construct quantum random functions. In 2012 IEEE 53rd
+Annual Symposium on Foundations of Computer Science, pages 679–687. IEEE,
+2012.
+50. M. Zhandry. A note on the quantum collision and set equality problems. Quantum
+Info. Comput., 15(7-8):557–567, May 2015.
+51. M. Zhandry. Secure identity-based encryption in the quantum random oracle
+model. International Journal of Quantum Information, 13(4), 2015.
+52. M. Zhandry. How to record quantum queries, and applications to quantum indifferentiability. In Advances in Cryptology – CRYPTO 2019, pages 239–268. Springer,
+2019.
+
+31
+
+Appendices
+A
+
+Preliminaries Probability Theory
+
+Definition 3 (Chernoff Bounds).
+Consider {Xi }i a sequence of independent
+Pn
+random variables and let X = i=1 Xi , such that Xi = 1 with probability pi and
+Xi = 0 with probability 1 − pi . Let µ = E(X). Then, we have:
+2
+
+Upper Tail: P r[X ≤ (1 + )µ] ≥ 1 − e− 2+ µ for all  > 0
+2
+
+Lower Tail: P r[X ≥ (1 − )µ] ≥ 1 − e− 2 µ for all 0 <  < 1
+
+(A.1)
+(A.2)
+
+Definition 4 (Martingale). A Martingale is a sequence of random variables
+V1 , V2 , ... such that for any n, we have:
+E[Vn+1 |V1 , ..., Vn ] = Vn
+
+(A.3)
+
+Definition 5 (Doob Martingale). Consider any sequence of variables U =
+(U1 , ..., Un ) ∈ An and a function f : An → R.
+Then the following sequence Vi is a martingale:
+Vi = E[f (U1 , U2 , ..., Un )|U1 , U2 , ..., Ui ]
+
+(A.4)
+
+Lemma 9 (Azuma’s inequality [5]). If V is a martingale, then the following
+holds:
+– If |Vk − Vk−1 | < ck for any k,
+– Then for any N and any α > 0, we have:
+−α2 N 2
+P r[VN − V0 ≥ αN ] ≤ exp
+PN
+2 i=1 c2i
+
+!
+(A.5)
+
+Lemma 10 (Refined Azuma’s inequality [39]). Let {Vi }N
+i=0 be a martingale
+with respect to the sequence W1 , W2 , · · · . Assume for some constants d, σ > 0,
+the following hold:
+|Vi − Vi−1 | ≤ d
+V ar(Vi | W1 , · · · , Wi−1 ) = E[(Vi − Vi−1 )2 | W1 , · · · , Wi−1 ] ≤ σ 2
+
+(A.6)
+
+Then for every α ≥ 0, we have:
+
+
+
+γ
+δ+γ
+||
+P r[VN − V0 ≥ αN ] ≤ exp −N · D
+1+γ 1+γ
+
+(A.7)
+
+where:
+γ=
+
+σ2
+α
+, δ=
+d2
+d
+
+D(p || q) = p ln
+
+p
+1−p
++ (1 − p) ln
+∀ p, q ∈ [0, 1]
+q
+1−q
+32
+
+(A.8)
+
+B
+
+Refined Chernoff Bound : Proof of Lemma 5
+
+Proof. We separate in 2 possible cases:
+If E[X] ≥ M
+2 , then in this case, we can apply Multiplicative Chernoff
+bound (Definition 3) and we get for any  > 0:
+
+
+
+
+2
+2
+M
+P r[X > (1 + )E[X]] ≤ exp −
+· E[X] ≤ exp −
+·
+(B.1)
+2+
+2+ 2
+If instead E[X] < M
+2 , then we follow the next steps. As Xi are independent
+random variables, using the generic Chernoff bound, we obtain that for any t > 0
+and any a > 0, we have:
+" n
+#
+n
+Y
+Y
+−ta
+tXi
+P r[X ≥ a] ≤ e
+e
+(B.2)
+·E
+= e−ta ·
+E[e−tXi ]
+i=1
+
+i=1
+
+where for the last equality we used the independence of the variables Xi .
+Now, given that we want to compare X with the maximum expectation M , we
+are choosing a = (1 + )M , which gives us:
+P r[X > (1 + )M ] ≤ e−t(1+)M ·
+
+n
+Y
+
+E[etXi ]
+
+(B.3)
+
+i=1
+
+Now, using the notation P r[Xi = 1] = pi and thus P r[Xi = 0] = 1 − pi , we have
+that etXi is equal to et with probability pi and equal to 1 with probability 1 − pi ,
+which leads to: E[etXi ] = pi · et + (1 − pi ) · 1. Therefore, the above equation can
+be rewritten as:
+P r[X > (1 + )M ] ≤ e−t(1+)M ·
+
+n
+Y
+
+
+pi (et − 1) + 1
+
+(B.4)
+
+i=1
+
+Using the inequality: 1 + x ≤ ex for x = pi (et − 1), implies:
+P r[X > (1 + )M ] ≤ e−t(1+)M ·
+
+n
+Y
+
+epi (e
+
+t
+
+−1)
+
+= e−t(1+)M · e(e
+
+t
+
+−1)
+
+Pn
+
+i=1
+
+pi
+
+(B.5)
+
+i=1
+
+But
+
+Pn
+
+i=1
+
+pi = E[X], which leads us to:
+P r[X > (1 + )M ] ≤ e−t(1+)M · e(e
+
+Using the condition E[X] <
+
+M
+2 ,
+
+t
+
+−1)·E[X]
+
+(B.6)
+
+we obtain:
+
+P r[X > (1 + )M ] < e−t(1+)M · e(e
+
+t
+
+−1)· M
+2
+
+(B.7)
+
+Now, we can choose t = ln(1 + ) > 0:
+P r[X > (1 + )M ] <
+
+
+M
+M
+
+e· 2
+e2
+=
+(1 + )1+
+(1 + )(1+)M
+33
+
+(B.8)
+
+Then, using the inequality:
+
+2
+2+
+
+≤ ln(1 + ), it can be shown that:
+
+
+
+
+e2
+(3 + 2)
+≤ exp −
+(1 + )1+
+2(2 + )
+
+(B.9)
+
+which leads to the final result:
+
+
+(3 + 2)
+P r[X > (1 + )M ] < exp −
+·M
+2(2 + )
+
+(B.10)
+
+To complete the proof we need to find the minimum probability between the
+M
+2 probabilities we determined for the cases E[X] ≥ M
+2 and E[X] < 2 :
+
+
+
+
+2
+M
+(3 + 2)
+· M < exp −
+·
+exp −
+2(2 + )
+2+ 2
+
+(B.11)
+
+Therefore, we have obtained the final result:
+
+
+(3 + 2)
+P r[X > (1 + )M ] < exp −
+·M
+2(2 + )
+
+C
+
+Optimal Non-Adaptive for Rounds s ≤
+
+√
+
+(B.12)
+
+1
+cpQ
+
+Lemma 11. For any Non-Adaptive quantum adversary Anonad , the maximum
+expected number of PoWs obtained by Anonad , for any number of rounds s ≤
+√1
+cpQ is:
+e := max E[ZAnonad (s)] = cp · s2 · Q2 , for any s ≤
+
+1
+√
+Q cp
+
+(C.1)
+
+Proof. Firstly we can rewrite the expected number of PoWs as:
+E[ZAnonad (s)] =
+
+t
+X
+
+PAnonad (i) · i =
+
+i=1
+
+=
+
+t
+X
+i=1
+
+
+i·
+
+
+X
+
+Ii ⊆It ,|Ii |=i
+
+ "
+Y
+
+
+
+cp ·
+
+Kj2 
+
+·
+
+#
+Y
+
+
+2
+
+1 − cp · Kl
+
+(C.2)
+
+
+
+l∈It −Ii
+
+j∈Ii
+
+If for all i, we have 0 ≤ PKi ≤ 1, in other words when Ki2 ≤ N 2 ≤
+equivalently s < Q√1 cp , we can compute E[ZAnonad (s)] as:
+E[ZAnonad (s)] = cp · (K12 + K22 + · · · + Kt2 ), when s ≤
+34
+
+1
+√
+Q cp
+
+1
+cp ,
+
+or
+
+(C.3)
+
+Then, by maximizing E[ZAnonad (s)] over all t and all K1 , ..., Kt subject to the
+constraint K1 + · · · + Kt = N , we obtain that the maximum value is obtained
+for: t = 1 and K1 = N . Which leads to:
+max E[ZAnonad (s)] = cp · s2 · Q2 = e, when s ≤
+
+D
+
+1
+√
+Q cp
+
+(C.4)
+
+Concentration from Stronger Azuma of [39]
+
+In order to improve the bound of Eq. (6.6, we try to use the stronger version
+of Azuma’s inequality, defined in Lemma 10, that explicitly has the variance in
+the expressions. Firstly, one can easily see that we can choose2 d = σ = 1. We
+can therefore use γ = 1 and δ = α in Lemma 10. We will choose α = /Kmax =
+√
+ cp  1 and thus we get:
+Lemma 12 (Concentration from Stronger Azuma). For any General quantum adversary Agen and for any α ≥ 0, we have:
+
+Pr ZAgen (s) − E[ZAgen (s)] ≥ αN ≤
+(D.1)
+
+
+
+1−α
+1+α
+exp −N ·
+ln (1 + α) +
+ln (1 − α)
+2
+2
+Then, as the maximum expected number of adversarial blocks is: max E[ZAgen (s)] =
+√
+E = N cp, we get:
+P r[ZAgen (s) ≥ (1 + )E[ZAgen (s)]] ≤
+
+
+
+√
+√
+1 +  cp
+1 −  cp
+√
+√
+exp −N ·
+ln (1 +  cp) +
+ln (1 −  cp)
+2
+2
+
+(D.2)
+
+which is also a weak bound. Specifically, it is no better than the standard Azuma,
+√
+1
+as one can see noting that cp = Kmax
+ 1 and by expanding the logarithms
+
+
+
+√
+1
+2
+of the r.h.s. the bound becomes: exp −N 2 /Kmax
+= exp −2 sQ cp · Kmax
+giving the exact same result as that obtained from standard Azuma at Eq. (6.6).
+
+E
+
+Proof of Theorem 12
+
+The proof, up to some point, follows [39], and the reader is referred to that
+reference for more details in the first steps. Since in our case the difference Di of
+the martingale is bounded by unit, in our theorem we have restricted attention
+2
+
+Note that choosing σ = 1 seems to be very big. In any reasonable adversarial strategy (using multiple queries for measurements) the majority of the N variables will
+actually have zero variance zero, since their corresponding probability will also be
+zero.
+
+35
+
+to that case (in [39] notation we set d = 1). It is not hard to generalise for
+different values of the difference.
+We note that
+σi2 = E[(Vi − Vi−1 )2 | W1 , · · · , Wi−1 ].
+(E.1)
+Then, we can first prove that:
+V ar(Di | W1 , · · · , Wi−1 ) = σi2
+
+(E.2)
+
+To prove that we first show that:
+E[Di | W1 , · · · Wi−1 ] = 0
+
+(E.3)
+
+Then, we have that for any t ≥ 0:
+"
+!#
+"
+!
+#
+N
+N
+−1
+X
+X
+E exp t ·
+Di
+= E exp t ·
+Di · E[exp(t · DN ) | W1 , · · · , WN −1 ]
+i=1
+
+i=1
+
+(E.4)
+Using Bennett Inequality: if X is a random variable, and let x̄ = E[X] such
+that: E[(X − x̄)2 ] ≤ σ 2 and X ≤ b. then for any t ≥ 0, we have:
+tσ 2
+
+E[e
+
+tX
+
+etx̄ [(b − x̄)2 e− b−x̄ + σ 2 et(b−x̄) ]
+]≤
+(b − x̄)2 + σ 2
+
+(E.5)
+
+where for our case we have X = Di | W1 , · · · , Wi−1 , and thus, x̄ = 0 and b = 1,
+we therefore obtain:
+
+exp −t · σi2 + σi2 · exp(t)
+t·Di
+(E.6)
+E[e
+| W1 , · · · , Wi−1 ] ≤
+1 + σi2
+By combining Eq. (E.4) and Eq. (E.6) for i = N , we then get:
+"
+"
+!#
+!#
+
+N
+N
+−1
+2
+2
+X
+X
+exp −t · σN
++ σN
+· exp(t)
+E exp t ·
+Di
+· E exp t ·
+Di
+≤
+2
+1 + σN
+i=1
+i=1
+(E.7)
+And then by recursively applying this inequality, we obtain:
+"
+!#
+N
+X
+E exp t ·
+≤
+Di
+i=1
+(E.8)
+
+
+2
+2
+exp −t · σ12 + σ12 · exp(t)
+exp −t · σN
++ σN
+· exp(t)
+· ··· ·
+2
+1 + σN
+1 + σ12
+Now, to relate to the quantity we are interested in: VN − V0 = W1 + · · · + WN −
+E[W1 + · · · + WN ] = ZAgen (s) − E[ZAgen (s)], we apply Chernoff inequality, which
+gives us for any α > 0:
+"
+!#
+N
+X
+P r[VN − V0 ≥ αN ] ≤ exp(−αN t) · E exp t ·
+Di
+(E.9)
+i=1
+
+36
+
+Using Eq. (E.8), we get the following concentration result for any α > 0:
+
+P r[VN − V0 ] ≥ α · N ] ≤ exp(−αN t) ·
+
+N
+Y
+i=1
+
+!
+
+exp −t · σi2 + σi2 exp(t)
+(E.10)
+1 + σi2
+
+Now, we can use the upper bounds on σi specified in Theorem 12:
+σi2 ≤ γ1 ∀ i ∈ Γ1 where |Γ1 | = N1
+γ1 < σj2 ≤ γ2 ∀ j ∈ Γ2 where |Γ2 | = N − N1
+
+(E.11)
+
+Using the fact that the function g(x) = x exp(t)+exp(−tx)
+is an increasing function
+1+x
+for x > 0, the concentration result in Eq. (E.10) becomes:
+P r[VN − V0 ] ≥ α · N ] ≤
+N 
+N −N1
+
+exp (−tγ2 ) + γ2 exp(t)
+exp (−tγ1 ) + γ1 exp(t) 1
+·
+exp (−αN t) ·
+1 + γ1
+1 + γ2
+(E.12)
+for all values of t ≥ 0 and α ≥ 0.
+
+F
+
+Proof of Theorem 13
+2
+
+First we obtain simpler form for A, B. Using the inequality: ex + e−x ≤ 2ex /2 ,
+leads to:
+
+ 
+
+
+t
+t2
+= exp t
+−α
+(F.1)
+B ≤ exp −αt +
+2
+2
+Similarly we can simplify the A term. In our analysis, we will have 0 ≤ t  1 (and
+the same for γ) and we can therefore use Taylor expansion of the exponentials
+to get:
+
+
+exp(−αt)
+t3
+t3
+A≤
+γ(1 + t + t2 /2 + γ ) + (1 − tq + (γt)2 /2 − γ 3 + O(t4 ))
+1+γ
+3!
+3!
+
+
+2
+3
+exp(−αt)
+γt
+γt
+≤
+(γ + 1) +
+(1 + γ) +
+(1 − γ 2 ) + O(t4 )
+1+γ
+2
+3!
+
+
+γt2
+. 1+
+exp(−αt)
+(F.2)
+2
+where in the last step we omitted terms involving γt3 and higher. Then using,
+the inequality 1 + x ≤ ex for any real x, we obtain:
+ 2
+
+γt
+− αt
+(F.3)
+A ≤ exp
+2
+Plugging these into Eq. (6.9), we deduce the following bound on the concentration result:
+37
+
+
+
+γt2
+t
+P r[ZA (s) − E[ZA (s)] ≥ α · N ] ≤ exp N1 (
+− αt) + (N − N1 )t( − α)
+2
+2
+(F.4)
+Equivalent to:
+
+
+(N − (1 − γ)N1 ) 2
+t − αN t
+(F.5)
+P r[ZA (s) − E[ZA (s)] ≥ α · N ] ≤ exp
+2
+By further replacing N1 from Eq. (6.11), we get:
+
+
+
+γ
+1−γ
+P r[ZA (s) − E[ZA (s)] ≥ α · N ] ≤ exp
++
+N t2 − αN t
+(F.6)
+√
+2 2Kmax γ
+From Theorem 13 we use:
+γ = α2/3 and t =
+
+α1/3
+4
+
+(F.7)
+
+and Eq. (F.2) becomes:
+
+
+
+α4/3
+α4/3
+A ≤ exp −
+1+
+4
+32
+
+
+4/3
+7α
+. exp −
+32
+
+(F.8)
+
+We can see that this converges to zero (if raised to a sufficiently high power).
+Similarly, Eq. (F.1) becomes:
+
+B ≤ exp
+
+α2/3
+4
+
+
+
+1
+− α2/3
+8
+
+
+(F.9)
+
+This term, actually, diverges when raised to high enough power. It is essential to
+show that the product of these two terms converges to zero for our parameters
+choices.
+We also note that with γ = α2/3 Eq. (6.11) becomes
+
+
+1
+N1 = N 1 −
+(F.10)
+Kmax α1/3
+Now, we revisit Eq. (6.9) and using Eqs. (F.8,F.9,F.10) we obtain
+P r(Z(s) − E[Z(s)] ≥ αN ) ≤
+
+
+
+
+
+
+7α4/3
+1
+α2/3 1
+N
+2/3
+exp −
+N 1−
++
+−α
+32
+4
+8
+Kmax α1/3
+Kmax α1/3
+
+
+α1/3 N
+7α4/3
+N+
+. exp −
+32
+32 Kmax
+38
+
+(F.11)
+
+where we kept the leading orders from each of the two terms. Setting α =
+where 0 <  ≤ 1/3 is the concentration parameter we get:
+
+
+N
+P r Z(s) − E[Z(s)] ≥ 
+Kmax
+
+
+
+
+Kmax
+
+
+
+N 1/3
+. exp − 4/3
+(7 − 1)
+(F.12)
+Kmax 32
+
+which clearly converges to zero if  > 1/7. The proof is concluded by noting that
+E := max E[Z(s)] = N/Kmax .
+
+G
+
+Optimality of Generalised Azuma Concentration
+
+In Section 6.3 we made certain choices for γ, t, α and we got a concentration
+result that is (much) better than the earlier attempts using existing concentration results (Azuma and stronger version). In this appendix we give a heuristic
+argument why those choices not only are asymptotically optimal, but also get
+a concentration result that is very close to the one we expect to be the best
+(including the constants in the exponential decay of the expression).
+
+We will fix α = Kmax
+as in the main text (but for now we keep it as α).
+We want to find the value of t that minimises Eq. (6.9) given the minimum N1
+allowed by Eq. (6.11). Once we do this for any γ we find also the choice of γ
+that minimises this further (note that the chosen N1 also is a function of γ).
+We make a heuristic analysis, where using the assumptions that γ, α, t  1, we
+expand the expressions for A, B keeping only the leading terms with respect all
+the (small) variables. We then get:
+A ∼ 1 − αt +
+
+(γ + α2 )t2
++ O(higher).
+2
+
+and
+B ∼1+
+
+t2
+(1 + α) − αt + O(higher)
+2
+
+N√
+Also we use N − N1 = Kmax
+q and since
+N1 ∼ N so that Eq. (6.9) becomes:
+
+A
+
+N1
+
+B
+
+N −N1
+
+γt2
+. 1 − αN t +
+N
+2
+
+
+. 1 + N −αt 1 +
+
+
+1 √
+Kmax γ
+
+ 1 we can approximate
+
+
+
+t2
+N
+N
+1+
+(G.1)
+√ − αt
+√
+2 Kmax γ
+Kmax γ
+
+
+
+
+1
+γt2
+1
++
+1+
++ O(higher)
+2
+Kmax γ 1/2
+Kγ 3/2
+
+The optimal choice of t for this expression can be found to be approximately:
+t=
+
+α 1+
+·
+γ 1+
+
+1
+Kmax γ 1/2
+1
+Kmax γ 3/2
+
+=α·
+
+39
+
+1 + Kmax γ 1/2
+1 + Kmax γ 3/2
+
+To obtain this, we dropped higher terms and then fixed all variables except t,
+took the derivative of the truncated expression w.r.t. t and got the above value.
+We therefore know that for this value of t we have the tightest bound irrespective
+of the value of γ. The bound becomes:
+
+
+α2
+Kmax γ 1/2 + 1
+AN1 B N −N1 . 1 − N ·
+·
+2
+Kmax γ 3/2 + 1
+Assuming Kmax  1, we can find the minimum of the above expression (taking
+1
+derivative w.r.t. γ this time) that occurs for γ ≈ (2Kmax
+.
+)2/3
+This means:
+γ=
+
+ α 2/3
+2
+
+
+=
+
+1
+2Kmax
+
+2/3
+
+By plugging this value of γ to the above expression for t gives us:
+ 2/3 
+  (2)2/3
+(2) 
+1
+2/3 α
+1/3
+t = (2Kmax )
+=
+α
+=
+1/3
+3
+3
+3
+Kmax
+In other words, the optimal bound could be obtained with the following choices:
+(2)2/3 1/3
+α
+(G.2)
+2
+3
+It is worth to note, that these choices are extremely close with the ones used in
+our analysis in the main paper. As far as the dependency on α is concerned, for
+both γ, t we have the same functional dependency. The constants that actually
+are required to achieve the best bound, depend on  in general. The values we
+chose are close to optimal for some choices of .
+The final optimal bound with the approximations made (that holds for all
+the allowed ’s), after plugging the expressions for γ, t we obtained and some
+more calculations turns out to be:
+γ=
+
+A
+
+N1
+
+B
+
+N −N1
+
+ α 2/3
+
+. exp −
+
+N
+4/3
+
+Kmax
+
+; t=
+
+2
+·
+·
+3
+
+ 1/3 !
+
+
+1
+N
+2
+≈ exp − 4/3 ·
+2
+Kmax 4
+
+For example, for the choice  = 2/7 the above expression gives a coefficient of
+1/49 which is marginally better than the 0.02 that we get with the same  from
+Eq. (6.12).
+This section demonstrates that our choices (that might have appeared random in the main text) not only give a good bound that is asymptotically the
+best, but they also give a bound that even the constants of the exponential decay
+are close to the optimal ones.
+
+40
+
+

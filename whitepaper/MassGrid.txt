@@ -1,0 +1,471 @@
+Decentralized High Performance Computing Network
+
+Vision
+With the rise of machine learning, big data, rendering services and search engines, high performance computing and parallel applications are becoming faster and more demanding.
+The goal of MassGrid is to become the world's largest distributed GPU high-performance cloud computing network.
+MassGrid intends to transform the meaningless POW hash computing to general parallel computing that could be used for practical
+purpose through our improved POW algorithm and redesigned blockchain network architecture.
+
+rs
+Othe
+15%
+
+Storage and Streaming
+Media 32%
+
+Cloud
+
+High-performance
+Computing15%
+
+Computing
+Ot
+
+he
+
+Network
+Services 45%
+
+Non-IT industry
+Data
+Big
+applications
+35%
+18%
+High-performance
+
+rs
+
+Computing
+
+Scientiﬁc
+g5%
+Computin
+
+8%
+
+Artiﬁcial Intelligence 32%
+
+Cloud Computing
+
+High-performance Computing
+
+Road Map
+
+2017.10
+Win/Ubuntu Version of the wallet
+
+2017.9
+Test the network
+prototype
+
+2017.11
+CPU Miner
+
+2018.1
+Mobile Wallet
+
+2017.11
+Jump POW
+Algorithm
+
+2018.1
+Oﬃcial website
+and Mining pool
+
+2017.12
+GPU Miner
+
+2019.3
+GPU virtual machine network
+Alpha version
+
+2018.6
+Masternode network Alpha version
+
+2018.10
+Masternode netwrok launched
+
+2019.6
+GPU virtual machine mainnet
+
+Technical Features
+
+Jump POW Algorithm
+
+GPU Computing Virtualization
+
+Jump POW Algorithm is MassGrid's patented blockchain technology, it can resist quantum
+attack and ASIC hardware takeover, make the network safer,
+fairer and guarantee all network
+nodes are capable to run general
+parallel algorithm.
+
+GPU DOCKER Virtualization Technology virtualizes remote GPU
+hardware resources to a client’s
+devices. GPU DOCKER virtualization enables users to freely schedule hardware resources that are
+physically distributed around the
+world.
+
+Smart Task Distribution
+MassGrid's P2P-based exchange
+system is based on smart contracts
+and runtimes, users can customize
+the functions and pay rules for their
+specifc requirement, making trading
+more ﬂexible and extendable.
+
+What is Jump POW Algorithm
+Most cryptocurrencies are based on a ﬁxed hash algorithm, no matter how complicated the algorithm is and how much space complexity it has. In the long time there is always the risk that mining could be replaced by ASIC hardware and ﬁnally centralized.
+Jump hash constantly changes as blockchain's data changes, Jump hash selects one hash algorithm from an algorithm pool which
+contains dozens of algorithms according to certain rules, the combination of hash algorithm which will be used constantly changes at
+each block.
+MassGrid will eventually integrate 30 diﬀerent Hash algorithms, to design an ASIC for MassGrid mining, all 30 hash algorithms must be
+implemented in the hardware, only 1/30 of the chip resource will be used during computing each time, the rest will be idle.
+Taken together, Jump Hash signiﬁcantly increases the GPU's energy eﬃciency relative to ASIC, as GPU power consumption and price
+goes down, GPU-based Jump Hash POWs will outperform ASIC economically.
+By implementing Jump Hash in our network, we can force all POW nodes to use the GPU for computing.
+
+Snefru
+FSB
+
+Spectral
+Hash
+
+Tiger
+
+SWIFFT
+
+Bmw
+
+PMAC
+
+Luﬀa
+Fugue
+
+Blake
+
+Cubehash
+
+Bmw
+
+SipHash
+
+Shavite
+
+Groestl
+
+MD6
+
+Skein
+
+Echo
+
+Jh
+
+GOST
+
+Scrypt
+Shabal
+
+Simd
+
+HMAC
+
+Sha256
+
+Hamsi
+
+Keccak
+
+Whirlpool
+Haval
+
+POW Hash Algorithm Pool
+
+MassGrid's algorithm pool picks 30 hash algorithms out of hundreds, combines the SHA3 family with several dozens other top-secure algorithms. All algorithms have been widely used and tested in many application before.
+
+Jump Hash algorithm GPU and ASIC comparison
+
+The programmable hardware structure of each computing unit on GPU dynamically switches algorithm to be
+able to achieve 100% hardware resource eﬃciency
+
+Only 1/30 of chip resource will be used in the ASIC
+because of non- programmable hardware structure, the
+remaining resource are idle
+
+POW Computing Process
+
+Select algorithms from the
+algorithm pool based
+on data
+
+Use the selected
+algorithem to do the Hash
+computing
+
+Hit and return
+
+input blockData,lastBlockData；
+List hashIDs = GetHashIDByDataFactor(blockData,lastBlockData);
+temp = blockData;
+for( id in hashIDs){
+temp = jumpHash[id](temp);
+}
+return temp;
+In our blockchain, every time a new data block needs to be generate, the Jump hash algorithm ﬁrst extracts the data feature of the
+block or the previous block, and then selects one or several hash algorithm combinations according to the features of the data.
+Then uses this algorithm or a combination of algorithms for hashing, returning the correct result if hit or otherwise continuing.
+
+POW Verification Process
+
+Select algorithms from the
+algorithm pool based
+on data
+
+Use the selected
+algorithem to do the Hash
+computing
+
+Test results and return
+
+input hashResult ,blockData,lastBlockData；
+List hashIDs = GetHashIDByDataFactor(blockData,lastBlockData);
+temp = blockData;
+for( id in hashIDs){
+temp = jumpHash[id](temp);
+}
+return temp==hashResult;
+When verifying the legitimacy of a data block, the Jump hash algorithm ﬁrst extracts the data feature of the block or the previous
+block, and then selects one or several hash algorithm combinations according to the features, uses the algorithm or combination of
+algorithms for hashing, and compare the hash results to see it is correct.
+
+GPU Computing Virtualization
+Hash is currently the only POW algorithm with great features such as adjustable computational complexity, easy to verify, no data
+dependence and low data transmission. However, compared to hash algorithms , general-purpose computing’s complexity , data
+dependence , and data size varies with requirements, also it is not easy to verify, constraining general computing to ﬁt POW can cause
+problems with poor generality of the computational network.
+By allowing users to access GPU resources in our computing network and allowing them to use virtualized GPUs to perform tasks and
+be paid based on hardware performance and usage time, we have therefor changed general-purpose parallel POW computing to a
+matter of virtualized GPU time-shared leasing.
+The advantages of a distributed GPU hardware virtualization network are: a) Compatible with almost all GPU-based computing tasks.
+b) Easy to calculate payment based on hardware performance and leasing time. c) Scaling ﬂexibly on demand.
+We hope to introduce a cross-platform and eﬃcient GPU virtualization protocol that will agglomerate various types of GPU devices
+into computing resources. In the future, we hope to optimize the x86 architecture so that any GPU devices following the virtualization
+standard without Host could directly connect in the network.
+POW node
+Physical GPU
+device
+
+node
+
+POW node
+Physical GPU
+device
+
+user
+
+node
+
+node
+Physical GPU
+
+node
+
+Physical GPU
+
+key node
+
+POW node
+Physical GPU
+device
+
+POW node
+Physical GPU
+device
+
+node
+
+Physical GPU
+
+user
+
+Physical GPU
+node
+
+node
+
+node
+
+The First Phase of MassGrid
+
+The Second Phase of MassGrid
+
+MassGrid ﬁrst implements a blockchain p2p network based
+on the version 1.0 Jump hash algorithm that forces all nodes
+accessing the network to use the GPU or CPU as computing
+devices.
+
+In the second phase, MassGrid will deploy multiple key nodes
+in the network. POW miners will register their physical GPUs
+to the key node. Key nodes will maintain a list of GPU
+resources. Through remote virtualization, the POW miners'
+physical GPUs will be mapped to users, user will use these
+resources and pay according to hardware performance and
+leasing time
+
+Among these nodes, some have GPU devices that eﬃciently
+run Jump hash algorithms that perform POW computing and
+provide cryptographic veriﬁcation services for the entire
+network.
+
+POW Resource Trade Process
+POW miners, computing users, normal users, and Key nodes are connected to each other through a p2p network , they will automatically to do Jump Hash POW mining by default
+POW miners will also register their physical GPU Key node, and the Key node will maintain a list of GPU resources
+When users initiate a GPU lease request, the request is submitted to the Key node. The Key node freezes the user’s budget by
+smart contract, establishes a virtualized connection for miner’s devices and users, and the connected GPU device stops POW
+mining , and begins to run the user’s computing job
+The Key node ﬁnally issues the frozen assets to the physical GPU host provider based on actual usage.
+
+Physical GPU
+
+First, each Keynode maintains a large list of POW nodes that automatically register itself with Key node when it accesses the network.
+
+POW node
+
+Users initiate GPU usage requests, submitting budgets and require-
+
+Send request
+
+ments to Keynode, waiting for Keynode evaluations;
+
+Keynode
+
+user
+
+Requests initiated include: GPU, CPU, memory performance requirements, estimated duration of use, etc.;
+
+POW node
+
+Key node veriﬁes the legitimacy of the request, assesses the data
+bandwides/computation requirements and esponds;
+
+Physical GPU
+
+Physical GPU
+POW node
+Scheduling resources
+from POWnode
+user
+
+Keynode
+
+Scheduling resources
+from POWnode
+
+POW node
+Physical GPU
+
+If the request is valid, Keynode looks for the optimal node for the
+user in the POW network according to the needs and the location of
+the user.
+Optimal node is assessed according to the connection latency
+between nodes and users, bandwidth and hardware speciﬁcations
+such as assessment;
+
+Physical GPU
+POW node
+
+establish
+connection
+
+Keynode
+
+user
+establish
+connection
+
+POW node
+
+POW node stop POW mining, and the Key node will establish a connection for the computing user and the POW node;
+User gain full access to this virtualized device;
+The Key node ﬁnally issues the frozen assets to the physical GPU
+host provider based on actual usage.
+
+Physical GPU
+
+Core Team Member
+
+Frank Lee
+
+Huang Xiang
+
+Frank Lee is one of the original Bitcoin
+gurus and has been in the cryptocurrency community since the beginning.
+Credited as the ﬁrst miner to design
+BTC & LTC mining chip , his knowledge
+and experience in the industry is exceptional.
+
+After co-founding and acting CTO of a
+sports game company, Huang is a highly
+skilled expert and experienced in software development & management. The
+depth and knowledge of his skill-set is
+essential for intuitive system design and
+integration.
+
+Liu Rui Hao
+
+Maxime Alexandre Dupuis
+
+Liu RuiHao is an ACM award winner and
+algorithm researcher. He has a special
+expertise in high performance parallel
+computing and p2p network. Liu and his
+team have helped several mining company deployed dozens of huge mining
+center across the world.
+
+Majored in Economics in 2012, Max
+has been involved in cryptocurrencies
+since its infancy. And was an early
+investor in several top exchange website and mining pools. Based in China
+since after 2012, he has also been
+involved in international business
+development for many years.
+
+Perry Lei
+Full stack engineer and currently the
+CTO of a Xiao Mi ecosystem company,
+Perry Lei has over a decade’s worth of
+server side experience. In addition, he
+was also an early investor in cryptocurrency and mining as a hobby since
+2012.
+
+Anonymity
+coming soon
+
+Foundation Member & consultant
+
+Huo Ju
+Huo is a technology pioneer and a
+famous tech column writer in China, he’s
+deep insight in technology attracted
+several million subscriber and half billion
+page view to his personal blog.
+
+Guo Hong Cai
+One of the most famous investor in
+Chinese crypto currency community, He
+is an angel investor of ETH and multiple
+successful block chain technology projects. Guo also funded several of the
+world’s biggest cryptocurrency
+exchange website.
+
+Wang Dong
+Wang is CTO of a ﬁnancial company ,
+he has 10 years of experience in developing large scale stock exchange
+system. Wang is also the leader of a big
+tech team with more than 300 engineers. The system his team running
+handles and process es tens of millions
+deals per day.
+
+

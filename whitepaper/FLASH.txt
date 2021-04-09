@@ -1,0 +1,738 @@
+Abstract
+FLASH will implement a new delegate-based consensus model called FLASH Consensus
+(FC). FC retains the decentralized spirit of cryptocurrency by relying on elected Delegates
+to rapidly reach blockchain consensus and ensure security. Every user will be able to use
+FLASH coins to cast votes for Delegates. Delegates will vote on network matters such as
+transaction fees and miner selection.
+Delegates elect 25 Miners who create new blocks on the blockchain. Rather than using
+PoS or PoW to secure the chain, FC controls the ordering of block generation rights by
+providing each Miner with a specific timeslot during which they can mine a block. When a
+Miner creates a block on the chain, that block serves as a vote indicating legitimacy. This
+new delegate model maintains network security while simultaneously enabling high
+transaction throughput.
+The FC algorithm also introduces a concept called Consensus Height (CH). CH refers to the
+moment when >50% of elected Miners have created a block on top of any given block in
+the chain. When this happens, consensus has been achieved and a block is considered
+legitimate.
+
+Network Entity Types
+There are three types of entities on FLASH’s new network:
+1. Normal users
+2. Delegates
+a. Elected Delegates
+b. Permanent Delegates
+3. Miners
+Normal Users
+Any FLASH address holding at least one FLASH coin is considered a normal user for the
+purpose of this discussion. Just like in Bitcoin, there are no on-chain user identifiers, just
+UTXO’s controlled by pseudo-anonymous addresses.
+Elected Delegates
+Delegates are elected by normal users. Delegates must run for election by staking a
+minimum of 1,000,000 FLASH and providing information about themselves, including a
+Delegate ID. Users use the coin they control to vote Delegates into office. Once elected,
+Delegates can vote on matters relating to the FLASH network. Each Delegate places votes
+which are weighted based on:
+1. The amount of FLASH they’ve staked
+2. The amount of votes they’ve received
+3. How long they’ve been in office (seniority)
+Delegates are elected for a period of 30 days at a time. Votes for Delegates can be cast at
+any time, but they are only evaluated once every 30 days during re-election. There are a
+maximum of 151 Delegates (total sum of Elected and Permanent Delegates). If there are
+more than 101 nodes running for election as an Elected Delegate, then the top 101 based
+on the criteria above will be elected.
+Delegates must stake their coin to begin running for election, and their coin must remain
+staked for the entire election period. Third-parties may also stake coins for any given
+Delegate, but those staked coins are locked up for the entire election period and term.
+Delegates can remove themselves from the running for the next election cycle at any time,
+but their coins must remain staked during the current cycle. Delegates will be
+automatically removed from office if they become inactive.
+
+Delegates receive a portion of the network transaction fees as compensation for their
+duties.
+
+Permanent Delegates
+Of the 151 Delegates, 50 are Permanent Delegates who do not require voting via elections.
+These Permanent Delegates are otherwise the same as Elected Delegates; they must stake
+the minimum 1,000,000 FLASH, their vote weight is based on the same factors, they can be
+Miners, they are compensated the same, and have the same requirements. The only
+difference is that the minimum staking requirement to mine is 1,000,000 FLASH instead of
+2,000,000 FLASH required by Elected Delegates. Permanent Delegates do not have to run
+for election.
+Permanent Delegate positions are held initially by those who have contributed to the
+strength and well-being of the FLASH ecosystem; these positions are transferable.
+If a Permanent Delegate does not stake the required minimum of 1,000,000 FLASH, or
+becomes inactive, they maintain their position as a Permanent Delegate but cannot act as
+a Delegate until in good standing or until this role has been transferred to someone who
+meets the above requirements.
+Miners
+Only Delegates can become Miners, and they do so by signaling that they wish to be a
+Miner and by gaining support from their fellow Delegates in the form of votes and by
+having staked a minimum of 2,000,000 FLASH. The minimum staking to mine for
+Permanent Delegates is initially set at 1,000,000 FLASH. Delegates are therefore
+responsible for voting in high-quality and trustworthy miners. The number of Miners is
+kept low, at a maximum of 25, in order to support high block rates across the network and
+high transaction throughput. The larger the mining pool, the less efficient it becomes,
+which is why FLASH’s limited Miner count is an optimal balance between security and
+performance. Miners receive a portion of the network transaction fees as compensation
+for their duties.
+
+Transaction Fees
+At network bootstrapping, there will be a default fee of 0.001 FLASH per kilobyte, with a
+minimum fee of 0.33 FLASH. The transaction fee rate and minimum are parameters that
+Delegates can vote on. Transaction fees are not collected per block by the miners, but
+rather fees are collected once each day and distributed to both Miners and Delegates.
+Staking Mechanics
+In order to run for election, one must create a FLASH address to represent their node. The
+candidate will then be identified by that address and the actions they take will be signed
+with the associated private key. To enter the election, the candidate can use the Qt wallet
+to create and broadcast their node’s registration form along with their FLASH stake. All
+registrations and stakes are sent to a special election address from which the network will
+not allow spending, except to return the staked coins back to the sender at the sender ’s
+request. Strict rules are enforced on the acceptance and return of funds to and from the
+special election address.
+Delegates must stake a minimum of 1,000,000 FLASH to register for election. The more
+coin staked, the higher probability they will become elected, the more influence they will
+have on future votes, and the more rewards they will receive. Additional stake
+contributions can be made for a Delegate by any person at any time, however, all staked
+funds will remain locked for the entire election campaign, as well as for the subsequent
+election term(s), assuming that Delegate is elected.
+Voting Mechanics
+Every transaction has the opportunity to vote for a Delegate by prepending a zero-value
+transaction output to that transaction that uses the OP_RETURN opcode followed by new
+voting related opcodes and data. Voting related OP_RETURN tx outputs must always be
+the first tx output. The sender of a transaction is able to use this OP_RETURN metadata to
+specify which delegates receive how much of the transaction’s voting power.
+The Qt wallet will make managing a user’s votes as easy as possible by showing which
+coins in their wallet are voting for which Delegates and which coins are not voting at all,
+and automatically managing the casting of votes according to the configuration specified
+by the user. Voting is not required in a transaction, but it is encouraged for the security of
+the network.
+This method where the sender sets the voting metadata has an unfortunate side-effect on
+the user experience: every time a person receives FLASH, they will need to send it back to
+
+themselves along with their vote if they want that FLASH to be used to vote in a different
+way than the sender specified. The Qt wallet can be configured to do this automatically so
+that it is barely noticeable to the user. This is an annoyance and will generate some
+redundant transactions as users re-send funds to recast votes, but this method allows for a
+dramatically more efficient accounting and scaling for the voting system than other
+methods. The need to resend transactions to recast votes can also be leveraged to
+combine transactions to reduce the total UTXO set.
+Voting done by Delegates on matters relating to the network are handled differently than
+user votes. When a Delegate votes, they send a transaction to a special voting address
+with data attached indicating what they are voting on and what their vote is. No FLASH
+coin need to be sent to vote, however, normal network transaction fees do apply. A
+Delegate’s vote can come from any address, but the vote data must be signed by that
+Delegate’s private key.
+Mining Mechanics
+Miners are elected by Delegates, and only Delegates (Elected or Permanent with the
+requisite minimum FLASH staked) can become a Miner. Delegates vote for Miners with
+their vote-weight, which is derived from coin stake, user votes, and seniority, and they
+spread their vote-weight over as many or as few miners as they like. The top 25 Miners,
+scored by accumulated vote-weight in the ballots, become the Elected Miners. If an
+Elected Miner is identified as a bad actor, or as an unreliable node, then Delegates can
+update their votes and remove that bad Miner in 1 block.
+Miners must maintain an accurate system clock and have a low-latency and highbandwidth network connection in order to effectively participate as a Miner. The system is
+tuned to generate a block every 5 seconds, however when the network is idle then no
+blocks need be emitted. Clock skew in the block timestamp will have a maximum
+allowance of +4 seconds in the future, and no block can have a timestamp earlier than the
+block before it. When a Miner creates a block, they place their Delegate ID in the coinbase
+transaction for identification purposes, along with a signature to prove it is them.
+There is no block reward for Miners to claim, no per-block transaction fees to claim, and
+therefore, no incentive to mine blocks as fast as possible. Block difficulty is fixed at a very
+low value so that there is no hashpower arms race; any modern CPU can hash a block in
+under a second.
+To secure the blockchain strict rules are enforced to control the order in which Elected
+Miners are allowed to create blocks. Each Elected Miner is assigned a single 5 second
+window in which they can create a block, if a block is needed, and then the next Miner in
+
+the list gets their own 5 second window. This ordered timeslot assignment prevents
+conflicts over who will mine the next block, thereby reducing the amount of bandwidth
+and processing that is usually wasted in high block-rate networks as conflicting chains are
+passed around and evaluated. This timeslot assignment also ensures that every Elected
+Miner has a fair chance to create a block.
+To assign timeslots to Miners, a function similar to the following JavaScript function will be
+used:
+function canItMine(minerPosition, timestamp){ return ( (timestamp % 25) ==
+minerPosition); }
+There is a list of currently Elected Miners that is maintained by each node, and it is updated
+as Miners are voted in and out. A Miner’s “position” is the index in the Elected Miner
+array that corresponds to that Miner. When a Miner is checking whether it can mine at any
+given moment, it passes its own position into the “canItMine” function along with the
+current system time in unix format. When a node is evaluating a block for correctness
+before acceptance, it passes the position of the Miner who mined that block into this
+function along with the timestamp from that block.
+Because each block creation asserts that the creator believes the chain of blocks before it is
+true and accurate, each block mined is effectively a vote by the Miner on what the correct
+current chain is. At any given time, there is a Consensus Height, a block height at which
+consensus has been achieved by >50% of the Elected Miners, and this Consensus Height
+increases as new blocks are mined. For any given block B, if >50% of the Miners in the
+Elected Miner pool have each created a block in the chain above B, then consensus has
+been achieved for B and all transactions in and before block B are guaranteed to be final.
+The Consensus Height, then, is at B.
+All transactions included at or below the Consensus Height are considered final, and all
+transactions above the Consensus Height are in the process of being finalized.
+“Confirmations” are no longer a measurement of how many blocks have been built on
+top of a given transaction’s block, instead “confirmations” is a measure of how many
+Elected Miners have mined a block on top of that transaction’s block, divided by how many
+Miners are needed to achieve consensus. Therefore “confirmations” is effectively the
+percentage of consensus a given transaction or block has achieved. Given a transaction T
+which was included in block B, if 20 blocks were built on top of B by 10 unique Miners from
+the 25-Miner pool of Elected Miners, then T and all other transactions in B have a
+consensus percentage of:
+10 (miners’ blocks) / 25 (in pool) / 0.5 (for 50% consensus) = 0.8 consensus
+= 80 ‘confirmations’
+
+Once a transaction has reached or exceeded 100 “confirmations” then it is final and
+there is no risk of it being rolled back in a double-spend. All calculations and readouts for
+“confirmations” will be capped at 100 to reduce confusion.
+As long as an attacker is not able to compromise more than 50% of the Elected Miner pool,
+double spending of a given transaction is impossible once the Consensus Height has
+reached or exceeded that transaction’s block. If all of the Elected Miner pool remains
+online and mining blocks, then transactions will be finalized within approximately 65
+seconds (>50% * 25 Miners * 5 second blocks = 65). All valid transactions will be included
+in blocks within 10 seconds (5 second blocks * 2 = 10), and if all parties involved are
+trustworthy, then that transaction may be actionable by the recipient with confirmation by
+just a single Miner (5s avg, 10s max). For guaranteed finality when dealing with untrusted
+parties, the recipient should wait for 100 “confirmations”, which should take about 65
+seconds. For comparison, pure Proof-of-Work and Proof-of-Stake systems never provide
+guaranteed transaction finality without centralized checkpointing.
+Blockchain Fork Resolution
+As described above, there is a Consensus Height ( CH) which increases as new blocks are
+mined. No node ever accepts a blockchain fork that goes deeper than the current CH; the
+CH is effectively a dynamic checkpoint that is voted into existence by the Miners. When
+there are two competing forks above the CH then the fork with the most unique
+miners’participation wins. If, for example, fork F1 is 10 blocks long but only 2 unique
+Miners made those 10 blocks, while fork F2 is 8 blocks long with each block being mined
+by a unique Miner (8 unique Miners) then F2 wins. If both forks have the same number of
+unique Miners participating, then the longer fork wins.
+If an Elected Miner is evaluating two forks and that Miner is able to mine a new block on
+either fork, then it will do so prior to comparing the forks.
+On initial blockchain sync, a node may be poisoned by a malicious peer with an invalid
+blockchain, and the rule that states that reorgs cannot be deeper than the current CH may
+prevent the node from ever finding the true blockchain. If this happens, then the node will
+need to first connect only to a node on the correct blockchain, and after it finds a true CH,
+then the node can openly connect to any peer.
+Votes by and for Delegates are only counted once the transaction that cast them has
+reached 100 confirmations (full consensus), with the exception of Miner selection. When a
+Delegate changes its vote for Miners, those votes are counted instantly and if the Elected
+Miner pool is changed as a result, then that change applies to the next block.
+
+Network Idling
+
+In the earlier years of any cryptocurrency network there may be long periods of zero
+transaction activity. As layer-2 adoption grows that will also decrease the level of on-chain
+activity required for layer-2 supporting networks. In order to avoid the senseless creation
+of empty or useless blocks, the new FLASH network supports idling. All incentives for
+Miners to mine blocks as fast as possible have been removed, and nChainWork no longer
+exists, so the network can simply stop creating blocks when there is no longer a need for
+them. A good deal of bandwidth and index space is saved by idling, and it also keeps
+blockchain syncing as efficient as possible.
+In order for the network to idle without negatively affecting users, the Miners must
+continue mining blocks at the normal 5 second rate until there are no transactions above
+the Consensus Height. If the network is idle and a single transaction is broadcasted, the
+Miners will begin mining blocks immediately, and they will continue for approximately 13
+blocks until that transaction has reached full consensus. After that, the Miners will go idle
+again until the next time a valid transaction is broadcasted.
+Miner and Delegate Reward Mechanics
+
+Every day will start with a transaction that distributes earnings to Miners and Delegates.
+Earnings are derived from network transaction fees - all fees over the last day are added
+up, split in half so that 50% goes to Miners and 50% goes to Delegates, and then they are
+allocated as described below.
+The 50% for Delegates is allocated based on each Delegate’s vote-weight at the time of
+the reward tx’s creation. The greater the vote-weight of a Delegate, the greater their share
+of the reward.
+The 50% for Miners is allocated equally across Elected Miners.
+Foundation Rewards
+The Third Millennium Foundation pledges to donate 32,000 FLASH to the Miners and
+Delegates every day in the form of transaction fees. This will be done by using an
+automated process to send one transaction a day from the FLASH Foundation’s wallet with
+a 32,000 transaction fee. These donations will continue until SOME_EXPIRATION_DATE.
+
+Voting Related Opcodes
+The voting system requires sending signed voting metadata on the blockchain for all users
+to see. In order to maintain backwards compatibility with all tools built for Bitcoin, this
+metadata is sent using the standard OP_RETURN Bitcoin opcode in the script of a zerovalue tx output. Bitcoin tools do not parse OP_RETURN data, nor is this data stored in
+memory, only on disk. FLASH implements several new voting opcodes which are only used
+after an OP_RETURN opcode, and these new opcodes tell the parser how to interpret the
+metadata provided. List of new opcodes:
+
+
+
+
+
+
+OP_REG_DG: Delegate registration and information updates
+OP_STAKE_DG: Provide additional stake for Delegate
+OP_VOTE_DG: User vote for Delegate
+OP_DG_VOTE: Delegate vote on a network related matter
+OP_DG_SIGN: Used in coinbase tx to prove block creator’s identity
+
+These new opcodes must be used in a zero-value txout script immediately after an
+OP_RETURN opcode, and this zero-value output must be the first txout (position 0) in a
+transaction. Only the first txout is parsed for voting opcodes, and only if that first txout
+starts with OP_RETURN.
+
+Special Election Address
+This is a valid FLASH address which has special rules for both receiving and sending
+transactions. Coins being staked for Delegates are sent to this address, as is Delegate
+registration information. All transactions into and out of this address must pay the normal
+network transaction fees. Nobody will ever know the private key for this address, and even
+if it were somehow derived, the network only allows coins controlled by this address to be
+returned to the specified return address or the original sender, so they cannot be stolen.
+
+Receiving rules:
+ There can be one or many tx inputs. If there is more than one input, a return
+address must be specified in the voting metadata.
+ The first OP_REG_DG for a given delegateID must send at least 1,000,000 FLASH to
+this address. Any additional stake must be at least 100,000 FLASH.
+ If there is one tx output, then it must be an OP_REG_DG operation that is updating
+an existing Delegate
+
+ If there are two tx outputs then the second must send the coins being staked to the
+special election address and the first output must be an OP_STAKE_DG operation
+adding to an existing Delegate’s stake or an OP_REG_DG operation that is
+registering a new Delegate. Operation-specific metadata is provided after the
+opcode.
+Sending rules:
+ Anyone can spend these coins without the special election address’ privkey
+ All transactions received by this address have a delegateID that they are being
+staked for. That delegateID must not be a currently Elected Delegate; coins staked
+for the Delegate can only be reclaimed if that Delegate did not win the election or
+they have completed their withdrawal from office.
+ For each tx input being spent the output address must match the return address in
+the input’s corresponding metadata, or if not provided then the output address
+must match the original sending address (return to sender).
+
+Special Voting Address
+This is a valid FLASH address which has special rules for receiving transactions and rejects
+all sending transactions. When a Delegate casts a vote they send a transaction to this
+address with the vote data and they pay a transaction fee for sending the tx. No coin is
+ever deposited in this address, it is simply used to make it easier to account for votes.
+Monitoring this address will effectively monitor all votes by Delegates.
+Receiving Rules:
+ There can only be one output tx which uses the OP_RETURN opcode followed by
+the OP_DG_VOTE opcode and data
+ The OP_DG_VOTE data must validate successfully
+Sending Rules:
+ No transactions sent to this address can ever be spent
+The opcode OP_DG_VOTE is explained in a later section, as are the details relating to how a
+Delegate casts votes and how the votes are counted.
+
+Election Registration Form
+To register for election as a Delegate a transaction with at least 1,000,000 FLASH must be
+sent to the special election address, along with an OP_RETURN txout with the opcode
+OP_REG_DG which includes hex-encoded serialized JSON data like:
+{
+delegatePubkey: [full pubkey],
+infoVersion: [number],
+displayName: [string],
+enabled: [boolean],
+mining: [boolean],
+auditURL: [URL],
+contacts: [ // optional
+{
+type: [email/chat/IRC/URL/whatever],
+address: [address]
+},
+{
+type: [email/chat/IRC/URL/whatever],
+address: [address]
+}
+],
+website: [URL] // optional,
+registeredTime: [int], // timestamp of first ever registration
+}
+
+The registration JSON document must be less than 4Kb when encoded. An example of the
+script in a txout[0] which is registering a Delegate:
+OP_RETURN OP_REG_DG [regData] [delegateSig]
+
+A Delegate can update this form at any time by simply providing a new registration form
+with the updated data and an incremented ‘infoVersion’ field. No additional stake is
+required for updates to this form as long as enough coin is already staked for this Delegate
+to meet the minimum requirement of 1,000,000 FLASH.
+
+Explanation of the fields:
+ delegatePubkey: This is the full pubkey that identifies the Delegate. All future
+actions taken by this Delegate will be signed with this pubkey’s corresponding
+private key.
+ infoVersion: This is a number that is incremented with every update of this
+Delegate’s registration form to ensure proper state. Without this any delays in tx
+replication or chain reorgs might cause an older version to overwrite a newer
+version.
+ displayName: This is intended to be a human-readable string that will appear in
+various user interfaces for identifying this Delegate, in addition to the delegateID.
+ enabled: If set to true then this delegateID will be eligible for election. If set to false
+then it will not be. When an Elected Delegate wishes to withdraw from their duties
+then they must set this to false and await the end of the current election term, and
+then they can reclaim their staked coin.
+ mining: When set to true then this Delegate is signalling that they want to be a
+miner, so they become eligible for election as a Miner. If set to false then this
+Delegate is not eligible. If this Delegate is already an Elected Miner they can set this
+field to false to withdraw from mining. If registering as a potential Miner then a
+minimum of 2,000,000 FLASH must be staked.
+ auditURL: This is the URL which exposes this Delegate’s audit interface. There is a
+new API command which when queried returns information that can be used to
+prove this node is alive and to measure certain performance characteristics. It is
+recommended that a service like memcached be used when hosting this URL to
+shield the node from excessive queries. Auditing is explained in further detail in a
+later section of this document.
+ contacts: This is a JSON array which contains a list of contact objects. Each object
+specifies the type of contact address being provided and the address itself. This is
+intended to provide a way for the community to contact the owner of this Delegate.
+This is optional; however, the community is unlikely to vote for a Delegate that they
+know nothing about.
+ website: This is a URL linking to a website that represents this Delegate or the
+organization that owns the Delegate. This is optional; however, the community is
+unlikely to vote for a Delegate that they know nothing about.
+ delegateSig: This registration form can be sent from any address, it doesn’t have to
+be from the Delegate directly, however the ‘regData’ JSON object must be
+signed with the private key corresponding to the delegatePubkey, and that
+signature must be placed in this field.
+When the registration data is received the delegateID is generated by converting the
+delegatePubkey into a FLASH address.
+
+Staking for Delegates
+Any address may contribute stake to any Delegate, however, no coins may be staked for
+any Delegate that has not registered, and the first registration must include at least a
+1,000,000 FLASH stake. The first registration stake must be included with the registration
+transaction, but further stake contributions can be provided by sending the coins to the
+special election address with the OP_STAKE_DG opcode. The staking transaction must have
+two outputs with the second sending the coin to be staked to the special election address
+(minimum of 100,000 FLASH), and the first output must have zero value and use the
+OP_RETURN opcode followed by the OP_STAKE_DG opcode followed by the delegateID
+being staked for, and optionally followed by a return address for the staked funds. If no
+return address is specified, then the funds can only be returned to the sender.
+Example:
+OP_RETURN OP_STAKE_DG [delegateID] [returnAddress]
+It should be noted that staked coins will not be able to be returned until the Delegate they
+are being staked for has withdrawn from office and has ended their current election term.
+To stake coins for a Delegate is to surrender control of them for as long as that Delegate is
+running for election and serving their term(s).
+Voting for Delegates
+Normal users vote for Delegates by prepending a zero-value tx output to their transaction
+which uses the OP_RETURN opcode followed by the OP_VOTE_DG opcode, followed by the
+list of delegateID’s to vote for with each transaction output. Votes cast by the tx’s inputs
+are destroyed and votes are created with the new tx outputs. The OP_VOTE_DG opcode
+expects a simple list of delegateID’s, one for each txout (not counting the first txout which
+contains this metadata) and the entirety of each tx output’s coin amount is used to vote for
+the Delegate described by this array. Example:
+OP_RETURN OP_VOTE_DG [delegateID1] [delegateID2] [delegateID3]
+
+The first delegateID in the OP_VOTE_DG list receives the vote of txout[1], the second
+delegateID in the list recieves the vote of txout[2], and so on. If there are more txouts than
+delegateID’s provided, then the txouts that are missing a corresponding delegateID are
+simply not counted in the vote. If a delegateID provided in the OP_VOTE_DG list is not
+valid then the entire transaction is rejected.
+
+Voting by Delegates
+Delegates vote by sending a transaction to the special voting address. Use of this address
+makes it easy to account for how and when Delegates vote, and this address has special
+rules as described in the Special Voting Address section above. The transaction casting the
+vote does so by having a single tx output that uses the OP_RETURN opcode followed by
+the OP_DG_VOTE opcode and data describing the vote.
+Votes are described using a JSON object which is passed to the OP_DG_VOTE opcode.
+Each key in the voteData object represents a ballot item, and each value indicates the vote
+itself. Each value in the voteData JSON object has a maximum size limit of 2Kb and the
+entire voteData object has a max size limit of 100Kb. Given the 900M coin supply and the
+1M minimum Delegate registration stake, there can never be more than 900 Delegates in
+the running, and therefore the mapDelegateState variable that holds voting information
+can never be more than approximately 90Mb. In practice it ought to be an order of
+magnitude smaller.
+
+The opcode OP_DG_VOTE expects three arguments:
+OP_RETURN OP_DG_VOTE [delegateID] [voteData] [voteSig]
+The ‘voteSig’ argument is a signature of the ‘voteData’ argument, signed with the
+private key that corresponds to the delegateID. The ‘voteData’ argument is a hexencoded serialized JSON document as follows:
+
+{
+voteHeight: 12527,
+minTxFee: 30000000, // satoshis
+txFeePerByte: 110, // satoshis
+miners: [
+delegateID3: 50, // 50% of vote-weight
+delegateID14: 25, // 25% of vote-weight
+delegateID31: 25, // 25% of vote-weight
+]
+}
+
+Explanation of the keys and values:
+ key: The key in this JSON object represents the ballot item for which this vote is
+being cast. Each time a tx is sent to update the voteData the update is considered
+incremental - it is applied on top of the existing voteData for that Delegate,
+overwriting any existing values for given keys. Setting a key’s value to ‘null’ will
+delete the key and the value, thereby withdrawing the vote.
+ value: This is the value of the vote being cast. The value can be no more than 2Kb
+in size. New values for pre-existing keys will overwrite the old value.
+Any transaction using the OP_DG_VOTE opcode with a JSON document that differs from
+the format described above, or which violates any of the constraints described, is
+considered invalid and is discarded. The limitations on the size of the vote data prevents
+DoS and spam attacks, and the overall structure of the voting document allows great
+flexibility for future ballot items. OP_DG_VOTE transactions must pay the same per-byte
+transaction fee as every other tx on the network.
+The special key ‘voteHeight’ in the voteData is incremented each time a Delegate
+updates its vote.
+This allows the network to apply these vote updates to
+mapDelegateState in the correct order. If a Delegate attempts to provide an update with
+voteHeight 123, for example, without previously providing update with height 122, then
+the update for 123 is rejected. If a second update for 123 is received, then it is rejected. If
+a different txid that claims to be update 123 is included in a block after a reorg then the
+first update 123 is reversed and the second update 123 is applied; the mapDelegateState
+data must be kept in sync with the validated votes in the blockchain.
+Vote Accounting and Indexing
+This voting system has been carefully designed to be as efficient as possible, to add as little
+overhead on the blockchain and node processing requirements as possible, in order to
+facilitate the highest transactions-per-second rate possible. In addition to performance
+considerations, it is ideal to maintain full compatibility with all Bitcoin related tools, so this
+voting system has been designed to maintain that backwards compatibility.
+Every vote cast, every stake made, and every Delegate registration is performed via a tx
+output in the first output position which uses the OP_RETURN opcode followed by a new
+voting opcode that is unique to FLASH, followed by the voting metadata. Any Bitcoinbased script interpreter will not parse the data following the OP_RETURN opcode, but the
+FLASH script parser will continue reading the script if there is a voting opcode immediately
+after the OP_RETURN opcode. Requiring that this voting metadata be in the first tx output
+position (txout[0]) assures efficient lookups when discovering old votes that are being
+
+destroyed by new tx outputs. It also increases OP_RETURN script parsing by skipping the
+parsing of any OP_RETURN data that is not in the txout[0] position.
+To facilitate accounting and indexing in the core code some new variables and structs will
+be
+created:
+ ‘Delegate’ class: This holds information about a Delegate and methods for
+polling and interacting with Delegates
+ ‘mapDelegateState’: This is a delegateID-indexed map of Delegate objects
+ ‘VoteState’ struct: this holds the current ruleset, the result of the vote, derived
+from mapDelegateState
+ ‘PendingVote’ struct: This is a struct that contains information about a vote that
+is pending full consensus before being counted. Attributes include blockheight,
+txid, and interpreted vote data.
+ ‘mapPendingVotes’: This is a txid-indexed map of PendingVote structs, used for
+accessing PendingVotes by txid. If a tx is removed due to chain reorg then that tx is
+removed from this map as well as the multimap mentioned below.
+
+ ‘mmPendingVotesByBlock’: This is a blockheight-indexed multimap of vectors of
+txid’s. When the Consensus Height is updated this multimap is scanned to find all
+PendingVotes that are now fully confirmed and then their votes are counted. Once
+all transactions in a discovered vector are counted, all corresponding txid’s are
+removed from mapPendingVotes and then the vector is removed from this
+mmPendingVotesByBlock.
+Given a max coin supply of 900M and a minimum Delegate registration stake amount of
+1M, there will never be more than 900 entries in the mapDelegateState variable. When a
+Delegate reclaims their stake, their entry in mapDelegateState will be deleted.
+Upon receiving a valid Delegate registration transaction, each node will check to see if this
+new delegateID already exists in mapDelegateState and will add a new struct if it does not
+exist. When receiving valid registration updates each node will overwrite the given
+delegateID’s entry in mapDelegateState with the new struct if that the new struct has a
+higher infoVersion number than the existing entry.
+As each new block is accepted into the blockchain, each transaction in the block is checked
+for voting metadata in txout[0], and if present, will be validated and noted in
+mapPendingVotes and mmPendingVotesByBlock. Votes are not counted until the
+Consensus Height has reached or surpassed that transaction’s blockheight. Every tx has
+
+inputs and outputs; any votes previously cast by the inputs must be subtracted from
+mapDelegateState and any votes cast by the outputs must be added.
+
+Each time the Consensus Height changes, which might happen with every new block,
+mmPendingVotesByBlock is iterated and each entry with a blockheight at or below the new
+Consensus Height is processed and removed from both the multimap and the map.
+Processing mmPendingVotesByBlock means to fetch each transaction in the vector being
+processed, parse the voting metadata, and update mapDelegateState to count the new
+votes. If mapDelegateState is changed after processing, the new Consensus Height
+changes, all votes in mapDelegateState are re-counted and the global VoteState struct is
+updated to index the current active ruleset. Future blocks will be validated against this
+updated ruleset.
+In this way, a running total is maintained for all votes in
+mapDelegateState, updated with each Consensus Height change, and the result of the vote
+is indexed in structVoteState so that all parameters can be easily and efficiently looked up.
+Note: changes to a Delegate’s Miner vote is processed instantly when received by a node,
+but all other changes must wait for full finalization by allowing the Consensus Height to
+reach that vote’s block.
+Calculating Vote Results
+The keys in the voteData object are arbitrary, however, there are several keys which will be
+utilized by default when the FLASH network is launched. Other keys will be ignored. Each
+key in voteData can use a different method for determining the outcome of the vote, and
+that method is hardcoded in the FLASH governance code. Here are explanations of the
+voting method for each of the voteData keys supported at launch:
+ voteHeight: This is a number that is incremented each time a Delegate updates
+their vote. Sequentially ordering vote updates assures that the updates are applied
+to mapDelegateState in the correct order.
+ minTxFee: This is the minimum transaction fee allowed for any tx, denominated in
+satoshis. The outcome of the vote is the weighted median of all Delegate votes,
+weighted with their voteWeight.
+ txFeePerB: This is the tx fee per byte of the transaction size, denominated in
+satoshis per byte. The outcome of the vote is the weighted median of all Delegate
+votes, weighted with their voteWeight.
+
+ miners: The outcome of this vote is an array of the top 25 Miner delegateID’s,
+sorted by cumulative voteWeight from every Delegate.
+The voteWeight
+contribution from a Delegate is that Delegate’s total voteWeight multiplied by the
+percentage that the Delegate gave to this Miner.
+Coinbase Transaction and Delegate Signatures
+Every block mined will have a coinbase transaction with 0 inputs, similar to most Bitcoinderived cryptocurrencies, however FLASH’s coinbase transaction will have a zero-value
+txout[0] that uses the OP_RETURN and OP_DG_SIGN opcodes as follows:
+OP_RETURN OP_DG_SIGN [delegateID] [delegateSigOfBlockhash]
+This txout[0] is proof that the given delegateID was the creator of the block.
+Once every day, the coinbase transaction will contain additional outputs to distribute the
+previous day’s rewards to Miners and Delegates. These rewards will be distributed as
+described in the “Miner and Delegate Reward Mechanics” section above. As each day
+progresses and tx fees are paid, those fees are burned, they are temporarily removed from
+the coin supply. The first block of every day recreates those burned coins and distributes
+them to the Miners and Delegates.
+Audit Interface and URL
+There will be a new API command called getauditpoint which can be used by the
+community to verify that this Delegate is online with a blockchain that is in-sync. This
+command takes no arguments. When users are choosing a Delegate(s) to vote for from a
+list, that list ought to show the sync-state of each Delegate so that the user has
+information to inform their vote. The response from the getauditpoint API call will follow
+the standard Bitcoin API format and might look like this:
+{
+error: null,
+result: {
+auditPoint: {
+delegateID: [pubkey],
+blockHeight: [chain-tip height],
+blockHash: [chain-tip blockhash],
+mempoolSz: [number],
+timestamp: [current time]
+},
+
+delegateSig: [base64 signature with privkey]
+},
+id: 0
+}
+
+Each call of this API will generate a fresh signed message with the node’s current
+timestamp and chain-tip information. Delegates that are currently elected or are running
+for election need to make this information publicly accessible. It is recommended to use a
+separate caching proxy in front of this API call to protect against DoS and spam attacks,
+and to hide the Delegate’s true IP from the public, if desired.
+Delegate Info Interface
+There will be new API command called getdelegateinfo which returns a JSON object
+revealing information about every Delegate, both elected and running. The results of this
+API command will be used for dashboard displays on community websites and in the Qt
+wallet. This command has one optional argument: delegateID. Specifying a delegateID
+will filter the results to only return voting status for the specified Delegate, otherwise data
+for all Delegates will be returned. The data provided in this API command’s response is
+derived from the mapDelegateState variable. This information can be used to see
+information about all Delegates, including which delegates are voting in which direction
+and with how much influence. Example:
+{
+error: null,
+result: {
+delegateCount: 326,
+votesCast: 235486723.12345678,
+totalVotesPossible: 900000000.00000000,
+totalVoteWeight: 789437432323.12345678,
+delegates: {
+“Sojgf3w40FSj9fw92jgFSmbZAdqT2”: { // key is delegateID
+infoVersion: 123,
+displayName: “This Delegate”,
+enabled: true,
+mining: true,
+auditURL: “http://1.2.3.4:80/audit”,
+contacts: [
+{
+
+type: “email”,
+address: “contact@delegate1.com”
+}
+],
+website: “http://delegate1.com”,
+registeredTime: 1567234635883,
+lastDGVoteTime: 164264529832,
+votesRcvd: 1324523,
+stake: 2000000,
+timeInOffice: 1356542,
+voteWeight: 5673561,
+voteData: {
+minTxFee: 33000000, // satoshis
+txFeePerByte: 100, // satoshis per byte
+miners: [
+delegateID3: 50, // 50% of vote-weight
+delegateID14: 25, // 25% of vote-weight
+delegateID31: 25, // 25% of vote-weight
+]
+}
+},
+“USgs39sdVnkdpa30SDmOP353zvc4”: { // key is delegateID
+infoVersion: 234,
+displayName: “Another Delegate”,
+enabled: true,
+mining: true,
+auditURL: “http://2.3.4.5:80/audit”,
+contacts: [
+{
+type: “email”,
+address: “contact@delegate2.com”
+}
+],
+website: “http://delegate2.com”,
+registeredTime: 165234635812,
+lastDGVoteTime: 164264523825,
+votesRcvd: 526272,
+stake: 1000000,
+timeInOffice: 356548,
+voteWeight: 2673564,
+voteData: {
+
+minTxFee: 33000000, // satoshis
+txFeePerByte: 100, // satoshis per byte
+miners: [
+delegateID4: 20, // 20% of vote-weight
+delegateID63: 65, // 65% of vote-weight
+delegateID17: 15, // 15% of vote-weight
+]
+}
+},
+}
+},
+id: 0
+}
+Vote State Interface
+There will be new API command called getvotestate which returns a JSON object revealing
+the current state of all ballot items as accounted for in the structVoteState variable. This is
+the law for the current block. Example:
+{
+error: null,
+result: {
+minTxFee: 33000000,
+txFeePerByte: 100,
+miners: { // map of elected miners
+delegateID4: true,
+delegateID63: true,
+delegateID17: true
+}
+},
+id: 0
+}
+This API command and structVoteState are intended to only show the result of all votes as
+of the previous block’s closing, which makes these results the ruleset that will be applied to
+the next block generated. If more details are needed about weights and Delegates, then
+the getdelegateinfo API command should be used instead.
+
+Voting User Interface
+Both the Qt wallet and the CLI will provide interfaces for voting. The wallets will have
+configuration parameters that can be set to control automated voting with coins held in
+the wallet, as well as interfaces that show the current state of this wallet’s voting power.
+Because votes are cast as coins are spent, not as they are held, the automated voting will
+allow the user to set a threshold level for the amount of coin in the wallet that is not voting
+as specified, and when that threshold is exceeded, the automation will send that coin back
+into the wallet with the correct voting preference set. The voting automation will by
+default combine all transactions into one output when resending to self, unless the user
+has opted out of tx combining.
+Miner and Delegate Statistics
+Data can be collected for both Miners and Delegates from their published auditURL’s for
+monitoring how well synced they are. All Delegates and Miners should rapidly sync the
+current chain tip and maintain roughly identical mempool tx count. The auditURL provides
+a signed message showing this information from each Delegate and Miner.
+Additional Miner statistics can be collected from the blockchain itself, by analyzing the
+coinbase transaction to identify which Miners are participating properly. Elected Miners
+should never miss their block generation timeslot unless the network is idling, and if a
+Miner misses too high a percentage of their timeslots, then they should be replaced with a
+more reliable Miner.
+By gathering the necessary information and making it accessible to all users, it becomes
+possible for the community to make informed decisions about Delegate and Miner
+elections, and well-informed decisions will lead to an optimally efficient network.
+
+
